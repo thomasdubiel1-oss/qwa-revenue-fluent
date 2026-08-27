@@ -132,6 +132,7 @@ export function DiagnosticsSection() {
       ]}
       media="right"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title="Diagnostics · property scan" meta="prioritised" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
@@ -172,6 +173,7 @@ export function ArchitectureSection() {
         "Internal linking and schema recommendations derived from the same map",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel title="Authority map · coverage" meta="3 layers" footer={<IllustrativeNote />}>
         <PanelBlock label="Pillar">
@@ -218,6 +220,7 @@ export function IntentSection() {
       lede="Query clusters are grouped by intent and joined to what happened next: conversations started, appointments held, revenue attributed. Effort follows the clusters that produce customers."
       media="below"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title="Intent clusters" meta="joined to outcomes" footer={<IllustrativeNote />}>
         <div className="overflow-x-auto">
@@ -267,13 +270,13 @@ const geo = [
 
 export function GeoSection() {
   return (
-    <Section tone="ink" id="geo" className="scroll-mt-24 py-24 lg:py-32">
+    <Section tone="ink" id="geo" className="scroll-mt-24 py-16 sm:py-20 lg:py-24">
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Generative and AI answer surfaces</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <h3 className="text-display mt-4 max-w-[22ch] text-balance text-[clamp(1.5rem,2.5vw,2rem)]">
             Written to be understood by the systems doing the answering.
-          </h2>
+          </h3>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">
             Answer engines summarise and cite. QWA optimises for the properties that make a page
             usable in that setting. No system can guarantee inclusion in an AI answer, and QWA does
@@ -333,6 +336,7 @@ export function ProductionSection() {
         "Factual and brand review are separate, recorded approvals",
       ]}
       media="right"
+      level="sub"
     >
       <ProductPanel title="Page · multi-vehicle guide" meta="stage 3 of 4" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
@@ -380,6 +384,7 @@ export function MonitoringSection() {
       title="Movement tracked where it can be measured."
       lede="Where a data source is connected, QWA tracks visibility over time and links it to the pages and clusters it belongs to. Where nothing is connected, the panel says so instead of inventing a chart."
       media="below"
+      level="sub"
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {[
@@ -417,6 +422,7 @@ export function SearchGovernanceSection() {
       lede="Search work fails when volume outruns oversight. QWA keeps the approval gates in front of publication and records who cleared what."
       media="below"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title="Controls" meta="ownership" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
