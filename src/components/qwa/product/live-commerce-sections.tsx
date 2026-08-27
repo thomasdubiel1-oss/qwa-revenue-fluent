@@ -113,8 +113,8 @@ export function AudienceSignalSection() {
       level="sub"
       id="signal"
       eyebrow="Audience signal"
-      title="A live room is a stream of intent, if you read it."
-      lede="Questions, dwell, repeat views, cart adds and drop-offs are captured as they happen and attached to a viewer record. The room stops being a broadcast and becomes an input."
+      title="Every reaction resolves to a person."
+      lede="Questions, dwell, repeat views, cart adds and drop-offs are classified within the rolling window and joined to a viewer record — so the same person is recognisable in the chat, in the cart and in tomorrow's follow-up."
       points={[
         "Questions and reactions classified in real time, not just counted",
         "Cart, checkout and abandonment events joined to the same viewer",
