@@ -58,21 +58,35 @@ export function SiteHeader() {
 
         <nav aria-label="Primary" className="hidden min-w-0 flex-1 items-center gap-0.5 xl:flex">
           {navigation.map((group) => (
-            <div key={group.label} onMouseEnter={() => { cancelClose(); setOpenMenu(group.label); }}>
+            <div
+              key={group.label}
+              className="relative"
+              onMouseEnter={() => {
+                cancelClose();
+                setOpenMenu(group.label);
+              }}
+            >
               <button
                 type="button"
                 aria-expanded={openMenu === group.label}
                 onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}
                 onFocus={() => setOpenMenu(group.label)}
                 className={cn(
-                  "inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
+                  "relative inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
                   openMenu === group.label && "text-foreground",
                 )}
               >
-                {group.label}
+                {openMenu === group.label ? (
+                  <motion.span
+                    layoutId="nav-hover"
+                    className="absolute inset-0 rounded-full bg-accent"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                ) : null}
+                <span className="relative">{group.label}</span>
                 <ChevronDown
                   className={cn(
-                    "h-3.5 w-3.5 transition-transform duration-200",
+                    "relative h-3.5 w-3.5 transition-transform duration-200",
                     openMenu === group.label && "rotate-180",
                   )}
                   aria-hidden="true"
@@ -80,6 +94,7 @@ export function SiteHeader() {
               </button>
             </div>
           ))}
+
         </nav>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
