@@ -179,6 +179,7 @@ export function LeadQualitySection() {
         "Sources ranked by contribution to closed revenue",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel
         title="Cohort · paid social prospecting"
