@@ -89,8 +89,7 @@ export function PlatformPreview() {
           <MotionStagger stagger={0.045} className="min-w-0 border-t border-hairline">
             {capabilities.map((c, i) => (
               <MotionItem key={c.id}>
-                <motion.a
-                  href={c.href}
+                <motion.div
                   className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b border-hairline py-7 sm:grid-cols-[3.5rem_minmax(0,1fr)]"
                   whileHover={reduced ? undefined : { x: 4 }}
                   transition={{ duration: duration.fast, ease: ease.out }}
@@ -107,7 +106,7 @@ export function PlatformPreview() {
                       {c.body}
                     </p>
                   </div>
-                </motion.a>
+                </motion.div>
               </MotionItem>
             ))}
           </MotionStagger>
