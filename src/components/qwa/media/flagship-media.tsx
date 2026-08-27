@@ -119,6 +119,7 @@ export function FlagshipMedia({
   const saveData = useDataSaver();
   const { ref, inView } = useInView<HTMLDivElement>();
   const [videoReady, setVideoReady] = React.useState(false);
+  const [stillFailed, setStillFailed] = React.useState(false);
 
   if (!asset) {
     // Unknown id: render the composition rather than an empty frame.
@@ -138,7 +139,20 @@ export function FlagshipMedia({
     inView &&
     !(compact && asset.mobileBehavior === "static_only");
 
+  // Approved external still. Never distorts, never mounts without recorded
+  // human clearance, and silently yields to the code composition on error or
+  // when no purpose-built crop exists for the compact composition.
+  const still = asset.still ?? null;
+  const stillSrc = compact ? still?.mobileSrc : still?.desktopSrc;
+  const showStill =
+    Boolean(stillSrc) &&
+    still?.rightsStatus === "commercially_cleared" &&
+    !stillFailed &&
+    !videoReady;
+
   const ratio = compact ? asset.mobileAspectRatio : asset.aspectRatio;
+  const stillRatio = still?.aspectRatio ?? ratio;
+
 
   return (
     <div
