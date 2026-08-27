@@ -23,17 +23,18 @@ import { cn } from "@/lib/utils";
 const pipeline = [
   { stage: "Brief", detail: "Offer, audience, claim boundaries" },
   { stage: "Script", detail: "Hook, proof, single call to action" },
-  { stage: "Shots", detail: "Decomposed into generatable units" },
-  { stage: "Routing", detail: "Provider chosen per shot" },
+  { stage: "Storyboard", detail: "Shot plan, aspect and duration set before spend" },
+  { stage: "Prototype", detail: "Low-cost rough cut proves pacing first" },
+  { stage: "Routing", detail: "Only approved shots go to a premium provider" },
   { stage: "Assembly", detail: "Cuts, captions, aspect variants" },
-  { stage: "Review", detail: "Named human approves or rejects" },
+  { stage: "Review", detail: "Named human approves rights and release" },
 ];
 
 export function ProductionPipelineVisual() {
   return (
     <ProductPanel
       title="Job · CS-2210 · coverage comparison"
-      meta="6 stages · human gated"
+      meta="7 stages · prototype first · human gated"
       footer={<IllustrativeNote>Illustrative pipeline state. No provider is called from this page.</IllustrativeNote>}
     >
       <PanelBlock className="py-6">
