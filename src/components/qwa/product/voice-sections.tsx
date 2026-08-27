@@ -510,20 +510,17 @@ const secondary = [
 
 export function ConversationAnalyticsSection() {
   return (
-    <Section id="analytics" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="analytics" className="scroll-mt-24 pb-20 pt-8 sm:pb-24 sm:pt-10 lg:pb-28">
       <Container>
-        <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Conversation analytics</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
-            Conversations measured in revenue, not minutes.
-          </h2>
-          <p className="text-lede mt-5 max-w-[34rem]">
+        <MotionReveal>
+          <h3 className="max-w-[42rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
             Talk time and call volume describe activity. QWA reports what the conversation layer did
             to pipeline, and every outcome travels back into the attribution chain.
-          </p>
+          </h3>
         </MotionReveal>
 
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal delay={0.08} className="mt-8">
+
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
