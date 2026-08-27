@@ -130,6 +130,7 @@ export function DemandIntakeSection() {
         "Duplicate and bot traffic collapsed before it reaches your team",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel title="Intake adapters" meta="configured per account" footer={<IllustrativeNote />}>
