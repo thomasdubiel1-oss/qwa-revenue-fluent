@@ -462,19 +462,20 @@ const controls = [
 
 export function AcquisitionGovernanceSection() {
   return (
-    <Section id="governance" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="governance" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Governance and control</p>
+            <h3 className="text-display mt-4 max-w-[18ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Nothing moves money without a name attached.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-5 max-w-[30rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
               Autonomy stops where budget begins. QWA recommends; your team decides; the system
               keeps the receipt.
             </p>
           </MotionReveal>
+
 
           <MotionStagger stagger={0.04} className="min-w-0 border-t border-hairline">
             {controls.map((c) => (
