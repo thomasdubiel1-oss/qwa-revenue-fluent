@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LiveCommerceStory } from "@/components/qwa/story/product-stories";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,18 +26,7 @@ const description =
   "Read the room in real time: classified audience signal, instant answers, bounded offer windows, checkout continuity and a host console that keeps a person in control.";
 
 export const Route = createFileRoute("/products/live-commerce")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/live-commerce" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/live-commerce" }],
-  }),
+  head: () => pageHead({ path: "/products/live-commerce", title, description }),
   component: LiveCommercePage,
 });
 

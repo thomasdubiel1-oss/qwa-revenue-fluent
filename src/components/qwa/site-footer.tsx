@@ -3,6 +3,16 @@ import { Container } from "./primitives";
 import { footerColumns, isLiveRoute } from "@/config/site";
 import { Mark } from "./site-header";
 
+/** Only routes that exist are linked; the rest stay inert until published. */
+const legalLinks: { label: string; href?: "/privacy" | "/terms" }[] = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Security" },
+  { label: "Responsible AI" },
+  { label: "Status" },
+];
+
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-hairline bg-paper">
@@ -55,14 +65,20 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Quantum Web AI, Inc. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {["Privacy", "Terms", "Security", "Responsible AI", "Status"].map((l) => (
-              <li key={l}>
-                <Link
-                  to="/"
-                  className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {l}
-                </Link>
+            {legalLinks.map((item) => (
+              <li key={item.label}>
+                {item.href ? (
+                  <Link
+                    to={item.href}
+                    className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground/70">
+                    {item.label}
+                  </span>
+                )}
               </li>
             ))}
           </ul>

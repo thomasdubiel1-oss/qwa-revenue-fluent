@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RevenueEngineStory } from "@/components/qwa/story/product-stories";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -27,18 +28,7 @@ const description =
   "QWA's Revenue Engine turns every lead into a managed revenue journey: immediate response, qualification, cross-channel follow-up, booking, sales assistance, attribution, learning and reactivation.";
 
 export const Route = createFileRoute("/products/revenue-engine")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/revenue-engine" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/revenue-engine" }],
-  }),
+  head: () => pageHead({ path: "/products/revenue-engine", title, description }),
   component: RevenueEnginePage,
 });
 

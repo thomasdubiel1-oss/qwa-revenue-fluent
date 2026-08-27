@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,18 +26,7 @@ const description =
   "Technical diagnostics, topical authority mapping, intent-to-revenue joins and generative answer readiness — search work measured by pipeline, not by position alone.";
 
 export const Route = createFileRoute("/products/search")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/search" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/search" }],
-  }),
+  head: () => pageHead({ path: "/products/search", title, description }),
   component: SearchPage,
 });
 

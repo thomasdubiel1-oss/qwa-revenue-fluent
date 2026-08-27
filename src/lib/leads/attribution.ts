@@ -1,5 +1,6 @@
 import type { DemoSource } from "@/lib/analytics";
 import type { LeadAttribution } from "./types";
+import { isAllowed } from "@/lib/consent";
 
 const LANDING_KEY = "qwa:landing";
 const UTM_KEY = "qwa:utm";
@@ -43,6 +44,8 @@ function readStored(): UtmBag {
  */
 export function captureCampaignContext() {
   if (typeof window === "undefined") return;
+  // First-party, session-scoped attribution storage respects the preference.
+  if (!isAllowed("attribution")) return;
   try {
     const stored = readStored();
     const params = new URLSearchParams(window.location.search);
