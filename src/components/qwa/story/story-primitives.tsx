@@ -115,7 +115,7 @@ export function useStoryMotion() {
     viewport: { once: true, amount: 0.4 } as const,
     trace: (delay = 0) =>
       reduced
-        ? {}
+        ? ({ initial: false, animate: { scaleX: 1 } } as const)
         : {
             initial: { scaleX: 0 },
             whileInView: { scaleX: 1 },
@@ -123,7 +123,7 @@ export function useStoryMotion() {
           },
     settle: (delay = 0) =>
       reduced
-        ? {}
+        ? ({ initial: false, animate: { opacity: 1, y: 0 } } as const)
         : {
             initial: { opacity: 0, y: 6 },
             whileInView: { opacity: 1, y: 0 },
