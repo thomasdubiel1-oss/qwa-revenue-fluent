@@ -405,20 +405,21 @@ const secondary = [
 
 export function AcquisitionExecutiveSection() {
   return (
-    <Section id="executive" tone="paper" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="executive" tone="paper" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Executive view</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-muted-foreground/70">Executive view</p>
+          <h3 className="text-display mt-4 max-w-[21ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
             One page a CFO can read without a translator.
-          </h2>
-          <p className="text-lede mt-5 max-w-[34rem]">
+          </h3>
+          <p className="mt-5 max-w-[34rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
             Spend, qualified demand and closed revenue on the same surface, joined by the same
             record — not reconciled between three dashboards that disagree.
           </p>
         </MotionReveal>
 
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal delay={0.08} className="mt-10">
+
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
