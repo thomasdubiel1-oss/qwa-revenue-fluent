@@ -1,24 +1,27 @@
+import { submitDemoRequestFn } from "./leads.functions";
 import type { DemoRequestPayload, LeadProvider, LeadSubmitResult } from "./types";
 
+export type SubmitOptions = {
+  /** Honeypot field value, forwarded so the server decides on abuse. */
+  trap?: string | undefined;
+};
+
 /**
- * Default adapter: records the lead locally so the conversion path is fully
- * exercisable without any credentials or external service.
+ * Default adapter: persists the lead through a server function backed by the
+ * project database. No privileged key ever reaches the browser.
  *
- * To connect a real destination later (HighLevel, Lovable Cloud, or a webhook),
- * implement `LeadProvider` in its own module and register it below. No form or
- * component code needs to change.
+ * Downstream CRM delivery (HighLevel/webhook) is handled by the durable
+ * outbox written alongside each lead — swapping destinations never touches
+ * form or component code.
  */
-const localProvider: LeadProvider = {
-  name: "local",
+const supabaseProvider: LeadProvider = {
+  name: "supabase",
   async submit(payload: DemoRequestPayload): Promise<LeadSubmitResult> {
-    // Simulated network latency so loading states are real in preview.
-    await new Promise((r) => setTimeout(r, 650));
-    console.info("[qwa:lead] captured (no destination configured yet)", payload);
-    return { ok: true, provider: "local" };
+    return submitDemoRequestFn({ data: payload });
   },
 };
 
-let activeProvider: LeadProvider = localProvider;
+let activeProvider: LeadProvider = supabaseProvider;
 
 /** Swap the destination at runtime (used by a future integration bootstrap). */
 export function setLeadProvider(provider: LeadProvider) {
@@ -31,9 +34,15 @@ export function getLeadProvider(): LeadProvider {
 
 export async function submitDemoRequest(
   payload: DemoRequestPayload,
+  options: SubmitOptions = {},
 ): Promise<LeadSubmitResult> {
   const provider = activeProvider;
   try {
+    if (provider === supabaseProvider) {
+      return await submitDemoRequestFn({
+        data: { ...payload, ...(options.trap ? { trap: options.trap } : {}) },
+      });
+    }
     return await provider.submit(payload);
   } catch (error) {
     return {
