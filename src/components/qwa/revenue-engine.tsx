@@ -359,9 +359,9 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
           x1={spineX}
           y1="8"
           x2={spineX}
-          y2={8}
-          initial={{ y2: 8 }}
-          animate={{ y2: 8 + reachedNode * gap }}
+          y2={height - 8}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: (reachedNode * gap) / (height - 16) }}
           transition={{ duration: duration.base, ease: ease.out }}
           stroke="currentColor"
           strokeWidth="1.5"
