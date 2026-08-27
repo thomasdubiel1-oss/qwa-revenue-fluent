@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DecisionIntelligenceStory } from "@/components/qwa/story/product-stories";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,18 +26,7 @@ const description =
   "Next best action per record, a five-level autonomy ladder, experiments with holdouts, hard guardrails and a decision log where every change has an author, a reason and an outcome.";
 
 export const Route = createFileRoute("/products/decision-intelligence")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/decision-intelligence" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/decision-intelligence" }],
-  }),
+  head: () => pageHead({ path: "/products/decision-intelligence", title, description }),
   component: DecisionIntelligencePage,
 });
 

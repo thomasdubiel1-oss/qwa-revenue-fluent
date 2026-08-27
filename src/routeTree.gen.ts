@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
@@ -21,11 +23,22 @@ import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
 import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
+import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalMediaProductionBriefRoute =
@@ -86,6 +99,11 @@ const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
   path: '/products/voice',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
   id: '/api/public/leads-outbox',
   path: '/api/public/leads-outbox',
@@ -94,6 +112,8 @@ const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -105,10 +125,13 @@ export interface FileRoutesByFullPath {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -120,11 +143,14 @@ export interface FileRoutesByTo {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -136,12 +162,15 @@ export interface FileRoutesById {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -153,10 +182,13 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/health'
     | '/api/public/leads-outbox'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -168,10 +200,13 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/health'
     | '/api/public/leads-outbox'
   id:
     | '__root__'
     | '/'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -183,11 +218,14 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/health'
     | '/api/public/leads-outbox'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
@@ -199,6 +237,7 @@ export interface RootRouteChildren {
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
   ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
+  ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicLeadsOutboxRoute: typeof ApiPublicLeadsOutboxRoute
 }
 
@@ -209,6 +248,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/media-production-brief': {
@@ -288,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsVoiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/leads-outbox': {
       id: '/api/public/leads-outbox'
       path: '/api/public/leads-outbox'
@@ -300,6 +360,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
@@ -311,6 +373,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
   ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
+  ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicLeadsOutboxRoute: ApiPublicLeadsOutboxRoute,
 }
 export const routeTree = rootRouteImport

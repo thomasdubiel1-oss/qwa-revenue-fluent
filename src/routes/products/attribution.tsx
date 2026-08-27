@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AttributionStory } from "@/components/qwa/story/product-stories";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -27,18 +28,7 @@ const description =
   "The closed-revenue reconciliation layer: identity and journey joining, explainable multi-touch contribution, reconciliation to CRM, commerce and payment records, and outcomes fed back into acquisition and decisions.";
 
 export const Route = createFileRoute("/products/attribution")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/attribution" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/attribution" }],
-  }),
+  head: () => pageHead({ path: "/products/attribution", title, description }),
   component: AttributionPage,
 });
 

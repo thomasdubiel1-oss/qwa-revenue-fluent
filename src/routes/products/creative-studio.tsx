@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CreativeAcquisitionStory } from "@/components/qwa/story/product-stories";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,18 +26,7 @@ const description =
   "Production as a pipeline: brief, script, shot decomposition, model-agnostic provider routing, versioned variants for every placement, and human approval before anything publishes.";
 
 export const Route = createFileRoute("/products/creative-studio")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/creative-studio" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/creative-studio" }],
-  }),
+  head: () => pageHead({ path: "/products/creative-studio", title, description }),
   component: CreativeStudioPage,
 });
 

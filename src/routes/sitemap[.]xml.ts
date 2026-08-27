@@ -7,7 +7,7 @@ import { PUBLIC_ROUTES, SITE_INDEXABLE, absoluteUrl } from "@/config/seo";
  * (VITE_SITE_INDEXABLE unset) an empty urlset is served so nothing is
  * submitted for indexing prematurely.
  */
-export const Route = createFileRoute("/sitemap[.]xml")({
+export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {

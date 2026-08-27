@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -22,18 +23,7 @@ const description =
   "Measure acquisition by revenue, not clicks. QWA joins every source, campaign and creative to closed revenue, grades lead quality on downstream outcomes and proposes budget moves your team approves.";
 
 export const Route = createFileRoute("/products/acquisition")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/acquisition" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/acquisition" }],
-  }),
+  head: () => pageHead({ path: "/products/acquisition", title, description }),
   component: AcquisitionPage,
 });
 

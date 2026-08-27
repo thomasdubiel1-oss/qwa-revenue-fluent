@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/config/seo";
 import {
   ChapterOpener,
   ProductCta,
@@ -24,18 +25,7 @@ const description =
   "One set of numbers across ads, conversations, appointments, CRM and finance: executive briefs, anomaly detection with stated confidence, ranged forecasts and published data quality.";
 
 export const Route = createFileRoute("/products/business-intelligence")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/business-intelligence" },
-    ],
-    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/business-intelligence" }],
-  }),
+  head: () => pageHead({ path: "/products/business-intelligence", title, description }),
   component: BusinessIntelligencePage,
 });
 

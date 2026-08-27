@@ -6,7 +6,7 @@ import { SITE_INDEXABLE, absoluteUrl } from "@/config/seo";
  * Robots directives follow the same switch as the rest of SEO: private until
  * VITE_SITE_INDEXABLE is set to "true" at launch.
  */
-export const Route = createFileRoute("/robots[.]txt")({
+export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
       GET: async () => {
