@@ -42,7 +42,7 @@ function AcquisitionPage() {
         eyebrow="Customer Acquisition"
         title="Buy demand you can trace to revenue."
         lede="QWA joins every source, campaign and creative to what actually closed. Lead quality is graded on downstream outcomes, budget proposals cite the rule that produced them, and nothing moves without a named approval."
-        secondaryLabel="See the ledger"
+        secondaryLabel="How it works"
         secondaryHref="#demand"
         note="Spend and closed revenue on the same record."
         visual={<AcquisitionLedgerVisual />}
