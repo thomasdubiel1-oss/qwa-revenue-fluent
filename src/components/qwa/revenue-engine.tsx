@@ -456,37 +456,66 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
 
 function LinearSequence() {
   return (
-    <Container className="pb-24 pt-14 sm:pb-28">
+    <Container className="pb-20 pt-10 sm:pb-24">
+      {/* The record identity stays on screen for the whole sequence, so the
+          mobile reading is "one record moving" rather than a card stack. */}
+      <div className="sticky top-16 z-10 -mx-5 mb-2 flex h-11 items-center justify-between gap-4 border-y border-hairline bg-paper/95 px-5 backdrop-blur sm:-mx-8 sm:px-8">
+        <span className="text-data truncate text-[0.7rem] text-muted-foreground">
+          Record · QWA-84213
+        </span>
+        <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground">
+          {steps.length} stages
+        </span>
+      </div>
+
       <ol className="relative border-l border-hairline pl-6">
-        {steps.map((s, i) => (
-          <li key={s.id}>
-            <MotionReveal className="relative py-7" amount={0.4}>
-              <span
-                className={cn(
-                  "absolute -left-[1.72rem] top-9 h-[9px] w-[9px] rounded-full",
-                  s.id === "attribute" || s.id === "learn" ? "bg-positive" : "bg-signal",
-                )}
-                aria-hidden="true"
-              />
-              <p className="text-eyebrow">
-                {String(i + 1).padStart(2, "0")} · {s.time}
-              </p>
-              <h3 className="mt-3 text-xl font-medium tracking-tight">{s.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-              <div className="mt-4">
-                <EventCard step={s} />
-              </div>
-            </MotionReveal>
-          </li>
-        ))}
+        {steps.map((s, i) => {
+          const returning = s.id === "attribute";
+          return (
+            <li key={s.id}>
+              <MotionReveal className="relative py-6" amount={0.35}>
+                <span
+                  className={cn(
+                    "absolute -left-[1.72rem] top-[1.95rem] h-[9px] w-[9px] rounded-full",
+                    returning || s.id === "learn" ? "bg-positive" : "bg-signal",
+                  )}
+                  aria-hidden="true"
+                />
+                <p className="text-data text-[0.7rem] text-muted-foreground">
+                  {String(i + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+                  <span className="mx-2 text-hairline-strong">·</span>
+                  <span className="text-signal">{s.time}</span>
+                </p>
+                <h3 className="mt-2.5 text-[1.25rem] font-medium tracking-tight">{s.title}</h3>
+                <p className="mt-2 text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
+                <div className="mt-4">
+                  <EventCard step={s} highlight={returning} />
+                </div>
+                {returning ? (
+                  <p className="text-data mt-3 flex items-center gap-2 text-[0.7rem] text-positive">
+                    <span aria-hidden="true">↑</span>
+                    $14,200 credited back to campaign, creative, conversation and rep
+                  </p>
+                ) : null}
+              </MotionReveal>
+            </li>
+          );
+        })}
       </ol>
     </Container>
   );
 }
 
-function EventCard({ step }: { step: Step }) {
+function EventCard({ step, highlight = false }: { step: Step; highlight?: boolean }) {
   return (
-    <div className="rounded-xl border border-hairline bg-paper px-4 py-3">
+    <div
+      className={cn(
+        "rounded-lg border px-4 py-3",
+        highlight ? "border-positive/40 bg-positive/[0.06]" : "border-hairline bg-paper",
+      )}
+    >
       <div className="flex items-center justify-between gap-3">
         <p className="truncate text-sm font-medium">{step.event.label}</p>
         <span className="text-data shrink-0 text-[0.65rem] text-muted-foreground">{step.time}</span>
@@ -504,3 +533,4 @@ function EventCard({ step }: { step: Step }) {
     </div>
   );
 }
+
