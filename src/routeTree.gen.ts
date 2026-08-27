@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalVideoRouterLabRoute = InternalVideoRouterLabRouteImport.update({
+  id: '/internal/video-router-lab',
+  path: '/internal/video-router-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/internal/video-router-lab'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/internal/video-router-lab'
+  id: '__root__' | '/' | '/internal/video-router-lab'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/internal/video-router-lab': {
+      id: '/internal/video-router-lab'
+      path: '/internal/video-router-lab'
+      fullPath: '/internal/video-router-lab'
+      preLoaderRoute: typeof InternalVideoRouterLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
