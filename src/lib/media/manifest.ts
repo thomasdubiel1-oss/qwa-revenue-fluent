@@ -9,6 +9,8 @@
  *   LTX storyboard/prototype  →  human evaluation  →  premium provider for
  *   approved shots only  →  commercial clearance  →  bind `source` here.
  */
+import homeHeroStill from "@/assets/home-hero-still.png.asset.json";
+
 import type { FlagshipMediaAsset, MediaPriority } from "./types";
 
 export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
@@ -34,9 +36,23 @@ export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
     shotBrief:
       "Storyboard written — see the LTX storyboard package on /internal/media-production-brief (src/lib/media/storyboards/home-hero.ts). 15s seamless silent loop, 7 shots, no people, no text, no UI: signals scatter in, converge into one operating layer, the work progresses, revenue returns to its source, the frame resolves back to its opening state.",
     notes:
-      "The only slot where generative video is clearly worth the spend. Code fallback (SignalFlow) is production-quality and ships until footage clears. Gate: storyboard_ready — LTX is manual handoff, nothing generated yet, no spend committed.",
+      "An approved Runway-generated STILL is bound (see `still`) and ships as the desktop hero image; the SignalFlow code composition remains the mobile, reduced-motion and image-failure state. Motion track unchanged: LTX storyboard remains the next executable step for footage. Gate: storyboard_ready — nothing generated for video yet.",
     source: null,
+    still: {
+      desktopSrc: homeHeroStill.url,
+      aspectRatio: "16:9",
+      objectPosition: "center",
+      alt: "QWA visualizes inbound opportunities from web, messaging and voice moving through engagement, qualification, appointment and sale, with revenue attributed back to its source.",
+      rightsStatus: "commercially_cleared",
+      clearedBy: "Thomas Dubiel",
+      clearedAt: "2026-08-27",
+      provider: "runway",
+      notes:
+        "Human-approved by the project owner for public use on 2026-08-27 via the QWA clearance mechanism. No mobile crop authored: the composition is a wide left-to-right journey, so portrait cropping would break comprehension — mobile renders the code composition instead.",
+    },
   },
+
+
   {
     id: "revenue-engine-loop",
     route: "/products/revenue-engine",

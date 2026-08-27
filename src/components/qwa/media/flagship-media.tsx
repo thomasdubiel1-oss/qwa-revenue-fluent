@@ -119,6 +119,7 @@ export function FlagshipMedia({
   const saveData = useDataSaver();
   const { ref, inView } = useInView<HTMLDivElement>();
   const [videoReady, setVideoReady] = React.useState(false);
+  const [stillFailed, setStillFailed] = React.useState(false);
 
   if (!asset) {
     // Unknown id: render the composition rather than an empty frame.
@@ -138,7 +139,20 @@ export function FlagshipMedia({
     inView &&
     !(compact && asset.mobileBehavior === "static_only");
 
+  // Approved external still. Never distorts, never mounts without recorded
+  // human clearance, and silently yields to the code composition on error or
+  // when no purpose-built crop exists for the compact composition.
+  const still = asset.still ?? null;
+  const stillSrc = compact ? still?.mobileSrc : still?.desktopSrc;
+  const showStill =
+    Boolean(stillSrc) &&
+    still?.rightsStatus === "commercially_cleared" &&
+    !stillFailed &&
+    !videoReady;
+
   const ratio = compact ? asset.mobileAspectRatio : asset.aspectRatio;
+  const stillRatio = still?.aspectRatio ?? ratio;
+
 
   return (
     <div
@@ -159,12 +173,35 @@ export function FlagshipMedia({
       <div
         className={cn(
           unframed ? "relative" : "absolute inset-0",
+          showStill && "hidden",
           videoReady && "opacity-0 transition-opacity duration-500",
         )}
         aria-hidden={videoReady || undefined}
       >
         {children}
       </div>
+
+      {showStill && stillSrc ? (
+        <div
+          className={cn(
+            unframed ? "relative" : "absolute inset-0",
+            "overflow-hidden rounded-2xl border border-hairline bg-surface",
+            unframed && RATIO_CLASS[stillRatio],
+          )}
+        >
+          <img
+            src={stillSrc}
+            alt={still?.alt ?? label ?? asset.purpose}
+            loading="eager"
+            decoding="async"
+            className="h-full w-full object-cover"
+            {...(still?.objectPosition ? { style: { objectPosition: still.objectPosition } } : {})}
+            onError={() => setStillFailed(true)}
+          />
+        </div>
+      ) : null}
+
+
 
       {mountVideo && src ? (
         <video
