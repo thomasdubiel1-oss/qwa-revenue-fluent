@@ -235,6 +235,7 @@ export function PacingSection() {
         "Every change is reversible and recorded with its rationale",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel title="Pacing proposal · week 14" meta="awaiting approval" footer={<IllustrativeNote />}>
