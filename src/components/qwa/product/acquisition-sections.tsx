@@ -336,20 +336,17 @@ const chain = [
 
 export function AcquisitionAttributionSection() {
   return (
-    <Section id="attribution" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="attribution" className="scroll-mt-24 pb-20 pt-8 sm:pb-24 sm:pt-10 lg:pb-28">
       <Container>
-        <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Attribution</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
-            Revenue travels back to what produced it.
-          </h2>
-          <p className="text-lede mt-5 max-w-[35rem]">
-            When a deal closes, QWA walks the record backward and credits every touch that
-            contributed — the channel, the campaign, the creative and the conversation.
-          </p>
+        <MotionReveal>
+          <h3 className="max-w-[42rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
+            One closed deal, walked backward: every touch that contributed is credited — the
+            channel, the campaign, the creative and the conversation.
+          </h3>
         </MotionReveal>
 
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal delay={0.08} className="mt-8">
+
           <ProductPanel
             tone="ink"
             title="Closed · $14,200"
