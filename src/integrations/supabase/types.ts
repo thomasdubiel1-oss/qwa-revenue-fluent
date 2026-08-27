@@ -14,13 +14,264 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      conversion_events: {
+        Row: {
+          created_at: string
+          demo_request_id: string | null
+          event_name: string
+          id: string
+          metadata: Json | null
+          occurred_at: string
+          source_cta: string | null
+          source_route: string | null
+          utm_campaign: string | null
+        }
+        Insert: {
+          created_at?: string
+          demo_request_id?: string | null
+          event_name: string
+          id?: string
+          metadata?: Json | null
+          occurred_at?: string
+          source_cta?: string | null
+          source_route?: string | null
+          utm_campaign?: string | null
+        }
+        Update: {
+          created_at?: string
+          demo_request_id?: string | null
+          event_name?: string
+          id?: string
+          metadata?: Json | null
+          occurred_at?: string
+          source_cta?: string | null
+          source_route?: string | null
+          utm_campaign?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversion_events_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      demo_request_context: {
+        Row: {
+          created_at: string
+          demo_request_id: string
+          elapsed_ms: number | null
+          fbclid: string | null
+          gclid: string | null
+          id: string
+          landing_path: string | null
+          page_title: string | null
+          referrer: string | null
+          source_cta: string | null
+          source_route: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string
+          demo_request_id: string
+          elapsed_ms?: number | null
+          fbclid?: string | null
+          gclid?: string | null
+          id?: string
+          landing_path?: string | null
+          page_title?: string | null
+          referrer?: string | null
+          source_cta?: string | null
+          source_route?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string
+          demo_request_id?: string
+          elapsed_ms?: number | null
+          fbclid?: string | null
+          gclid?: string | null
+          id?: string
+          landing_path?: string | null
+          page_title?: string | null
+          referrer?: string | null
+          source_cta?: string | null
+          source_route?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demo_request_context_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      demo_requests: {
+        Row: {
+          company: string
+          consent: boolean
+          consent_at: string | null
+          created_at: string
+          email: string
+          id: string
+          idempotency_key: string
+          monthly_leads: string
+          name: string
+          notes: string | null
+          phone: string | null
+          primary_goal: string
+          status: string
+          submitted_at: string
+          updated_at: string
+          website: string
+        }
+        Insert: {
+          company: string
+          consent?: boolean
+          consent_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          idempotency_key: string
+          monthly_leads: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          primary_goal: string
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          website: string
+        }
+        Update: {
+          company?: string
+          consent?: boolean
+          consent_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          idempotency_key?: string
+          monthly_leads?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          primary_goal?: string
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          website?: string
+        }
+        Relationships: []
+      }
+      lead_deliveries: {
+        Row: {
+          attempt_count: number
+          created_at: string
+          demo_request_id: string
+          destination: string
+          id: string
+          last_attempt_at: string | null
+          last_error: string | null
+          next_attempt_at: string
+          provider_ref: string | null
+          response_meta: Json | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          attempt_count?: number
+          created_at?: string
+          demo_request_id: string
+          destination?: string
+          id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
+          next_attempt_at?: string
+          provider_ref?: string | null
+          response_meta?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          attempt_count?: number
+          created_at?: string
+          demo_request_id?: string
+          destination?: string
+          id?: string
+          last_attempt_at?: string | null
+          last_error?: string | null
+          next_attempt_at?: string
+          provider_ref?: string | null
+          response_meta?: Json | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_deliveries_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      submission_throttle: {
+        Row: {
+          blocked_count: number
+          hit_count: number
+          id: string
+          signal_hash: string
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          blocked_count?: number
+          hit_count?: number
+          id?: string
+          signal_hash: string
+          updated_at?: string
+          window_start?: string
+        }
+        Update: {
+          blocked_count?: number
+          hit_count?: number
+          id?: string
+          signal_hash?: string
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      purge_expired_lead_data: {
+        Args: { retention_days?: number }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never
