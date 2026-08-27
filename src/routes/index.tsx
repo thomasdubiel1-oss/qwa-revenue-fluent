@@ -34,7 +34,18 @@ function Index() {
       <SiteHeader />
       <main id="main">
         <Hero />
-        <RevenueEngine />
+        <RevenueEngine
+          intro={
+            <Link
+              to="/products/revenue-engine"
+              className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-signal transition-colors hover:text-foreground"
+            >
+              Explore the Revenue Engine
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          }
+        />
+
         <ClosedLoop />
         <PlatformPreview />
         <OutcomePanel />
