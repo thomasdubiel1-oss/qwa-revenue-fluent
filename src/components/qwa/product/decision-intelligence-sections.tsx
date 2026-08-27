@@ -343,7 +343,7 @@ export function DecisionGovernanceSection() {
       level="sub"
       id="governance"
       eyebrow="Governance"
-      title="Autonomy is granted deliberately, and can be withdrawn instantly."
+      title="Ownership of the policy layer stays with your team."
       lede="No decision type acts on its own until someone with authority says it may, inside limits they set. QWA is designed so that withdrawing that permission is as easy as granting it."
       media="below"
       tone="paper"
