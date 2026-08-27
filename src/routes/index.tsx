@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/qwa/site-header";
 import { SiteFooter } from "@/components/qwa/site-footer";
 import { DemoRequestProvider } from "@/components/qwa/demo-request";
@@ -7,6 +8,7 @@ import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import { ClosedLoop, OutcomePanel } from "@/components/qwa/closed-loop";
 import { PlatformPreview } from "@/components/qwa/platform";
 import { ClosingCta } from "@/components/qwa/cta";
+
 
 const title = "Quantum Web AI — The AI Revenue Operating System";
 const description =
@@ -32,7 +34,18 @@ function Index() {
       <SiteHeader />
       <main id="main">
         <Hero />
-        <RevenueEngine />
+        <RevenueEngine
+          intro={
+            <Link
+              to="/products/revenue-engine"
+              className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-signal transition-colors hover:text-foreground"
+            >
+              Explore the Revenue Engine
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          }
+        />
+
         <ClosedLoop />
         <PlatformPreview />
         <OutcomePanel />

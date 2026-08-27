@@ -25,16 +25,23 @@ export function SiteFooter() {
               <div key={col.heading} className="min-w-0">
                 <p className="text-eyebrow mb-4">{col.heading}</p>
                 <ul className="grid gap-2.5">
-                  {col.items.map((item) => (
-                    <li key={item.label}>
-                      <Link
-                        to="/"
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                      >
+                  {col.items.map((item) =>
+                    item.href === "/products/revenue-engine" ? (
+                      <li key={item.label}>
+                        <Link
+                          to="/products/revenue-engine"
+                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ) : (
+                      <li key={item.label} className="text-sm text-muted-foreground/55">
                         {item.label}
-                      </Link>
-                    </li>
-                  ))}
+                      </li>
+                    ),
+                  )}
+
                 </ul>
               </div>
             ))}

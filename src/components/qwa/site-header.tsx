@@ -153,9 +153,9 @@ export function SiteHeader() {
                         <ul className="grid gap-1">
                           {col.items.map((item) => (
                             <li key={item.label}>
-                              <Link
-                                to="/"
-                                onClick={() => setOpenMenu(null)}
+                              <NavTarget
+                                href={item.href}
+                                onNavigate={() => setOpenMenu(null)}
                                 className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
                               >
                                 <span className="text-sm font-medium">{item.label}</span>
@@ -164,7 +164,7 @@ export function SiteHeader() {
                                     {item.description}
                                   </span>
                                 ) : null}
-                              </Link>
+                              </NavTarget>
                             </li>
                           ))}
                         </ul>
@@ -205,13 +205,13 @@ export function SiteHeader() {
                           <ul className="grid">
                             {col.items.map((item) => (
                               <li key={item.label}>
-                                <Link
-                                  to="/"
-                                  onClick={() => setMobileOpen(false)}
+                                <NavTarget
+                                  href={item.href}
+                                  onNavigate={() => setMobileOpen(false)}
                                   className="block py-2 text-sm text-muted-foreground"
                                 >
                                   {item.label}
-                                </Link>
+                                </NavTarget>
                               </li>
                             ))}
                           </ul>
@@ -243,6 +243,35 @@ export function SiteHeader() {
       </AnimatePresence>
 
     </header>
+  );
+}
+
+/**
+ * Nav items point at Phase 2 routes. Only routes that exist are linked;
+ * the rest stay inert until their page ships, so nothing 404s.
+ */
+function NavTarget({
+  href,
+  onNavigate,
+  className,
+  children,
+}: {
+  href: string;
+  onNavigate: () => void;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  if (href === "/products/revenue-engine") {
+    return (
+      <Link to="/products/revenue-engine" onClick={onNavigate} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <span className={cn(className, "cursor-default opacity-55")} aria-disabled="true">
+      {children}
+    </span>
   );
 }
 
