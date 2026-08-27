@@ -341,8 +341,16 @@ export function DemoRequestForm({
           className="mt-0.5 h-4 w-4 shrink-0 rounded-[4px] border border-hairline-strong accent-[var(--signal)]"
         />
         <span>
-          QWA may contact me about this request. We do not sell personal data. Placeholder privacy
-          language — final policy to be linked at launch.
+          QWA may contact me about this request. We do not sell personal data. See our{" "}
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noreferrer"
+            className="underline underline-offset-2 transition-colors hover:text-foreground"
+          >
+            privacy notice
+          </a>
+          .
         </span>
       </label>
       {errors["consent"] ? <FieldError id="consent">{errors["consent"]}</FieldError> : null}
