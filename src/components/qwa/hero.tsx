@@ -4,6 +4,7 @@ import { Container } from "./primitives";
 import { useDemoRequest } from "./demo-request";
 import { RiveStage } from "./rive-stage";
 import { SignalFlow } from "./signal-flow";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 import { ease } from "@/lib/motion";
 
 const proofPoints: [string, string][] = [
@@ -88,11 +89,18 @@ export function Hero() {
             transition={{ duration: 1, ease: ease.out, delay: 0.18 }}
             className="min-w-0"
           >
-            <RiveStage
+            <FlagshipMedia
+              id="home-hero"
+              unframed
               label="Simulation: customer signals from ads, search, direct messages, voice and web are interpreted by QWA and resolved into an appointment, a sale and attributed revenue"
               className="min-w-0"
-              fallback={<SignalFlow />}
-            />
+            >
+              <RiveStage
+                label="Simulation: customer signals from ads, search, direct messages, voice and web are interpreted by QWA and resolved into an appointment, a sale and attributed revenue"
+                className="min-w-0"
+                fallback={<SignalFlow />}
+              />
+            </FlagshipMedia>
           </motion.div>
         </div>
       </Container>

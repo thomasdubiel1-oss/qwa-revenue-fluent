@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
 import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
@@ -26,6 +27,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalMediaProductionBriefRoute =
+  InternalMediaProductionBriefRouteImport.update({
+    id: '/internal/media-production-brief',
+    path: '/internal/media-production-brief',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InternalVideoRouterLabRoute = InternalVideoRouterLabRouteImport.update({
   id: '/internal/video-router-lab',
   path: '/internal/video-router-lab',
@@ -81,6 +88,7 @@ const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
@@ -94,6 +102,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
@@ -108,6 +117,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
@@ -163,6 +176,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
   ProductsAttributionRoute: typeof ProductsAttributionRoute
@@ -182,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/media-production-brief': {
+      id: '/internal/media-production-brief'
+      path: '/internal/media-production-brief'
+      fullPath: '/internal/media-production-brief'
+      preLoaderRoute: typeof InternalMediaProductionBriefRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/video-router-lab': {
@@ -259,6 +280,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
   ProductsAttributionRoute: ProductsAttributionRoute,

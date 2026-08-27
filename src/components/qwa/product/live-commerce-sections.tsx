@@ -15,6 +15,7 @@ import {
   StatCell,
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 /* -------------------------------------------------------------------------
  * Signature visual — the live room console.
@@ -31,6 +32,14 @@ const stream = [
 ];
 
 export function LiveRoomVisual() {
+  return (
+    <FlagshipMedia id="live-commerce-room" unframed>
+      <LiveRoomVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function LiveRoomVisualPanel() {
   return (
     <ProductPanel
       title="Room · LC-2214 · live"
@@ -65,6 +74,19 @@ export function LiveRoomVisual() {
             </motion.li>
           ))}
         </ul>
+
+        {/* The order does not just happen — it lands on the room that produced
+            it, while the room is still running. */}
+        <motion.p
+          className="mt-4 border-t border-hairline pt-3 text-[0.8125rem] leading-snug"
+          initial={{ opacity: 0, y: 4 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: duration.base, ease: ease.out, delay: 0.75 }}
+        >
+          <span className="text-data text-[var(--positive)]">$1,340 attributed</span>
+          <span className="text-muted-foreground"> to room LC-2214 · offer window 2</span>
+        </motion.p>
       </PanelBlock>
       <PanelBlock label="Offer window" muted>
         <PanelProgress value={0.62} />

@@ -14,6 +14,7 @@ import {
   StatCell,
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 /* -------------------------------------------------------------------------
  * Signature visual — the decision record.
@@ -21,6 +22,14 @@ import { duration, ease } from "@/lib/motion";
  * ---------------------------------------------------------------------- */
 
 export function DecisionRecordVisual() {
+  return (
+    <FlagshipMedia id="decision-intelligence-guardrail" unframed>
+      <DecisionRecordVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function DecisionRecordVisualPanel() {
   return (
     <ProductPanel
       title="Decision · DC-9042"
@@ -59,16 +68,25 @@ export function DecisionRecordVisual() {
           value="Human approval"
           rule="Above the autonomy threshold for budget reallocation."
         />
+        {/* Approval, guarded action, observed result and the way back out —
+            each resolves in order so the governance chain reads as a sequence. */}
         <div className="mt-4 flex flex-wrap gap-2">
-          <motion.span
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: duration.base, ease: ease.out }}
-          >
-            <RecordBadge id="Owner" state="VP Revenue" />
-          </motion.span>
-          <RecordBadge id="Rollback" state="one click" />
+          {[
+            { id: "Approved by", state: "VP Revenue" },
+            { id: "Acting within", state: "bounds" },
+            { id: "Observed", state: "day 7 review" },
+            { id: "Rollback", state: "one click" },
+          ].map((b, i) => (
+            <motion.span
+              key={b.id}
+              initial={{ opacity: 0, y: 4 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: duration.base, ease: ease.out, delay: i * 0.18 }}
+            >
+              <RecordBadge id={b.id} state={b.state} />
+            </motion.span>
+          ))}
         </div>
       </PanelBlock>
       <PanelStats

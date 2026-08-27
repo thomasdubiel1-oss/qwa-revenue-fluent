@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Container, Section } from "../primitives";
 import { MotionItem, MotionReveal, MotionStagger } from "../motion-primitives";
 import {
@@ -14,6 +14,7 @@ import {
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 const RECORD_ID = "QWA-90417";
 const RECORD_NAME = "Marisol Vance";
@@ -36,6 +37,15 @@ const hops: Hop[] = [
 ];
 
 export function ContinuityVisual() {
+  return (
+    <FlagshipMedia id="voice-continuity" unframed>
+      <ContinuityVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function ContinuityVisualPanel() {
+  const reduced = useReducedMotion();
   const laneY = (i: number) => 26 + i * 26;
   const path = hops
     .map((h, i) => {
@@ -91,6 +101,13 @@ export function ContinuityVisual() {
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 1.8, ease: ease.out }}
             />
+            {/* Context does not restart at a channel boundary: one marker rides
+                the whole thread once the path has drawn. */}
+            {reduced ? null : (
+              <circle r="2.2" fill="var(--positive)" opacity="0.85">
+                <animateMotion dur="7s" begin="1.9s" repeatCount="indefinite" path={path} />
+              </circle>
+            )}
             {hops.map((h, i) => (
               <g key={h.label}>
                 <motion.circle

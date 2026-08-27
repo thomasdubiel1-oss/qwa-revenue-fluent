@@ -15,6 +15,7 @@ import {
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 const RECORD_ID = "QWA-84213";
 const RECORD_NAME = "Ridgeline HVAC";
@@ -39,6 +40,14 @@ const railNodes = [
 
 
 export function RevenueLoopVisual() {
+  return (
+    <FlagshipMedia id="revenue-engine-loop" unframed>
+      <RevenueLoopVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function RevenueLoopVisualPanel() {
   return (
     <ProductPanel
       title={`Record · ${RECORD_ID} · ${RECORD_NAME}`}
@@ -132,7 +141,8 @@ function LoopRail() {
         })}
 
 
-        {/* Revenue returns to the source that produced it. */}
+        {/* Revenue returns to the source that produced it. This is the beat the
+            whole page is built around, so it resolves last and alone. */}
         <motion.path
           d={`M${right} ${y + 6} C ${right} 82, ${left} 82, ${left} ${y + 6}`}
           stroke="var(--positive)"
@@ -141,7 +151,31 @@ function LoopRail() {
           initial={{ pathLength: 0, opacity: 0 }}
           whileInView={{ pathLength: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, ease: ease.out, delay: 0.7 }}
+          transition={{ duration: 1.15, ease: ease.out, delay: 0.85 }}
+        />
+        {/* Arrival: the source node acknowledges the revenue landing on it. */}
+        <motion.circle
+          cx={left}
+          cy={y}
+          r={7}
+          fill="none"
+          stroke="var(--positive)"
+          strokeWidth="1"
+          initial={{ opacity: 0, scale: 0.4 }}
+          whileInView={{ opacity: [0, 0.9, 0], scale: [0.4, 1, 1.25] }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1.1, ease: ease.out, delay: 1.9, times: [0, 0.45, 1] }}
+          style={{ transformOrigin: `${left}px ${y}px` }}
+        />
+        <motion.circle
+          cx={left}
+          cy={y}
+          r={3.2}
+          fill="var(--positive)"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: duration.base, ease: ease.out, delay: 2.05 }}
         />
         <motion.text
           x="200"
@@ -152,7 +186,7 @@ function LoopRail() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: duration.base, delay: 1.5 }}
+          transition={{ duration: duration.base, delay: 2.2 }}
           style={{ letterSpacing: "0.06em" }}
         >
           $14,200 attributed back to source

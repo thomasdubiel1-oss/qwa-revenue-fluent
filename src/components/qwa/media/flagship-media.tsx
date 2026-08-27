@@ -8,15 +8,20 @@ import { cn } from "@/lib/utils";
  * QWA flagship media frame.
  *
  * Contract:
- *  - The frame owns a fixed aspect ratio at every breakpoint, so swapping a
+ *  - Framed mode owns a fixed aspect ratio at every breakpoint, so swapping a
  *    code composition for footage later causes zero layout shift.
+ *  - Unframed mode preserves an existing, visually locked composition's own
+ *    geometry (scroll-driven sequences, content-height product panels) and
+ *    still reserves a video layer for a future cleared asset.
  *  - When the manifest entry has no `source`, NO <video> element is created.
  *    A missing external asset can therefore never produce a broken player,
  *    a stalled spinner or a console error.
- *  - Video is mounted only after the frame enters the viewport, and only when
- *    motion is allowed and the connection is not metered/saving data.
+ *  - Video is mounted only after the frame enters the viewport, only when the
+ *    asset is `commercially_cleared`, motion is allowed, and the connection is
+ *    not metered / saving data.
  *  - The code composition is always rendered underneath as the poster layer,
- *    so the first paint is complete before any byte of video arrives.
+ *    so the first paint is complete before any byte of video arrives, and it
+ *    stays in the accessibility tree until footage is actually playing.
  */
 
 const RATIO_CLASS: Record<AspectRatioToken, string> = {
@@ -33,13 +38,20 @@ function useDataSaver(): boolean {
   const [saving, setSaving] = React.useState(false);
   React.useEffect(() => {
     const nav = navigator as Navigator & {
-      connection?: { saveData?: boolean; effectiveType?: string };
+      connection?: {
+        saveData?: boolean;
+        effectiveType?: string;
+        addEventListener?: (t: string, fn: () => void) => void;
+        removeEventListener?: (t: string, fn: () => void) => void;
+      };
     };
     const c = nav.connection;
     if (!c) return;
     const evaluate = () =>
       setSaving(Boolean(c.saveData) || /(^|-)2g$/.test(c.effectiveType ?? ""));
     evaluate();
+    c.addEventListener?.("change", evaluate);
+    return () => c.removeEventListener?.("change", evaluate);
   }, []);
   return saving;
 }
@@ -86,7 +98,10 @@ export interface FlagshipMediaProps {
   /** Accessible description of what the media communicates. */
   label?: string;
   className?: string;
-  /** Render the composition without the ratio box (scroll-driven sequences). */
+  /**
+   * Keep the composition's own height instead of imposing the manifest ratio.
+   * Used wherever a fixed ratio would damage a locked layout.
+   */
   unframed?: boolean;
 }
 
@@ -123,33 +138,29 @@ export function FlagshipMedia({
     !(compact && asset.mobileBehavior === "static_only");
 
   const ratio = compact ? asset.mobileAspectRatio : asset.aspectRatio;
-  const describedBy = label ?? asset.purpose;
-
-  if (unframed) {
-    return (
-      <div ref={ref} className={cn("min-w-0", className)}>
-        {children}
-      </div>
-    );
-  }
 
   return (
     <div
       ref={ref}
       data-media-id={asset.id}
       data-media-status={asset.status}
-      className={cn("relative min-w-0 overflow-hidden", RATIO_CLASS[ratio], className)}
-      role="img"
-      aria-label={describedBy}
+      className={cn(
+        "relative min-w-0",
+        unframed ? undefined : cn("overflow-hidden", RATIO_CLASS[ratio]),
+        className,
+      )}
+      // Only present the slot as a single image once footage is actually
+      // playing; until then the code composition's own text must stay readable.
+      {...(videoReady ? { role: "img" as const, "aria-label": label ?? asset.purpose } : {})}
     >
       {/* Poster layer: the code composition. Always painted, never removed
           from the DOM — it keeps the frame filled if video decoding fails. */}
       <div
         className={cn(
-          "absolute inset-0 transition-opacity duration-500",
-          videoReady ? "opacity-0" : "opacity-100",
+          unframed ? "relative" : "absolute inset-0",
+          videoReady && "opacity-0 transition-opacity duration-500",
         )}
-        aria-hidden={videoReady}
+        aria-hidden={videoReady || undefined}
       >
         {children}
       </div>
