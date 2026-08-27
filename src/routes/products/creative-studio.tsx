@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CreativeAcquisitionStory } from "@/components/qwa/story/product-stories";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   BriefSection,
   CreativeFeedbackSection,
@@ -49,6 +49,8 @@ function CreativeStudioPage() {
       <QualitySection />
       <CreativeFeedbackSection />
       <CreativeGovernanceSection />
+
+      <RelatedProducts current="creative-studio" />
 
       <ProductCta
         title="Bring one campaign you never had time to make."

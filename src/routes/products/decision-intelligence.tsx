@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DecisionIntelligenceStory } from "@/components/qwa/story/product-stories";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   AutonomyLadderSection,
   DecisionGovernanceSection,
@@ -47,6 +47,8 @@ function DecisionIntelligencePage() {
       <GuardrailSection />
       <DecisionHistorySection />
       <DecisionGovernanceSection />
+
+      <RelatedProducts current="decision-intelligence" />
 
       <ProductCta
         title="Start at recommend. Move one decision when the evidence earns it."

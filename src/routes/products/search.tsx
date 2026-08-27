@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   ArchitectureSection,
   DiagnosticsSection,
@@ -49,6 +49,8 @@ function SearchPage() {
       <ProductionSection />
       <MonitoringSection />
       <SearchGovernanceSection />
+
+      <RelatedProducts current="search" />
 
       <ProductCta
         title="Bring the queries you should own and don't."

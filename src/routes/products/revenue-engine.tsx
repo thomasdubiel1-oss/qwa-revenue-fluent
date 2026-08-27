@@ -5,6 +5,7 @@ import {
   ProductCta,
   ProductHero,
   ProductShell,
+  RelatedProducts,
 } from "@/components/qwa/product/primitives";
 import {
   AppointmentSection,
@@ -69,6 +70,8 @@ function RevenueEnginePage() {
       <ExecutiveViewSection />
       <GovernanceSection />
       <IntegrationsSection />
+
+      <RelatedProducts current="revenue-engine" />
 
       <ProductCta
         title="Map your lead-to-revenue journey."

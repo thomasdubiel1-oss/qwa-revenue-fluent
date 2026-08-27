@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   AnomalySection,
   BiGovernanceSection,
@@ -47,6 +47,8 @@ function BusinessIntelligencePage() {
       <ForecastSection />
       <DataQualitySection />
       <BiGovernanceSection />
+
+      <RelatedProducts current="business-intelligence" />
 
       <ProductCta
         title="Bring the report two teams cannot agree on."

@@ -228,3 +228,97 @@ export type LiveRoute = (typeof liveRoutes)[number];
 export function isLiveRoute(href: string): href is LiveRoute {
   return (liveRoutes as readonly string[]).includes(href);
 }
+
+/* ------------------------------------------------------------------
+ * Phase 2: product index + cross-navigation graph.
+ * Every product page closes with two or three sibling products so the
+ * suite reads as one system rather than a set of landing pages.
+ * ---------------------------------------------------------------- */
+
+export type ProductKey =
+  | "revenue-engine"
+  | "acquisition"
+  | "voice"
+  | "creative-studio"
+  | "search"
+  | "live-commerce"
+  | "attribution"
+  | "business-intelligence"
+  | "decision-intelligence";
+
+export type ProductEntry = {
+  key: ProductKey;
+  name: string;
+  href: string;
+  /** One line, outcome-first. Used in cross-navigation cards. */
+  summary: string;
+};
+
+export const products: Record<ProductKey, ProductEntry> = {
+  "revenue-engine": {
+    key: "revenue-engine",
+    name: "Revenue Engine",
+    href: "/products/revenue-engine",
+    summary: "One record from first signal to closed revenue, and back again.",
+  },
+  acquisition: {
+    key: "acquisition",
+    name: "Customer Acquisition",
+    href: "/products/acquisition",
+    summary: "Spend and closed revenue joined on the same record.",
+  },
+  voice: {
+    key: "voice",
+    name: "Voice + Conversations",
+    href: "/products/voice",
+    summary: "Continuity across call, text and message — one thread, one memory.",
+  },
+  "creative-studio": {
+    key: "creative-studio",
+    name: "Creative Studio",
+    href: "/products/creative-studio",
+    summary: "Brief to approved, versioned campaign assets on a pipeline.",
+  },
+  search: {
+    key: "search",
+    name: "SEO / GEO",
+    href: "/products/search",
+    summary: "Discovery measured in pipeline, on search and answer surfaces.",
+  },
+  "live-commerce": {
+    key: "live-commerce",
+    name: "Live Commerce",
+    href: "/products/live-commerce",
+    summary: "Read the room, answer instantly, keep the record after the stream.",
+  },
+  attribution: {
+    key: "attribution",
+    name: "Revenue Attribution",
+    href: "/products/attribution",
+    summary: "Every dollar traced to the touch, creative and conversation behind it.",
+  },
+  "business-intelligence": {
+    key: "business-intelligence",
+    name: "Business Intelligence",
+    href: "/products/business-intelligence",
+    summary: "One set of numbers, shared definitions, published coverage.",
+  },
+  "decision-intelligence": {
+    key: "decision-intelligence",
+    name: "Decision Intelligence",
+    href: "/products/decision-intelligence",
+    summary: "Bounded autonomy: proposals, guardrails and a reversible decision log.",
+  },
+};
+
+export const relatedProducts: Record<ProductKey, ProductKey[]> = {
+  "revenue-engine": ["attribution", "voice", "decision-intelligence"],
+  acquisition: ["attribution", "creative-studio", "search"],
+  voice: ["revenue-engine", "live-commerce", "attribution"],
+  "creative-studio": ["acquisition", "live-commerce", "search"],
+  search: ["acquisition", "creative-studio", "attribution"],
+  "live-commerce": ["voice", "creative-studio", "revenue-engine"],
+  attribution: ["revenue-engine", "acquisition", "business-intelligence"],
+  "business-intelligence": ["attribution", "decision-intelligence", "revenue-engine"],
+  "decision-intelligence": ["business-intelligence", "attribution", "acquisition"],
+};
