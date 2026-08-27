@@ -564,15 +564,15 @@ const controls = [
 
 export function VoiceGovernanceSection() {
   return (
-    <Section id="governance" tone="paper" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="governance" tone="paper" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Governance and control</p>
+            <h3 className="text-display mt-4 max-w-[18ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Speaking on your behalf is a permission, not a default.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-5 max-w-[30rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
               Every conversation runs inside limits your team sets, and every action is attributable
               to a rule and a person.
             </p>
@@ -582,7 +582,7 @@ export function VoiceGovernanceSection() {
             {controls.map((c) => (
               <MotionItem key={c.label}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/70">
                     control: {c.held}
                   </span>
@@ -614,14 +614,14 @@ const adapterGroups = [
 
 export function VoiceIntegrationsSection() {
   return (
-    <Section id="integrations" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="integrations" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">System of record</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-muted-foreground/70">System of record</p>
+          <h3 className="text-display mt-4 max-w-[22ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
             Adapter-based, model-agnostic, no rip and replace.
-          </h2>
-          <p className="text-lede mt-5 max-w-[36rem]">
+          </h3>
+          <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
             QWA connects to the telephony, messaging and record systems you already run. Each
             integration is scoped with you during implementation.
           </p>
@@ -629,11 +629,11 @@ export function VoiceIntegrationsSection() {
 
         <MotionStagger
           stagger={0.05}
-          className="mt-12 grid gap-x-10 gap-y-8 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-10 grid gap-x-10 gap-y-8 border-t border-hairline pt-8 sm:grid-cols-2 lg:grid-cols-3"
         >
           {adapterGroups.map((g) => (
             <MotionItem key={g.heading} className="min-w-0">
-              <h3 className="text-[0.9375rem] font-medium tracking-tight">{g.heading}</h3>
+              <h4 className="text-[0.9375rem] font-medium tracking-tight">{g.heading}</h4>
               <ul className="mt-3 grid gap-1.5 border-t border-hairline pt-3">
                 {g.items.map((i) => (
                   <li key={i} className="text-[0.875rem] leading-relaxed text-muted-foreground">
