@@ -1,24 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiteHeader } from "@/components/qwa/site-header";
+import { SiteFooter } from "@/components/qwa/site-footer";
+import { DemoRequestProvider } from "@/components/qwa/demo-request";
+import { Hero } from "@/components/qwa/hero";
+import { RevenueEngine } from "@/components/qwa/revenue-engine";
+import { ClosedLoop, OutcomePanel } from "@/components/qwa/closed-loop";
+import { ClosingCta } from "@/components/qwa/cta";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "Quantum Web AI — The AI Revenue Operating System";
+const description =
+  "QWA unifies acquisition, AI conversations, appointments, sales assistance and revenue attribution into one closed loop — so every signal is measured against the revenue it produced.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <DemoRequestProvider>
+      <SiteHeader />
+      <main id="main">
+        <h1 className="sr-only">Quantum Web AI — the AI Revenue Operating System</h1>
+        <Hero />
+        <RevenueEngine />
+        <ClosedLoop />
+        <OutcomePanel />
+        <ClosingCta />
+      </main>
+      <SiteFooter />
+    </DemoRequestProvider>
   );
 }
