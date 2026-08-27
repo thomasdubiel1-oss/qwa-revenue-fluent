@@ -109,21 +109,59 @@ type Metric = {
 
 const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
 
-const metrics: Metric[] = [
-  { k: "Median first response", value: 9, format: (n) => `${Math.round(n)}s`, d: "was 3h 12m", positive: true },
-  { k: "Qualified leads / mo", value: 1284, format: (n) => Math.round(n).toLocaleString("en-US"), d: "+34% vs. baseline", positive: true },
-  { k: "Appointments set", value: 612, format: (n) => Math.round(n).toLocaleString("en-US"), d: "48% of qualified" },
-  { k: "Lead-to-sale conversion", value: 27.4, format: (n) => `${n.toFixed(1)}%`, d: "+6.1 pts", positive: true },
-  { k: "Attributable revenue", value: 3.42, format: (n) => `$${n.toFixed(2)}M`, d: "trailing 90 days" },
-  { k: "Blended CAC", value: 318, format: usd, d: "−22%", positive: true },
-  { k: "Revenue recovered", value: 486000, format: (n) => `$${Math.round(n / 1000)}K`, d: "reactivation loop", positive: true },
+/** Headline figures — the three a revenue leader opens the panel for. */
+const headline: Metric[] = [
+  {
+    k: "Attributable revenue",
+    value: 3.42,
+    format: (n) => `$${n.toFixed(2)}M`,
+    d: "trailing 90 days",
+  },
+  {
+    k: "Median first response",
+    value: 9,
+    format: (n) => `${Math.round(n)}s`,
+    d: "from 3h 12m",
+    positive: true,
+  },
+  {
+    k: "Lead-to-sale conversion",
+    value: 27.4,
+    format: (n) => `${n.toFixed(1)}%`,
+    d: "+6.1 pts",
+    positive: true,
+  },
 ];
 
-const sources: [string, number][] = [
-  ["Paid", 78],
-  ["Organic", 54],
-  ["Voice", 41],
-  ["Social", 26],
+const secondary: Metric[] = [
+  {
+    k: "Qualified leads / mo",
+    value: 1284,
+    format: (n) => Math.round(n).toLocaleString("en-US"),
+    d: "+34%",
+    positive: true,
+  },
+  {
+    k: "Appointments set",
+    value: 612,
+    format: (n) => Math.round(n).toLocaleString("en-US"),
+    d: "48% of qualified",
+  },
+  { k: "Blended CAC", value: 318, format: usd, d: "−22%", positive: true },
+  {
+    k: "Revenue recovered",
+    value: 486000,
+    format: (n) => `$${Math.round(n / 1000)}K`,
+    d: "reactivation",
+    positive: true,
+  },
+];
+
+const sources: [string, number, string][] = [
+  ["Paid", 78, "$1.34M"],
+  ["Organic", 54, "$0.92M"],
+  ["Voice", 41, "$0.71M"],
+  ["Social", 26, "$0.45M"],
 ];
 
 export function OutcomePanel() {
@@ -133,72 +171,101 @@ export function OutcomePanel() {
         <SectionHeading
           eyebrow="Executive view"
           title="The numbers a revenue leader actually reviews."
-          lede="One panel for the whole funnel: speed, throughput, conversion, cost and attributed revenue. Figures below are an illustrative simulation, not customer results."
+          lede="Speed, throughput, conversion, cost and attributed revenue in one panel — joined to the source that produced each dollar."
         />
 
-        <MotionReveal className="mt-14 lg:mt-16">
-          <PointerCard intensity={2}>
-            <div className="surface-card overflow-hidden shadow-lift">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-4 sm:px-7">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-positive animate-node-pulse" />
-                  <p className="truncate text-sm font-medium">Revenue overview — demo workspace</p>
-                </div>
-                <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground">
-                  Trailing 90 days · simulated data
+        <MotionReveal className="mt-14 lg:mt-20">
+          <div className="surface-card overflow-hidden shadow-lift">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-4 sm:px-8">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-positive animate-node-pulse" />
+                <p className="truncate text-sm font-medium">Revenue overview</p>
+                <span className="text-data hidden text-[0.65rem] text-muted-foreground sm:inline">
+                  demo workspace
                 </span>
               </div>
-
-              <MotionStagger
-                stagger={0.05}
-                className="grid grid-cols-2 divide-x divide-y divide-border sm:grid-cols-3 lg:grid-cols-4"
-              >
-                {metrics.map((m) => (
-                  <MotionItem key={m.k} className="min-w-0 p-5 sm:p-7">
-                    <p className="truncate text-xs text-muted-foreground">{m.k}</p>
-                    <p className="text-data mt-3 text-2xl font-medium tracking-tight sm:text-[1.75rem]">
-                      <MetricValue value={m.value} format={m.format} />
-                    </p>
-                    <p
-                      className={cn(
-                        "mt-2 truncate text-xs",
-                        m.positive ? "text-positive" : "text-muted-foreground",
-                      )}
-                    >
-                      {m.d}
-                    </p>
-                  </MotionItem>
-                ))}
-                <MotionItem className="min-w-0 p-5 sm:p-7">
-                  <p className="truncate text-xs text-muted-foreground">Revenue by source</p>
-                  <div className="mt-4 grid gap-2">
-                    {sources.map(([label, w], i) => (
-                      <div key={label} className="flex items-center gap-3">
-                        <span className="w-14 shrink-0 text-[0.7rem] text-muted-foreground">
-                          {label}
-                        </span>
-                        <span className="h-1.5 min-w-0 flex-1 rounded-full bg-muted">
-                          <motion.span
-                            className="block h-1.5 rounded-full bg-signal"
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${w}%` }}
-                            viewport={{ once: true, amount: 0.8 }}
-                            transition={{
-                              duration: 0.9,
-                              ease: ease.out,
-                              delay: 0.1 + i * 0.08,
-                            }}
-                          />
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </MotionItem>
-              </MotionStagger>
+              <span className="text-data shrink-0 rounded-full border border-hairline px-2.5 py-1 text-[0.62rem] text-muted-foreground">
+                Illustrative data · trailing 90 days
+              </span>
             </div>
-          </PointerCard>
+
+            <MotionStagger
+              stagger={0.06}
+              className="grid divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+            >
+              {headline.map((m) => (
+                <MotionItem key={m.k} className="min-w-0 px-5 py-8 sm:px-8">
+                  <p className="text-eyebrow text-[0.62rem]">{m.k}</p>
+                  <p className="text-data mt-4 text-[2rem] font-medium leading-none tracking-tight sm:text-[2.5rem]">
+                    <MetricValue value={m.value} format={m.format} />
+                  </p>
+                  <p
+                    className={cn(
+                      "mt-3 truncate text-xs",
+                      m.positive ? "text-positive" : "text-muted-foreground",
+                    )}
+                  >
+                    {m.d}
+                  </p>
+                </MotionItem>
+              ))}
+            </MotionStagger>
+
+            <MotionStagger
+              stagger={0.05}
+              className="grid grid-cols-2 border-t border-border divide-x divide-y divide-border lg:grid-cols-4 lg:divide-y-0"
+            >
+              {secondary.map((m) => (
+                <MotionItem key={m.k} className="min-w-0 px-5 py-6 sm:px-8">
+                  <p className="truncate text-xs text-muted-foreground">{m.k}</p>
+                  <p className="text-data mt-2.5 text-xl font-medium tracking-tight">
+                    <MetricValue value={m.value} format={m.format} />
+                  </p>
+                  <p
+                    className={cn(
+                      "mt-1.5 truncate text-[0.7rem]",
+                      m.positive ? "text-positive" : "text-muted-foreground",
+                    )}
+                  >
+                    {m.d}
+                  </p>
+                </MotionItem>
+              ))}
+            </MotionStagger>
+
+            <div className="border-t border-border bg-paper px-5 py-7 sm:px-8">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="text-xs text-muted-foreground">Attributed revenue by source</p>
+                <p className="text-data text-[0.65rem] text-muted-foreground">
+                  joined at close, not last click
+                </p>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-x-10">
+                {sources.map(([label, w, amount], i) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <span className="w-16 shrink-0 text-[0.75rem] text-muted-foreground">
+                      {label}
+                    </span>
+                    <span className="h-1 min-w-0 flex-1 rounded-full bg-muted">
+                      <motion.span
+                        className="block h-1 rounded-full bg-signal"
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${w}%` }}
+                        viewport={{ once: true, amount: 0.8 }}
+                        transition={{ duration: 0.9, ease: ease.out, delay: 0.08 + i * 0.07 }}
+                      />
+                    </span>
+                    <span className="text-data w-16 shrink-0 text-right text-[0.72rem]">
+                      {amount}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </MotionReveal>
       </Container>
     </Section>
   );
 }
+
