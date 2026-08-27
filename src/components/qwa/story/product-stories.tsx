@@ -23,7 +23,7 @@ const revenueStages: StoryStage[] = [
   { label: "Qualified", caption: "Fit and intent scored" },
   { label: "Follow-up", caption: "Voice, SMS, email" },
   { label: "Appointment", caption: "Booked on a real calendar" },
-  { label: "Assisted sale", caption: "Rep briefed before the call" },
+  { label: "Assisted sale", caption: "Rep briefed first" },
   { label: "Revenue", caption: "Closed and attributed", kind: "outcome", chip: "Won" },
 ];
 
@@ -38,7 +38,7 @@ export function RevenueEngineStory() {
       >
         <StoryJourney
           stages={revenueStages}
-          returnPath={{ from: 6, to: 0, label: "Attribution and reactivation return to source" }}
+          returnPath={{ from: 6, to: 0, label: "Revenue attributed back · quiet leads reactivated" }}
         />
       </StoryFrame>
     </FlagshipMedia>
@@ -100,7 +100,7 @@ export function AttributionStory() {
       >
         <StoryJourney
           stages={attributionStages}
-          returnPath={{ from: 4, to: 0, label: "Closed revenue returned to the source that earned it" }}
+          returnPath={{ from: 4, to: 0, label: "Closed revenue returned to its source" }}
         />
       </StoryFrame>
     </FlagshipMedia>
@@ -127,8 +127,8 @@ export function CreativeAcquisitionStory() {
           <StoryJourney
             stages={[
               { label: "Approved variants", caption: "Bounded by brand rules", kind: "source" },
-              { label: "In market", caption: "Distributed by channel" },
-              { label: "Demand graded", caption: "On downstream outcomes", kind: "active" },
+              { label: "In market", caption: "By channel" },
+              { label: "Demand graded", caption: "On real outcomes", kind: "active" },
               {
                 label: "Into Revenue Engine",
                 caption: "Handed to the loop",
@@ -149,7 +149,7 @@ const liveStages: StoryStage[] = [
   { label: "Live moment", caption: "Product shown on stream", kind: "source" },
   { label: "Viewer intent", caption: "Question or hesitation", kind: "active" },
   { label: "DM and cart", caption: "Answer, then checkout" },
-  { label: "Order", caption: "Placed inside the moment" },
+  { label: "Order", caption: "Inside the moment" },
   { label: "Attributed revenue", caption: "Written to the record", kind: "outcome", chip: "Sold" },
 ];
 
@@ -164,7 +164,7 @@ export function LiveCommerceStory() {
       >
         <StoryJourney
           stages={liveStages}
-          returnPath={{ from: 4, to: 0, label: "Revenue attributed to the room that produced it" }}
+          returnPath={{ from: 4, to: 0, label: "Revenue attributed to the room" }}
         />
       </StoryFrame>
     </FlagshipMedia>
