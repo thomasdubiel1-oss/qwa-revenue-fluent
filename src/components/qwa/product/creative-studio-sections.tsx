@@ -471,3 +471,173 @@ export function CreativeGovernanceSection() {
     </Section>
   );
 }
+
+/* -------------------------------------------------------------------------
+ * Distribution — approved creative into channels and qualified demand
+ * ---------------------------------------------------------------------- */
+
+const placements = [
+  { channel: "Paid social", variant: "9:16 · 15s · captioned", state: "Approved" },
+  { channel: "Search and video", variant: "16:9 · 30s · sound-off safe", state: "Approved" },
+  { channel: "Email and messaging", variant: "1:1 · still frame · alt text", state: "Approved" },
+  { channel: "Live and organic", variant: "9:16 · 6s cutdown", state: "Held for review" },
+];
+
+export function CreativeDistributionSection() {
+  return (
+    <ProductSection
+      id="distribution"
+      eyebrow="Distribution"
+      title="Approved work goes out as a placement, not a file."
+      lede="Each approved variant is released to the channel it was cut for, carrying its brief, version and tracking with it — so the response it creates arrives back identified."
+      points={[
+        "Placement-ready variants released per channel, never a generic export",
+        "Every release carries brief, version and tracking identifiers",
+        "Anything not cleared stays held rather than shipping quietly",
+      ]}
+      media="right"
+      level="sub"
+    >
+      <ProductPanel
+        title="Release · CS-2210 · v3"
+        meta="4 placements · 1 held"
+        footer={<IllustrativeNote />}
+      >
+        <PanelBlock className="py-0">
+          <ul>
+            {placements.map((p) => (
+              <li
+                key={p.channel}
+                className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline py-3.5 first:pt-5 last:border-b-0 last:pb-5"
+              >
+                <div className="min-w-0">
+                  <p className="text-[0.9375rem] font-medium">{p.channel}</p>
+                  <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">{p.variant}</p>
+                </div>
+                <span
+                  className={cn(
+                    "text-data shrink-0 text-[0.7rem]",
+                    p.state === "Approved" ? "text-positive" : "text-muted-foreground/70",
+                  )}
+                >
+                  {p.state}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Handoff into the Revenue Engine
+ * ---------------------------------------------------------------------- */
+
+export function CreativeHandoffSection() {
+  return (
+    <ProductSection
+      id="demand"
+      eyebrow="Qualified demand"
+      title="A response to creative is a conversation, not a metric."
+      lede="When someone reacts to a released asset, the Revenue Engine picks it up in seconds with the creative that caused it already attached to the record."
+      points={[
+        "Response routed straight into the conversation layer, not a lead list",
+        "Creative version travels with the record through to closed revenue",
+        "Qualification happens live, while intent is still present",
+      ]}
+      media="left"
+      tone="paper"
+      level="sub"
+    >
+      <ProductPanel
+        title="Handoff · inbound from CS-2210 v3"
+        meta="9:16 placement"
+        footer={<IllustrativeNote />}
+      >
+        <PanelBlock className="py-5">
+          <DecisionCallout
+            label="Handed to"
+            value="Revenue Engine · immediate response"
+            rule="Creative id, variant and placement attached before first reply"
+          />
+        </PanelBlock>
+        <PanelBlock label="Carried with the record" muted>
+          <FieldGrid
+            fields={[
+              { label: "Brief", value: "CS-2210 · coverage comparison" },
+              { label: "Variant", value: "v3 · 9:16 · 15s", accent: true },
+              { label: "Placement", value: "Paid social" },
+              { label: "First response", value: "Under a minute" },
+            ]}
+          />
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Learning — what the measured outcome changes in the next brief
+ * ---------------------------------------------------------------------- */
+
+const variantOutcomes = [
+  { v: "v3 · 15s comparison", pipeline: "48 qualified", revenue: "$61K", call: "Scale" },
+  { v: "v2 · 30s explainer", pipeline: "19 qualified", revenue: "$21K", call: "Hold" },
+  { v: "v1 · 6s teaser", pipeline: "31 qualified", revenue: "$14K", call: "Retire" },
+];
+
+export function CreativeLearningSection() {
+  return (
+    <ProductSection
+      id="learning"
+      eyebrow="Learning"
+      title="The next brief is written by the last outcome."
+      lede="Variants are compared on qualified pipeline and closed revenue, not on views. The decision that follows is explicit and a person can overrule it."
+      points={[
+        "Variants ranked on downstream revenue, not engagement",
+        "Scale, hold and retire decisions stated with the rule behind them",
+        "The winning structure seeds the next brief automatically",
+      ]}
+      media="right"
+      level="sub"
+    >
+      <ProductPanel
+        title="Variant outcomes · CS-2210"
+        meta="last production cycle"
+        footer={<IllustrativeNote />}
+      >
+        <PanelBlock className="py-0">
+          <ul>
+            {variantOutcomes.map((o) => (
+              <li
+                key={o.v}
+                className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-3.5 first:pt-5 last:border-b-0 last:pb-5"
+              >
+                <p className="min-w-0 text-[0.9375rem] font-medium">{o.v}</p>
+                <span
+                  className={cn(
+                    "text-data shrink-0 text-[0.7rem] uppercase tracking-[0.12em]",
+                    o.call === "Scale" ? "text-signal" : "text-muted-foreground/70",
+                  )}
+                >
+                  {o.call}
+                </span>
+                <p className="col-span-2 text-[0.8125rem] text-muted-foreground">
+                  {o.pipeline} · {o.revenue} closed revenue
+                </p>
+              </li>
+            ))}
+          </ul>
+        </PanelBlock>
+        <PanelBlock label="Next brief" muted>
+          <p className="text-[0.875rem] leading-relaxed text-muted-foreground">
+            QWA proposes the 15-second comparison structure with a shorter hook as the starting
+            point for the next cycle. A person accepts, edits or discards it.
+          </p>
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
