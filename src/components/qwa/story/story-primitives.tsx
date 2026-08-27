@@ -294,22 +294,18 @@ function VerticalJourney({
   const hasReturn = Boolean(returnPath);
 
   return (
-    <div className={cn("relative", hasReturn && "pl-8")}>
+    <div className={cn("relative", hasReturn && "pl-7")}>
       {hasReturn && returnPath ? (
         <motion.div
-          className="pointer-events-none absolute bottom-4 left-0 top-4 w-6"
+          className="pointer-events-none absolute bottom-4 left-0 top-4 w-5"
           viewport={viewport}
           {...settle(reduced ? 0 : 0.6)}
         >
-          <div className="absolute inset-y-0 left-0 rounded-l-[14px] border-b-2 border-l-2 border-t-2 border-signal"
-            style={{ right: 0 }}
-          />
-          <div className="absolute left-[1.35rem] top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-px rotate-45 border-r-2 border-t-2 border-signal" />
-          <p className="text-data absolute -left-1 top-1/2 w-max -translate-y-1/2 -rotate-90 bg-card px-2 text-[0.6rem] uppercase tracking-[0.14em] text-signal">
-            {returnPath.label}
-          </p>
+          <div className="absolute inset-0 rounded-l-[14px] border-b-2 border-l-2 border-t-2 border-signal" />
+          <div className="absolute right-0 top-0 h-2.5 w-2.5 -translate-y-px translate-x-1/2 rotate-45 border-r-2 border-t-2 border-signal" />
         </motion.div>
       ) : null}
+
 
       <ul className="relative grid gap-6">
         <div className="absolute bottom-3 left-[0.5625rem] top-3 w-px -translate-x-1/2 bg-hairline-strong" />
