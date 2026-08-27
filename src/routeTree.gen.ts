@@ -14,6 +14,7 @@ import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/vi
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
 import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
 import { Route as ProductsCreativeStudioRouteImport } from './routes/products/creative-studio'
+import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live-commerce'
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
 import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
@@ -43,6 +44,11 @@ const ProductsCreativeStudioRoute = ProductsCreativeStudioRouteImport.update({
   path: '/products/creative-studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsLiveCommerceRoute = ProductsLiveCommerceRouteImport.update({
+  id: '/products/live-commerce',
+  path: '/products/live-commerce',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRevenueEngineRoute = ProductsRevenueEngineRouteImport.update({
   id: '/products/revenue-engine',
   path: '/products/revenue-engine',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/creative-studio'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/creative-studio'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/creative-studio'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
   ProductsAttributionRoute: typeof ProductsAttributionRoute
   ProductsCreativeStudioRoute: typeof ProductsCreativeStudioRoute
+  ProductsLiveCommerceRoute: typeof ProductsLiveCommerceRoute
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
   ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCreativeStudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/live-commerce': {
+      id: '/products/live-commerce'
+      path: '/products/live-commerce'
+      fullPath: '/products/live-commerce'
+      preLoaderRoute: typeof ProductsLiveCommerceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/revenue-engine': {
       id: '/products/revenue-engine'
       path: '/products/revenue-engine'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
   ProductsAttributionRoute: ProductsAttributionRoute,
   ProductsCreativeStudioRoute: ProductsCreativeStudioRoute,
+  ProductsLiveCommerceRoute: ProductsLiveCommerceRoute,
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
   ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
