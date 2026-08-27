@@ -29,6 +29,7 @@ export const navigation: NavGroup[] = [
           { label: "Creative Studio", href: "/products/creative-studio", description: "Brief to campaign-ready" },
           { label: "SEO / GEO", href: "/products/search", description: "Search and answer surfaces" },
           { label: "Business Intelligence", href: "/products/business-intelligence", description: "Revenue truth" },
+          { label: "Revenue Attribution", href: "/products/attribution", description: "Where revenue came from" },
           { label: "Decision Intelligence", href: "/products/decision-intelligence", description: "Autonomous optimization" },
         ],
       },
