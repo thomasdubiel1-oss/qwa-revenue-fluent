@@ -12,8 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
+import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
+import { Route as ProductsBusinessIntelligenceRouteImport } from './routes/products/business-intelligence'
 import { Route as ProductsCreativeStudioRouteImport } from './routes/products/creative-studio'
+import { Route as ProductsDecisionIntelligenceRouteImport } from './routes/products/decision-intelligence'
+import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live-commerce'
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
+import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,14 +36,41 @@ const ProductsAcquisitionRoute = ProductsAcquisitionRouteImport.update({
   path: '/products/acquisition',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsAttributionRoute = ProductsAttributionRouteImport.update({
+  id: '/products/attribution',
+  path: '/products/attribution',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsBusinessIntelligenceRoute =
+  ProductsBusinessIntelligenceRouteImport.update({
+    id: '/products/business-intelligence',
+    path: '/products/business-intelligence',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductsCreativeStudioRoute = ProductsCreativeStudioRouteImport.update({
   id: '/products/creative-studio',
   path: '/products/creative-studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsDecisionIntelligenceRoute =
+  ProductsDecisionIntelligenceRouteImport.update({
+    id: '/products/decision-intelligence',
+    path: '/products/decision-intelligence',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProductsLiveCommerceRoute = ProductsLiveCommerceRouteImport.update({
+  id: '/products/live-commerce',
+  path: '/products/live-commerce',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsRevenueEngineRoute = ProductsRevenueEngineRouteImport.update({
   id: '/products/revenue-engine',
   path: '/products/revenue-engine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsSearchRoute = ProductsSearchRouteImport.update({
+  id: '/products/search',
+  path: '/products/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
@@ -51,16 +83,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
+  '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/decision-intelligence': typeof ProductsDecisionIntelligenceRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
+  '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/decision-intelligence': typeof ProductsDecisionIntelligenceRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesById {
@@ -68,8 +110,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
+  '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
+  '/products/decision-intelligence': typeof ProductsDecisionIntelligenceRoute
+  '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +125,39 @@ export interface FileRouteTypes {
     | '/'
     | '/internal/video-router-lab'
     | '/products/acquisition'
+    | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
+    | '/products/decision-intelligence'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/internal/video-router-lab'
     | '/products/acquisition'
+    | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
+    | '/products/decision-intelligence'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   id:
     | '__root__'
     | '/'
     | '/internal/video-router-lab'
     | '/products/acquisition'
+    | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
+    | '/products/decision-intelligence'
+    | '/products/live-commerce'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   fileRoutesById: FileRoutesById
 }
@@ -103,8 +165,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
+  ProductsAttributionRoute: typeof ProductsAttributionRoute
+  ProductsBusinessIntelligenceRoute: typeof ProductsBusinessIntelligenceRoute
   ProductsCreativeStudioRoute: typeof ProductsCreativeStudioRoute
+  ProductsDecisionIntelligenceRoute: typeof ProductsDecisionIntelligenceRoute
+  ProductsLiveCommerceRoute: typeof ProductsLiveCommerceRoute
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
+  ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
 }
 
@@ -131,6 +198,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsAcquisitionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/attribution': {
+      id: '/products/attribution'
+      path: '/products/attribution'
+      fullPath: '/products/attribution'
+      preLoaderRoute: typeof ProductsAttributionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/business-intelligence': {
+      id: '/products/business-intelligence'
+      path: '/products/business-intelligence'
+      fullPath: '/products/business-intelligence'
+      preLoaderRoute: typeof ProductsBusinessIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/creative-studio': {
       id: '/products/creative-studio'
       path: '/products/creative-studio'
@@ -138,11 +219,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsCreativeStudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/decision-intelligence': {
+      id: '/products/decision-intelligence'
+      path: '/products/decision-intelligence'
+      fullPath: '/products/decision-intelligence'
+      preLoaderRoute: typeof ProductsDecisionIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/live-commerce': {
+      id: '/products/live-commerce'
+      path: '/products/live-commerce'
+      fullPath: '/products/live-commerce'
+      preLoaderRoute: typeof ProductsLiveCommerceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/revenue-engine': {
       id: '/products/revenue-engine'
       path: '/products/revenue-engine'
       fullPath: '/products/revenue-engine'
       preLoaderRoute: typeof ProductsRevenueEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/search': {
+      id: '/products/search'
+      path: '/products/search'
+      fullPath: '/products/search'
+      preLoaderRoute: typeof ProductsSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/voice': {
@@ -159,8 +261,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
+  ProductsAttributionRoute: ProductsAttributionRoute,
+  ProductsBusinessIntelligenceRoute: ProductsBusinessIntelligenceRoute,
   ProductsCreativeStudioRoute: ProductsCreativeStudioRoute,
+  ProductsDecisionIntelligenceRoute: ProductsDecisionIntelligenceRoute,
+  ProductsLiveCommerceRoute: ProductsLiveCommerceRoute,
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
+  ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
 }
 export const routeTree = rootRouteImport

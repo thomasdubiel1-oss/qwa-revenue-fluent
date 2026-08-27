@@ -27,9 +27,9 @@ export const navigation: NavGroup[] = [
         heading: "Intelligence",
         items: [
           { label: "Creative Studio", href: "/products/creative-studio", description: "Brief to campaign-ready" },
-          { label: "SEO / GEO", href: "/products/seo-geo", description: "Search and answer surfaces" },
-          { label: "Business Intelligence", href: "/products/bi", description: "Revenue truth" },
-          { label: "Decision Intelligence", href: "/products/decisions", description: "Autonomous optimization" },
+          { label: "SEO / GEO", href: "/products/search", description: "Search and answer surfaces" },
+          { label: "Business Intelligence", href: "/products/business-intelligence", description: "Revenue truth" },
+          { label: "Decision Intelligence", href: "/products/decision-intelligence", description: "Autonomous optimization" },
         ],
       },
     ],
@@ -64,7 +64,7 @@ export const navigation: NavGroup[] = [
         heading: "Architecture",
         items: [
           { label: "Customer & revenue graph", href: "/platform/graph" },
-          { label: "Attribution model", href: "/platform/attribution" },
+          { label: "Attribution model", href: "/products/attribution" },
           { label: "Model-agnostic layer", href: "/platform/models" },
           { label: "Governance & controls", href: "/platform/governance" },
         ],
@@ -159,7 +159,7 @@ export const footerColumns = [
       { label: "Customer Acquisition", href: "/products/acquisition" },
       { label: "Voice + Conversations", href: "/products/voice" },
       { label: "Creative Studio", href: "/products/creative-studio" },
-      { label: "SEO / GEO", href: "/products/seo-geo" },
+      { label: "SEO / GEO", href: "/products/search" },
       { label: "Live Commerce", href: "/products/live-commerce" },
     ],
   },
@@ -167,7 +167,7 @@ export const footerColumns = [
     heading: "Platform",
     items: [
       { label: "Customer & revenue graph", href: "/platform/graph" },
-      { label: "Attribution model", href: "/platform/attribution" },
+      { label: "Attribution model", href: "/products/attribution" },
       { label: "Integrations", href: "/platform/integrations" },
       { label: "Security", href: "/platform/security" },
       { label: "APIs & webhooks", href: "/platform/api" },
@@ -215,6 +215,11 @@ export const liveRoutes = [
   "/products/voice",
   "/products/acquisition",
   "/products/creative-studio",
+  "/products/attribution",
+  "/products/search",
+  "/products/live-commerce",
+  "/products/business-intelligence",
+  "/products/decision-intelligence",
 ] as const;
 
 export type LiveRoute = (typeof liveRoutes)[number];
