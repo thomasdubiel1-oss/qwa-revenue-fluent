@@ -132,8 +132,8 @@ export function ChapterOpener({
     >
       <Container>
         <MotionReveal>
-          <div className="grid gap-x-12 gap-y-5 border-t border-hairline pt-8 lg:grid-cols-[7rem_minmax(0,1fr)]">
-            <p className="text-data text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground/80">
+          <div className="grid gap-x-12 gap-y-5 border-t border-hairline pt-8 lg:grid-cols-[11rem_minmax(0,1fr)]">
+            <p className="text-data whitespace-nowrap text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground/80">
               {index} · {label}
             </p>
             <div className="min-w-0">
