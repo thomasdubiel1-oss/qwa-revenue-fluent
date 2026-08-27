@@ -22,7 +22,9 @@ const buttonVariants = cva(
         quiet:
           "border border-hairline-strong bg-transparent text-foreground transition-colors hover:bg-accent",
         onInk:
-          "border border-hairline-strong bg-transparent text-ink-foreground transition-colors hover:bg-ink-foreground/10",
+          "bg-ink-foreground text-ink shadow-card transition-all hover:-translate-y-px hover:shadow-lift",
+        onInkQuiet:
+          "border border-ink-foreground/25 bg-transparent text-ink-foreground transition-colors hover:bg-ink-foreground/10",
       },
       size: {
         default: "h-9 px-4 py-2",
