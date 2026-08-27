@@ -91,7 +91,7 @@ export function PlatformPreview() {
               <MotionItem key={c.id}>
                 <motion.div
                   className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b border-hairline py-7 sm:grid-cols-[3.5rem_minmax(0,1fr)]"
-                  whileHover={reduced ? undefined : { x: 4 }}
+                  whileHover={reduced ? {} : { x: 4 }}
                   transition={{ duration: duration.fast, ease: ease.out }}
                 >
                   <span className="text-data text-[0.7rem] text-muted-foreground/70">
