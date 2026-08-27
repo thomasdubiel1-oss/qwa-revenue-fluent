@@ -210,10 +210,10 @@ export function OfferSection() {
     <Section tone="ink" id="offers" className="scroll-mt-24 py-24 lg:py-32">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Offer orchestration</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-ink-foreground/55">Offer orchestration</p>
+          <h3 className="text-display mt-4 max-w-[20ch] text-balance text-[clamp(1.6rem,2.6vw,2.1rem)]">
             Urgency with a rulebook behind it.
-          </h2>
+          </h3>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">
             Time-boxed offers are powerful and easy to abuse. In QWA every window is bounded by
             inventory, margin, duration and frequency rules that your team sets before the stream
@@ -306,8 +306,8 @@ export function HostConsoleSection() {
       level="sub"
       id="console"
       eyebrow="Host console"
-      title="The person on camera stays in charge."
-      lede="Hosts see what the room is asking, what the engine is about to do, and what is selling — in one view. Nothing significant happens on stream without a human able to stop it."
+      title="One view of the room, the queue and the shelf."
+      lede="Hosts see what the room is asking, what the engine is about to do next and what is actually selling against inventory — without leaving the stream."
       media="below"
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
