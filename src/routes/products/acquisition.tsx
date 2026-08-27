@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   AcquisitionAttributionSection,
   AcquisitionExecutiveSection,
@@ -49,6 +49,8 @@ function AcquisitionPage() {
       <AcquisitionAttributionSection />
       <AcquisitionExecutiveSection />
       <AcquisitionGovernanceSection />
+
+      <RelatedProducts current="acquisition" />
 
       <ProductCta
         title="Find the spend that never became revenue."

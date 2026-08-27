@@ -70,6 +70,8 @@ function RevenueEnginePage() {
       <GovernanceSection />
       <IntegrationsSection />
 
+      <RelatedProducts current="revenue-engine" />
+
       <ProductCta
         title="Map your lead-to-revenue journey."
         lede="Bring your current path from first touch to closed sale. In thirty minutes we mark every point where the thread breaks, and show what the Revenue Engine would do instead."

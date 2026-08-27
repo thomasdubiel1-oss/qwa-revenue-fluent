@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LiveCommerceStory } from "@/components/qwa/story/product-stories";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   AudienceSignalSection,
   CheckoutSection,
@@ -49,6 +49,8 @@ function LiveCommercePage() {
       <HostConsoleSection />
       <PostStreamSection />
       <CommerceGovernanceSection />
+
+      <RelatedProducts current="live-commerce" />
 
       <ProductCta
         title="Bring one stream that should have sold more."

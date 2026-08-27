@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AttributionStory } from "@/components/qwa/story/product-stories";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   AmbiguitySection,
   AttributionGovernanceSection,
@@ -53,6 +53,8 @@ function AttributionPage() {
       <FeedbackSection />
       <AttributionGovernanceSection />
       <AttributionIntegrationsSection />
+
+      <RelatedProducts current="attribution" />
 
       <ProductCta
         title="Bring the number your teams argue about most."

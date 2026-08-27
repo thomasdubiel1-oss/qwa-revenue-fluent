@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VoiceAgentStory } from "@/components/qwa/story/product-stories";
-import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
+import { ProductCta, ProductHero, ProductShell, RelatedProducts } from "@/components/qwa/product/primitives";
 import {
   ConversationAnalyticsSection,
   InboundVoiceSection,
@@ -53,6 +53,8 @@ function VoicePage() {
       <ConversationAnalyticsSection />
       <VoiceGovernanceSection />
       <VoiceIntegrationsSection />
+
+      <RelatedProducts current="voice" />
 
       <ProductCta
         title="Hear what your customers hear today."
