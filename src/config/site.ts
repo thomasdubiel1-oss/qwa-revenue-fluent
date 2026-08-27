@@ -19,14 +19,14 @@ export const navigation: NavGroup[] = [
         items: [
           { label: "Revenue Engine", href: "/products/revenue-engine", description: "The closed-loop core" },
           { label: "Customer Acquisition", href: "/products/acquisition", description: "Paid, organic, outbound" },
-          { label: "Voice + Conversations", href: "/products/conversations", description: "Speak, text, respond" },
+          { label: "Voice + Conversations", href: "/products/voice", description: "Speak, text, respond" },
           { label: "Live Commerce", href: "/products/live-commerce", description: "Sell in the moment" },
         ],
       },
       {
         heading: "Intelligence",
         items: [
-          { label: "Creative Intelligence", href: "/products/creative", description: "Assets that compound" },
+          { label: "Creative Studio", href: "/products/creative-studio", description: "Brief to campaign-ready" },
           { label: "SEO / GEO", href: "/products/seo-geo", description: "Search and answer surfaces" },
           { label: "Business Intelligence", href: "/products/bi", description: "Revenue truth" },
           { label: "Decision Intelligence", href: "/products/decisions", description: "Autonomous optimization" },
@@ -157,8 +157,8 @@ export const footerColumns = [
     items: [
       { label: "Revenue Engine", href: "/products/revenue-engine" },
       { label: "Customer Acquisition", href: "/products/acquisition" },
-      { label: "Voice + Conversations", href: "/products/conversations" },
-      { label: "Creative Intelligence", href: "/products/creative" },
+      { label: "Voice + Conversations", href: "/products/voice" },
+      { label: "Creative Studio", href: "/products/creative-studio" },
       { label: "SEO / GEO", href: "/products/seo-geo" },
       { label: "Live Commerce", href: "/products/live-commerce" },
     ],
@@ -204,3 +204,21 @@ export const footerColumns = [
     ],
   },
 ];
+
+/**
+ * Routes that actually exist. Navigation renders a real link only for these;
+ * everything else stays inert so no menu entry can 404.
+ */
+export const liveRoutes = [
+  "/",
+  "/products/revenue-engine",
+  "/products/voice",
+  "/products/acquisition",
+  "/products/creative-studio",
+] as const;
+
+export type LiveRoute = (typeof liveRoutes)[number];
+
+export function isLiveRoute(href: string): href is LiveRoute {
+  return (liveRoutes as readonly string[]).includes(href);
+}
