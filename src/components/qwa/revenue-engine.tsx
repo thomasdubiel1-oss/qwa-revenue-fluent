@@ -209,22 +209,24 @@ function StepNarrative({
         <span className="text-data text-xs text-signal">{step.time}</span>
       </div>
 
-      <div className="relative mt-10 min-h-[16rem]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, y: 22, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
-            transition={{ duration: duration.base, ease: ease.out }}
-          >
-            <h3 className="text-display text-[clamp(1.9rem,3vw,2.8rem)]">{step.title}</h3>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-              {step.body}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+      {/* Keyed remount rather than AnimatePresence: fast scrubbing must never
+          leave the narrative mid-exit and blank. */}
+      <div className="relative mt-9 min-h-[15rem]">
+        <motion.div
+          key={step.id}
+          initial={{ opacity: 0, y: 16, filter: "blur(5px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: duration.fast, ease: ease.out }}
+        >
+          <h3 className="text-display max-w-[16ch] text-balance text-[clamp(1.9rem,3vw,2.75rem)]">
+            {step.title}
+          </h3>
+          <p className="mt-5 max-w-[30rem] text-pretty text-base leading-relaxed text-muted-foreground">
+            {step.body}
+          </p>
+        </motion.div>
       </div>
+
 
       <ol className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
         {steps.map((s, i) => (
@@ -264,21 +266,31 @@ function RecordStage({ index, progress }: { index: number; progress: number }) {
     <RiveStage
       label="Animated walkthrough of a single customer record moving from first signal to attributed revenue"
       fallback={
-        <div className="surface-card overflow-hidden shadow-card">
-          <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-            <span className="text-data text-[0.7rem] text-muted-foreground">Record · QWA-84213</span>
-            <span className="text-data text-[0.7rem] text-muted-foreground">
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
+          <div className="flex h-11 items-center justify-between gap-4 border-b border-hairline px-5">
+            <span className="text-data truncate text-[0.7rem] text-muted-foreground">
+              Record · QWA-84213 · Ridgeline HVAC
+            </span>
+            <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/80">
               stage {index + 1}/{steps.length}
             </span>
           </div>
 
-          <div className="h-px w-full bg-hairline">
+          <div className="relative h-px w-full bg-hairline">
             <motion.div
               className="h-px bg-signal"
               animate={{ width: `${Math.round(progress * 100)}%` }}
               transition={{ duration: 0.2, ease: "linear" }}
             />
+            {/* The attribution beat: credit sweeps back across the record. */}
+            <motion.div
+              className="absolute inset-y-0 right-0 h-px bg-positive"
+              initial={false}
+              animate={attributing ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
+              transition={{ duration: 1.1, ease: ease.out }}
+            />
           </div>
+
 
           <div className="grid gap-6 p-6 sm:grid-cols-[8.5rem_minmax(0,1fr)]">
             <JourneySpine index={index} attributing={attributing} />
@@ -454,37 +466,66 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
 
 function LinearSequence() {
   return (
-    <Container className="pb-24 pt-14 sm:pb-28">
+    <Container className="pb-20 pt-10 sm:pb-24">
+      {/* The record identity stays on screen for the whole sequence, so the
+          mobile reading is "one record moving" rather than a card stack. */}
+      <div className="sticky top-16 z-10 -mx-5 mb-2 flex h-11 items-center justify-between gap-4 border-y border-hairline bg-paper/95 px-5 backdrop-blur sm:-mx-8 sm:px-8">
+        <span className="text-data truncate text-[0.7rem] text-muted-foreground">
+          Record · QWA-84213
+        </span>
+        <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground">
+          {steps.length} stages
+        </span>
+      </div>
+
       <ol className="relative border-l border-hairline pl-6">
-        {steps.map((s, i) => (
-          <li key={s.id}>
-            <MotionReveal className="relative py-7" amount={0.4}>
-              <span
-                className={cn(
-                  "absolute -left-[1.72rem] top-9 h-[9px] w-[9px] rounded-full",
-                  s.id === "attribute" || s.id === "learn" ? "bg-positive" : "bg-signal",
-                )}
-                aria-hidden="true"
-              />
-              <p className="text-eyebrow">
-                {String(i + 1).padStart(2, "0")} · {s.time}
-              </p>
-              <h3 className="mt-3 text-xl font-medium tracking-tight">{s.title}</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-              <div className="mt-4">
-                <EventCard step={s} />
-              </div>
-            </MotionReveal>
-          </li>
-        ))}
+        {steps.map((s, i) => {
+          const returning = s.id === "attribute";
+          return (
+            <li key={s.id}>
+              <MotionReveal className="relative py-6" amount={0.35}>
+                <span
+                  className={cn(
+                    "absolute -left-[1.72rem] top-[1.95rem] h-[9px] w-[9px] rounded-full",
+                    returning || s.id === "learn" ? "bg-positive" : "bg-signal",
+                  )}
+                  aria-hidden="true"
+                />
+                <p className="text-data text-[0.7rem] text-muted-foreground">
+                  {String(i + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+                  <span className="mx-2 text-hairline-strong">·</span>
+                  <span className="text-signal">{s.time}</span>
+                </p>
+                <h3 className="mt-2.5 text-[1.25rem] font-medium tracking-tight">{s.title}</h3>
+                <p className="mt-2 text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
+                <div className="mt-4">
+                  <EventCard step={s} highlight={returning} />
+                </div>
+                {returning ? (
+                  <p className="text-data mt-3 flex items-center gap-2 text-[0.7rem] text-positive">
+                    <span aria-hidden="true">↑</span>
+                    $14,200 credited back to campaign, creative, conversation and rep
+                  </p>
+                ) : null}
+              </MotionReveal>
+            </li>
+          );
+        })}
       </ol>
     </Container>
   );
 }
 
-function EventCard({ step }: { step: Step }) {
+function EventCard({ step, highlight = false }: { step: Step; highlight?: boolean }) {
   return (
-    <div className="rounded-xl border border-hairline bg-paper px-4 py-3">
+    <div
+      className={cn(
+        "rounded-lg border px-4 py-3",
+        highlight ? "border-positive/40 bg-positive/[0.06]" : "border-hairline bg-paper",
+      )}
+    >
       <div className="flex items-center justify-between gap-3">
         <p className="truncate text-sm font-medium">{step.event.label}</p>
         <span className="text-data shrink-0 text-[0.65rem] text-muted-foreground">{step.time}</span>
@@ -502,3 +543,4 @@ function EventCard({ step }: { step: Step }) {
     </div>
   );
 }
+
