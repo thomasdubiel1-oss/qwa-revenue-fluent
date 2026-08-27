@@ -246,6 +246,7 @@ export function ImmediateResponseSection() {
         "Intent, service need and contact detail written as fields, not notes",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel
@@ -353,6 +354,7 @@ export function QualificationSection() {
         "Every decision is inspectable and reversible",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel
         title={`Qualification · ${RECORD_ID}`}
@@ -452,6 +454,7 @@ export function VoiceHandoffSection() {
         "A human can take over mid-conversation with full context",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel
@@ -552,6 +555,7 @@ export function AppointmentSection() {
         "No-show risk triggers an earlier touch instead of a post-mortem",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel
         title="Scheduling · Pasadena territory"
@@ -678,6 +682,7 @@ export function SalesAssistSection() {
         "A recommended offer the rep can accept, adjust or ignore",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel
@@ -879,6 +884,7 @@ export function LearningSection() {
         "Budget and policy changes require named approval",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel
         title="Model adjustments · last 7 days"
@@ -969,6 +975,7 @@ export function ReactivationSection() {
         "Suppression rules and contact frequency limits are respected",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel
@@ -1031,14 +1038,14 @@ const secondaryMetrics = [
 
 export function ExecutiveViewSection() {
   return (
-    <Section id="executive" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="executive" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Executive view</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-muted-foreground/70">Executive view</p>
+          <h3 className="text-display mt-4 max-w-[19ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
             Six numbers a revenue leader can act on.
-          </h2>
-          <p className="text-lede mt-5 max-w-[34rem]">
+          </h3>
+          <p className="mt-4 max-w-[34rem] text-pretty text-[1rem] leading-relaxed text-muted-foreground">
             Not a wall of charts. The state of the loop, in the terms a board asks about.
           </p>
         </MotionReveal>
@@ -1116,15 +1123,15 @@ const controls = [
 
 export function GovernanceSection() {
   return (
-    <Section id="governance" tone="paper" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="governance" tone="paper" className="scroll-mt-24 py-14 sm:py-16 lg:py-20">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Governance and control</p>
+            <h3 className="text-display mt-4 max-w-[16ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Autonomy is only useful with a brake.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-4 max-w-[30rem] text-pretty text-[1rem] leading-relaxed text-muted-foreground">
               QWA acts continuously, inside limits your team sets and can change at any time. Every
               action is attributable to a rule and a person.
             </p>
@@ -1134,7 +1141,7 @@ export function GovernanceSection() {
             {controls.map((c) => (
               <MotionItem key={c.label}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/70">
                     control: {c.held}
                   </span>
@@ -1184,14 +1191,14 @@ const adapterGroups = [
 
 export function IntegrationsSection() {
   return (
-    <Section id="integrations" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="integrations" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">System of record</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-muted-foreground/70">System of record</p>
+          <h3 className="text-display mt-4 max-w-[20ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
             Model-agnostic, platform-agnostic, adapter-based.
-          </h2>
-          <p className="text-lede mt-5 max-w-[36rem]">
+          </h3>
+          <p className="mt-4 max-w-[36rem] text-pretty text-[1rem] leading-relaxed text-muted-foreground">
             QWA sits alongside the systems you already run rather than replacing them. Connectivity
             is built as an adapter layer, and each integration is scoped with you during
             implementation.
@@ -1204,7 +1211,7 @@ export function IntegrationsSection() {
         >
           {adapterGroups.map((g) => (
             <MotionItem key={g.heading} className="min-w-0">
-              <h3 className="text-[0.9375rem] font-medium tracking-tight">{g.heading}</h3>
+              <h4 className="text-[0.9375rem] font-medium tracking-tight">{g.heading}</h4>
               <ul className="mt-3 grid gap-1.5 border-t border-hairline pt-3">
                 {g.items.map((i) => (
                   <li key={i} className="text-[0.875rem] leading-relaxed text-muted-foreground">
