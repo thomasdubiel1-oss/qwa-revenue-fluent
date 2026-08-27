@@ -5,7 +5,42 @@
  * contracts; product UI only ever consumes them.
  */
 
-export type ProviderId = "veo" | "seedance" | "kling" | "runway" | "higgsfield";
+export type ProviderId =
+  | "veo"
+  | "seedance"
+  | "kling"
+  | "runway"
+  | "higgsfield"
+  | "ltx";
+
+/**
+ * What a provider does in the pipeline. Planning providers never compete for
+ * shot generation ranking; shot providers never own the storyboard stage.
+ */
+export type ProviderRole = "shot_generation" | "planning";
+
+/**
+ * How QWA actually reaches the provider today.
+ * `manual_handoff` = no verified API path in this architecture; a human runs
+ * the step in the vendor tool and imports the result. No endpoints invented.
+ */
+export type IntegrationMode = "api" | "manual_handoff";
+
+export type CostTier = "low" | "medium" | "high";
+
+/** Default production standing of outputs from this provider. */
+export type ProductionTier = "prototype" | "production";
+
+/**
+ * Commercial-use standing of a job or asset. This is a workflow status, not a
+ * legal determination: `commercially_cleared` only means a human confirmed
+ * clearance inside QWA.
+ */
+export type UsageRightsStatus =
+  | "unknown"
+  | "prototype_only"
+  | "blocked_for_publish"
+  | "commercially_cleared";
 
 export type AspectRatio = "16:9" | "9:16" | "1:1";
 
@@ -18,15 +53,35 @@ export type LatencyPreference = "fastest" | "balanced" | "quality-first";
 
 export type ProviderHealth =
   | "not_configured"
+  | "manual_handoff"
   | "ready"
   | "degraded"
   | "unavailable"
   | "unknown";
 
 /** Static, discoverable capability metadata. Safe to expose to the browser. */
+export interface PlanningCapabilities {
+  storyboard: boolean;
+  shotSequencing: boolean;
+  aspectPlanning: boolean;
+  durationPlanning: boolean;
+  /** Rough-cut assembly of placeholder/prototype footage. */
+  prototypeAssembly: boolean;
+  /** Low-cost generation inside the planning tool, where supported. */
+  prototypeGeneration: boolean;
+}
+
 export interface ProviderCapabilities {
   id: ProviderId;
   displayName: string;
+  role: ProviderRole;
+  integrationMode: IntegrationMode;
+  costTier: CostTier;
+  /** Default production standing for outputs before human clearance. */
+  productionTier: ProductionTier;
+  /** Usage-rights status outputs start at. Never assumes clearance. */
+  defaultUsageRights: UsageRightsStatus;
+  planning: PlanningCapabilities;
   /** Vendor summary in one line — no marketing claims. */
   summary: string;
   /** Durations a single generation can produce, in seconds. */
@@ -95,8 +150,22 @@ export type JobState =
   | "generating"
   | "evaluating"
   | "selected"
+  | "ready_for_review"
+  | "ready_for_publish"
   | "ready"
   | "failed";
+
+export interface CreativeAsset {
+  id: string;
+  label: string;
+  providerId: ProviderId;
+  kind: "storyboard" | "shot" | "rough_cut" | "audio" | "final";
+  usageRightsStatus: UsageRightsStatus;
+  /** Free/personal-plan output; internal prototyping only. */
+  prototypeOnly: boolean;
+  outputUrl: string | null;
+  createdAt: string;
+}
 
 export interface ProviderAttempt {
   providerId: ProviderId;
@@ -120,6 +189,11 @@ export interface VideoJob {
   id: string;
   request: VideoJobRequest;
   state: JobState;
+  /** Workflow-level commercial standing. Gated by usage-rights.ts. */
+  usageRightsStatus: UsageRightsStatus;
+  /** Set only when a human confirms clearance in the internal workflow. */
+  clearedBy: string | null;
+  clearedAt: string | null;
   createdAt: string;
   updatedAt: string;
   /** Ordered by routing rank. */
