@@ -128,4 +128,8 @@ export interface FlagshipMediaAsset {
 
   /** Bound footage. `null` until an asset is produced AND cleared. */
   source: MediaSource | null;
+
+  /** Approved external still. `null` until an image is produced AND cleared. */
+  still?: MediaStill | null;
+
 }
