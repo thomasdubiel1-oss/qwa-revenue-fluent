@@ -315,7 +315,7 @@ export function QualitySection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-eyebrow">Consistency and review</p>
-            <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+            <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               Volume is worthless if the work is off-brand.
             </h2>
             <p className="text-lede mt-5 max-w-[30rem]">
@@ -364,7 +364,7 @@ export function CreativeFeedbackSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Performance feedback</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Creative is measured in revenue, then rewritten.
           </h2>
           <p className="text-lede mt-5 max-w-[35rem]">
@@ -422,7 +422,7 @@ export function CreativeGovernanceSection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               Generated does not mean unsupervised.
             </h2>
             <p className="text-lede mt-5 max-w-[30rem]">

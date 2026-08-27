@@ -206,7 +206,7 @@ export function AnomalySection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Anomalies and explanation</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Surfaced with a confidence level, not a confident guess.
           </h2>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">

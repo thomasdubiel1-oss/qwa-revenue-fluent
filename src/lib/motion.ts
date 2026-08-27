@@ -28,12 +28,12 @@ export const spring = {
 
 /** Shared entrance variants used by Reveal / staggered groups. */
 export const riseVariants = {
-  hidden: { opacity: 0, y: 18, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 14, filter: "blur(3px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: duration.slow, ease: ease.out },
+    transition: { duration: 0.62, ease: ease.out },
   },
 };
 

@@ -51,7 +51,7 @@ export function MotionReveal({
         hidden: riseVariants.hidden,
         visible: {
           ...riseVariants.visible,
-          transition: { duration: duration.slow, ease: ease.out, delay },
+          transition: { duration: 0.62, ease: ease.out, delay },
         },
       }}
       {...props}

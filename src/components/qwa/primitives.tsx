@@ -32,7 +32,7 @@ export function Section({
     <section
       className={cn(
         "relative w-full",
-        !bleed && "py-24 sm:py-28 lg:py-36",
+        !bleed && "py-20 sm:py-24 lg:py-28",
         tone === "paper" && "bg-paper",
         tone === "ink" && "bg-ink text-ink-foreground",
         className,
@@ -75,8 +75,8 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? <Eyebrow className="mb-6">{eyebrow}</Eyebrow> : null}
-      <h2 className="text-display text-[clamp(2rem,4.2vw,3.25rem)]">{title}</h2>
-      {lede ? <p className="text-lede mt-6 max-w-[38rem]">{lede}</p> : null}
+      <h2 className="text-display text-[clamp(1.9rem,3.4vw,2.8rem)]">{title}</h2>
+      {lede ? <p className="text-lede mt-6 max-w-[36rem]">{lede}</p> : null}
     </div>
   );
 }

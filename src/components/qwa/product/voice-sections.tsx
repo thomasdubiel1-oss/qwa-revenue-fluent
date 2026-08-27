@@ -490,7 +490,7 @@ export function ConversationAnalyticsSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Conversation analytics</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Conversations measured in revenue, not minutes.
           </h2>
           <p className="text-lede mt-5 max-w-[34rem]">
@@ -548,7 +548,7 @@ export function VoiceGovernanceSection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               Speaking on your behalf is a permission, not a default.
             </h2>
             <p className="text-lede mt-5 max-w-[30rem]">
@@ -597,7 +597,7 @@ export function VoiceIntegrationsSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">System of record</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Adapter-based, model-agnostic, no rip and replace.
           </h2>
           <p className="text-lede mt-5 max-w-[36rem]">

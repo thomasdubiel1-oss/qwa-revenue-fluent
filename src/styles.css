@@ -277,7 +277,7 @@
 
 @utility reveal-init {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(14px);
   filter: blur(3px);
 }
 
@@ -286,9 +286,9 @@
   transform: none;
   filter: none;
   transition:
-    opacity 0.8s var(--ease-out-quant),
-    transform 0.8s var(--ease-out-quant),
-    filter 0.8s var(--ease-out-quant);
+    opacity 0.62s var(--ease-out-quant),
+    transform 0.62s var(--ease-out-quant),
+    filter 0.62s var(--ease-out-quant);
 }
 
 @keyframes qwa-pulse-node {

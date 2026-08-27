@@ -7,10 +7,10 @@ export function ClosingCta() {
   const { open } = useDemoRequest();
 
   return (
-    <Section tone="ink" className="py-28 lg:py-36">
+    <Section tone="ink" className="py-24 lg:py-32">
       <Container>
         <MotionReveal className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <h2 className="text-display max-w-[16ch] text-[clamp(2.1rem,4.6vw,3.4rem)]">
+          <h2 className="text-display max-w-[16ch] text-[clamp(2rem,3.8vw,3.05rem)]">
             See your own funnel run inside QWA.
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-foreground/70">
