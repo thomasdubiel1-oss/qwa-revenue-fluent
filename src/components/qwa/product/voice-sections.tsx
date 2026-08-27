@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Container, Section } from "../primitives";
 import { MotionItem, MotionReveal, MotionStagger } from "../motion-primitives";
 import {
@@ -15,6 +15,7 @@ import {
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 const RECORD_ID = "QWA-90417";
 const RECORD_NAME = "Marisol Vance";

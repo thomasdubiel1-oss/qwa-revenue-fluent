@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
 import { useDemoRequest } from "./demo-request";
@@ -6,6 +6,7 @@ import { RiveStage } from "./rive-stage";
 import { SignalFlow } from "./signal-flow";
 import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 import { ease } from "@/lib/motion";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 const proofPoints: [string, string][] = [
   ["Answered in seconds", "Every channel, day or night"],

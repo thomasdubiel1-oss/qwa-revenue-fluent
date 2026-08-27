@@ -1,7 +1,8 @@
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /**
  * QWA signal flow — the product's visual signature.

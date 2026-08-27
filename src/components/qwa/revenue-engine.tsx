@@ -1,12 +1,13 @@
 import * as React from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Container, Eyebrow, Section } from "./primitives";
 import { MotionReveal, useMediaQuery } from "./motion-primitives";
 import { RiveStage } from "./rive-stage";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 type Step = {
   id: string;

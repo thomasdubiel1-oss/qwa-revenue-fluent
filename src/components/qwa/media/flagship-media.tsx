@@ -3,6 +3,7 @@ import { useReducedMotion } from "motion/react";
 import { getMedia } from "@/lib/media/manifest";
 import type { AspectRatioToken, FlagshipMediaAsset } from "@/lib/media/types";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /**
  * QWA flagship media frame.

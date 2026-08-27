@@ -3,12 +3,12 @@ import {
   motion,
   useInView,
   useMotionValue,
-  useReducedMotion,
   useSpring,
   type HTMLMotionProps,
 } from "motion/react";
 import { cn } from "@/lib/utils";
 import { duration, ease, riseVariants, staggerParent } from "@/lib/motion";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /** Media query hook that is SSR-safe (always false on the server). */
 export function useMediaQuery(query: string) {
