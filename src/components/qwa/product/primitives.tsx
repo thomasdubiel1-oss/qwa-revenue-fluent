@@ -1,5 +1,8 @@
 import * as React from "react";
 import { motion } from "motion/react";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { products, relatedProducts, type ProductKey } from "@/config/site";
 import { Container, Section } from "../primitives";
 import { MotionReveal } from "../motion-primitives";
 import { SiteHeader } from "../site-header";
@@ -623,6 +626,54 @@ export function ProductCta({
             </Button>
           </div>
           {note ? <p className="mt-5 text-[0.8125rem] text-ink-foreground/50">{note}</p> : null}
+        </MotionReveal>
+      </Container>
+    </Section>
+  );
+}
+
+/**
+ * Cross-navigation between sibling products. Keeps the suite legible as one
+ * system: three adjacent surfaces, each named with the outcome it owns.
+ */
+export function RelatedProducts({ current }: { current: ProductKey }) {
+  const siblings = relatedProducts[current].map((key) => products[key]);
+
+  return (
+    <Section className="border-t border-hairline py-20 lg:py-24">
+      <Container>
+        <MotionReveal>
+          <p className="text-eyebrow">Continue</p>
+          <h2 className="text-display mt-5 max-w-[24ch] text-balance text-[clamp(1.6rem,2.6vw,2.15rem)]">
+            {products[current].name} does not work alone.
+          </h2>
+        </MotionReveal>
+
+        <MotionReveal delay={0.08}>
+          <ul className="mt-10 grid gap-px overflow-hidden rounded-xl border border-border bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+            {siblings.map((item) => (
+              <li key={item.key} className="bg-background">
+                <Link
+                  to={item.href}
+                  className="group flex h-full min-h-11 flex-col justify-between gap-6 p-6 transition-colors hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                >
+                  <div className="min-w-0">
+                    <p className="text-[1.0625rem] font-medium text-foreground">{item.name}</p>
+                    <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted-foreground">
+                      {item.summary}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-2 text-[0.8125rem] font-medium text-signal">
+                    Explore
+                    <ArrowRight
+                      className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </MotionReveal>
       </Container>
     </Section>
