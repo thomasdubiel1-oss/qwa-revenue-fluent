@@ -35,7 +35,9 @@ export const Route = createFileRoute("/products/revenue-engine")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/revenue-engine" },
     ],
+    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/revenue-engine" }],
   }),
   component: RevenueEnginePage,
 });
