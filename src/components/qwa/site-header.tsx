@@ -226,7 +226,7 @@ export function SiteHeader() {
               {navigation.map((group) => (
                 <li key={group.label} className="border-b border-hairline pb-2">
                   <details className="group">
-                    <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
+                    <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
                       {group.label}
                       <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
                     </summary>
