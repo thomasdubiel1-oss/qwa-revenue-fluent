@@ -3,6 +3,16 @@ import { Container } from "./primitives";
 import { footerColumns, isLiveRoute } from "@/config/site";
 import { Mark } from "./site-header";
 
+/** Only routes that exist are linked; the rest stay inert until published. */
+const legalLinks: { label: string; href?: "/privacy" | "/terms" }[] = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Security" },
+  { label: "Responsible AI" },
+  { label: "Status" },
+];
+
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-hairline bg-paper">
