@@ -96,6 +96,76 @@ export function ProductHero({
 }
 
 /**
+ * Chapter opener. Groups the sections that follow into one perceived movement
+ * so a long product page reads as a few chapters rather than many equal
+ * sections. Renders the chapter's h2; sections inside a chapter use
+ * `level="sub"` and render h3.
+ */
+export function ChapterOpener({
+  id,
+  index,
+  label,
+  title,
+  lede,
+  tone = "default",
+  quiet = false,
+}: {
+  id?: string;
+  /** Chapter number, e.g. "01". */
+  index: string;
+  /** Short chapter label, e.g. "Response". */
+  label: string;
+  title: React.ReactNode;
+  lede?: React.ReactNode;
+  tone?: "default" | "paper";
+  /** Lower-emphasis chapter (enterprise confidence, not a marketing moment). */
+  quiet?: boolean;
+}) {
+  return (
+    <Section
+      id={id}
+      tone={tone}
+      className={cn(
+        "scroll-mt-24 pb-2",
+        quiet ? "pt-20 sm:pt-24 lg:pt-28" : "pt-24 sm:pt-28 lg:pt-36",
+      )}
+    >
+      <Container>
+        <MotionReveal>
+          <div className="grid gap-x-12 gap-y-5 border-t border-hairline pt-8 lg:grid-cols-[11rem_minmax(0,1fr)]">
+            <p className="text-data whitespace-nowrap text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground/80">
+              {index} · {label}
+            </p>
+            <div className="min-w-0">
+              <h2
+                className={cn(
+                  "text-display max-w-[22ch] text-balance",
+                  quiet
+                    ? "text-[clamp(1.6rem,2.7vw,2.2rem)]"
+                    : "text-[clamp(1.95rem,3.5vw,2.9rem)]",
+                )}
+              >
+                {title}
+              </h2>
+              {lede ? (
+                <p
+                  className={cn(
+                    "mt-5 max-w-[36rem] text-pretty leading-relaxed text-muted-foreground",
+                    quiet ? "text-[1rem]" : "text-[1.0625rem]",
+                  )}
+                >
+                  {lede}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </MotionReveal>
+      </Container>
+    </Section>
+  );
+}
+
+/**
  * Editorial section: a heading block and a product surface. `media="left"`
  * alternates the rhythm so a long page never reads as a stack of cards.
  */
@@ -108,6 +178,7 @@ export function ProductSection({
   children,
   media = "right",
   tone = "default",
+  level = "primary",
   className,
 }: {
   id?: string;
@@ -118,14 +189,32 @@ export function ProductSection({
   children?: React.ReactNode;
   media?: "left" | "right" | "below";
   tone?: "default" | "paper" | "ink";
+  /** `sub` renders inside a chapter: h3, quieter scale, tighter rhythm. */
+  level?: "primary" | "sub";
   className?: string;
 }) {
+  const sub = level === "sub";
+  const Heading = sub ? "h3" : "h2";
+
   const heading = (
     <div className="min-w-0">
-      <p className="text-eyebrow">{eyebrow}</p>
-      <h2 className="text-display mt-5 max-w-[21ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+      <p
+        className={cn(
+          "text-eyebrow",
+          sub && "text-muted-foreground/70",
+        )}
+      >
+        {eyebrow}
+      </p>
+      <Heading
+        className={cn(
+          "text-display mt-4 max-w-[21ch] text-balance",
+          sub ? "text-[clamp(1.45rem,2.3vw,1.85rem)]" : "mt-5 text-[clamp(1.9rem,3.4vw,2.8rem)]",
+        )}
+      >
         {title}
-      </h2>
+      </Heading>
+
       {lede ? (
         <p
           className={cn(
@@ -163,7 +252,12 @@ export function ProductSection({
     <Section
       id={id}
       tone={tone}
-      className={cn("scroll-mt-24 py-20 sm:py-24 lg:py-28", className)}
+      className={cn(
+        "scroll-mt-24",
+        sub ? "py-12 sm:py-14 lg:py-16" : "py-20 sm:py-24 lg:py-28",
+        className,
+      )}
+
     >
       <Container>
         {media === "below" ? (
