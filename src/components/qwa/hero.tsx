@@ -80,7 +80,7 @@ function HeroVisual() {
     return () => window.clearInterval(id);
   }, []);
 
-  const current = channels[active];
+  const current = channels[active] ?? channels[0]!;
 
   return (
     <div className="relative min-w-0">

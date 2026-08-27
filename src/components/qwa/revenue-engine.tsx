@@ -96,7 +96,7 @@ export function RevenueEngine() {
     return () => io.disconnect();
   }, []);
 
-  const current = steps[active];
+  const current = steps[active] ?? steps[0]!;
 
   return (
     <Section id="revenue-engine" tone="paper" className="overflow-hidden">
