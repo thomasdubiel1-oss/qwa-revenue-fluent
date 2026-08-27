@@ -17,7 +17,6 @@ import { track, type DemoSource } from "@/lib/analytics";
 import { captureCampaignContext, getAttribution } from "@/lib/leads/attribution";
 import { submitDemoRequest } from "@/lib/leads/provider";
 import {
-  MIN_FILL_MS,
   validateDemoForm,
   type DemoFormValues,
   type FieldErrors,
