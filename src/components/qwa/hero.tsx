@@ -68,7 +68,7 @@ export function Hero() {
 
             <motion.dl
               variants={item}
-              className="mt-14 grid max-w-xl grid-cols-1 gap-y-5 border-t border-hairline pt-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-0"
+              className="mt-14 grid max-w-2xl grid-cols-1 gap-y-5 border-t border-hairline pt-8 sm:grid-cols-3 sm:gap-x-8 sm:gap-y-0"
             >
               {proofPoints.map(([v, k]) => (
                 <div key={k} className="min-w-0">
