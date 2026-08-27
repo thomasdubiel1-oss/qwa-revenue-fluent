@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./primitives";
-import { footerColumns } from "@/config/site";
+import { footerColumns, isLiveRoute } from "@/config/site";
 import { Mark } from "./site-header";
 
 export function SiteFooter() {
