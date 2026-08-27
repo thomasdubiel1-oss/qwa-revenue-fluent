@@ -336,6 +336,7 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
   const reachedNode = Math.min(spineNodes.length - 1, index);
   const gap = 34;
   const height = (spineNodes.length - 1) * gap + 16;
+  const spineX = 30;
 
   return (
     <div className="relative">
@@ -347,17 +348,17 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
         preserveAspectRatio="xMinYMin meet"
       >
         <line
-          x1="10"
+          x1={spineX}
           y1="8"
-          x2="10"
+          x2={spineX}
           y2={height - 8}
           stroke="var(--hairline-strong)"
           strokeWidth="1"
         />
         <motion.line
-          x1="10"
+          x1={spineX}
           y1="8"
-          x2="10"
+          x2={spineX}
           y2={8}
           initial={{ y2: 8 }}
           animate={{ y2: 8 + reachedNode * gap }}
@@ -368,7 +369,7 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
         {spineNodes.map((_, i) => (
           <motion.circle
             key={i}
-            cx="10"
+            cx={spineX}
             cy={8 + i * gap}
             r={i === reachedNode ? 4.5 : 3}
             animate={{
@@ -382,17 +383,17 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
 
         {/* Revenue returning to the source that produced it */}
         <motion.path
-          d={`M10 ${height - 8} C 46 ${height - 8}, 46 8, 10 8`}
+          d={`M${spineX} ${height - 8} C 2 ${height - 8}, 2 8, ${spineX} 8`}
           stroke="var(--positive)"
           strokeWidth="1.25"
           strokeDasharray="3 5"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={attributing ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          transition={{ duration: 1, ease: ease.out }}
+          transition={{ duration: 1.1, ease: ease.out }}
         />
       </svg>
 
-      <ul className="pointer-events-none absolute inset-0 pl-6">
+      <ul className="pointer-events-none absolute inset-0" style={{ paddingLeft: "34%" }}>
         {spineNodes.map((n, i) => (
           <li
             key={n}
@@ -410,19 +411,20 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
       <AnimatePresence>
         {attributing ? (
           <motion.span
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            transition={{ delay: 0.6, duration: duration.base, ease: ease.out }}
-            className="text-data absolute left-0 top-0 -translate-y-6 rounded-full bg-positive/10 px-2 py-0.5 text-[0.62rem] text-positive"
+            transition={{ delay: 0.7, duration: duration.base, ease: ease.out }}
+            className="text-data absolute -left-1 top-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap rounded-full bg-positive/10 px-2 py-0.5 text-[0.6rem] text-positive"
           >
-            +$14,200 → source
+            $14,200 → source
           </motion.span>
         ) : null}
       </AnimatePresence>
     </div>
   );
 }
+
 
 /* -------------------------------------------------------------------------
  * Mobile / reduced motion: linear progression, no pinning, no scrub
