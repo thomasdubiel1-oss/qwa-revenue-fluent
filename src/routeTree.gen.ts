@@ -21,6 +21,7 @@ import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
 import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
+import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -85,6 +86,11 @@ const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
   path: '/products/voice',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
+  id: '/api/public/leads-outbox',
+  path: '/api/public/leads-outbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/leads-outbox'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/leads-outbox'
   id:
     | '__root__'
     | '/'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/api/public/leads-outbox'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
   ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
+  ApiPublicLeadsOutboxRoute: typeof ApiPublicLeadsOutboxRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -275,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsVoiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/leads-outbox': {
+      id: '/api/public/leads-outbox'
+      path: '/api/public/leads-outbox'
+      fullPath: '/api/public/leads-outbox'
+      preLoaderRoute: typeof ApiPublicLeadsOutboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -291,6 +311,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
   ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
+  ApiPublicLeadsOutboxRoute: ApiPublicLeadsOutboxRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
