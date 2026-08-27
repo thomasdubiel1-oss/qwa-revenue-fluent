@@ -800,7 +800,8 @@ export function AttributionSection() {
 
               <PanelStats
                 cells={[
-                  { label: "Touches joined", value: "9" },
+                  { label: "Touches", value: "9" },
+
                   { label: "Time to close", value: "2d 14h" },
                   { label: "Unattributed", value: "$0" },
                 ]}
