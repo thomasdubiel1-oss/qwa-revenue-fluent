@@ -32,9 +32,9 @@ export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
     providerPreference: ["ltx", "veo", "runway"],
     usageRightsStatus: "unknown",
     shotBrief:
-      "PLACEHOLDER — 12-18s silent loop, no cuts to camera, no people, no UI screenshots. Abstract precision: fine light traces entering from five directions at different rhythms, converging on a single calm structure, resolving into one continuous returning path. Paper-white ground, ink linework, one deep teal accent. Restraint over spectacle; must loop seamlessly and read at 25% opacity behind nothing. No text, no logos, no product claims.",
+      "Storyboard written — see the LTX storyboard package on /internal/media-production-brief (src/lib/media/storyboards/home-hero.ts). 15s seamless silent loop, 7 shots, no people, no text, no UI: signals scatter in, converge into one operating layer, the work progresses, revenue returns to its source, the frame resolves back to its opening state.",
     notes:
-      "The only slot where generative video is clearly worth the spend. Code fallback (SignalFlow) is production-quality and ships until footage clears.",
+      "The only slot where generative video is clearly worth the spend. Code fallback (SignalFlow) is production-quality and ships until footage clears. Gate: storyboard_ready — LTX is manual handoff, nothing generated yet, no spend committed.",
     source: null,
   },
   {

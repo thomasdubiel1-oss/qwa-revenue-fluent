@@ -12,6 +12,8 @@ import {
   productionQueue,
 } from "@/lib/media/manifest";
 import { USAGE_RIGHTS_LABEL } from "@/lib/video/usage-rights";
+import { getStoryboard } from "@/lib/media/storyboards";
+import { StoryboardPanel } from "@/components/qwa/media/storyboard-panel";
 import { PROVIDER_CAPABILITIES } from "@/lib/video/capabilities";
 import type { FlagshipMediaAsset, MediaPriority, MediaStatus } from "@/lib/media/types";
 import { cn } from "@/lib/utils";
@@ -179,6 +181,7 @@ function MediaProductionBrief() {
         }));
 
   const external = externalGenerationQueue();
+  const homeHeroStoryboard = getStoryboard("home-hero");
   const codeFirst = FLAGSHIP_MEDIA.filter((a) => !a.externalGenerationRequired).length;
 
   return (
@@ -266,6 +269,24 @@ function MediaProductionBrief() {
             </p>
           ) : null}
         </section>
+
+        <SignalRule className="my-12" />
+
+        {homeHeroStoryboard ? (
+          <section aria-label="Homepage hero storyboard package">
+            <h2 className="text-[1.25rem] font-medium tracking-tight">
+              LTX storyboard package — next executable action
+            </h2>
+            <p className="mt-2 max-w-[46rem] text-[0.9375rem] leading-relaxed text-muted-foreground">
+              Copy-ready. LTX Studio is a manual-handoff planning provider, so nothing here is
+              generated automatically — paste the master prompt into LTX for storyboard frames,
+              review, then run the prototype prompt.
+            </p>
+            <div className="mt-8">
+              <StoryboardPanel pkg={homeHeroStoryboard} />
+            </div>
+          </section>
+        ) : null}
 
         <SignalRule className="my-12" />
 
