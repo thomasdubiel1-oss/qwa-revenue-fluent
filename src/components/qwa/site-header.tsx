@@ -1,11 +1,14 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
 import { navigation } from "@/config/site";
 import { useDemoRequest } from "./demo-request";
+import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
 
 export function SiteHeader() {
   const { open } = useDemoRequest();
