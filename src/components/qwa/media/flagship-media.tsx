@@ -117,14 +117,10 @@ export function FlagshipMedia({
   const mountVideo =
     Boolean(src) &&
     asset.status === "commercially_cleared" &&
-    asset.reducedMotion !== "poster_only" === false // explicit: poster_only still allows video unless reduced
-      ? false
-      : Boolean(src) &&
-        asset.status === "commercially_cleared" &&
-        !reduced &&
-        !saveData &&
-        inView &&
-        !(compact && asset.mobileBehavior === "static_only");
+    !reduced &&
+    !saveData &&
+    inView &&
+    !(compact && asset.mobileBehavior === "static_only");
 
   const ratio = compact ? asset.mobileAspectRatio : asset.aspectRatio;
   const describedBy = label ?? asset.purpose;
