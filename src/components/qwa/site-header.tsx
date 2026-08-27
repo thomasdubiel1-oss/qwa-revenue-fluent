@@ -261,13 +261,14 @@ function NavTarget({
   className?: string;
   children: React.ReactNode;
 }) {
-  if (href === "/products/revenue-engine") {
+  if (isLiveRoute(href)) {
     return (
-      <Link to="/products/revenue-engine" onClick={onNavigate} className={className}>
+      <Link to={href} onClick={onNavigate} className={className}>
         {children}
       </Link>
     );
   }
+
   return (
     <span className={cn(className, "cursor-default opacity-55")} aria-disabled="true">
       {children}
