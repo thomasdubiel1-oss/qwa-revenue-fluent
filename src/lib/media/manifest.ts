@@ -48,6 +48,8 @@ export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
       notes:
         "Human-approved by the project owner for public use on 2026-08-27 via the QWA clearance mechanism. No mobile crop authored: the composition is a wide left-to-right journey, so portrait cropping would break comprehension — mobile renders the code composition instead.",
     },
+  },
+
 
   {
     id: "revenue-engine-loop",
