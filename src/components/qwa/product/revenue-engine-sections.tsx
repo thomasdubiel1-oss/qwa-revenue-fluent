@@ -23,18 +23,20 @@ const RECORD_NAME = "Ridgeline HVAC";
  * Hero visual — the loop itself, not a dashboard card.
  * ---------------------------------------------------------------------- */
 
+/** Ten stages; only the anchors carry a label so the rail stays readable. */
 const railNodes = [
-  "Signal",
-  "Response",
-  "Qualify",
-  "Follow-up",
-  "Appoint",
-  "Assist",
-  "Sale",
-  "Attribute",
-  "Learn",
-  "Reactivate",
+  { name: "Signal", label: true },
+  { name: "Response", label: false },
+  { name: "Qualify", label: true },
+  { name: "Follow-up", label: false },
+  { name: "Appointment", label: true },
+  { name: "Assist", label: false },
+  { name: "Sale", label: true },
+  { name: "Attribute", label: false },
+  { name: "Learn", label: false },
+  { name: "Reactivate", label: true },
 ];
+
 
 export function RevenueLoopVisual() {
   return (
