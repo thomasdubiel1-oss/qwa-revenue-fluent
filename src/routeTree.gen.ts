@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
+import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,36 +29,57 @@ const ProductsRevenueEngineRoute = ProductsRevenueEngineRouteImport.update({
   path: '/products/revenue-engine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
+  id: '/products/voice',
+  path: '/products/voice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/internal/video-router-lab' | '/products/revenue-engine'
+  fullPaths:
+    | '/'
+    | '/internal/video-router-lab'
+    | '/products/revenue-engine'
+    | '/products/voice'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/internal/video-router-lab' | '/products/revenue-engine'
+  to:
+    | '/'
+    | '/internal/video-router-lab'
+    | '/products/revenue-engine'
+    | '/products/voice'
   id:
-    '__root__' | '/' | '/internal/video-router-lab' | '/products/revenue-engine'
+    | '__root__'
+    | '/'
+    | '/internal/video-router-lab'
+    | '/products/revenue-engine'
+    | '/products/voice'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
+  ProductsVoiceRoute: typeof ProductsVoiceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -83,6 +105,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsRevenueEngineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/voice': {
+      id: '/products/voice'
+      path: '/products/voice'
+      fullPath: '/products/voice'
+      preLoaderRoute: typeof ProductsVoiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -90,6 +119,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
+  ProductsVoiceRoute: ProductsVoiceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
