@@ -59,17 +59,51 @@ function RevenueEnginePage() {
         lede="Ten stages, one record. Scroll once and you have the whole operating loop — from the first signal to the revenue travelling back to the campaign that produced it."
       />
 
+      <ChapterOpener
+        id="response"
+        index="01"
+        label="Response"
+        title="The first ten minutes decide the deal."
+        lede="Speed and judgement, in the same conversation. QWA replies while intent is still alive, then works out who this is and where they belong before a human spends a minute on them."
+      />
       <ImmediateResponseSection />
       <QualificationSection />
+
+      <ChapterOpener
+        id="conversation"
+        index="02"
+        label="Conversation"
+        title="From reply to a rep in the room."
+        lede="One thread across voice, SMS and DM, ending in an appointment that holds — and a salesperson who arrives already briefed on everything said before them."
+      />
       <VoiceHandoffSection />
       <AppointmentSection />
       <SalesAssistSection />
+
       <AttributionSection />
       <LearningSection />
+
+      <ChapterOpener
+        id="recovery"
+        index="04"
+        label="Recovery"
+        title="Nothing paid for is left dormant."
+        lede="Leads that went quiet stay on the same record. When intent returns, the engine re-enters the journey where it stopped rather than starting a new one."
+      />
       <ReactivationSection />
+
+      <ChapterOpener
+        id="enterprise"
+        index="05"
+        label="Enterprise readiness"
+        title="Run it in your business, on your terms."
+        lede="The reporting a revenue leader reads, the controls your team holds, and the adapter layer that lets QWA sit alongside the systems you already run."
+        quiet
+      />
       <ExecutiveViewSection />
       <GovernanceSection />
       <IntegrationsSection />
+
 
       <RelatedProducts current="revenue-engine" />
 
