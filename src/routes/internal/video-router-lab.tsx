@@ -332,7 +332,7 @@ function VideoRouterLab() {
                 {PROVIDER_IDS.map((id) => {
                   const caps = PROVIDER_CAPABILITIES[id];
                   const status = statusById.get(id);
-                  const health = status?.health ?? "unknown";
+                  const health: ProviderHealth | null = status?.health ?? null;
                   return (
                     <div key={id} className="rounded-xl border border-hairline bg-card p-4">
                       <div className="flex items-center justify-between gap-3">
@@ -354,7 +354,7 @@ function VideoRouterLab() {
                                   : "bg-muted-foreground/40",
                             )}
                           />
-                          {HEALTH_LABEL[health]}
+                          {health ? HEALTH_LABEL[health] : "Checking\u2026"}
                         </span>
                       </div>
                       <p className="mt-2 text-xs text-muted-foreground">{caps.summary}</p>
