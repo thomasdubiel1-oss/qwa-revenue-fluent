@@ -83,10 +83,9 @@ function LoopRail() {
     <div className="min-w-0">
       <svg
         viewBox="0 0 400 104"
-        className="h-[7.5rem] w-full text-signal"
+        className="h-auto w-full text-signal"
         fill="none"
         aria-hidden="true"
-        preserveAspectRatio="xMidYMid meet"
       >
         <line x1={left} y1={y} x2={right} y2={y} stroke="var(--hairline-strong)" strokeWidth="1" />
         <motion.line
@@ -104,30 +103,34 @@ function LoopRail() {
         {railNodes.map((n, i) => {
           const cx = left + i * span;
           return (
-            <g key={n}>
+            <g key={n.name}>
               <motion.circle
                 cx={cx}
                 cy={y}
-                r={i === 0 || i === railNodes.length - 1 ? 3.4 : 2.2}
+                r={n.label ? 3.2 : 1.9}
                 fill="currentColor"
+                opacity={n.label ? 1 : 0.5}
                 initial={{ opacity: 0, scale: 0.4 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                whileInView={{ opacity: n.label ? 1 : 0.5, scale: 1 }}
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: duration.fast, ease: ease.out, delay: 0.25 + i * 0.08 }}
               />
-              <text
-                x={cx}
-                y={y - 11}
-                fontSize="6.5"
-                textAnchor={i === 0 ? "start" : i === railNodes.length - 1 ? "end" : "middle"}
-                className="fill-muted-foreground"
-                style={{ letterSpacing: "0.04em" }}
-              >
-                {n}
-              </text>
+              {n.label ? (
+                <text
+                  x={cx}
+                  y={y - 12}
+                  fontSize="7.5"
+                  textAnchor={i === 0 ? "start" : i === railNodes.length - 1 ? "end" : "middle"}
+                  className="fill-muted-foreground"
+                  style={{ letterSpacing: "0.06em" }}
+                >
+                  {n.name}
+                </text>
+              ) : null}
             </g>
           );
         })}
+
 
         {/* Revenue returns to the source that produced it. */}
         <motion.path
