@@ -98,6 +98,7 @@ export function ExecutiveBriefVisual() {
 export function SingleSourceSection() {
   return (
     <ProductSection
+      level="sub"
       id="truth"
       eyebrow="One set of numbers"
       title="Stop reconciling four dashboards before the meeting."
@@ -143,6 +144,7 @@ const layers = [
 export function LayersSection() {
   return (
     <ProductSection
+      level="sub"
       id="layers"
       eyebrow="Three altitudes"
       title="The same truth, at the resolution each person needs."
@@ -205,10 +207,10 @@ export function AnomalySection() {
     <Section tone="ink" id="anomalies" className="scroll-mt-24 py-24 lg:py-32">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Anomalies and explanation</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-ink-foreground/55">Anomalies and explanation</p>
+          <h3 className="text-display mt-4 max-w-[20ch] text-balance text-[clamp(1.6rem,2.6vw,2.1rem)]">
             Surfaced with a confidence level, not a confident guess.
-          </h2>
+          </h3>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">
             QWA flags material movement and offers the most plausible explanation available from the
             record. Where the evidence is thin it says so. Correlation is never presented as proof.
@@ -267,6 +269,7 @@ export function AnomalySection() {
 export function ForecastSection() {
   return (
     <ProductSection
+      level="sub"
       id="forecast"
       eyebrow="Forecasting"
       title="A range with its assumptions attached."
@@ -312,6 +315,7 @@ export function ForecastSection() {
 export function DataQualitySection() {
   return (
     <ProductSection
+      level="sub"
       id="quality"
       eyebrow="Data quality"
       title="A number you can trust states how much it does not know."
@@ -346,6 +350,7 @@ const biGovernance = [
 export function BiGovernanceSection() {
   return (
     <ProductSection
+      level="sub"
       id="governance"
       eyebrow="Governance"
       title="Reporting an auditor can follow."
@@ -383,6 +388,160 @@ export function BiGovernanceSection() {
       <IllustrativeNote className="mt-6">
         Adapter categories only. Nothing is connected until configured for your deployment.
       </IllustrativeNote>
+    </ProductSection>
+  );
+}
+
+
+/* -------------------------------------------------------------------------
+ * Unified business record — the canonical entity graph.
+ * ---------------------------------------------------------------------- */
+
+const canonicalEntities = [
+  { entity: "Customer", resolves: "Web, chat, voice, commerce, CRM", key: "Identity graph" },
+  { entity: "Conversation", resolves: "DM, voice, form, live room", key: "Session join" },
+  { entity: "Opportunity", resolves: "CRM stage, appointment, quote", key: "CRM record" },
+  { entity: "Order", resolves: "Commerce, invoicing, refunds", key: "Finance record" },
+  { entity: "Spend", resolves: "Ad platforms, agency, production", key: "Cost ledger" },
+];
+
+export function EntityGraphSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="entities"
+      eyebrow="Canonical entities"
+      title="Five nouns the whole company can agree on."
+      lede="Before a metric can be trusted, the things it counts have to be the same things. QWA resolves operational and revenue data into a small set of governed entities, each with a declared system of record, and every metric is built from those."
+      points={[
+        "One customer identity across web, conversation, commerce and CRM",
+        "Each entity names the system that owns the truth for it",
+        "Metrics compose from entities, so no report invents its own population",
+      ]}
+      media="right"
+    >
+      <ProductPanel title="Entity map" meta="governed" footer={<IllustrativeNote />}>
+        <PanelBlock className="py-0">
+          <ul>
+            {canonicalEntities.map((e, i) => (
+              <motion.li
+                key={e.entity}
+                className="grid gap-1 border-b border-hairline px-5 py-4 first:pt-5 last:border-b-0 last:pb-5 sm:grid-cols-[minmax(0,8rem)_minmax(0,1fr)] sm:items-baseline sm:gap-5"
+                initial={{ opacity: 0, y: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: duration.base, ease: ease.out, delay: i * 0.06 }}
+              >
+                <p className="min-w-0 text-[0.9375rem] font-medium">{e.entity}</p>
+                <div className="min-w-0">
+                  <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">
+                    {e.resolves}
+                  </p>
+                  <p className="text-data mt-1 text-[0.65rem] uppercase tracking-[0.14em] text-signal">
+                    {e.key}
+                  </p>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Lineage — the trace behind a single figure.
+ * ---------------------------------------------------------------------- */
+
+const lineage = [
+  { step: "Source", value: "9 connected systems", note: "Ads, web, voice, commerce, CRM, finance" },
+  { step: "Resolve", value: "Identity + session join", note: "94.2% of events resolved to a record" },
+  { step: "Define", value: "Qualified lead v4", note: "Owned by revenue operations · locked 12 Feb" },
+  { step: "Model", value: "Attribution v7", note: "Assumptions published with the figure" },
+  { step: "Report", value: "$512,400 attributed", note: "Coverage 80.6% · stated on the number" },
+];
+
+export function LineageSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="lineage"
+      eyebrow="Lineage"
+      title="Open any figure and walk it back to the event."
+      lede="Every number carries its chain: which sources fed it, how records were resolved, which definition and model version applied, and how much of the business it actually covers. A disputed figure is settled by reading the trace."
+      media="below"
+      tone="paper"
+    >
+      <div className="grid gap-px overflow-hidden rounded-[var(--radius)] border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-5">
+        {lineage.map((l, i) => (
+          <motion.div
+            key={l.step}
+            className="min-w-0 bg-background px-5 py-6"
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: duration.base, ease: ease.out, delay: i * 0.07 }}
+          >
+            <p className="text-data text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground/70">
+              {String(i + 1).padStart(2, "0")} · {l.step}
+            </p>
+            <p
+              className={
+                i === lineage.length - 1
+                  ? "mt-3 text-[1.0625rem] font-medium leading-snug text-signal"
+                  : "mt-3 text-[1.0625rem] font-medium leading-snug"
+              }
+            >
+              {l.value}
+            </p>
+            <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-foreground">{l.note}</p>
+          </motion.div>
+        ))}
+      </div>
+      <IllustrativeNote className="mt-6" />
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Forecast → action handoff.
+ * ---------------------------------------------------------------------- */
+
+export function ForecastActionSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="handoff"
+      eyebrow="From forecast to action"
+      title="A forward view is only useful if something can be done about it."
+      lede="Where the range says the plan is at risk, the brief names the leading indicator, the part of the business it sits in and the decision that would move it — then hands that to Decision Intelligence with the evidence attached."
+      points={[
+        "Leading indicators tracked against the outcome they predict",
+        "Off-plan movement stated in business terms, not chart language",
+        "Handoff carries the figure, the lineage and the confidence with it",
+      ]}
+      media="right"
+    >
+      <ProductPanel title="Off-plan · Q2 pipeline" meta="flagged" footer={<IllustrativeNote />}>
+        <PanelBlock label="Reading">
+          <FieldGrid
+            fields={[
+              { label: "Forecast range", value: "Below plan" },
+              { label: "Leading indicator", value: "Appointment rate" },
+              { label: "Confidence", value: "Medium" },
+              { label: "Coverage", value: "80.6%", accent: true },
+            ]}
+          />
+        </PanelBlock>
+        <PanelBlock label="Handoff" muted>
+          <DecisionCallout
+            label="Sent to Decision Intelligence"
+            value="Framed, not executed"
+            rule="A proposal is drafted with this evidence. Nothing runs without a named approver."
+          />
+        </PanelBlock>
+      </ProductPanel>
     </ProductSection>
   );
 }
