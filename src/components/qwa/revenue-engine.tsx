@@ -209,22 +209,24 @@ function StepNarrative({
         <span className="text-data text-xs text-signal">{step.time}</span>
       </div>
 
-      <div className="relative mt-10 min-h-[16rem]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, y: 22, filter: "blur(6px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
-            transition={{ duration: duration.base, ease: ease.out }}
-          >
-            <h3 className="text-display text-[clamp(1.9rem,3vw,2.8rem)]">{step.title}</h3>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-              {step.body}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+      {/* Keyed remount rather than AnimatePresence: fast scrubbing must never
+          leave the narrative mid-exit and blank. */}
+      <div className="relative mt-9 min-h-[15rem]">
+        <motion.div
+          key={step.id}
+          initial={{ opacity: 0, y: 16, filter: "blur(5px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: duration.fast, ease: ease.out }}
+        >
+          <h3 className="text-display max-w-[16ch] text-balance text-[clamp(1.9rem,3vw,2.75rem)]">
+            {step.title}
+          </h3>
+          <p className="mt-5 max-w-[30rem] text-pretty text-base leading-relaxed text-muted-foreground">
+            {step.body}
+          </p>
+        </motion.div>
       </div>
+
 
       <ol className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
         {steps.map((s, i) => (
