@@ -247,8 +247,9 @@
   background-size:
     96px 96px,
     96px 96px;
-  opacity: 0.6;
-  mask-image: radial-gradient(ellipse 78% 62% at 50% 18%, black, transparent 76%);
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 70% 55% at 42% 22%, black, transparent 72%);
+
 }
 
 @utility text-lede {
