@@ -76,16 +76,8 @@ function DecisionRecordVisualPanel() {
             { id: "Acting within", state: "bounds" },
             { id: "Observed", state: "day 7 review" },
             { id: "Rollback", state: "one click" },
-          ].map((b, i) => (
-            <motion.span
-              key={b.id}
-              initial={{ opacity: 0, y: 4 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: duration.base, ease: ease.out, delay: i * 0.18 }}
-            >
-              <RecordBadge id={b.id} state={b.state} />
-            </motion.span>
+          ].map((b) => (
+            <RecordBadge key={b.id} id={b.id} state={b.state} />
           ))}
         </div>
       </PanelBlock>
