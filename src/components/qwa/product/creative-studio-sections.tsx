@@ -123,7 +123,7 @@ export function BriefSection() {
         "Winning patterns from Acquisition can seed the brief automatically",
       ]}
       media="right"
-      tone="paper"
+      level="sub"
     >
       <ProductPanel title="Brief · CS-2210" meta="approved 14 Mar" footer={<IllustrativeNote />}>
         <PanelBlock label="Brief fields">
@@ -171,6 +171,8 @@ export function ShotDecompositionSection() {
         "Templates and generated footage mix inside the same timeline",
       ]}
       media="left"
+      tone="paper"
+      level="sub"
     >
       <ProductPanel title="Shot list · CS-2210" meta="15s master" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
@@ -224,6 +226,7 @@ export function ProviderRoutingSection() {
       ]}
       media="right"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title="Routing candidates · shot 02" meta="simulation only" footer={
         <IllustrativeNote>
@@ -280,6 +283,8 @@ export function VariantSection() {
         "Sound-off legibility treated as a requirement, not an option",
       ]}
       media="left"
+      tone="paper"
+      level="sub"
     >
       <ProductPanel title="Variant set · CS-2210" meta="v3 · 9 assets" footer={<IllustrativeNote />}>
         <PanelBlock label="Derived formats">
@@ -336,15 +341,15 @@ const checks = [
 
 export function QualitySection() {
   return (
-    <Section id="quality" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="quality" tone="paper" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Consistency and review</p>
-            <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Consistency and review</p>
+            <h3 className="text-display mt-4 max-w-[17ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Volume is worthless if the work is off-brand.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-5 max-w-[30rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
               Every asset passes the same checks before it reaches a human reviewer, and nothing
               publishes without a named approval.
             </p>
@@ -354,7 +359,7 @@ export function QualitySection() {
             {checks.map((c) => (
               <MotionItem key={c.label}>
                 <div className="border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <p className="mt-1.5 max-w-[38rem] text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
                     {c.detail}
                   </p>
@@ -386,20 +391,9 @@ const secondary = [
 
 export function CreativeFeedbackSection() {
   return (
-    <Section id="feedback" tone="paper" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="feedback" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
-        <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Performance feedback</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
-            Creative is measured in revenue, then rewritten.
-          </h2>
-          <p className="text-lede mt-5 max-w-[35rem]">
-            Outcomes return from Acquisition and the Revenue Engine, so the next brief starts from
-            what actually produced qualified conversations — not from taste.
-          </p>
-        </MotionReveal>
-
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal>
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
@@ -443,15 +437,15 @@ const controls = [
 
 export function CreativeGovernanceSection() {
   return (
-    <Section id="governance" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="governance" tone="paper" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Governance and control</p>
+            <h3 className="text-display mt-4 max-w-[16ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Generated does not mean unsupervised.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-5 max-w-[30rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
               Speed is only useful when the work is safe to run. Every asset carries the record of
               how it was made and who cleared it.
             </p>
@@ -461,7 +455,7 @@ export function CreativeGovernanceSection() {
             {controls.map((c) => (
               <MotionItem key={c.label}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/70">
                     control: {c.held}
                   </span>
