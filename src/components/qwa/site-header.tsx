@@ -1,11 +1,14 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
 import { navigation } from "@/config/site";
 import { useDemoRequest } from "./demo-request";
+import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+
 
 export function SiteHeader() {
   const { open } = useDemoRequest();
@@ -58,21 +61,35 @@ export function SiteHeader() {
 
         <nav aria-label="Primary" className="hidden min-w-0 flex-1 items-center gap-0.5 xl:flex">
           {navigation.map((group) => (
-            <div key={group.label} onMouseEnter={() => { cancelClose(); setOpenMenu(group.label); }}>
+            <div
+              key={group.label}
+              className="relative"
+              onMouseEnter={() => {
+                cancelClose();
+                setOpenMenu(group.label);
+              }}
+            >
               <button
                 type="button"
                 aria-expanded={openMenu === group.label}
                 onClick={() => setOpenMenu(openMenu === group.label ? null : group.label)}
                 onFocus={() => setOpenMenu(group.label)}
                 className={cn(
-                  "inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
+                  "relative inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
                   openMenu === group.label && "text-foreground",
                 )}
               >
-                {group.label}
+                {openMenu === group.label ? (
+                  <motion.span
+                    layoutId="nav-hover"
+                    className="absolute inset-0 rounded-full bg-accent"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                ) : null}
+                <span className="relative">{group.label}</span>
                 <ChevronDown
                   className={cn(
-                    "h-3.5 w-3.5 transition-transform duration-200",
+                    "relative h-3.5 w-3.5 transition-transform duration-200",
                     openMenu === group.label && "rotate-180",
                   )}
                   aria-hidden="true"
@@ -80,6 +97,7 @@ export function SiteHeader() {
               </button>
             </div>
           ))}
+
         </nav>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
@@ -105,45 +123,72 @@ export function SiteHeader() {
       </Container>
 
       {/* Desktop mega menu */}
-      <div
-        className={cn(
-          "hidden overflow-hidden border-hairline transition-all duration-300 xl:block",
-          openMenu ? "border-t opacity-100" : "pointer-events-none max-h-0 opacity-0",
-        )}
-        onMouseEnter={cancelClose}
-      >
-        {navigation
-          .filter((g) => g.label === openMenu)
-          .map((group) => (
-            <Container key={group.label} className="grid grid-cols-2 gap-x-16 gap-y-8 py-10">
-              {group.columns.map((col) => (
-                <div key={col.heading}>
-                  <p className="text-eyebrow mb-5">{col.heading}</p>
-                  <ul className="grid gap-1">
-                    {col.items.map((item) => (
-                      <li key={item.label}>
-                        <Link
-                          to="/"
-                          onClick={() => setOpenMenu(null)}
-                          className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
-                        >
-                          <span className="text-sm font-medium">{item.label}</span>
-                          {item.description ? (
-                            <span className="text-sm text-muted-foreground">{item.description}</span>
-                          ) : null}
-                        </Link>
-                      </li>
+      <div className="hidden xl:block" onMouseEnter={cancelClose}>
+        <AnimatePresence initial={false}>
+          {openMenu ? (
+            <motion.div
+              key={openMenu}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: duration.fast, ease: ease.standard }}
+              className="overflow-hidden border-t border-hairline"
+            >
+              {navigation
+                .filter((g) => g.label === openMenu)
+                .map((group) => (
+                  <Container key={group.label} className="grid grid-cols-2 gap-x-16 gap-y-8 py-10">
+                    {group.columns.map((col, ci) => (
+                      <motion.div
+                        key={col.heading}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: duration.base,
+                          ease: ease.out,
+                          delay: 0.04 + ci * 0.05,
+                        }}
+                      >
+                        <p className="text-eyebrow mb-5">{col.heading}</p>
+                        <ul className="grid gap-1">
+                          {col.items.map((item) => (
+                            <li key={item.label}>
+                              <Link
+                                to="/"
+                                onClick={() => setOpenMenu(null)}
+                                className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
+                              >
+                                <span className="text-sm font-medium">{item.label}</span>
+                                {item.description ? (
+                                  <span className="text-sm text-muted-foreground">
+                                    {item.description}
+                                  </span>
+                                ) : null}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
                     ))}
-                  </ul>
-                </div>
-              ))}
-            </Container>
-          ))}
+                  </Container>
+                ))}
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
 
+
       {/* Mobile menu */}
-      {mobileOpen ? (
-        <div className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-hairline bg-background xl:hidden">
+      <AnimatePresence initial={false}>
+        {mobileOpen ? (
+          <motion.div
+            key="mobile"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: duration.fast, ease: ease.standard }}
+            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-hairline bg-background xl:hidden"
+          >
           <Container className="py-6">
             <ul className="grid gap-2">
               {navigation.map((group) => (
@@ -193,8 +238,10 @@ export function SiteHeader() {
               </Button>
             </div>
           </Container>
-        </div>
-      ) : null}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
     </header>
   );
 }

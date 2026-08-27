@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Container, Eyebrow, Reveal, Section } from "./primitives";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Container, Eyebrow, Section } from "./primitives";
+import { MotionReveal, useMediaQuery } from "./motion-primitives";
+import { RiveStage } from "./rive-stage";
+import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Step = {
@@ -50,7 +56,7 @@ const steps: Step[] = [
     id: "assist",
     time: "In room",
     title: "Salesperson assistance",
-    body: "Your rep gets the full history, the likely objection, and the next best offer — one screen, before the conversation starts.",
+    body: "Your rep gets the full history, the likely objection and the next best offer — one screen, before the conversation starts.",
     event: { channel: "Sales assist", label: "Brief delivered", meta: "next best offer: bundle B" },
   },
   {
@@ -64,146 +70,398 @@ const steps: Step[] = [
     id: "attribute",
     time: "Continuous",
     title: "Revenue attribution",
-    body: "Revenue is assigned to campaigns, creatives, keywords, conversations and reps — not to clicks or last-touch fiction.",
+    body: "The revenue travels back down the chain — to the campaign, the creative, the conversation and the rep that produced it. Not to a last click.",
     event: { channel: "Attribution", label: "Revenue assigned", meta: "q3-retarget-04 · creative 12", value: "$14,200" },
   },
   {
-    id: "reactivate",
+    id: "learn",
     time: "Ongoing",
-    title: "Reactivation",
-    body: "Dormant and lost records re-enter the loop when the model detects renewed intent or a changed offer fit.",
-    event: { channel: "Reactivation", label: "Audience rebuilt", meta: "412 records re-scored" },
+    title: "The system learns",
+    body: "Outcomes re-weight the model: budget, cadence and next-best-action shift before the next signal arrives.",
+    event: { channel: "Optimization", label: "Next best action updated", meta: "creative 12 · +18% budget" },
   },
 ];
 
+const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
+const LEARN_INDEX = steps.length - 1;
+
 export function RevenueEngine() {
-  const [active, setActive] = React.useState(0);
-  const refs = React.useRef<(HTMLDivElement | null)[]>([]);
-
-  React.useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            const i = Number((e.target as HTMLElement).dataset["index"]);
-            setActive(i);
-          }
-        }
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
-    refs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  const current = steps[active] ?? steps[0]!;
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const reduced = useReducedMotion();
 
   return (
-    <Section id="revenue-engine" tone="paper" className="overflow-hidden">
-      <Container>
-        <Reveal>
-          <div className="max-w-3xl">
-            <Eyebrow>The Revenue Engine</Eyebrow>
-            <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
-              One lead, followed end to end.
-            </h2>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Most stacks lose the thread between the click and the invoice. QWA keeps a single
-              record of the customer, the conversation and the money.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="mt-16 grid gap-10 lg:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-20">
-          {/* Narrative column */}
-          <ol className="relative">
-            <div className="absolute left-[7px] top-2 hidden h-[calc(100%-1rem)] w-px bg-hairline lg:block" />
-            {steps.map((s, i) => (
-              <li key={s.id}>
-                <div
-                  ref={(el) => {
-                    refs.current[i] = el;
-                  }}
-                  data-index={i}
-                  className={cn(
-                    "relative py-8 transition-opacity duration-500 lg:py-14 lg:pl-10",
-                    i === active ? "opacity-100" : "lg:opacity-40",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "absolute left-0 top-[2.35rem] hidden h-[15px] w-[15px] rounded-full border-2 bg-paper transition-colors duration-500 lg:block",
-                      i === active ? "border-signal" : "border-hairline-strong",
-                    )}
-                    aria-hidden="true"
-                  />
-                  <p className="text-eyebrow">
-                    {String(i + 1).padStart(2, "0")} · {s.time}
-                  </p>
-                  <h3 className="mt-3 text-2xl font-medium tracking-tight sm:text-3xl">{s.title}</h3>
-                  <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
-                    {s.body}
-                  </p>
-
-                  {/* Mobile inline event card */}
-                  <div className="mt-5 lg:hidden">
-                    <EventCard step={s} />
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          {/* Sticky system view (desktop) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-28">
-              <div className="surface-card overflow-hidden shadow-lift">
-                <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-                  <span className="text-eyebrow">Record · QWA-84213</span>
-                  <span className="text-data text-[0.7rem] text-muted-foreground">
-                    stage {active + 1}/{steps.length}
-                  </span>
-                </div>
-                <div className="h-px w-full bg-hairline">
-                  <div
-                    className="h-px bg-signal transition-all duration-700 ease-out"
-                    style={{ width: `${((active + 1) / steps.length) * 100}%` }}
-                  />
-                </div>
-                <div className="grid gap-2.5 p-5">
-                  {steps.slice(0, active + 1).slice(-5).map((s) => (
-                    <EventCard key={s.id} step={s} dim={s.id !== current.id} />
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 border-t border-hairline">
-                  {[
-                    ["Response", active >= 1 ? "9.2s" : "—"],
-                    ["Appointment", active >= 4 ? "Booked" : "—"],
-                    ["Attributed", active >= 7 ? "$14,200" : "—"],
-                  ].map(([k, v]) => (
-                    <div key={k} className="border-r border-hairline px-5 py-4 last:border-r-0">
-                      <p className="text-[0.7rem] text-muted-foreground">{k}</p>
-                      <p className="text-data mt-1 text-sm font-medium">{v}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Section id="revenue-engine" tone="paper" className="overflow-hidden py-0">
+      <Container className="pt-24 sm:pt-28 lg:pt-36">
+        <MotionReveal className="max-w-3xl">
+          <Eyebrow>The Revenue Engine</Eyebrow>
+          <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
+            One lead, followed end to end.
+          </h2>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Most stacks lose the thread between the click and the invoice. QWA keeps one record of
+            the customer, the conversation and the money — and sends the money back to its source.
+          </p>
+        </MotionReveal>
       </Container>
+
+      {isDesktop && !reduced ? <PinnedSequence /> : <LinearSequence />}
     </Section>
   );
 }
 
-function EventCard({ step, dim }: { step: Step; dim?: boolean }) {
+/* -------------------------------------------------------------------------
+ * Desktop: pinned, scrubbed cinematic sequence (GSAP ScrollTrigger)
+ * ---------------------------------------------------------------------- */
+
+function PinnedSequence() {
+  const wrapRef = React.useRef<HTMLDivElement | null>(null);
+  const stageRef = React.useRef<HTMLDivElement | null>(null);
+  const [index, setIndex] = React.useState(0);
+  const [progress, setProgress] = React.useState(0);
+
+  React.useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const wrap = wrapRef.current;
+    const stage = stageRef.current;
+    if (!wrap || !stage) return;
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: wrap,
+        start: "top top",
+        end: () => `+=${steps.length * 62}%`,
+        pin: stage,
+        pinSpacing: true,
+        scrub: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          setProgress(p);
+          const i = Math.min(steps.length - 1, Math.floor(p * steps.length + 0.0001));
+          setIndex((prev) => (prev === i ? prev : i));
+        },
+      });
+    }, wrap);
+
+    return () => ctx.revert();
+  }, []);
+
+  const step = steps[index]!;
+
   return (
-    <div
-      className={cn(
-        "animate-rise rounded-xl border border-hairline bg-paper px-4 py-3 transition-opacity duration-500",
-        dim && "opacity-45",
-      )}
-    >
+    <div ref={wrapRef} className="relative">
+      <div ref={stageRef} className="flex min-h-screen items-center">
+        <Container className="w-full py-16">
+          <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] xl:gap-24">
+            <StepNarrative index={index} step={step} progress={progress} />
+            <RecordStage index={index} progress={progress} />
+          </div>
+        </Container>
+      </div>
+    </div>
+  );
+}
+
+function StepNarrative({
+  index,
+  step,
+  progress,
+}: {
+  index: number;
+  step: Step;
+  progress: number;
+}) {
+  return (
+    <div className="min-w-0">
+      <div className="flex items-center gap-4">
+        <span className="text-data text-xs text-muted-foreground">
+          {String(index + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+        </span>
+        <span className="h-px flex-1 bg-hairline">
+          <span
+            className="block h-px bg-signal"
+            style={{ width: `${Math.round(progress * 100)}%` }}
+          />
+        </span>
+        <span className="text-data text-xs text-signal">{step.time}</span>
+      </div>
+
+      <div className="relative mt-10 min-h-[16rem]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step.id}
+            initial={{ opacity: 0, y: 22, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -14, filter: "blur(6px)" }}
+            transition={{ duration: duration.base, ease: ease.out }}
+          >
+            <h3 className="text-display text-[clamp(1.9rem,3vw,2.8rem)]">{step.title}</h3>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
+              {step.body}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <ol className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
+        {steps.map((s, i) => (
+          <li key={s.id} className="flex items-center gap-2">
+            <span
+              className={cn(
+                "h-1 w-1 rounded-full transition-colors duration-500",
+                i <= index ? "bg-signal" : "bg-hairline-strong",
+              )}
+            />
+            <span
+              className={cn(
+                "text-[0.7rem] transition-colors duration-500",
+                i === index
+                  ? "text-foreground"
+                  : i < index
+                    ? "text-muted-foreground"
+                    : "text-muted-foreground/45",
+              )}
+            >
+              {s.title}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/** The system-of-record panel: journey spine, event feed, attribution return. */
+function RecordStage({ index, progress }: { index: number; progress: number }) {
+  const attributing = index >= ATTRIBUTION_INDEX;
+  const learning = index >= LEARN_INDEX;
+  const visible = steps.slice(0, index + 1).slice(-4);
+
+  return (
+    <RiveStage
+      label="Animated walkthrough of a single customer record moving from first signal to attributed revenue"
+      fallback={
+        <div className="surface-card overflow-hidden shadow-lift">
+          <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
+            <span className="text-eyebrow">Record · QWA-84213</span>
+            <span className="text-data text-[0.7rem] text-muted-foreground">
+              stage {index + 1}/{steps.length}
+            </span>
+          </div>
+          <div className="h-px w-full bg-hairline">
+            <motion.div
+              className="h-px bg-signal"
+              animate={{ width: `${Math.round(progress * 100)}%` }}
+              transition={{ duration: 0.2, ease: "linear" }}
+            />
+          </div>
+
+          <div className="grid gap-6 p-6 sm:grid-cols-[8.5rem_minmax(0,1fr)]">
+            <JourneySpine index={index} attributing={attributing} />
+
+            <div className="grid content-start gap-2.5">
+              <AnimatePresence initial={false} mode="popLayout">
+                {visible.map((s) => (
+                  <motion.div
+                    key={s.id}
+                    layout
+                    initial={{ opacity: 0, y: 14, scale: 0.985 }}
+                    animate={{ opacity: s.id === steps[index]!.id ? 1 : 0.45, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.985 }}
+                    transition={{ duration: duration.fast, ease: ease.out }}
+                  >
+                    <EventCard step={s} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 border-t border-hairline">
+            {[
+              ["Response", index >= 1 ? "9.2s" : "—"],
+              ["Appointment", index >= 4 ? "Booked" : "—"],
+              ["Attributed", attributing ? "$14,200" : "—"],
+            ].map(([k, v]) => (
+              <div key={k} className="border-r border-hairline px-5 py-4 last:border-r-0">
+                <p className="text-[0.7rem] text-muted-foreground">{k}</p>
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={v}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: duration.fast, ease: ease.out }}
+                    className={cn(
+                      "text-data mt-1 text-sm font-medium",
+                      v !== "—" && "text-foreground",
+                    )}
+                  >
+                    {v}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+
+          <AnimatePresence>
+            {learning ? (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: duration.base, ease: ease.out }}
+                className="overflow-hidden border-t border-hairline bg-signal-soft/60"
+              >
+                <div className="flex items-center justify-between gap-4 px-5 py-4">
+                  <p className="text-sm font-medium">Next best action updated</p>
+                  <span className="text-data text-[0.7rem] text-muted-foreground">
+                    creative 12 · budget +18%
+                  </span>
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
+        </div>
+      }
+    />
+  );
+}
+
+const spineNodes = ["Source", "Response", "Qualify", "Follow-up", "Appt", "Assist", "Sale"];
+
+/** Vertical journey with a return path that carries revenue back to the source. */
+function JourneySpine({ index, attributing }: { index: number; attributing: boolean }) {
+  const reachedNode = Math.min(spineNodes.length - 1, index);
+  const gap = 34;
+  const height = (spineNodes.length - 1) * gap + 16;
+  const spineX = 30;
+
+  return (
+    <div className="relative">
+      <svg
+        viewBox={`0 0 120 ${height}`}
+        className="h-full w-full text-signal"
+        fill="none"
+        aria-hidden="true"
+        preserveAspectRatio="xMinYMin meet"
+      >
+        <line
+          x1={spineX}
+          y1="8"
+          x2={spineX}
+          y2={height - 8}
+          stroke="var(--hairline-strong)"
+          strokeWidth="1"
+        />
+        <motion.line
+          x1={spineX}
+          y1="8"
+          x2={spineX}
+          y2={height - 8}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: (reachedNode * gap) / (height - 16) }}
+          transition={{ duration: duration.base, ease: ease.out }}
+          stroke="currentColor"
+          strokeWidth="1.5"
+        />
+        {spineNodes.map((_, i) => (
+          <motion.circle
+            key={i}
+            cx={spineX}
+            cy={8 + i * gap}
+            r={i === reachedNode ? 4.5 : 3}
+            animate={{
+              opacity: i <= reachedNode ? 1 : 0.28,
+              scale: i === reachedNode ? 1 : 0.9,
+            }}
+            transition={{ duration: duration.fast, ease: ease.out }}
+            fill={i <= reachedNode ? "currentColor" : "var(--hairline-strong)"}
+          />
+        ))}
+
+        {/* Revenue returning to the source that produced it */}
+        <motion.path
+          d={`M${spineX} ${height - 8} C 2 ${height - 8}, 2 8, ${spineX} 8`}
+          stroke="var(--positive)"
+          strokeWidth="1.25"
+          strokeDasharray="3 5"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={attributing ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+          transition={{ duration: 1.1, ease: ease.out }}
+        />
+        {spineNodes.map((n, i) => (
+          <text
+            key={`t-${n}`}
+            x={spineX + 13}
+            y={8 + i * gap + 3}
+            fontSize="9"
+            className={cn(
+              "transition-colors duration-500",
+              i <= reachedNode ? "fill-foreground" : "fill-muted-foreground/45",
+            )}
+          >
+            {n}
+          </text>
+        ))}
+      </svg>
+
+      <AnimatePresence>
+        {attributing ? (
+          <motion.span
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.7, duration: duration.base, ease: ease.out }}
+            className="text-data absolute -left-1 top-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap rounded-full bg-positive/10 px-2 py-0.5 text-[0.6rem] text-positive"
+          >
+            $14,200 → source
+          </motion.span>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+
+/* -------------------------------------------------------------------------
+ * Mobile / reduced motion: linear progression, no pinning, no scrub
+ * ---------------------------------------------------------------------- */
+
+function LinearSequence() {
+  return (
+    <Container className="pb-24 pt-14 sm:pb-28">
+      <ol className="relative border-l border-hairline pl-6">
+        {steps.map((s, i) => (
+          <li key={s.id}>
+            <MotionReveal className="relative py-7" amount={0.4}>
+              <span
+                className={cn(
+                  "absolute -left-[1.72rem] top-9 h-[9px] w-[9px] rounded-full",
+                  s.id === "attribute" || s.id === "learn" ? "bg-positive" : "bg-signal",
+                )}
+                aria-hidden="true"
+              />
+              <p className="text-eyebrow">
+                {String(i + 1).padStart(2, "0")} · {s.time}
+              </p>
+              <h3 className="mt-3 text-xl font-medium tracking-tight">{s.title}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+              <div className="mt-4">
+                <EventCard step={s} />
+              </div>
+            </MotionReveal>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  );
+}
+
+function EventCard({ step }: { step: Step }) {
+  return (
+    <div className="rounded-xl border border-hairline bg-paper px-4 py-3">
       <div className="flex items-center justify-between gap-3">
         <p className="truncate text-sm font-medium">{step.event.label}</p>
         <span className="text-data shrink-0 text-[0.65rem] text-muted-foreground">{step.time}</span>
