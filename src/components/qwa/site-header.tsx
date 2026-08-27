@@ -148,7 +148,7 @@ export function SiteHeader() {
           >
             Sign in
           </Link>
-          <Button variant="ink" size="pill" onClick={open} className="hidden sm:inline-flex">
+          <Button variant="ink" size="pill" onClick={() => open("site_header")} className="hidden sm:inline-flex">
             Book a demo
           </Button>
           <button
@@ -279,7 +279,7 @@ export function SiteHeader() {
                 size="xl"
                 onClick={() => {
                   setMobileOpen(false);
-                  open();
+                  open("site_header");
                 }}
               >
                 Book a demo

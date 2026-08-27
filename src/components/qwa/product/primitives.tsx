@@ -71,7 +71,7 @@ export function ProductHero({
             </h1>
             <p className="text-lede mt-6 max-w-[34rem]">{lede}</p>
             <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7 sm:gap-y-3">
-              <Button variant="ink" size="xl" onClick={open}>
+              <Button variant="ink" size="xl" onClick={() => open("product_hero")}>
                 Book a demo
               </Button>
               {secondaryLabel && secondaryHref ? (
@@ -715,7 +715,7 @@ export function ProductCta({
             </p>
           ) : null}
           <div className="mt-9">
-            <Button variant="onInk" size="xl" onClick={open}>
+            <Button variant="onInk" size="xl" onClick={() => open("product_cta")}>
               Book a demo
             </Button>
           </div>
