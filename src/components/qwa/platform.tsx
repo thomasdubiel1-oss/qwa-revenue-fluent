@@ -18,7 +18,7 @@ export const capabilities: Capability[] = [
     id: "capture",
     name: "Signal capture",
     outcome: "No inbound goes unread",
-    body: "Ads, search, forms, calls, chat and social messages land in one record with the campaign, creative and page that produced them.",
+    body: "Ads, search, forms, calls, chat and social land in one record with the campaign, creative and page that produced them.",
     href: "/platform/signal-capture",
   },
   {
@@ -38,7 +38,7 @@ export const capabilities: Capability[] = [
   {
     id: "scheduling",
     name: "Scheduling",
-    outcome: "More kept appointments",
+    outcome: "More appointments kept",
     body: "Live calendar availability, confirmations, reminders and reschedules handled without a coordinator.",
     href: "/platform/scheduling",
   },
@@ -46,7 +46,7 @@ export const capabilities: Capability[] = [
     id: "assist",
     name: "Sales assistance",
     outcome: "Every rep walks in prepared",
-    body: "Full history, likely objection and next best offer delivered before the conversation starts.",
+    body: "Full history, the likely objection and the next best offer delivered before the conversation starts.",
     href: "/platform/sales-assistance",
   },
   {
@@ -78,7 +78,7 @@ export function PlatformPreview() {
   return (
     <Section id="platform">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
           <SectionHeading
             eyebrow="Platform"
             title="Eight capabilities, one operating system."
@@ -87,24 +87,21 @@ export function PlatformPreview() {
           />
 
           <MotionStagger stagger={0.045} className="min-w-0 border-t border-hairline">
-            {capabilities.map((c, i) => (
+            {capabilities.map((c) => (
               <MotionItem key={c.id}>
                 <motion.div
-                  className="group grid grid-cols-[2.5rem_minmax(0,1fr)] items-baseline gap-x-4 border-b border-hairline py-7 sm:grid-cols-[3.5rem_minmax(0,1fr)]"
+                  className="group border-b border-hairline py-8"
                   whileHover={reduced ? {} : { x: 4 }}
                   transition={{ duration: duration.fast, ease: ease.out }}
                 >
-                  <span className="text-data text-[0.7rem] text-muted-foreground/70">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.name}</h3>
-                      <span className="text-data text-[0.7rem] text-signal">{c.outcome}</span>
-                    </div>
-                    <p className="mt-2.5 max-w-[42rem] text-[0.9375rem] leading-relaxed text-muted-foreground">
+                    <h3 className="text-[1.25rem] font-medium tracking-tight sm:text-[1.375rem]">
+                      {c.outcome}
+                    </h3>
+                    <p className="mt-3 max-w-[40rem] text-[0.9375rem] leading-relaxed text-muted-foreground">
                       {c.body}
                     </p>
+                    <p className="mt-4 text-[0.8125rem] text-signal">{c.name}</p>
                   </div>
                 </motion.div>
               </MotionItem>

@@ -1,19 +1,28 @@
 import * as React from "react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Container, Section, SectionHeading } from "./primitives";
-import { MetricValue, MotionItem, MotionReveal, MotionStagger, PointerCard } from "./motion-primitives";
+import { MetricValue, MotionItem, MotionReveal, MotionStagger } from "./motion-primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+/** Four movements of the loop. Fewer, larger ideas beat an eight-cell grid. */
 const stages = [
-  { label: "Acquire", body: "Demand captured across paid, organic, social and voice." },
-  { label: "Engage", body: "Instant, governed conversation in the customer's channel." },
-  { label: "Convert", body: "Qualification, booking and assisted selling in one path." },
-  { label: "Attribute", body: "Revenue joined back to every touch that produced it." },
-  { label: "Predict", body: "Forecast intent, value and likely close on live data." },
-  { label: "Decide", body: "Budget, offer and routing choices ranked by revenue impact." },
-  { label: "Execute", body: "Changes shipped to channels within policy limits you set." },
-  { label: "Learn", body: "Outcomes rewrite the model — the loop gets sharper weekly." },
+  {
+    label: "Acquire",
+    body: "Demand captured across paid, organic, social and voice — with the campaign and creative attached.",
+  },
+  {
+    label: "Engage",
+    body: "Instant, governed conversation in the customer's channel: qualification, booking and assisted selling in one path.",
+  },
+  {
+    label: "Attribute",
+    body: "Closed revenue joined back to every touch that produced it, not to a last click.",
+  },
+  {
+    label: "Learn",
+    body: "Outcomes re-weight budget, offer and routing before the next signal arrives.",
+  },
 ];
 
 export function ClosedLoop() {
@@ -23,7 +32,7 @@ export function ClosedLoop() {
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.85", "end 0.45"],
+    offset: ["start 0.85", "end 0.5"],
   });
   const stageIndex = useTransform(scrollYProgress, (p) =>
     Math.min(stages.length - 1, Math.max(0, Math.floor(p * stages.length))),
@@ -37,62 +46,75 @@ export function ClosedLoop() {
     <Section tone="ink" className="overflow-hidden">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow text-ink-foreground/60">Closed-loop intelligence</p>
-          <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
+          <p className="text-[0.8125rem] font-medium text-ink-foreground/60">
+            Closed-loop intelligence
+          </p>
+          <h2 className="text-display mt-5 text-[clamp(2rem,4.4vw,3.4rem)]">
             A system that optimizes revenue, not clicks.
           </h2>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-ink-foreground/70 sm:text-lg">
-            Channel dashboards optimize their own metric. QWA runs a single loop where every
-            decision is scored against the money it produced downstream.
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-foreground/70">
+            Channel dashboards optimize their own metric. QWA runs one loop where every decision is
+            scored against the money it produced downstream.
           </p>
         </MotionReveal>
 
-        <div ref={ref} className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-ink-foreground/12 bg-ink-foreground/10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
-          {stages.map((s, i) => (
-            <motion.div
-              key={s.label}
-              animate={{
-                backgroundColor:
-                  i <= active
-                    ? "color-mix(in oklab, var(--ink-foreground) 6%, var(--ink))"
-                    : "var(--ink)",
-              }}
-              transition={{ duration: duration.base, ease: ease.out }}
-              className="group relative min-w-0 p-6 lg:p-7"
-            >
+        <div ref={ref} className="mt-16 lg:mt-24">
+          {/* The loop line: nodes advance with scroll, then the return path closes it. */}
+          <div className="relative hidden h-px w-full bg-ink-foreground/15 lg:block">
+            <motion.span
+              className="absolute inset-y-0 left-0 block bg-signal"
+              animate={{ width: `${((active + 1) / stages.length) * 100}%` }}
+              transition={{ duration: duration.slow, ease: ease.out }}
+            />
+            {stages.map((s, i) => (
               <motion.span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px origin-left bg-signal"
-                animate={{ scaleX: i <= active ? 1 : 0 }}
-                transition={{ duration: duration.base, ease: ease.out }}
+                key={s.label}
+                className="absolute top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{ left: `${(i / stages.length) * 100 + 100 / stages.length / 2}%` }}
+                animate={{
+                  backgroundColor:
+                    i <= active
+                      ? "var(--signal)"
+                      : "color-mix(in oklab, var(--ink-foreground) 25%, transparent)",
+                  scale: i === active ? 1.4 : 1,
+                }}
+                transition={{ duration: duration.fast, ease: ease.out }}
               />
-              <div className="flex items-center gap-2">
-                <motion.span
-                  className="h-1.5 w-1.5 rounded-full"
-                  animate={{
-                    backgroundColor:
-                      i <= active
-                        ? "var(--signal)"
-                        : "color-mix(in oklab, var(--ink-foreground) 25%, transparent)",
-                    scale: i === active ? 1.25 : 1,
-                  }}
-                  transition={{ duration: duration.fast, ease: ease.out }}
-                />
-                <span className="text-data text-[0.65rem] text-ink-foreground/50">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+            ))}
+          </div>
+
+          <div className="grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+            {stages.map((s, i) => (
+              <div key={s.label} className="min-w-0">
+                <div className="flex items-center gap-2 lg:hidden">
+                  <motion.span
+                    className="h-1.5 w-1.5 rounded-full"
+                    animate={{
+                      backgroundColor:
+                        i <= active
+                          ? "var(--signal)"
+                          : "color-mix(in oklab, var(--ink-foreground) 25%, transparent)",
+                    }}
+                    transition={{ duration: duration.fast, ease: ease.out }}
+                  />
+                  <span className="text-data text-[0.65rem] text-ink-foreground/45">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3
+                  className={cn(
+                    "mt-4 text-[1.375rem] font-medium tracking-tight transition-colors duration-500 lg:mt-0",
+                    i <= active ? "text-ink-foreground" : "text-ink-foreground/35",
+                  )}
+                >
+                  {s.label}
+                </h3>
+                <p className="mt-3 max-w-[26ch] text-[0.9375rem] leading-relaxed text-ink-foreground/60">
+                  {s.body}
+                </p>
               </div>
-              <h3
-                className={cn(
-                  "mt-5 text-lg font-medium tracking-tight transition-colors duration-500",
-                  i <= active ? "text-ink-foreground" : "text-ink-foreground/40",
-                )}
-              >
-                {s.label}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-foreground/60">{s.body}</p>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </Container>
     </Section>
@@ -135,24 +157,17 @@ const headline: Metric[] = [
 
 const secondary: Metric[] = [
   {
-    k: "Qualified leads / mo",
-    value: 1284,
-    format: (n) => Math.round(n).toLocaleString("en-US"),
-    d: "+34%",
-    positive: true,
-  },
-  {
     k: "Appointments set",
     value: 612,
     format: (n) => Math.round(n).toLocaleString("en-US"),
-    d: "48% of qualified",
+    d: "48% of qualified leads",
   },
   { k: "Blended CAC", value: 318, format: usd, d: "−22%", positive: true },
   {
     k: "Revenue recovered",
     value: 486000,
     format: (n) => `$${Math.round(n / 1000)}K`,
-    d: "reactivation",
+    d: "from reactivation",
     positive: true,
   },
 ];
@@ -171,22 +186,19 @@ export function OutcomePanel() {
         <SectionHeading
           eyebrow="Executive view"
           title="The numbers a revenue leader actually reviews."
-          lede="Speed, throughput, conversion, cost and attributed revenue in one panel — joined to the source that produced each dollar."
+          lede="Speed, conversion, cost and attributed revenue in one panel — joined to the source that produced each dollar."
         />
 
         <MotionReveal className="mt-14 lg:mt-20">
-          <div className="surface-card overflow-hidden shadow-lift">
+          <div className="surface-card overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-5 py-4 sm:px-8">
-              <div className="flex min-w-0 items-center gap-3">
+              <div className="flex min-w-0 items-center gap-2.5">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-positive animate-node-pulse" />
                 <p className="truncate text-sm font-medium">Revenue overview</p>
-                <span className="text-data hidden text-[0.65rem] text-muted-foreground sm:inline">
-                  demo workspace
-                </span>
               </div>
-              <span className="text-data shrink-0 rounded-full border border-hairline px-2.5 py-1 text-[0.62rem] text-muted-foreground">
+              <p className="shrink-0 text-[0.75rem] text-muted-foreground">
                 Illustrative data · trailing 90 days
-              </span>
+              </p>
             </div>
 
             <MotionStagger
@@ -194,9 +206,9 @@ export function OutcomePanel() {
               className="grid divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0"
             >
               {headline.map((m) => (
-                <MotionItem key={m.k} className="min-w-0 px-5 py-8 sm:px-8">
-                  <p className="text-eyebrow text-[0.62rem]">{m.k}</p>
-                  <p className="text-data mt-4 text-[2rem] font-medium leading-none tracking-tight sm:text-[2.5rem]">
+                <MotionItem key={m.k} className="min-w-0 px-5 py-9 sm:px-8">
+                  <p className="truncate text-[0.8125rem] text-muted-foreground">{m.k}</p>
+                  <p className="text-data mt-4 text-[2.25rem] font-medium leading-none tracking-tight sm:text-[2.75rem]">
                     <MetricValue value={m.value} format={m.format} />
                   </p>
                   <p
@@ -213,7 +225,7 @@ export function OutcomePanel() {
 
             <MotionStagger
               stagger={0.05}
-              className="grid grid-cols-2 border-t border-border divide-x divide-y divide-border lg:grid-cols-4 lg:divide-y-0"
+              className="grid border-t border-border divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0"
             >
               {secondary.map((m) => (
                 <MotionItem key={m.k} className="min-w-0 px-5 py-6 sm:px-8">
@@ -233,17 +245,17 @@ export function OutcomePanel() {
               ))}
             </MotionStagger>
 
-            <div className="border-t border-border bg-paper px-5 py-7 sm:px-8">
+            <div className="border-t border-border bg-paper px-5 py-8 sm:px-8">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="text-xs text-muted-foreground">Attributed revenue by source</p>
-                <p className="text-data text-[0.65rem] text-muted-foreground">
+                <p className="text-[0.8125rem] font-medium">Attributed revenue by source</p>
+                <p className="text-[0.75rem] text-muted-foreground">
                   joined at close, not last click
                 </p>
               </div>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-x-10">
+              <div className="mt-6 grid gap-3.5 sm:grid-cols-2 sm:gap-x-12">
                 {sources.map(([label, w, amount], i) => (
                   <div key={label} className="flex items-center gap-3">
-                    <span className="w-16 shrink-0 text-[0.75rem] text-muted-foreground">
+                    <span className="w-16 shrink-0 text-[0.8125rem] text-muted-foreground">
                       {label}
                     </span>
                     <span className="h-1 min-w-0 flex-1 rounded-full bg-muted">
@@ -255,7 +267,7 @@ export function OutcomePanel() {
                         transition={{ duration: 0.9, ease: ease.out, delay: 0.08 + i * 0.07 }}
                       />
                     </span>
-                    <span className="text-data w-16 shrink-0 text-right text-[0.72rem]">
+                    <span className="text-data w-16 shrink-0 text-right text-[0.78rem]">
                       {amount}
                     </span>
                   </div>
@@ -268,4 +280,3 @@ export function OutcomePanel() {
     </Section>
   );
 }
-

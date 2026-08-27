@@ -80,10 +80,18 @@ const steps: Step[] = [
     body: "Outcomes re-weight the model: budget, cadence and next-best-action shift before the next signal arrives.",
     event: { channel: "Optimization", label: "Next best action updated", meta: "creative 12 · +18% budget" },
   },
+  {
+    id: "reactivate",
+    time: "Later",
+    title: "Reactivation",
+    body: "Dormant leads and past customers re-enter the loop on intent, not on a calendar date — pipeline you already paid for.",
+    event: { channel: "Reactivation", label: "Dormant lead re-engaged", meta: "intent signal · 214 days idle" },
+  },
 ];
 
+
 const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
-const LEARN_INDEX = steps.length - 1;
+const LEARN_INDEX = steps.findIndex((s) => s.id === "learn");
 
 export function RevenueEngine() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -91,7 +99,7 @@ export function RevenueEngine() {
 
   return (
     <Section id="revenue-engine" tone="paper" className="overflow-hidden py-0">
-      <Container className="pt-24 sm:pt-28 lg:pt-36">
+      <Container className="pt-20 sm:pt-24 lg:pt-28">
         <MotionReveal className="max-w-3xl">
           <Eyebrow>The Revenue Engine</Eyebrow>
           <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
@@ -242,13 +250,14 @@ function RecordStage({ index, progress }: { index: number; progress: number }) {
     <RiveStage
       label="Animated walkthrough of a single customer record moving from first signal to attributed revenue"
       fallback={
-        <div className="surface-card overflow-hidden shadow-lift">
+        <div className="surface-card overflow-hidden shadow-card">
           <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-            <span className="text-eyebrow">Record · QWA-84213</span>
+            <span className="text-data text-[0.7rem] text-muted-foreground">Record · QWA-84213</span>
             <span className="text-data text-[0.7rem] text-muted-foreground">
               stage {index + 1}/{steps.length}
             </span>
           </div>
+
           <div className="h-px w-full bg-hairline">
             <motion.div
               className="h-px bg-signal"

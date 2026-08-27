@@ -72,7 +72,7 @@ export function SignalFlow({ className }: { className?: string }) {
 
   return (
     <div className={cn("relative min-w-0", className)}>
-      <div className="glass-panel rounded-[1.5rem] p-4 sm:p-5">
+      <div className="surface-card p-4 shadow-card sm:p-5">
         {/* Panel chrome */}
         <div className="flex items-center justify-between gap-3 border-b border-hairline pb-3.5">
           <div className="flex min-w-0 items-center gap-2.5">
@@ -80,14 +80,13 @@ export function SignalFlow({ className }: { className?: string }) {
               <span className="absolute inset-0 rounded-full bg-signal/30 animate-node-pulse" />
               <span className="h-1 w-1 rounded-full bg-signal" />
             </span>
-            <p className="text-eyebrow text-foreground/70">Signal flow</p>
+            <p className="text-[0.8125rem] font-medium">Signal flow</p>
           </div>
-          <p className="text-data shrink-0 text-[0.65rem] text-muted-foreground">
-            simulation · illustrative data
-          </p>
+          <p className="shrink-0 text-[0.75rem] text-muted-foreground">Illustrative simulation</p>
         </div>
 
-        <div className="grid grid-cols-[minmax(0,0.92fr)_minmax(4.5rem,0.8fr)_minmax(0,1fr)] items-stretch gap-2 pt-4 sm:gap-3">
+
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(3.5rem,0.62fr)_minmax(0,1fr)] items-stretch gap-2 pt-4 sm:gap-3">
           {/* Sources */}
           <ul className="grid content-between gap-1.5">
             {sources.map((s, i) => {
@@ -96,10 +95,8 @@ export function SignalFlow({ className }: { className?: string }) {
                 <li
                   key={s.id}
                   className={cn(
-                    "relative flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2.5 py-2 transition-colors duration-500 sm:px-3",
-                    isActive
-                      ? "border-signal/35 bg-signal-soft/70"
-                      : "border-hairline bg-card/50",
+                    "relative flex min-w-0 items-center justify-between gap-2 rounded-md border px-2.5 py-2 transition-colors duration-500 sm:px-3",
+                    isActive ? "border-signal/40 bg-signal-soft/60" : "border-hairline bg-transparent",
                   )}
                 >
                   <span className="flex min-w-0 items-center gap-2">
@@ -111,19 +108,20 @@ export function SignalFlow({ className }: { className?: string }) {
                     />
                     <span className="truncate text-[0.8rem] font-medium">{s.label}</span>
                   </span>
-                  <span className="text-data hidden shrink-0 text-[0.6rem] text-muted-foreground lg:inline">
-                    {isActive && attributed ? (
-                      <span className="text-positive">+$14,200</span>
-                    ) : isActive ? (
-                      "live"
-                    ) : (
-                      s.detail
-                    )}
-                  </span>
+                  {isActive ? (
+                    <span className="text-data hidden shrink-0 text-[0.6rem] sm:inline">
+                      {attributed ? (
+                        <span className="text-positive">+$14,200</span>
+                      ) : (
+                        <span className="text-muted-foreground">{s.detail}</span>
+                      )}
+                    </span>
+                  ) : null}
                 </li>
               );
             })}
           </ul>
+
 
           {/* Routing + intelligence node */}
           <div className="relative">

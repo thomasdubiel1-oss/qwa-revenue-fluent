@@ -243,30 +243,27 @@
 @utility qwa-mesh {
   background-image:
     linear-gradient(to right, var(--hairline) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--hairline) 1px, transparent 1px),
-    radial-gradient(
-      42% 38% at 78% 18%,
-      color-mix(in oklab, var(--signal) 9%, transparent),
-      transparent 72%
-    );
+    linear-gradient(to bottom, var(--hairline) 1px, transparent 1px);
   background-size:
-    72px 72px,
-    72px 72px,
-    100% 100%;
-  mask-image: radial-gradient(ellipse 100% 74% at 62% 26%, black, transparent 82%);
+    96px 96px,
+    96px 96px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 70% 55% at 42% 22%, black, transparent 72%);
+
 }
 
 @utility text-lede {
-  font-size: 1.0625rem;
-  line-height: 1.62;
-  letter-spacing: -0.005em;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
   color: var(--muted-foreground);
+  text-wrap: pretty;
 }
 
 @utility glass-panel {
-  background: color-mix(in oklab, var(--card) 72%, transparent);
-  backdrop-filter: blur(20px) saturate(150%);
-  box-shadow: var(--shadow-inset-hairline), var(--shadow-card);
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
 }
 
 @utility surface-card {
@@ -274,6 +271,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
 }
+
 
 /* ---- Motion ---- */
 
