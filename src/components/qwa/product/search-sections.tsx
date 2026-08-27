@@ -271,7 +271,7 @@ export function GeoSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Generative and AI answer surfaces</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Written to be understood by the systems doing the answering.
           </h2>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">

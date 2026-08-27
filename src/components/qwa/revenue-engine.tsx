@@ -114,10 +114,10 @@ export function RevenueEngine({
 
   return (
     <Section id={id} tone="paper" className="scroll-mt-24 overflow-hidden py-0">
-      <Container className="pt-20 sm:pt-24 lg:pt-28">
+      <Container className="pt-16 sm:pt-20 lg:pt-24">
         <MotionReveal className="max-w-3xl">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">{title}</h2>
+          <h2 className="text-display mt-5 text-[clamp(2rem,3.8vw,3.05rem)]">{title}</h2>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             {lede}
           </p>
@@ -218,7 +218,7 @@ function StepNarrative({
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: duration.fast, ease: ease.out }}
         >
-          <h3 className="text-display max-w-[16ch] text-balance text-[clamp(1.9rem,3vw,2.75rem)]">
+          <h3 className="text-display max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             {step.title}
           </h3>
           <p className="mt-5 max-w-[30rem] text-pretty text-base leading-relaxed text-muted-foreground">

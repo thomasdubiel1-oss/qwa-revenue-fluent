@@ -218,7 +218,7 @@ export function ReturnPathSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Revenue return path</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             When a deal closes, the money travels back up the journey.
           </h2>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">

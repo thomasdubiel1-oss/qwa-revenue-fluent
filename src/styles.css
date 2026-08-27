@@ -253,11 +253,17 @@
 }
 
 @utility text-lede {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   line-height: 1.6;
   letter-spacing: -0.011em;
   color: var(--muted-foreground);
   text-wrap: pretty;
+}
+
+@media (min-width: 640px) {
+  .text-lede {
+    font-size: 1.125rem;
+  }
 }
 
 @utility glass-panel {
@@ -277,7 +283,7 @@
 
 @utility reveal-init {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(14px);
   filter: blur(3px);
 }
 
@@ -286,9 +292,9 @@
   transform: none;
   filter: none;
   transition:
-    opacity 0.8s var(--ease-out-quant),
-    transform 0.8s var(--ease-out-quant),
-    filter 0.8s var(--ease-out-quant);
+    opacity 0.62s var(--ease-out-quant),
+    transform 0.62s var(--ease-out-quant),
+    filter 0.62s var(--ease-out-quant);
 }
 
 @keyframes qwa-pulse-node {

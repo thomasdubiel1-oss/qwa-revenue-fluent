@@ -98,7 +98,7 @@ function LoopRail() {
           initial={{ pathLength: 0 }}
           whileInView={{ pathLength: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.4, ease: ease.out }}
+          transition={{ duration: 1.1, ease: ease.out }}
         />
         {railNodes.map((n, i) => {
           const cx = left + i * span;
@@ -141,7 +141,7 @@ function LoopRail() {
           initial={{ pathLength: 0, opacity: 0 }}
           whileInView={{ pathLength: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1.3, ease: ease.out, delay: 1.1 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.7 }}
         />
         <motion.text
           x="200"
@@ -152,7 +152,7 @@ function LoopRail() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: duration.base, delay: 2.1 }}
+          transition={{ duration: duration.base, delay: 1.5 }}
           style={{ letterSpacing: "0.06em" }}
         >
           $14,200 attributed back to source
@@ -706,7 +706,7 @@ export function AttributionSection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal>
             <p className="text-eyebrow">Sale and attribution</p>
-            <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.95rem,3.6vw,3rem)]">
+            <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               The revenue goes back to everything that produced it.
             </h2>
             <p className="mt-6 max-w-[33rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">
@@ -1001,7 +1001,7 @@ export function ExecutiveViewSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Executive view</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Six numbers a revenue leader can act on.
           </h2>
           <p className="text-lede mt-5 max-w-[34rem]">
@@ -1087,7 +1087,7 @@ export function GovernanceSection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               Autonomy is only useful with a brake.
             </h2>
             <p className="text-lede mt-5 max-w-[30rem]">
@@ -1154,7 +1154,7 @@ export function IntegrationsSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">System of record</p>
-          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[20ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Model-agnostic, platform-agnostic, adapter-based.
           </h2>
           <p className="text-lede mt-5 max-w-[36rem]">

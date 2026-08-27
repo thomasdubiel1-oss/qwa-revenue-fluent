@@ -56,17 +56,17 @@ export function ProductHero({
   const { open } = useDemoRequest();
 
   return (
-    <Section bleed className="overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+    <Section bleed className="overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-40">
       <div className="qwa-mesh pointer-events-none absolute inset-0" aria-hidden="true" />
       <Container className="relative">
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="min-w-0">
             <p className="text-eyebrow">{eyebrow}</p>
-            <h1 className="text-display mt-6 max-w-[15ch] text-balance text-[clamp(2.35rem,4.9vw,3.8rem)]">
+            <h1 className="text-display mt-6 max-w-[17ch] text-balance text-[clamp(2.35rem,4.6vw,3.7rem)]">
               {title}
             </h1>
-            <p className="text-lede mt-6 max-w-[32rem]">{lede}</p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <p className="text-lede mt-6 max-w-[34rem]">{lede}</p>
+            <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-7 sm:gap-y-3">
               <Button variant="ink" size="xl" onClick={open}>
                 Book a demo
               </Button>
@@ -119,7 +119,7 @@ export function ProductSection({
   const heading = (
     <div className="min-w-0">
       <p className="text-eyebrow">{eyebrow}</p>
-      <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+      <h2 className="text-display mt-5 max-w-[21ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
         {title}
       </h2>
       {lede ? (
@@ -608,7 +608,7 @@ export function ProductCta({
     <Section tone="ink" className="py-24 lg:py-32">
       <Container>
         <MotionReveal className="mx-auto flex max-w-2xl flex-col items-center text-center">
-          <h2 className="text-display max-w-[16ch] text-balance text-[clamp(2rem,4vw,3rem)]">
+          <h2 className="text-display max-w-[16ch] text-balance text-[clamp(2rem,3.8vw,3.05rem)]">
             {title}
           </h2>
           {lede ? (

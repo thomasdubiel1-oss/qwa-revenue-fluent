@@ -49,7 +49,7 @@ export function ClosedLoop() {
           <p className="text-[0.8125rem] font-medium text-ink-foreground/60">
             Closed-loop intelligence
           </p>
-          <h2 className="text-display mt-5 text-[clamp(2rem,4.4vw,3.4rem)]">
+          <h2 className="text-display mt-5 text-[clamp(2rem,3.8vw,3.05rem)]">
             A system that optimizes revenue, not clicks.
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-foreground/70">

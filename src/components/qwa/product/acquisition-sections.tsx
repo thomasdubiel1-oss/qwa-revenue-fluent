@@ -336,7 +336,7 @@ export function AcquisitionAttributionSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Attribution</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             Revenue travels back to what produced it.
           </h2>
           <p className="text-lede mt-5 max-w-[35rem]">
@@ -408,7 +408,7 @@ export function AcquisitionExecutiveSection() {
       <Container>
         <MotionReveal className="max-w-3xl">
           <p className="text-eyebrow">Executive view</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
             One page a CFO can read without a translator.
           </h2>
           <p className="text-lede mt-5 max-w-[34rem]">
@@ -465,7 +465,7 @@ export function AcquisitionGovernanceSection() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.85rem,3.2vw,2.7rem)]">
+            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               Nothing moves money without a name attached.
             </h2>
             <p className="text-lede mt-5 max-w-[30rem]">
