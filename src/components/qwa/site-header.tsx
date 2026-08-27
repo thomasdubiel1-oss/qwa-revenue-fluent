@@ -142,8 +142,16 @@ export function SiteHeader() {
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen ? (
-        <div className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-hairline bg-background xl:hidden">
+      <AnimatePresence initial={false}>
+        {mobileOpen ? (
+          <motion.div
+            key="mobile"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: duration.fast, ease: ease.standard }}
+            className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-hairline bg-background xl:hidden"
+          >
           <Container className="py-6">
             <ul className="grid gap-2">
               {navigation.map((group) => (
@@ -193,8 +201,10 @@ export function SiteHeader() {
               </Button>
             </div>
           </Container>
-        </div>
-      ) : null}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
     </header>
   );
 }
