@@ -66,7 +66,7 @@ export function Hero() {
 
             <motion.dl
               variants={item}
-              className="mt-14 grid max-w-xl grid-cols-1 gap-px overflow-hidden border-t border-hairline pt-8 sm:grid-cols-3 sm:gap-8"
+              className="mt-14 grid max-w-xl grid-cols-1 gap-6 border-t border-hairline pt-8 sm:grid-cols-3 sm:gap-8"
             >
               {proofPoints.map(([v, k]) => (
                 <div key={k} className="min-w-0 sm:border-l sm:border-hairline sm:pl-5 sm:first:border-l-0 sm:first:pl-0">
