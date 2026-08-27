@@ -574,3 +574,147 @@ export function AttributionIntegrationsSection() {
     </ProductSection>
   );
 }
+
+/* ---------------------------------------------------------------------- */
+
+const identitySignals = [
+  { signal: "Ad click identifier", joined: "Deterministic", note: "Click id carried through to session and form." },
+  { signal: "Web session", joined: "Deterministic", note: "First-party session stitched on identified visit." },
+  { signal: "Phone number", joined: "Deterministic", note: "Inbound caller matched to an existing contact." },
+  { signal: "CRM contact", joined: "Deterministic", note: "System-of-record contact is the anchor identity." },
+  { signal: "Household device", joined: "Probabilistic", note: "Held separately and labelled; never silently merged." },
+];
+
+export function IdentityResolutionSection() {
+  return (
+    <ProductSection
+      id="identity"
+      eyebrow="Identity resolution"
+      title="Joining is a decision with a stated confidence, not a guess."
+      lede="Before any credit is calculated, QWA decides which signals belong to the same customer. Deterministic joins are treated as fact; probabilistic joins are held apart, labelled and reversible — so a wrong merge never quietly rewrites revenue history."
+      points={[
+        "Deterministic and probabilistic joins are stored distinctly and reported distinctly",
+        "Every join records the matching signal, the time it happened and the system it came from",
+        "Merges can be reversed; the journey and its numbers re-derive from the corrected identity",
+      ]}
+      media="right"
+    >
+      <ProductPanel title="Identity graph · CU-40118" meta="5 signals" footer={<IllustrativeNote />}>
+        <PanelBlock className="py-0">
+          <ul>
+            {identitySignals.map((s) => (
+              <li
+                key={s.signal}
+                className="grid gap-1.5 border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-6"
+              >
+                <div className="min-w-0">
+                  <p className="text-[0.9375rem] font-medium">{s.signal}</p>
+                  <p className="text-data mt-1 text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground/70">
+                    {s.joined}
+                  </p>
+                </div>
+                <p className="text-[0.875rem] leading-relaxed text-muted-foreground">{s.note}</p>
+              </li>
+            ))}
+          </ul>
+        </PanelBlock>
+        <PanelBlock muted>
+          <DecisionCallout
+            label="Join confidence"
+            value="High"
+            rule="Four deterministic matches; the probabilistic signal is excluded from credit."
+          />
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+
+export function ContinuitySection() {
+  return (
+    <ProductSection
+      id="continuity"
+      eyebrow="Source to sale continuity"
+      title="Source, lead, appointment and sale as one unbroken chain."
+      lede="Most stacks lose the thread at a handoff: the ad platform stops at the click, the CRM starts at the lead, the calendar and the payment record never meet. QWA keeps the chain intact end to end, and shows plainly where a link is missing rather than closing the gap with an assumption."
+      media="below"
+      tone="paper"
+    >
+      <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          {
+            label: "Source",
+            value: "Carried",
+            caption: "Campaign, creative and placement travel with the record, not the report.",
+          },
+          {
+            label: "Lead",
+            value: "Anchored",
+            caption: "The lead inherits its origin instead of being created from nothing.",
+          },
+          {
+            label: "Appointment",
+            value: "Linked",
+            caption: "Booked, held or missed is an event on the same journey.",
+          },
+          {
+            label: "Sale",
+            value: "Closed",
+            caption: "Closed-won value returns to every link that preceded it.",
+          },
+        ].map((s) => (
+          <StatCell key={s.label} {...s} />
+        ))}
+      </div>
+      <IllustrativeNote className="mt-8" />
+    </ProductSection>
+  );
+}
+
+/* ---------------------------------------------------------------------- */
+
+export function ConfidenceLineageSection() {
+  return (
+    <ProductSection
+      id="confidence"
+      eyebrow="Confidence, coverage, lineage"
+      title="Every figure carries how well it is known."
+      lede="A revenue number without coverage is an opinion. QWA publishes the share of revenue it can trace, the confidence of the joins behind it and the lineage of each calculation — so a finance or board conversation starts from the same stated basis."
+      points={[
+        "Coverage: the share of booked revenue joined to a journey, reported alongside the number",
+        "Confidence: derived from join quality and touch completeness, never rounded up",
+        "Lineage: any figure expands into the events, model version and window that produced it",
+      ]}
+      media="left"
+    >
+      <ProductPanel title="Figure detail · March" meta="lineage available" footer={<IllustrativeNote />}>
+        <PanelBlock label="Quality of the number">
+          <FieldGrid
+            fields={[
+              { label: "Coverage", value: "80.6% of booked" },
+              { label: "Join confidence", value: "High", accent: true },
+              { label: "Model version", value: "contribution v4" },
+              { label: "Window", value: "90 days" },
+            ]}
+          />
+        </PanelBlock>
+        <PanelBlock label="Lineage" muted>
+          <ol className="grid gap-2">
+            {[
+              "Events: 6 joined touches on CU-40118",
+              "Identity: 4 deterministic joins, 1 excluded",
+              "Model: contribution v4, 90-day window",
+              "Reconciliation: matched to booked revenue, variance $0",
+            ].map((step) => (
+              <li key={step} className="text-data text-[0.75rem] leading-relaxed text-muted-foreground">
+                {step}
+              </li>
+            ))}
+          </ol>
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}

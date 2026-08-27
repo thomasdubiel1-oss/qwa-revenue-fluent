@@ -18,7 +18,7 @@ export function ClosingCta() {
             show exactly where the loop breaks.
           </p>
           <div className="mt-10">
-            <Button variant="onInk" size="xl" onClick={open}>
+            <Button variant="onInk" size="xl" onClick={() => open("home_closing_cta")}>
               Book a demo
             </Button>
           </div>

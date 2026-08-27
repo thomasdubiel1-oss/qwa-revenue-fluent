@@ -60,7 +60,7 @@ export function Hero() {
             </motion.p>
 
             <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">
-              <Button variant="ink" size="xl" onClick={open}>
+              <Button variant="ink" size="xl" onClick={() => open("home_hero")}>
                 Book a demo
               </Button>
               <Button variant="quiet" size="xl" asChild>
