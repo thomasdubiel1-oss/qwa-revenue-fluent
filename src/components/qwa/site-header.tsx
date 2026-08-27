@@ -240,7 +240,7 @@ export function SiteHeader() {
                                 <NavTarget
                                   href={item.href}
                                   onNavigate={() => setMobileOpen(false)}
-                                  className="block py-2 text-sm text-muted-foreground"
+                                  className="flex min-h-11 items-center py-2 text-sm text-muted-foreground"
                                 >
                                   {item.label}
                                 </NavTarget>
