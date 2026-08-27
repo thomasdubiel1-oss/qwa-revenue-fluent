@@ -83,7 +83,7 @@ export function SiteHeader() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
         scrolled || openMenu || mobileOpen
-          ? "border-b border-hairline bg-background/80 backdrop-blur-xl"
+          ? "border-b border-hairline bg-background/92 backdrop-blur-xl backdrop-saturate-150"
           : "border-b border-transparent",
       )}
       onMouseLeave={scheduleClose}
