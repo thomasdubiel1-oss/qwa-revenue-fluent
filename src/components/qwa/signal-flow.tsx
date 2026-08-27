@@ -42,12 +42,7 @@ const SOURCE_Y = (i: number) => (220 * (i + 0.5)) / sources.length;
 const OUTCOME_Y = (i: number) => (220 * (i + 0.5)) / 3;
 
 export function SignalFlow({ className }: { className?: string }) {
-  const prefersReduced = useReducedMotion();
-  // The server cannot know the visitor's motion preference, so the first client
-  // render must match it exactly. Reduced motion is applied after hydration,
-  // which immediately resolves the composition to its final, complete state.
-  const [reduced, setReduced] = React.useState(false);
-  React.useEffect(() => setReduced(Boolean(prefersReduced)), [prefersReduced]);
+  const reduced = useReducedMotion();
   const [cycle, setCycle] = React.useState(0);
   // Start from the same frame the server rendered, then resolve. Branching on
   // `reduced` during the first render causes a hydration mismatch.
