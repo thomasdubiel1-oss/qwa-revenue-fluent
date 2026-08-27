@@ -86,7 +86,7 @@ export function SignalFlow({ className }: { className?: string }) {
         </div>
 
 
-        <div className="grid grid-cols-[minmax(0,0.92fr)_minmax(4.5rem,0.8fr)_minmax(0,1fr)] items-stretch gap-2 pt-4 sm:gap-3">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(3.5rem,0.62fr)_minmax(0,1fr)] items-stretch gap-2 pt-4 sm:gap-3">
           {/* Sources */}
           <ul className="grid content-between gap-1.5">
             {sources.map((s, i) => {
@@ -108,20 +108,20 @@ export function SignalFlow({ className }: { className?: string }) {
                     />
                     <span className="truncate text-[0.8rem] font-medium">{s.label}</span>
                   </span>
-                  <span className="text-data hidden shrink-0 text-[0.6rem] text-muted-foreground lg:inline">
-                    {isActive && attributed ? (
-                      <span className="text-positive">+$14,200</span>
-                    ) : isActive ? (
-                      "live"
-                    ) : (
-                      s.detail
-                    )}
-                  </span>
+                  {isActive ? (
+                    <span className="text-data hidden shrink-0 text-[0.6rem] sm:inline">
+                      {attributed ? (
+                        <span className="text-positive">+$14,200</span>
+                      ) : (
+                        <span className="text-muted-foreground">{s.detail}</span>
+                      )}
+                    </span>
+                  ) : null}
                 </li>
-
               );
             })}
           </ul>
+
 
           {/* Routing + intelligence node */}
           <div className="relative">

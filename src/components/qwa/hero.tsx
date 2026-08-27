@@ -73,11 +73,12 @@ export function Hero() {
               {proofPoints.map(([v, k]) => (
                 <div key={k} className="min-w-0">
                   <dt className="text-[0.875rem] font-medium tracking-tight">{v}</dt>
-                  <dd className="mt-1.5 max-w-[18ch] text-[0.8125rem] leading-snug text-muted-foreground">
+                  <dd className="mt-1.5 text-[0.8125rem] leading-snug text-muted-foreground">
                     {k}
                   </dd>
                 </div>
               ))}
+
             </motion.dl>
           </motion.div>
 
