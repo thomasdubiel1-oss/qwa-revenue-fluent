@@ -414,7 +414,7 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ delay: 0.7, duration: duration.base, ease: ease.out }}
-            className="text-data absolute -left-1 top-1/2 -translate-y-1/2 -rotate-90 whitespace-nowrap rounded-full bg-positive/10 px-2 py-0.5 text-[0.6rem] text-positive"
+            className="text-data absolute bottom-0 left-0 whitespace-nowrap rounded-full bg-positive/10 px-2 py-0.5 text-[0.6rem] text-positive"
           >
             $14,200 → source
           </motion.span>

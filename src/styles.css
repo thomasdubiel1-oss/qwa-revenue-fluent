@@ -240,6 +240,29 @@
   mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black, transparent 78%);
 }
 
+@utility qwa-mesh {
+  background-image:
+    linear-gradient(to right, var(--hairline) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--hairline) 1px, transparent 1px),
+    radial-gradient(
+      42% 38% at 78% 18%,
+      color-mix(in oklab, var(--signal) 9%, transparent),
+      transparent 72%
+    );
+  background-size:
+    72px 72px,
+    72px 72px,
+    100% 100%;
+  mask-image: radial-gradient(ellipse 100% 74% at 62% 26%, black, transparent 82%);
+}
+
+@utility text-lede {
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  letter-spacing: -0.005em;
+  color: var(--muted-foreground);
+}
+
 @utility glass-panel {
   background: color-mix(in oklab, var(--card) 72%, transparent);
   backdrop-filter: blur(20px) saturate(150%);
@@ -303,6 +326,16 @@
 
 @utility animate-flow {
   animation: qwa-dash 3s linear infinite;
+}
+
+@keyframes qwa-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-orbit {
+  animation: qwa-orbit 18s linear infinite;
 }
 
 @utility animate-rise {

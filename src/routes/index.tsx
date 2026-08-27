@@ -5,6 +5,7 @@ import { DemoRequestProvider } from "@/components/qwa/demo-request";
 import { Hero } from "@/components/qwa/hero";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import { ClosedLoop, OutcomePanel } from "@/components/qwa/closed-loop";
+import { PlatformPreview } from "@/components/qwa/platform";
 import { ClosingCta } from "@/components/qwa/cta";
 
 const title = "Quantum Web AI — The AI Revenue Operating System";
@@ -30,10 +31,10 @@ function Index() {
     <DemoRequestProvider>
       <SiteHeader />
       <main id="main">
-
         <Hero />
         <RevenueEngine />
         <ClosedLoop />
+        <PlatformPreview />
         <OutcomePanel />
         <ClosingCta />
       </main>
