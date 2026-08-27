@@ -5,6 +5,7 @@ import {
   ProductCta,
   ProductHero,
   ProductShell,
+  RelatedProducts,
 } from "@/components/qwa/product/primitives";
 import {
   AppointmentSection,
