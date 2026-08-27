@@ -40,7 +40,7 @@ function Index() {
           intro={
             <Link
               to="/products/revenue-engine"
-              className="inline-flex items-center gap-2 text-[0.9375rem] font-medium text-signal transition-colors hover:text-foreground"
+              className="inline-flex min-h-11 items-center gap-2 rounded-sm text-[0.9375rem] font-medium text-signal transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Explore the Revenue Engine
               <ArrowRight className="h-4 w-4" aria-hidden="true" />

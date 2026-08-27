@@ -77,7 +77,7 @@ export function ProductHero({
               {secondaryLabel && secondaryHref ? (
                 <a
                   href={secondaryHref}
-                  className="text-[0.9375rem] font-medium text-foreground underline-offset-[6px] transition-colors hover:text-signal hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="inline-flex min-h-11 items-center rounded-sm text-[0.9375rem] font-medium text-foreground underline-offset-[6px] transition-colors hover:text-signal hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   {secondaryLabel}
                 </a>
