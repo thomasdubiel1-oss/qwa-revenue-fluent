@@ -323,7 +323,14 @@ function VerticalJourney({
           </motion.li>
         ))}
       </ul>
+
+      {hasReturn && returnPath ? (
+        <p className="text-data mt-6 text-[0.6rem] uppercase leading-relaxed tracking-[0.14em] text-signal">
+          {returnPath.label}
+        </p>
+      ) : null}
     </div>
+
   );
 }
 
