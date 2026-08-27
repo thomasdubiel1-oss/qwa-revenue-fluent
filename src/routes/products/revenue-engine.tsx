@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { RevenueEngineStory } from "@/components/qwa/story/product-stories";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import {
   ProductCta,
@@ -15,7 +16,6 @@ import {
   LearningSection,
   QualificationSection,
   ReactivationSection,
-  RevenueLoopVisual,
   SalesAssistSection,
   VoiceHandoffSection,
 } from "@/components/qwa/product/revenue-engine-sections";
@@ -48,7 +48,7 @@ function RevenueEnginePage() {
         secondaryLabel="Watch the revenue loop"
         secondaryHref="#loop"
         note="One record from first signal to closed revenue."
-        visual={<RevenueLoopVisual />}
+        visual={<RevenueEngineStory />}
       />
 
       <RevenueEngine

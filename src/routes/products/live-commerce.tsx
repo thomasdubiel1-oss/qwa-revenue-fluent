@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LiveCommerceStory } from "@/components/qwa/story/product-stories";
 import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
 import {
   AudienceSignalSection,
   CheckoutSection,
   CommerceGovernanceSection,
   HostConsoleSection,
-  LiveRoomVisual,
   OfferSection,
   PostStreamSection,
   ResponseSection,
@@ -39,7 +39,7 @@ function LiveCommercePage() {
         secondaryLabel="See offer rules"
         secondaryHref="#offers"
         note="Inventory-aware. Margin-bounded. Host can stop anything."
-        visual={<LiveRoomVisual />}
+        visual={<LiveCommerceStory />}
       />
 
       <AudienceSignalSection />

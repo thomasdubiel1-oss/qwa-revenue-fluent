@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { VoiceAgentStory } from "@/components/qwa/story/product-stories";
 import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
 import {
-  ContinuityVisual,
   ConversationAnalyticsSection,
   InboundVoiceSection,
   OutboundSection,
@@ -41,7 +41,7 @@ function VoicePage() {
         secondaryLabel="See the continuity"
         secondaryHref="#inbound-voice"
         note="One record. Four surfaces. No restarts."
-        visual={<ContinuityVisual />}
+        visual={<VoiceAgentStory />}
       />
 
       <InboundVoiceSection />

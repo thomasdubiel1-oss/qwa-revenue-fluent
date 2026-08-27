@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { CreativeAcquisitionStory } from "@/components/qwa/story/product-stories";
 import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
 import {
   BriefSection,
   CreativeFeedbackSection,
   CreativeGovernanceSection,
-  ProductionPipelineVisual,
   ProviderRoutingSection,
   QualitySection,
   ShotDecompositionSection,
@@ -39,7 +39,7 @@ function CreativeStudioPage() {
         secondaryLabel="See provider routing"
         secondaryHref="#routing"
         note="Model-agnostic. Human-gated. Fully versioned."
-        visual={<ProductionPipelineVisual />}
+        visual={<CreativeAcquisitionStory />}
       />
 
       <BriefSection />

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AttributionStory } from "@/components/qwa/story/product-stories";
 import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
 import {
   AmbiguitySection,
@@ -10,7 +11,6 @@ import {
   ModelSection,
   ReconciliationSection,
   ReturnPathSection,
-  ReturnPathVisual,
 } from "@/components/qwa/product/attribution-sections";
 
 const title = "Revenue Attribution — QWA";
@@ -41,7 +41,7 @@ function AttributionPage() {
         secondaryLabel="See the return path"
         secondaryHref="#return"
         note="Contribution modelling. Unattributed shown. Reconciled with finance."
-        visual={<ReturnPathVisual />}
+        visual={<AttributionStory />}
       />
 
       <JoinedJourneySection />
