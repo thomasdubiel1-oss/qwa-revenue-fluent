@@ -21,14 +21,14 @@ export function Hero() {
     hidden: {},
     visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
   };
-  const item = reduced
-    ? { hidden: {}, visible: {} }
-    : {
+  // The hidden variant must be identical on server and client; reduced motion
+  // is honoured by collapsing the transition, not by changing the first frame.
+  const item = {
         hidden: { opacity: 0, y: 16 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.8, ease: ease.out },
+          transition: { duration: reduced ? 0 : 0.8, ease: ease.out },
         },
       };
 
