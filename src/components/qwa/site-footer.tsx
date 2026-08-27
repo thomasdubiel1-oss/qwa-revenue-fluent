@@ -55,14 +55,20 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Quantum Web AI, Inc. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {["Privacy", "Terms", "Security", "Responsible AI", "Status"].map((l) => (
-              <li key={l}>
-                <Link
-                  to="/"
-                  className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {l}
-                </Link>
+            {legalLinks.map((item) => (
+              <li key={item.label}>
+                {item.href ? (
+                  <Link
+                    to={item.href}
+                    className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground/70">
+                    {item.label}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
