@@ -186,6 +186,7 @@ export function InboundVoiceSection() {
       ]}
       media="right"
       tone="paper"
+      level="sub"
     >
       <ProductPanel
         title="Live call · inbound"
@@ -252,6 +253,7 @@ export function OutboundSection() {
         "Frequency caps, quiet periods and suppression lists honored",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel title="Contact policy" meta="account default: strict" footer={<IllustrativeNote />}>
         <PanelBlock className="py-5">
@@ -314,6 +316,7 @@ export function TakeoverSection() {
       ]}
       media="right"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title="Takeover path" meta="median handoff: 3.1s" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
@@ -359,6 +362,7 @@ export function VoiceBookingSection() {
         "Reminders and self-serve reschedule attached to the same record",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel title="In-call scheduling" meta="held during conversation" footer={<IllustrativeNote />}>
         <PanelBlock className="py-5">
@@ -409,6 +413,7 @@ export function SummarySection() {
       ]}
       media="right"
       tone="paper"
+      level="sub"
     >
       <ProductPanel title={`Call record · ${RECORD_ID}`} meta="duration 4m 12s" footer={<IllustrativeNote />}>
         <PanelBlock label="Summary" className="py-5">
@@ -464,6 +469,7 @@ export function PreCallBriefSection() {
         "A recommended opening the rep can ignore",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel title="Brief · A. Okafor" meta="delivered T-2h" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
