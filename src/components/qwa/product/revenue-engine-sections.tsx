@@ -744,7 +744,7 @@ export function AttributionSection() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal>
-            <p className="text-eyebrow">Sale and attribution</p>
+            <p className="text-eyebrow">03 · Revenue</p>
             <h2 className="text-display mt-5 max-w-[17ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
               The revenue goes back to everything that produced it.
             </h2>

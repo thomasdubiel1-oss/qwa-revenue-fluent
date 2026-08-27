@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { RevenueEngineStory } from "@/components/qwa/story/product-stories";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import {
+  ChapterOpener,
   ProductCta,
   ProductHero,
   ProductShell,
