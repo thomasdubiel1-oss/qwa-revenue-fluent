@@ -29,7 +29,7 @@ export type DemoRequestPayload = {
   website: string;
   monthlyLeads: string;
   primaryGoal: string;
-  phone?: string;
+  phone?: string | undefined;
 };
 
 /**
