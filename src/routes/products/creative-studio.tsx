@@ -33,7 +33,9 @@ export const Route = createFileRoute("/products/creative-studio")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://qwa-revenue-fluent.lovable.app/products/creative-studio" },
     ],
+    links: [{ rel: "canonical", href: "https://qwa-revenue-fluent.lovable.app/products/creative-studio" }],
   }),
   component: CreativeStudioPage,
 });
