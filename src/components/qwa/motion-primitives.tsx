@@ -23,7 +23,8 @@ export function useMediaQuery(query: string) {
   return matches;
 }
 
-type RevealProps = HTMLMotionProps<"div"> & {
+type RevealProps = Omit<HTMLMotionProps<"div">, "children"> & {
+  children?: React.ReactNode;
   delay?: number;
   once?: boolean;
   amount?: number;
@@ -68,7 +69,12 @@ export function MotionStagger({
   delay = 0,
   amount = 0.2,
   ...props
-}: HTMLMotionProps<"div"> & { stagger?: number; delay?: number; amount?: number }) {
+}: Omit<HTMLMotionProps<"div">, "children"> & {
+  children?: React.ReactNode;
+  stagger?: number;
+  delay?: number;
+  amount?: number;
+}) {
   const reduced = useReducedMotion();
   if (reduced) return <div className={className}>{children}</div>;
   return (
@@ -85,7 +91,11 @@ export function MotionStagger({
   );
 }
 
-export function MotionItem({ children, className, ...props }: HTMLMotionProps<"div">) {
+export function MotionItem({
+  children,
+  className,
+  ...props
+}: Omit<HTMLMotionProps<"div">, "children"> & { children?: React.ReactNode }) {
   const reduced = useReducedMotion();
   if (reduced) return <div className={className}>{children}</div>;
   return (
@@ -164,7 +174,7 @@ export function PointerCard({
   return (
     <motion.div
       className={cn("relative", className)}
-      style={active ? { rotateX: rx, rotateY: ry, transformPerspective: 1200 } : undefined}
+      {...(active ? { style: { rotateX: rx, rotateY: ry, transformPerspective: 1200 } } : {})}
       onPointerMove={
         active
           ? (e) => {
