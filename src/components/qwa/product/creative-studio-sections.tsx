@@ -22,7 +22,7 @@ import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
  * ---------------------------------------------------------------------- */
 
 const pipeline = [
-  { stage: "Brief", detail: "Offer, audience, claim boundaries" },
+  { stage: "Brief", detail: "Offer, audience, claim boundaries", spend: "No spend" },
   { stage: "Script", detail: "Hook, proof, single call to action", spend: "No spend" },
   { stage: "Storyboard", detail: "Shot plan, aspect and duration set before spend", spend: "LTX · low cost" },
   { stage: "Prototype", detail: "Low-cost rough cut proves pacing first", spend: "LTX · prototype only" },
