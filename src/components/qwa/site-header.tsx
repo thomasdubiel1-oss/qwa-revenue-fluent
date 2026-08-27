@@ -86,7 +86,7 @@ export function SiteHeader() {
       onMouseLeave={scheduleClose}
     >
       <Container className="flex h-16 items-center gap-6 lg:h-[4.5rem]">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label="Quantum Web AI home">
+        <Link to="/" className="flex min-h-11 shrink-0 items-center gap-2.5" aria-label="Quantum Web AI home">
           <Mark />
           <span className="text-[0.95rem] font-semibold tracking-tight">Quantum Web AI</span>
         </Link>
