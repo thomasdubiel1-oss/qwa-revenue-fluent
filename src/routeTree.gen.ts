@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
 import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
+import { Route as ProductsBusinessIntelligenceRouteImport } from './routes/products/business-intelligence'
 import { Route as ProductsCreativeStudioRouteImport } from './routes/products/creative-studio'
 import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live-commerce'
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
@@ -39,6 +40,12 @@ const ProductsAttributionRoute = ProductsAttributionRouteImport.update({
   path: '/products/attribution',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsBusinessIntelligenceRoute =
+  ProductsBusinessIntelligenceRouteImport.update({
+    id: '/products/business-intelligence',
+    path: '/products/business-intelligence',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductsCreativeStudioRoute = ProductsCreativeStudioRouteImport.update({
   id: '/products/creative-studio',
   path: '/products/creative-studio',
@@ -70,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
@@ -81,6 +89,7 @@ export interface FileRoutesByTo {
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
@@ -93,6 +102,7 @@ export interface FileRoutesById {
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
+  '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/live-commerce': typeof ProductsLiveCommerceRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
     | '/products/live-commerce'
     | '/products/revenue-engine'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
     | '/products/live-commerce'
     | '/products/revenue-engine'
@@ -128,6 +140,7 @@ export interface FileRouteTypes {
     | '/internal/video-router-lab'
     | '/products/acquisition'
     | '/products/attribution'
+    | '/products/business-intelligence'
     | '/products/creative-studio'
     | '/products/live-commerce'
     | '/products/revenue-engine'
@@ -140,6 +153,7 @@ export interface RootRouteChildren {
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
   ProductsAttributionRoute: typeof ProductsAttributionRoute
+  ProductsBusinessIntelligenceRoute: typeof ProductsBusinessIntelligenceRoute
   ProductsCreativeStudioRoute: typeof ProductsCreativeStudioRoute
   ProductsLiveCommerceRoute: typeof ProductsLiveCommerceRoute
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
@@ -175,6 +189,13 @@ declare module '@tanstack/react-router' {
       path: '/products/attribution'
       fullPath: '/products/attribution'
       preLoaderRoute: typeof ProductsAttributionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/business-intelligence': {
+      id: '/products/business-intelligence'
+      path: '/products/business-intelligence'
+      fullPath: '/products/business-intelligence'
+      preLoaderRoute: typeof ProductsBusinessIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/creative-studio': {
@@ -220,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
   ProductsAttributionRoute: ProductsAttributionRoute,
+  ProductsBusinessIntelligenceRoute: ProductsBusinessIntelligenceRoute,
   ProductsCreativeStudioRoute: ProductsCreativeStudioRoute,
   ProductsLiveCommerceRoute: ProductsLiveCommerceRoute,
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
