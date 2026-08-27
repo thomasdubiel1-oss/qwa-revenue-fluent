@@ -15,6 +15,7 @@ import { Route as ProductsAcquisitionRouteImport } from './routes/products/acqui
 import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
 import { Route as ProductsCreativeStudioRouteImport } from './routes/products/creative-studio'
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
+import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const ProductsRevenueEngineRoute = ProductsRevenueEngineRouteImport.update({
   path: '/products/revenue-engine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsSearchRoute = ProductsSearchRouteImport.update({
+  id: '/products/search',
+  path: '/products/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
   id: '/products/voice',
   path: '/products/voice',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/creative-studio': typeof ProductsCreativeStudioRoute
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
+  '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/products/attribution'
     | '/products/creative-studio'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/products/attribution'
     | '/products/creative-studio'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/products/attribution'
     | '/products/creative-studio'
     | '/products/revenue-engine'
+    | '/products/search'
     | '/products/voice'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   ProductsAttributionRoute: typeof ProductsAttributionRoute
   ProductsCreativeStudioRoute: typeof ProductsCreativeStudioRoute
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
+  ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsRevenueEngineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/search': {
+      id: '/products/search'
+      path: '/products/search'
+      fullPath: '/products/search'
+      preLoaderRoute: typeof ProductsSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/voice': {
       id: '/products/voice'
       path: '/products/voice'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsAttributionRoute: ProductsAttributionRoute,
   ProductsCreativeStudioRoute: ProductsCreativeStudioRoute,
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
+  ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
 }
 export const routeTree = rootRouteImport
