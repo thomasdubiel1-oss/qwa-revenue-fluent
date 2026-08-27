@@ -30,7 +30,7 @@ export function SiteFooter() {
                       <li key={item.label}>
                         <Link
                           to={item.href}
-                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                          className="-my-3 inline-flex min-h-11 items-center py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
                         >
                           {item.label}
                         </Link>
@@ -44,6 +44,7 @@ export function SiteFooter() {
 
 
                 </ul>
+
               </div>
             ))}
           </nav>
