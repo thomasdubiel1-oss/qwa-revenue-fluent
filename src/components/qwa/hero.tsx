@@ -24,13 +24,13 @@ export function Hero() {
   // The hidden variant must be identical on server and client; reduced motion
   // is honoured by collapsing the transition, not by changing the first frame.
   const item = {
-        hidden: { opacity: 0, y: 16 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: reduced ? 0 : 0.8, ease: ease.out },
-        },
-      };
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduced ? 0 : 0.8, ease: ease.out },
+    },
+  };
 
   return (
     <section className="relative isolate overflow-hidden pt-32 sm:pt-36 lg:pt-44">
