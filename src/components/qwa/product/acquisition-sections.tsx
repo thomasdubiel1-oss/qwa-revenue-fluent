@@ -130,6 +130,7 @@ export function DemandIntakeSection() {
         "Duplicate and bot traffic collapsed before it reaches your team",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel title="Intake adapters" meta="configured per account" footer={<IllustrativeNote />}>
@@ -178,6 +179,7 @@ export function LeadQualitySection() {
         "Sources ranked by contribution to closed revenue",
       ]}
       media="left"
+      level="sub"
     >
       <ProductPanel
         title="Cohort · paid social prospecting"
@@ -233,6 +235,7 @@ export function PacingSection() {
         "Every change is reversible and recorded with its rationale",
       ]}
       media="right"
+      level="sub"
       tone="paper"
     >
       <ProductPanel title="Pacing proposal · week 14" meta="awaiting approval" footer={<IllustrativeNote />}>
@@ -287,7 +290,8 @@ export function CreativePerformanceSection() {
         "Role in the journey separated from raw click performance",
         "Winning patterns handed to Creative Studio as the next brief",
       ]}
-      media="left"
+      media="right"
+      level="sub"
     >
       <ProductPanel title="Creative contribution" meta="revenue-weighted" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
@@ -332,20 +336,17 @@ const chain = [
 
 export function AcquisitionAttributionSection() {
   return (
-    <Section id="attribution" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="attribution" className="scroll-mt-24 pb-20 pt-8 sm:pb-24 sm:pt-10 lg:pb-28">
       <Container>
-        <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Attribution</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
-            Revenue travels back to what produced it.
-          </h2>
-          <p className="text-lede mt-5 max-w-[35rem]">
-            When a deal closes, QWA walks the record backward and credits every touch that
-            contributed — the channel, the campaign, the creative and the conversation.
-          </p>
+        <MotionReveal>
+          <h3 className="max-w-[42rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
+            One closed deal, walked backward: every touch that contributed is credited — the
+            channel, the campaign, the creative and the conversation.
+          </h3>
         </MotionReveal>
 
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal delay={0.08} className="mt-8">
+
           <ProductPanel
             tone="ink"
             title="Closed · $14,200"
@@ -404,20 +405,21 @@ const secondary = [
 
 export function AcquisitionExecutiveSection() {
   return (
-    <Section id="executive" tone="paper" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="executive" tone="paper" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
         <MotionReveal className="max-w-3xl">
-          <p className="text-eyebrow">Executive view</p>
-          <h2 className="text-display mt-5 max-w-[19ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+          <p className="text-eyebrow text-muted-foreground/70">Executive view</p>
+          <h3 className="text-display mt-4 max-w-[21ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
             One page a CFO can read without a translator.
-          </h2>
-          <p className="text-lede mt-5 max-w-[34rem]">
+          </h3>
+          <p className="mt-5 max-w-[34rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
             Spend, qualified demand and closed revenue on the same surface, joined by the same
             record — not reconciled between three dashboards that disagree.
           </p>
         </MotionReveal>
 
-        <MotionReveal delay={0.08} className="mt-12">
+        <MotionReveal delay={0.08} className="mt-10">
+
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
@@ -460,25 +462,26 @@ const controls = [
 
 export function AcquisitionGovernanceSection() {
   return (
-    <Section id="governance" className="scroll-mt-24 py-20 sm:py-24 lg:py-28">
+    <Section id="governance" className="scroll-mt-24 py-12 sm:py-14 lg:py-16">
       <Container>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <MotionReveal className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-eyebrow">Governance and control</p>
-            <h2 className="text-display mt-5 max-w-[16ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+            <p className="text-eyebrow text-muted-foreground/70">Governance and control</p>
+            <h3 className="text-display mt-4 max-w-[18ch] text-balance text-[clamp(1.45rem,2.3vw,1.85rem)]">
               Nothing moves money without a name attached.
-            </h2>
-            <p className="text-lede mt-5 max-w-[30rem]">
+            </h3>
+            <p className="mt-5 max-w-[30rem] text-pretty text-[1.0625rem] leading-relaxed text-muted-foreground">
               Autonomy stops where budget begins. QWA recommends; your team decides; the system
               keeps the receipt.
             </p>
           </MotionReveal>
 
+
           <MotionStagger stagger={0.04} className="min-w-0 border-t border-hairline">
             {controls.map((c) => (
               <MotionItem key={c.label}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/70">
                     control: {c.held}
                   </span>
