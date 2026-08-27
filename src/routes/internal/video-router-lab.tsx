@@ -7,6 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Container, Hairline, SignalRule } from "@/components/qwa/primitives";
 import { PROVIDER_CAPABILITIES, PROVIDER_IDS } from "@/lib/video/capabilities";
 import { getProviderStatuses, planVideoRoute } from "@/lib/video/video.functions";
+import {
+  WORKFLOW_PRESETS,
+  WORKFLOW_PRESET_IDS,
+  stageOwnerLabel,
+  type WorkflowPresetId,
+} from "@/lib/video/presets";
+import { USAGE_RIGHTS_LABEL, USAGE_RIGHTS_NOTE } from "@/lib/video/usage-rights";
 import { cn } from "@/lib/utils";
 import type {
   AspectRatio,
@@ -36,6 +43,7 @@ export const Route = createFileRoute("/internal/video-router-lab")({
 
 const HEALTH_LABEL: Record<ProviderHealth, string> = {
   not_configured: "Not configured",
+  manual_handoff: "Manual handoff",
   ready: "Ready",
   degraded: "Degraded",
   unavailable: "Unavailable",
@@ -127,6 +135,7 @@ function VideoRouterLab() {
   const [characterConsistency, setCharacterConsistency] = React.useState(false);
   const [costCeiling, setCostCeiling] = React.useState(60);
   const [outputCount, setOutputCount] = React.useState(2);
+  const [presetId, setPresetId] = React.useState<WorkflowPresetId>("low_cost_prototype");
 
   const statuses = useQuery({
     queryKey: ["video-provider-statuses"],
@@ -148,8 +157,10 @@ function VideoRouterLab() {
         ? [{ id: "ref-1", kind: "image" as const, label: "Brand still (simulated)" }]
         : [],
       outputCount,
+      presetId,
     }),
     [
+      presetId,
       objective,
       prompt,
       duration,
@@ -193,6 +204,15 @@ function VideoRouterLab() {
             <h2 id="job-config" className="text-sm font-semibold tracking-tight">
               Demo job
             </h2>
+
+            <Field label="Workflow preset">
+              <Choice
+                options={WORKFLOW_PRESET_IDS}
+                value={presetId}
+                onChange={setPresetId}
+                format={(v) => WORKFLOW_PRESETS[v].label}
+              />
+            </Field>
 
             <Field label="Objective">
               <input
@@ -325,6 +345,128 @@ function VideoRouterLab() {
               </>
             )}
 
+            {/* Workflow preset */}
+            {plan.data ? (
+              <div className="rounded-xl border border-hairline bg-card p-6">
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <p className="text-sm font-medium">{plan.data.preset.label}</p>
+                  <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+                    {plan.data.strategy.replace("_", " ")}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">{plan.data.preset.summary}</p>
+                <ol className="mt-4 space-y-2">
+                  {plan.data.preset.stages.map((stage, i) => (
+                    <li key={stage.id} className="flex gap-3 text-xs">
+                      <span className="font-mono text-muted-foreground">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="min-w-0">
+                        <span className="font-medium">{stage.label}</span>
+                        <span className="text-muted-foreground">
+                          {" "}
+                          · {stageOwnerLabel(stage.owner)}
+                          {stage.optional ? " · optional" : ""} —{" "}
+                          {stage.detail}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+                <Hairline className="my-5" />
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">
+                  Planning / pre-production hub
+                </p>
+                {plan.data.planning.map((hub) => (
+                  <div key={hub.providerId} className="mt-3">
+                    <p className="text-sm font-medium">
+                      {hub.displayName}
+                      <span className="ml-2 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+                        {HEALTH_LABEL[hub.health]} · {USAGE_RIGHTS_LABEL[hub.usageRightsStatus]}
+                      </span>
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground">{hub.note}</p>
+                    <p className="mt-1 font-mono text-[0.68rem] text-muted-foreground">
+                      est. ${hub.estimatedCostUsd.toFixed(2)} · storyboard ·
+                      {" "}shot sequencing · aspect + duration plan ·
+                      {hub.capabilities.prototypeAssembly ? " prototype assembly" : ""}
+                    </p>
+                  </div>
+                ))}
+                <Hairline className="my-5" />
+                <p className="text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground">
+                  Escalation policy
+                </p>
+                <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                  {plan.data.escalationPolicy.map((line) => (
+                    <li key={line}>— {line}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
+            {/* Usage rights gate */}
+            {plan.data ? (
+              <div className="rounded-xl border border-hairline bg-card p-6">
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <p className="text-sm font-medium">Commercial-use gate</p>
+                  <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+                    resolves to {plan.data.publishGate.resolvedState.replace(/_/g, " ")}
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {plan.data.publishGate.allowed
+                    ? "Publish-ready."
+                    : "Blocked from publish-ready state."}{" "}
+                  {USAGE_RIGHTS_NOTE.prototype_only}
+                </p>
+                <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
+                  {plan.data.publishGate.reasons.map((r) => (
+                    <li key={r}>— {r}</li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-[0.68rem] text-muted-foreground">
+                  Workflow status only — not a legal determination. A named human must
+                  confirm clearance before any public use.
+                </p>
+              </div>
+            ) : null}
+
+            {/* Cost comparison */}
+            {plan.data ? (
+              <div>
+                <h2 className="text-sm font-semibold tracking-tight">
+                  Prototype-first vs premium-everywhere
+                  <span className="ml-2 font-normal text-muted-foreground">illustrative</span>
+                </h2>
+                <table className="mt-4 w-full text-left text-xs">
+                  <thead className="text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+                    <tr>
+                      <th scope="col" className="py-2 font-medium">Length</th>
+                      <th scope="col" className="py-2 font-medium">Prototype-first</th>
+                      <th scope="col" className="py-2 font-medium">Premium everywhere</th>
+                      <th scope="col" className="py-2 font-medium">Delta</th>
+                    </tr>
+                  </thead>
+                  <tbody className="font-mono">
+                    {plan.data.costComparison.map((row) => (
+                      <tr key={row.durationSeconds} className="border-t border-hairline">
+                        <td className="py-2">{row.durationSeconds}s</td>
+                        <td className="py-2">${row.prototypeFirstUsd.toFixed(2)}</td>
+                        <td className="py-2">${row.premiumEverywhereUsd.toFixed(2)}</td>
+                        <td className="py-2">
+                          −${row.savingsUsd.toFixed(2)} ({row.savingsPct}%)
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p className="mt-3 text-[0.68rem] text-muted-foreground">
+                  {plan.data.costModelNote}
+                </p>
+              </div>
+            ) : null}
+
             {/* Provider status */}
             <div>
               <h2 className="text-sm font-semibold tracking-tight">Provider status</h2>
@@ -349,7 +491,9 @@ function VideoRouterLab() {
                               "h-1.5 w-1.5 rounded-full",
                               health === "ready"
                                 ? "bg-signal"
-                                : health === "degraded"
+                                : health === "manual_handoff"
+                                  ? "bg-signal/50"
+                                  : health === "degraded"
                                   ? "bg-amber-500"
                                   : "bg-muted-foreground/40",
                             )}
@@ -359,8 +503,14 @@ function VideoRouterLab() {
                       </div>
                       <p className="mt-2 text-xs text-muted-foreground">{caps.summary}</p>
                       <p className="mt-2 font-mono text-[0.68rem] text-muted-foreground">
+                        {caps.role === "planning" ? "planning hub" : "shot generation"} ·{" "}
+                        {caps.integrationMode === "manual_handoff" ? "manual handoff" : "API"} ·{" "}
+                        {caps.costTier} cost · {caps.productionTier}
+                      </p>
+                      <p className="mt-1 font-mono text-[0.68rem] text-muted-foreground">
                         {caps.maxClipDurationSeconds}s max clip · {caps.aspectRatios.join(" / ")} ·{" "}
-                        {caps.supportsAudio ? "audio" : "no audio"} · {caps.qualityTier}
+                        {caps.supportsAudio ? "audio" : "no audio"} ·{" "}
+                        {USAGE_RIGHTS_LABEL[caps.defaultUsageRights]}
                       </p>
                       {status && !status.configured ? (
                         <p className="mt-2 font-mono text-[0.68rem] text-muted-foreground">
