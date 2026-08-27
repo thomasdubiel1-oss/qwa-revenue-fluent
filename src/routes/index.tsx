@@ -30,7 +30,7 @@ function Index() {
     <DemoRequestProvider>
       <SiteHeader />
       <main id="main">
-        <h1 className="sr-only">Quantum Web AI — the AI Revenue Operating System</h1>
+
         <Hero />
         <RevenueEngine />
         <ClosedLoop />
