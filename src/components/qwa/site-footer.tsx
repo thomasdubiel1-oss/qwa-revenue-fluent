@@ -9,7 +9,7 @@ export function SiteFooter() {
       <Container className="py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,3fr)]">
           <div className="max-w-xs">
-            <div className="flex items-center gap-2.5">
+            <div className="flex min-h-11 items-center gap-2.5">
               <Mark />
               <span className="text-[0.95rem] font-semibold tracking-tight">Quantum Web AI</span>
             </div>
@@ -30,7 +30,7 @@ export function SiteFooter() {
                       <li key={item.label}>
                         <Link
                           to={item.href}
-                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                          className="-my-3 inline-flex min-h-11 items-center py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
                         >
                           {item.label}
                         </Link>
@@ -44,6 +44,7 @@ export function SiteFooter() {
 
 
                 </ul>
+
               </div>
             ))}
           </nav>
@@ -58,7 +59,7 @@ export function SiteFooter() {
               <li key={l}>
                 <Link
                   to="/"
-                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {l}
                 </Link>

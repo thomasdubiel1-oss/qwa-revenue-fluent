@@ -35,6 +35,41 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Lock background scroll while the mobile drawer is open (iOS-safe),
+  // restoring the previous scroll position on close.
+  React.useEffect(() => {
+    if (!mobileOpen) return;
+    const { body } = document;
+    const scrollY = window.scrollY;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    return () => {
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" as ScrollBehavior });
+      requestAnimationFrame(() =>
+        window.scrollTo({ top: scrollY, left: 0, behavior: "instant" as ScrollBehavior }),
+      );
+    };
+  }, [mobileOpen]);
+
+
   const scheduleClose = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
     closeTimer.current = window.setTimeout(() => setOpenMenu(null), 120);
@@ -54,7 +89,7 @@ export function SiteHeader() {
       onMouseLeave={scheduleClose}
     >
       <Container className="flex h-16 items-center gap-6 lg:h-[4.5rem]">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label="Quantum Web AI home">
+        <Link to="/" className="flex min-h-11 shrink-0 items-center gap-2.5" aria-label="Quantum Web AI home">
           <Mark />
           <span className="text-[0.95rem] font-semibold tracking-tight">Quantum Web AI</span>
         </Link>
@@ -103,7 +138,7 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
           <Link
             to="/"
-            className="hidden rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             Sign in
           </Link>
@@ -112,7 +147,7 @@ export function SiteHeader() {
           </Button>
           <button
             type="button"
-            className="grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-hairline xl:hidden"
+            className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-hairline xl:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
@@ -194,7 +229,7 @@ export function SiteHeader() {
               {navigation.map((group) => (
                 <li key={group.label} className="border-b border-hairline pb-2">
                   <details className="group">
-                    <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
+                    <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
                       {group.label}
                       <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
                     </summary>
@@ -208,7 +243,7 @@ export function SiteHeader() {
                                 <NavTarget
                                   href={item.href}
                                   onNavigate={() => setMobileOpen(false)}
-                                  className="block py-2 text-sm text-muted-foreground"
+                                  className="flex min-h-11 items-center py-2 text-sm text-muted-foreground"
                                 >
                                   {item.label}
                                 </NavTarget>
