@@ -31,10 +31,10 @@ function Index() {
     <DemoRequestProvider>
       <SiteHeader />
       <main id="main">
-
         <Hero />
         <RevenueEngine />
         <ClosedLoop />
+        <PlatformPreview />
         <OutcomePanel />
         <ClosingCta />
       </main>
