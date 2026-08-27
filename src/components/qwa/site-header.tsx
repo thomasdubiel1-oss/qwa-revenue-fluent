@@ -105,41 +105,60 @@ export function SiteHeader() {
       </Container>
 
       {/* Desktop mega menu */}
-      <div
-        className={cn(
-          "hidden overflow-hidden border-hairline transition-all duration-300 xl:block",
-          openMenu ? "border-t opacity-100" : "pointer-events-none max-h-0 opacity-0",
-        )}
-        onMouseEnter={cancelClose}
-      >
-        {navigation
-          .filter((g) => g.label === openMenu)
-          .map((group) => (
-            <Container key={group.label} className="grid grid-cols-2 gap-x-16 gap-y-8 py-10">
-              {group.columns.map((col) => (
-                <div key={col.heading}>
-                  <p className="text-eyebrow mb-5">{col.heading}</p>
-                  <ul className="grid gap-1">
-                    {col.items.map((item) => (
-                      <li key={item.label}>
-                        <Link
-                          to="/"
-                          onClick={() => setOpenMenu(null)}
-                          className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
-                        >
-                          <span className="text-sm font-medium">{item.label}</span>
-                          {item.description ? (
-                            <span className="text-sm text-muted-foreground">{item.description}</span>
-                          ) : null}
-                        </Link>
-                      </li>
+      <div className="hidden xl:block" onMouseEnter={cancelClose}>
+        <AnimatePresence initial={false}>
+          {openMenu ? (
+            <motion.div
+              key={openMenu}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: duration.fast, ease: ease.standard }}
+              className="overflow-hidden border-t border-hairline"
+            >
+              {navigation
+                .filter((g) => g.label === openMenu)
+                .map((group) => (
+                  <Container key={group.label} className="grid grid-cols-2 gap-x-16 gap-y-8 py-10">
+                    {group.columns.map((col, ci) => (
+                      <motion.div
+                        key={col.heading}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: duration.base,
+                          ease: ease.out,
+                          delay: 0.04 + ci * 0.05,
+                        }}
+                      >
+                        <p className="text-eyebrow mb-5">{col.heading}</p>
+                        <ul className="grid gap-1">
+                          {col.items.map((item) => (
+                            <li key={item.label}>
+                              <Link
+                                to="/"
+                                onClick={() => setOpenMenu(null)}
+                                className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
+                              >
+                                <span className="text-sm font-medium">{item.label}</span>
+                                {item.description ? (
+                                  <span className="text-sm text-muted-foreground">
+                                    {item.description}
+                                  </span>
+                                ) : null}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
                     ))}
-                  </ul>
-                </div>
-              ))}
-            </Container>
-          ))}
+                  </Container>
+                ))}
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </div>
+
 
       {/* Mobile menu */}
       <AnimatePresence initial={false}>
