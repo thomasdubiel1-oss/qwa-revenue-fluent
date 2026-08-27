@@ -173,12 +173,35 @@ export function FlagshipMedia({
       <div
         className={cn(
           unframed ? "relative" : "absolute inset-0",
+          showStill && "hidden",
           videoReady && "opacity-0 transition-opacity duration-500",
         )}
         aria-hidden={videoReady || undefined}
       >
         {children}
       </div>
+
+      {showStill && stillSrc ? (
+        <div
+          className={cn(
+            unframed ? "relative" : "absolute inset-0",
+            "overflow-hidden rounded-2xl border border-hairline bg-surface",
+            unframed && RATIO_CLASS[stillRatio],
+          )}
+        >
+          <img
+            src={stillSrc}
+            alt={still?.alt ?? label ?? asset.purpose}
+            loading="eager"
+            decoding="async"
+            className="h-full w-full object-cover"
+            {...(still?.objectPosition ? { style: { objectPosition: still.objectPosition } } : {})}
+            onError={() => setStillFailed(true)}
+          />
+        </div>
+      ) : null}
+
+
 
       {mountVideo && src ? (
         <video
