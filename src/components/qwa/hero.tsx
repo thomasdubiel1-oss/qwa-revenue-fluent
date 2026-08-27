@@ -84,9 +84,9 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: ease.out, delay: 0.18 }}
+            transition={{ duration: reduced ? 0 : 1, ease: ease.out, delay: reduced ? 0 : 0.18 }}
             className="min-w-0"
           >
             <FlagshipMedia

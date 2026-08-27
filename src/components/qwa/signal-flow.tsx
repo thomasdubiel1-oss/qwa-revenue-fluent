@@ -43,10 +43,16 @@ const OUTCOME_Y = (i: number) => (220 * (i + 0.5)) / 3;
 export function SignalFlow({ className }: { className?: string }) {
   const reduced = useReducedMotion();
   const [cycle, setCycle] = React.useState(0);
-  const [phase, setPhase] = React.useState(reduced ? phases.length - 1 : 0);
+  // Start from the same frame the server rendered, then resolve. Branching on
+  // `reduced` during the first render causes a hydration mismatch.
+  const [phase, setPhase] = React.useState(0);
 
   React.useEffect(() => {
-    if (reduced) return;
+    if (reduced) {
+      // Reduced motion gets the complete, resolved state — revenue attributed.
+      setPhase(phases.length - 1);
+      return;
+    }
     const id = window.setInterval(() => {
       setPhase((p) => {
         if (p === phases.length - 1) {
