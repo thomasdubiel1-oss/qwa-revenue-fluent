@@ -99,7 +99,7 @@ export function RevenueEngine() {
 
   return (
     <Section id="revenue-engine" tone="paper" className="overflow-hidden py-0">
-      <Container className="pt-24 sm:pt-28 lg:pt-36">
+      <Container className="pt-20 sm:pt-24 lg:pt-28">
         <MotionReveal className="max-w-3xl">
           <Eyebrow>The Revenue Engine</Eyebrow>
           <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
