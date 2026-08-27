@@ -188,16 +188,11 @@ export function DemoRequestForm({
     setStatus("submitting");
     track("demo_form_submitted", { source, monthly_leads: values.monthlyLeads });
 
-    // Spam heuristics: filled honeypot or an impossibly fast completion are
-    // accepted silently rather than surfaced, so bots get no signal.
-    const looksAutomated = Boolean(trapRef.current?.value) || elapsedMs < MIN_FILL_MS;
-    if (looksAutomated) {
-      await new Promise((r) => setTimeout(r, 600));
-      setStatus("done");
-      return;
-    }
+    // Spam heuristics: the honeypot value and fill time are forwarded so the
+    // server is authoritative. Suppressed submissions still return success so
+    // bots get no signal, and the UI path is unchanged.
+    const result = await submitDemoRequest(payload, { trap: trapRef.current?.value ?? "" });
 
-    const result = await submitDemoRequest(payload);
     if (result.ok) {
       setStatus("done");
       track("demo_form_success", { source, provider: result.provider });
