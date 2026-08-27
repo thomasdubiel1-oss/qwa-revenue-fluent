@@ -481,7 +481,7 @@ export function AcquisitionGovernanceSection() {
             {controls.map((c) => (
               <MotionItem key={c.label}>
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-6 gap-y-1 border-b border-hairline py-5">
-                  <h3 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h3>
+                  <h4 className="text-[1.0625rem] font-medium tracking-tight">{c.label}</h4>
                   <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/70">
                     control: {c.held}
                   </span>
