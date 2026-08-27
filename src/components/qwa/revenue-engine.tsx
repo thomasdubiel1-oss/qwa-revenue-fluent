@@ -93,22 +93,35 @@ const steps: Step[] = [
 const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
 const LEARN_INDEX = steps.findIndex((s) => s.id === "learn");
 
-export function RevenueEngine() {
+export type RevenueEngineProps = {
+  id?: string;
+  eyebrow?: string;
+  title?: React.ReactNode;
+  lede?: React.ReactNode;
+  /** Optional trailing content under the intro (e.g. a link to the product page). */
+  intro?: React.ReactNode;
+};
+
+export function RevenueEngine({
+  id = "revenue-engine",
+  eyebrow = "The Revenue Engine",
+  title = "One lead, followed end to end.",
+  lede = "Most stacks lose the thread between the click and the invoice. QWA keeps one record of the customer, the conversation and the money — and sends the money back to its source.",
+  intro,
+}: RevenueEngineProps = {}) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
   const reduced = useReducedMotion();
 
   return (
-    <Section id="revenue-engine" tone="paper" className="overflow-hidden py-0">
+    <Section id={id} tone="paper" className="scroll-mt-24 overflow-hidden py-0">
       <Container className="pt-20 sm:pt-24 lg:pt-28">
         <MotionReveal className="max-w-3xl">
-          <Eyebrow>The Revenue Engine</Eyebrow>
-          <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">
-            One lead, followed end to end.
-          </h2>
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h2 className="text-display mt-5 text-[clamp(2rem,4.6vw,3.5rem)]">{title}</h2>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Most stacks lose the thread between the click and the invoice. QWA keeps one record of
-            the customer, the conversation and the money — and sends the money back to its source.
+            {lede}
           </p>
+          {intro ? <div className="mt-8">{intro}</div> : null}
         </MotionReveal>
       </Container>
 
@@ -116,6 +129,7 @@ export function RevenueEngine() {
     </Section>
   );
 }
+
 
 /* -------------------------------------------------------------------------
  * Desktop: pinned, scrubbed cinematic sequence (GSAP ScrollTrigger)
