@@ -80,7 +80,15 @@ const steps: Step[] = [
     body: "Outcomes re-weight the model: budget, cadence and next-best-action shift before the next signal arrives.",
     event: { channel: "Optimization", label: "Next best action updated", meta: "creative 12 · +18% budget" },
   },
+  {
+    id: "reactivate",
+    time: "Later",
+    title: "Reactivation",
+    body: "Dormant leads and past customers re-enter the loop on intent, not on a calendar date — pipeline you already paid for.",
+    event: { channel: "Reactivation", label: "Dormant lead re-engaged", meta: "intent signal · 214 days idle" },
+  },
 ];
+
 
 const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
 const LEARN_INDEX = steps.length - 1;
