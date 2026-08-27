@@ -26,10 +26,10 @@ export function SiteFooter() {
                 <p className="text-eyebrow mb-4">{col.heading}</p>
                 <ul className="grid gap-2.5">
                   {col.items.map((item) =>
-                    item.href === "/products/revenue-engine" ? (
+                    isLiveRoute(item.href) ? (
                       <li key={item.label}>
                         <Link
-                          to="/products/revenue-engine"
+                          to={item.href}
                           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                         >
                           {item.label}
@@ -41,6 +41,7 @@ export function SiteFooter() {
                       </li>
                     ),
                   )}
+
 
                 </ul>
               </div>
