@@ -13,6 +13,7 @@ import {
   StatCell,
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------
  * Signature visual — the discovery graph.
@@ -452,6 +453,175 @@ export function SearchGovernanceSection() {
       <IllustrativeNote className="mt-6">
         Adapter categories only. Nothing is connected until configured for your deployment.
       </IllustrativeNote>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Surface map — how buyers actually discover the business
+ * ---------------------------------------------------------------------- */
+
+const surfaces = [
+  { surface: "Classic search", role: "Evaluation and comparison queries", state: "Mapped" },
+  { surface: "Maps and local", role: "Near-me and service-area intent", state: "Mapped" },
+  { surface: "AI answer engines", role: "Summarised answers with citations", state: "Sampled" },
+  { surface: "Assistants and chat", role: "Conversational product questions", state: "Sampled" },
+  { surface: "Owned content", role: "Guides, comparisons and FAQ passages", state: "Mapped" },
+  { surface: "Third-party sources", role: "Directories and references answers quote", state: "Observed" },
+];
+
+export function SurfaceMapSection() {
+  return (
+    <ProductSection
+      id="surfaces"
+      eyebrow="Discovery surfaces"
+      title="Discovery is no longer one surface."
+      lede="A buyer may never see a results page. QWA maps every surface where your category is discovered — search, maps, answer engines, assistants and the sources they quote — and records what is understood about you on each."
+      points={[
+        "One map across classic search, local, answer engines and assistants",
+        "Sampled surfaces labelled as sampled, never presented as guaranteed",
+        "Gaps and competing sources named per surface, not averaged into a score",
+      ]}
+      media="right"
+      level="sub"
+    >
+      <ProductPanel title="Surface map · coverage category" meta="6 surfaces" footer={<IllustrativeNote />}>
+        <PanelBlock className="py-0">
+          <ul>
+            {surfaces.map((s) => (
+              <li
+                key={s.surface}
+                className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline py-3.5 first:pt-5 last:border-b-0 last:pb-5"
+              >
+                <div className="min-w-0">
+                  <p className="text-[0.9375rem] font-medium">{s.surface}</p>
+                  <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">{s.role}</p>
+                </div>
+                <span
+                  className={cn(
+                    "text-data shrink-0 text-[0.7rem] uppercase tracking-[0.12em]",
+                    s.state === "Mapped" ? "text-signal" : "text-muted-foreground/70",
+                  )}
+                >
+                  {s.state}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Visibility → qualified demand
+ * ---------------------------------------------------------------------- */
+
+export function DiscoveryDemandSection() {
+  return (
+    <ProductSection
+      id="demand"
+      eyebrow="Qualified demand"
+      title="A citation only counts once someone talks to you."
+      lede="Presence on a surface is the beginning. QWA follows the session into the conversation it produced — chat, call, form or message — and hands it to the Revenue Engine with the cluster and page that earned it attached."
+      points={[
+        "Discovery session joined to the conversation it started, on one record",
+        "Cluster, page and surface carried into the conversation layer",
+        "Answered while intent is alive, not queued as an anonymous lead",
+      ]}
+      media="left"
+      tone="paper"
+      level="sub"
+    >
+      <ProductPanel
+        title="Handoff · inbound from coverage cluster"
+        meta="answer surface"
+        footer={<IllustrativeNote />}
+      >
+        <PanelBlock className="py-5">
+          <DecisionCallout
+            label="Handed to"
+            value="Revenue Engine · immediate response"
+            rule="Cluster, page and surface attached before the first reply"
+          />
+        </PanelBlock>
+        <PanelBlock label="Carried with the record" muted>
+          <FieldGrid
+            fields={[
+              { label: "Cluster", value: "Compare coverage options" },
+              { label: "Page", value: "Coverage comparison guide", accent: true },
+              { label: "Surface", value: "Answer engine citation" },
+              { label: "First response", value: "Under a minute" },
+            ]}
+          />
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Discovery → revenue attribution and learning
+ * ---------------------------------------------------------------------- */
+
+const investment = [
+  { topic: "Compare coverage options", stage: "Evaluation", call: "Invest" },
+  { topic: "Cancel and switch", stage: "Transactional", call: "Invest" },
+  { topic: "Is roadside worth it", stage: "Research", call: "Maintain" },
+  { topic: "Cheapest coverage", stage: "Price shopping", call: "Reduce" },
+];
+
+export function DiscoveryRevenueSection() {
+  return (
+    <ProductSection
+      id="attribution"
+      eyebrow="Attribution and learning"
+      title="Discovery judged at the far end of the chain."
+      lede="Each cluster, page, entity and surface is traced through conversation, appointment and closed revenue. The next investment decision follows the evidence, and a person can overrule it."
+      points={[
+        "Contribution traced to closed revenue, not to impressions or position",
+        "Invest, maintain and reduce decisions stated with the rule behind them",
+        "Surfaces that only assist are credited as assists, not as last click",
+      ]}
+      media="right"
+      level="sub"
+    >
+      <ProductPanel
+        title="Investment view · coverage category"
+        meta="joined to closed revenue"
+        footer={<IllustrativeNote />}
+      >
+        <PanelBlock className="py-0">
+          <ul>
+            {investment.map((r) => (
+              <li
+                key={r.topic}
+                className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline py-3.5 first:pt-5 last:border-b-0 last:pb-5"
+              >
+                <div className="min-w-0">
+                  <p className="text-[0.9375rem] font-medium">{r.topic}</p>
+                  <p className="mt-0.5 text-[0.8125rem] text-muted-foreground">{r.stage}</p>
+                </div>
+                <span
+                  className={cn(
+                    "text-data shrink-0 text-[0.7rem] uppercase tracking-[0.12em]",
+                    r.call === "Invest" ? "text-signal" : "text-muted-foreground/70",
+                  )}
+                >
+                  {r.call}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </PanelBlock>
+        <PanelBlock label="What the system learns" muted>
+          <p className="text-[0.875rem] leading-relaxed text-muted-foreground">
+            Topics and entities that produced qualified conversations are promoted in the authority
+            map and seed the next content brief. Nothing is published on that basis without review.
+          </p>
+        </PanelBlock>
+      </ProductPanel>
     </ProductSection>
   );
 }
