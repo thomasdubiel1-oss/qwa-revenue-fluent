@@ -64,7 +64,7 @@ export function ClosedLoop() {
             <motion.span
               className="absolute inset-y-0 left-0 block bg-signal"
               animate={{ width: `${((active + 1) / stages.length) * 100}%` }}
-              transition={{ duration: duration.slow ?? 0.6, ease: ease.out }}
+              transition={{ duration: duration.slow, ease: ease.out }}
             />
             {stages.map((s, i) => (
               <motion.span

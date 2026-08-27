@@ -242,13 +242,14 @@ function RecordStage({ index, progress }: { index: number; progress: number }) {
     <RiveStage
       label="Animated walkthrough of a single customer record moving from first signal to attributed revenue"
       fallback={
-        <div className="surface-card overflow-hidden shadow-lift">
+        <div className="surface-card overflow-hidden shadow-card">
           <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-            <span className="text-eyebrow">Record · QWA-84213</span>
+            <span className="text-data text-[0.7rem] text-muted-foreground">Record · QWA-84213</span>
             <span className="text-data text-[0.7rem] text-muted-foreground">
               stage {index + 1}/{steps.length}
             </span>
           </div>
+
           <div className="h-px w-full bg-hairline">
             <motion.div
               className="h-px bg-signal"
