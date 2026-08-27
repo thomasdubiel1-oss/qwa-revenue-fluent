@@ -253,11 +253,17 @@
 }
 
 @utility text-lede {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   line-height: 1.6;
   letter-spacing: -0.011em;
   color: var(--muted-foreground);
   text-wrap: pretty;
+}
+
+@media (min-width: 640px) {
+  .text-lede {
+    font-size: 1.125rem;
+  }
 }
 
 @utility glass-panel {
