@@ -391,22 +391,21 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
           animate={attributing ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
           transition={{ duration: 1.1, ease: ease.out }}
         />
-      </svg>
-
-      <ul className="pointer-events-none absolute inset-0" style={{ paddingLeft: "34%" }}>
         {spineNodes.map((n, i) => (
-          <li
-            key={n}
+          <text
+            key={`t-${n}`}
+            x={spineX + 13}
+            y={8 + i * gap + 3}
+            fontSize="9"
             className={cn(
-              "absolute text-[0.68rem] transition-colors duration-500",
-              i <= reachedNode ? "text-foreground" : "text-muted-foreground/45",
+              "transition-colors duration-500",
+              i <= reachedNode ? "fill-foreground" : "fill-muted-foreground/45",
             )}
-            style={{ top: `${(8 + i * gap - 7) * (100 / height)}%` }}
           >
             {n}
-          </li>
+          </text>
         ))}
-      </ul>
+      </svg>
 
       <AnimatePresence>
         {attributing ? (
