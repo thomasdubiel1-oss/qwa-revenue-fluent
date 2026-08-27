@@ -85,7 +85,7 @@ function BusinessIntelligencePage() {
         id="forward"
         index="04"
         label="Forecast + learning"
-        title="A forward view with its assumptions in the open."
+        title="From measured history to a range you can plan against."
         lede="Historical outcomes feed a ranged forward view with stated scenarios and leading indicators. Forecasts are labelled as forecasts, and where the range says the plan is at risk the reading hands off as evidence rather than as an instruction."
       />
       <ForecastSection />
