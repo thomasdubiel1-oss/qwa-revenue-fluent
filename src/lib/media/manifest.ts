@@ -9,6 +9,8 @@
  *   LTX storyboard/prototype  →  human evaluation  →  premium provider for
  *   approved shots only  →  commercial clearance  →  bind `source` here.
  */
+import homeHeroStill from "@/assets/home-hero-still.png.asset.json";
+
 import type { FlagshipMediaAsset, MediaPriority } from "./types";
 
 export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
