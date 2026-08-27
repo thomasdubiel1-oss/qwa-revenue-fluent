@@ -198,10 +198,23 @@ export function ProductSection({
 
   const heading = (
     <div className="min-w-0">
-      <p className="text-eyebrow">{eyebrow}</p>
-      <h2 className="text-display mt-5 max-w-[21ch] text-balance text-[clamp(1.9rem,3.4vw,2.8rem)]">
+      <p
+        className={cn(
+          "text-eyebrow",
+          sub && "text-muted-foreground/70",
+        )}
+      >
+        {eyebrow}
+      </p>
+      <Heading
+        className={cn(
+          "text-display mt-4 max-w-[21ch] text-balance",
+          sub ? "text-[clamp(1.45rem,2.3vw,1.85rem)]" : "mt-5 text-[clamp(1.9rem,3.4vw,2.8rem)]",
+        )}
+      >
         {title}
-      </h2>
+      </Heading>
+
       {lede ? (
         <p
           className={cn(
