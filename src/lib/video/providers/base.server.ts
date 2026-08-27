@@ -14,7 +14,6 @@ import type {
   ProviderId,
   ProviderStatus,
   SubmitResult,
-  VideoJobAdapterPricing,
   VideoJobRequest,
   VideoProviderAdapter,
 } from "../types";
@@ -106,5 +105,3 @@ export function createAdapter(
     },
   };
 }
-
-export type { VideoJobAdapterPricing };
