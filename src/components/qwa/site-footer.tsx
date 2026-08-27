@@ -59,7 +59,7 @@ export function SiteFooter() {
               <li key={l}>
                 <Link
                   to="/"
-                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {l}
                 </Link>
