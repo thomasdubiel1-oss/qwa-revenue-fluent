@@ -266,21 +266,31 @@ function RecordStage({ index, progress }: { index: number; progress: number }) {
     <RiveStage
       label="Animated walkthrough of a single customer record moving from first signal to attributed revenue"
       fallback={
-        <div className="surface-card overflow-hidden shadow-card">
-          <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-            <span className="text-data text-[0.7rem] text-muted-foreground">Record · QWA-84213</span>
-            <span className="text-data text-[0.7rem] text-muted-foreground">
+        <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
+          <div className="flex h-11 items-center justify-between gap-4 border-b border-hairline px-5">
+            <span className="text-data truncate text-[0.7rem] text-muted-foreground">
+              Record · QWA-84213 · Ridgeline HVAC
+            </span>
+            <span className="text-data shrink-0 text-[0.7rem] text-muted-foreground/80">
               stage {index + 1}/{steps.length}
             </span>
           </div>
 
-          <div className="h-px w-full bg-hairline">
+          <div className="relative h-px w-full bg-hairline">
             <motion.div
               className="h-px bg-signal"
               animate={{ width: `${Math.round(progress * 100)}%` }}
               transition={{ duration: 0.2, ease: "linear" }}
             />
+            {/* The attribution beat: credit sweeps back across the record. */}
+            <motion.div
+              className="absolute inset-y-0 right-0 h-px bg-positive"
+              initial={false}
+              animate={attributing ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
+              transition={{ duration: 1.1, ease: ease.out }}
+            />
           </div>
+
 
           <div className="grid gap-6 p-6 sm:grid-cols-[8.5rem_minmax(0,1fr)]">
             <JourneySpine index={index} attributing={attributing} />
