@@ -135,7 +135,7 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
           <Link
             to="/"
-            className="hidden rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             Sign in
           </Link>
@@ -144,7 +144,7 @@ export function SiteHeader() {
           </Button>
           <button
             type="button"
-            className="grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-hairline xl:hidden"
+            className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-hairline xl:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
