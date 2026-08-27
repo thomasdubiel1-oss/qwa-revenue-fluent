@@ -55,6 +55,9 @@ const goals = [
 export function DemoRequestProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const [source, setSource] = React.useState<DemoSource>("unknown");
+  // The modal is opened programmatically rather than through a Radix trigger,
+  // so focus restoration has to be handled here.
+  const triggerRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     captureCampaignContext();
@@ -63,6 +66,8 @@ export function DemoRequestProvider({ children }: { children: React.ReactNode })
   const value = React.useMemo<Ctx>(
     () => ({
       open: (from: DemoSource = "unknown") => {
+        triggerRef.current =
+          document.activeElement instanceof HTMLElement ? document.activeElement : null;
         setSource(from);
         track("demo_cta_clicked", { source: from });
         track("demo_modal_opened", { source: from });
@@ -78,10 +83,17 @@ export function DemoRequestProvider({ children }: { children: React.ReactNode })
       <Dialog
         open={open}
         onOpenChange={(next) => {
-          if (!next) track("demo_modal_dismissed", { source });
+          if (!next) {
+            track("demo_modal_dismissed", { source });
+            const trigger = triggerRef.current;
+            if (trigger?.isConnected) {
+              window.requestAnimationFrame(() => trigger.focus());
+            }
+          }
           setOpen(next);
         }}
       >
+
         <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-2xl border-hairline p-0 sm:max-w-2xl">
           <DialogHeader className="space-y-3 border-b border-hairline px-6 py-6 text-left sm:px-8">
             <DialogTitle className="text-display text-2xl sm:text-3xl">
