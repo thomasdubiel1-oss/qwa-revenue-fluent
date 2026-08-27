@@ -1,10 +1,12 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
 import { useDemoRequest } from "./demo-request";
 import { RiveStage } from "./rive-stage";
 import { SignalFlow } from "./signal-flow";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 import { ease } from "@/lib/motion";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 const proofPoints: [string, string][] = [
   ["Answered in seconds", "Every channel, day or night"],
@@ -20,16 +22,16 @@ export function Hero() {
     hidden: {},
     visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
   };
-  const item = reduced
-    ? { hidden: {}, visible: {} }
-    : {
-        hidden: { opacity: 0, y: 16 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.8, ease: ease.out },
-        },
-      };
+  // The hidden variant must be identical on server and client; reduced motion
+  // is honoured by collapsing the transition, not by changing the first frame.
+  const item = {
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: reduced ? 0 : 0.8, ease: ease.out },
+    },
+  };
 
   return (
     <section className="relative isolate overflow-hidden pt-32 sm:pt-36 lg:pt-44">
@@ -83,16 +85,23 @@ export function Hero() {
           </motion.div>
 
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: ease.out, delay: 0.18 }}
+            transition={{ duration: reduced ? 0 : 1, ease: ease.out, delay: reduced ? 0 : 0.18 }}
             className="min-w-0"
           >
-            <RiveStage
+            <FlagshipMedia
+              id="home-hero"
+              unframed
               label="Simulation: customer signals from ads, search, direct messages, voice and web are interpreted by QWA and resolved into an appointment, a sale and attributed revenue"
               className="min-w-0"
-              fallback={<SignalFlow />}
-            />
+            >
+              <RiveStage
+                label="Simulation: customer signals from ads, search, direct messages, voice and web are interpreted by QWA and resolved into an appointment, a sale and attributed revenue"
+                className="min-w-0"
+                fallback={<SignalFlow />}
+              />
+            </FlagshipMedia>
           </motion.div>
         </div>
       </Container>

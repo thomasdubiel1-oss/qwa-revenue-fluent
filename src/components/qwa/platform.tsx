@@ -1,7 +1,8 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Container, Section, SectionHeading } from "./primitives";
 import { MotionItem, MotionStagger } from "./motion-primitives";
 import { duration, ease } from "@/lib/motion";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 export type Capability = {
   id: string;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { Container, Section } from "../primitives";
 import { MotionReveal } from "../motion-primitives";
 import { SiteHeader } from "../site-header";
@@ -8,6 +8,7 @@ import { DemoRequestProvider, useDemoRequest } from "../demo-request";
 import { Button } from "@/components/ui/button";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /* -------------------------------------------------------------------------
  * Phase 2 product-page primitives.

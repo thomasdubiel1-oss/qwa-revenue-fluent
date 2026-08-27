@@ -1,9 +1,10 @@
 import * as React from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { Container, Section, SectionHeading } from "./primitives";
 import { MetricValue, MotionItem, MotionReveal, MotionStagger } from "./motion-primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /** Four movements of the loop. Fewer, larger ideas beat an eight-cell grid. */
 const stages = [

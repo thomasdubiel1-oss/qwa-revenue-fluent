@@ -1,7 +1,8 @@
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";
 
 /**
  * QWA signal flow — the product's visual signature.
@@ -43,10 +44,16 @@ const OUTCOME_Y = (i: number) => (220 * (i + 0.5)) / 3;
 export function SignalFlow({ className }: { className?: string }) {
   const reduced = useReducedMotion();
   const [cycle, setCycle] = React.useState(0);
-  const [phase, setPhase] = React.useState(reduced ? phases.length - 1 : 0);
+  // Start from the same frame the server rendered, then resolve. Branching on
+  // `reduced` during the first render causes a hydration mismatch.
+  const [phase, setPhase] = React.useState(0);
 
   React.useEffect(() => {
-    if (reduced) return;
+    if (reduced) {
+      // Reduced motion gets the complete, resolved state — revenue attributed.
+      setPhase(phases.length - 1);
+      return;
+    }
     const id = window.setInterval(() => {
       setPhase((p) => {
         if (p === phases.length - 1) {
@@ -233,7 +240,7 @@ export function SignalFlow({ className }: { className?: string }) {
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.p
                     key={o.value}
-                    initial={reduced ? false : { opacity: 0, y: 5 }}
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
                     transition={{ duration: duration.fast, ease: ease.out }}
@@ -258,7 +265,7 @@ export function SignalFlow({ className }: { className?: string }) {
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
                 key={current.key}
-                initial={reduced ? false : { opacity: 0, y: 5 }}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: duration.fast, ease: ease.out }}
@@ -272,7 +279,7 @@ export function SignalFlow({ className }: { className?: string }) {
             <AnimatePresence mode="wait" initial={false}>
               <motion.p
                 key={`${current.key}-${cycle}`}
-                initial={reduced ? false : { opacity: 0, y: 5 }}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: duration.fast, ease: ease.out }}

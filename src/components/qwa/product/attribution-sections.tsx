@@ -15,6 +15,7 @@ import {
 import { Container, Section } from "../primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 /* -------------------------------------------------------------------------
  * Signature visual — the revenue return path.
@@ -31,6 +32,14 @@ const journey = [
 ];
 
 export function ReturnPathVisual() {
+  return (
+    <FlagshipMedia id="attribution-return-path" unframed>
+      <ReturnPathVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function ReturnPathVisualPanel() {
   return (
     <ProductPanel
       title="Journey · CU-40118 · closed won"
@@ -88,6 +97,34 @@ export function ReturnPathVisual() {
             </li>
           ))}
         </ol>
+
+        {/* The return: revenue travels back up the same rail and lands on the
+            named source. It resolves after every credit weight is settled. */}
+        <div className="mt-1 grid grid-cols-[1.5rem_minmax(0,1fr)] gap-4">
+          <div className="flex justify-center">
+            <motion.span
+              className="w-px bg-[var(--positive)]"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 1.05 }}
+              style={{ transformOrigin: "bottom" }}
+            />
+          </div>
+          <motion.p
+            className="pb-1 text-[0.8125rem] leading-snug"
+            initial={{ opacity: 0, y: 4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: duration.base, ease: ease.out, delay: 1.7 }}
+          >
+            <span className="text-data text-[var(--positive)]">$14,200 returned</span>
+            <span className="text-muted-foreground">
+              {" "}
+              to Paid social · retargeting set
+            </span>
+          </motion.p>
+        </div>
       </PanelBlock>
       <PanelStats
         cells={[

@@ -14,6 +14,7 @@ import {
 } from "./primitives";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 
 /* -------------------------------------------------------------------------
  * Signature visual — the production pipeline.
@@ -21,16 +22,24 @@ import { cn } from "@/lib/utils";
  * ---------------------------------------------------------------------- */
 
 const pipeline = [
-  { stage: "Brief", detail: "Offer, audience, claim boundaries" },
-  { stage: "Script", detail: "Hook, proof, single call to action" },
-  { stage: "Storyboard", detail: "Shot plan, aspect and duration set before spend" },
-  { stage: "Prototype", detail: "Low-cost rough cut proves pacing first" },
-  { stage: "Routing", detail: "Only approved shots go to a premium provider" },
-  { stage: "Assembly", detail: "Cuts, captions, aspect variants" },
-  { stage: "Review", detail: "Named human approves rights and release" },
+  { stage: "Brief", detail: "Offer, audience, claim boundaries", spend: "No spend" },
+  { stage: "Script", detail: "Hook, proof, single call to action", spend: "No spend" },
+  { stage: "Storyboard", detail: "Shot plan, aspect and duration set before spend", spend: "LTX · low cost" },
+  { stage: "Prototype", detail: "Low-cost rough cut proves pacing first", spend: "LTX · prototype only" },
+  { stage: "Routing", detail: "Only approved shots go to a premium provider", spend: "Premium · approved shots" },
+  { stage: "Assembly", detail: "Cuts, captions, aspect variants", spend: "No spend" },
+  { stage: "Review", detail: "Named human approves rights and release", spend: "Clearance required" },
 ];
 
 export function ProductionPipelineVisual() {
+  return (
+    <FlagshipMedia id="creative-studio-pipeline" unframed>
+      <ProductionPipelineVisualPanel />
+    </FlagshipMedia>
+  );
+}
+
+function ProductionPipelineVisualPanel() {
   return (
     <ProductPanel
       title="Job · CS-2210 · coverage comparison"
@@ -61,7 +70,23 @@ export function ProductionPipelineVisual() {
                 ) : null}
               </div>
               <div className={cn("min-w-0", i < pipeline.length - 1 && "pb-5")}>
-                <p className="text-[0.9375rem] font-medium leading-snug">{p.stage}</p>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+                  <p className="text-[0.9375rem] font-medium leading-snug">{p.stage}</p>
+                  <motion.span
+                    className={cn(
+                      "text-data text-[0.68rem] uppercase tracking-[0.12em]",
+                      p.spend.startsWith("Premium")
+                        ? "text-signal"
+                        : "text-muted-foreground/80",
+                    )}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: duration.base, ease: ease.out, delay: 0.2 + i * 0.12 }}
+                  >
+                    {p.spend}
+                  </motion.span>
+                </div>
                 <p className="mt-1 text-[0.8125rem] leading-relaxed text-muted-foreground">
                   {p.detail}
                 </p>
