@@ -8,6 +8,19 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
   veo: {
     id: "veo",
     displayName: "Google Veo",
+    role: "shot_generation",
+    integrationMode: "api",
+    costTier: "high",
+    productionTier: "production",
+    defaultUsageRights: "unknown",
+    planning: {
+      storyboard: false,
+      shotSequencing: false,
+      aspectPlanning: false,
+      durationPlanning: false,
+      prototypeAssembly: false,
+      prototypeGeneration: false,
+    },
     summary: "High-fidelity generation with native audio; strongest all-round default.",
     supportedClipDurations: [4, 6, 8],
     maxClipDurationSeconds: 8,
@@ -23,6 +36,19 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
   seedance: {
     id: "seedance",
     displayName: "ByteDance Seedance",
+    role: "shot_generation",
+    integrationMode: "api",
+    costTier: "low",
+    productionTier: "production",
+    defaultUsageRights: "unknown",
+    planning: {
+      storyboard: false,
+      shotSequencing: false,
+      aspectPlanning: false,
+      durationPlanning: false,
+      prototypeAssembly: false,
+      prototypeGeneration: false,
+    },
     summary: "Fast, cost-efficient multi-shot generation; strong motion for short-form.",
     supportedClipDurations: [5, 10],
     maxClipDurationSeconds: 10,
@@ -38,6 +64,19 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
   kling: {
     id: "kling",
     displayName: "Kling",
+    role: "shot_generation",
+    integrationMode: "api",
+    costTier: "medium",
+    productionTier: "production",
+    defaultUsageRights: "unknown",
+    planning: {
+      storyboard: false,
+      shotSequencing: false,
+      aspectPlanning: false,
+      durationPlanning: false,
+      prototypeAssembly: false,
+      prototypeGeneration: false,
+    },
     summary: "Long single takes and controllable motion; useful for product hero shots.",
     supportedClipDurations: [5, 10],
     maxClipDurationSeconds: 10,
@@ -53,6 +92,19 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
   runway: {
     id: "runway",
     displayName: "Runway",
+    role: "shot_generation",
+    integrationMode: "api",
+    costTier: "medium",
+    productionTier: "production",
+    defaultUsageRights: "unknown",
+    planning: {
+      storyboard: false,
+      shotSequencing: false,
+      aspectPlanning: false,
+      durationPlanning: false,
+      prototypeAssembly: false,
+      prototypeGeneration: false,
+    },
     summary: "Editorial control and reference-driven styling; predictable creative direction.",
     supportedClipDurations: [5, 10],
     maxClipDurationSeconds: 10,
@@ -68,6 +120,19 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
   higgsfield: {
     id: "higgsfield",
     displayName: "Higgsfield",
+    role: "shot_generation",
+    integrationMode: "api",
+    costTier: "low",
+    productionTier: "production",
+    defaultUsageRights: "unknown",
+    planning: {
+      storyboard: false,
+      shotSequencing: false,
+      aspectPlanning: false,
+      durationPlanning: false,
+      prototypeAssembly: false,
+      prototypeGeneration: false,
+    },
     summary: "Camera-motion presets and character-led performance shots.",
     supportedClipDurations: [3, 5],
     maxClipDurationSeconds: 5,
@@ -80,9 +145,48 @@ export const PROVIDER_CAPABILITIES: Record<ProviderId, ProviderCapabilities> = {
     qualityTier: "efficient",
     maxResolution: "1080p",
   },
+  ltx: {
+    id: "ltx",
+    displayName: "LTX Studio",
+    role: "planning",
+    integrationMode: "manual_handoff",
+    costTier: "low",
+    productionTier: "prototype",
+    defaultUsageRights: "prototype_only",
+    planning: {
+      storyboard: true,
+      shotSequencing: true,
+      aspectPlanning: true,
+      durationPlanning: true,
+      prototypeAssembly: true,
+      prototypeGeneration: true,
+    },
+    summary:
+      "Brief-to-storyboard planning and low-cost prototype assembly. Manual handoff: no verified API path wired in QWA.",
+    supportedClipDurations: [4, 5, 8],
+    maxClipDurationSeconds: 8,
+    aspectRatios: ["16:9", "9:16", "1:1"],
+    supportsAudio: false,
+    supportsImageToVideo: true,
+    supportsReferenceAssets: true,
+    supportsExtension: false,
+    supportsCharacterConsistency: true,
+    qualityTier: "efficient",
+    maxResolution: "1080p",
+  },
 };
 
 export const PROVIDER_IDS = Object.keys(PROVIDER_CAPABILITIES) as ProviderId[];
+
+/** Providers that actually generate shots — the only ones routing ranks. */
+export const SHOT_PROVIDER_IDS = PROVIDER_IDS.filter(
+  (id) => PROVIDER_CAPABILITIES[id].role === "shot_generation",
+);
+
+/** Planning / pre-production providers (storyboard, shot plan, rough cut). */
+export const PLANNING_PROVIDER_IDS = PROVIDER_IDS.filter(
+  (id) => PROVIDER_CAPABILITIES[id].role === "planning",
+);
 
 export function getCapabilities(id: ProviderId): ProviderCapabilities {
   return PROVIDER_CAPABILITIES[id];
