@@ -185,7 +185,7 @@ export function FlagshipMedia({
         <div
           className={cn(
             unframed ? "relative" : "absolute inset-0",
-            "overflow-hidden rounded-2xl border border-hairline bg-surface",
+            "overflow-hidden rounded-xl border border-hairline bg-surface",
             unframed && RATIO_CLASS[stillRatio],
           )}
         >

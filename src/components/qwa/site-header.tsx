@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,12 @@ export function SiteHeader() {
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const closeTimer = React.useRef<number | null>(null);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isCurrent = (href: string) => href !== "/" && pathname === href;
+  const groupIsCurrent = (label: string) =>
+    navigation
+      .find((g) => g.label === label)
+      ?.columns.some((c) => c.items.some((i) => isCurrent(i.href))) ?? false;
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -111,7 +117,7 @@ export function SiteHeader() {
                 onFocus={() => setOpenMenu(group.label)}
                 className={cn(
                   "relative inline-flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
-                  openMenu === group.label && "text-foreground",
+                  (openMenu === group.label || groupIsCurrent(group.label)) && "text-foreground",
                 )}
               >
                 {openMenu === group.label ? (
@@ -191,7 +197,11 @@ export function SiteHeader() {
                               <NavTarget
                                 href={item.href}
                                 onNavigate={() => setOpenMenu(null)}
-                                className="group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent"
+                                current={isCurrent(item.href)}
+                                className={cn(
+                                  "group flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-accent",
+                                  isCurrent(item.href) && "bg-accent",
+                                )}
                               >
                                 <span className="text-sm font-medium">{item.label}</span>
                                 {item.description ? (
@@ -243,7 +253,13 @@ export function SiteHeader() {
                                 <NavTarget
                                   href={item.href}
                                   onNavigate={() => setMobileOpen(false)}
-                                  className="flex min-h-11 items-center py-2 text-sm text-muted-foreground"
+                                  current={isCurrent(item.href)}
+                                  className={cn(
+                                    "flex min-h-11 items-center py-2 text-sm",
+                                    isCurrent(item.href)
+                                      ? "font-medium text-foreground"
+                                      : "text-muted-foreground",
+                                  )}
                                 >
                                   {item.label}
                                 </NavTarget>
@@ -289,16 +305,24 @@ function NavTarget({
   href,
   onNavigate,
   className,
+  current = false,
   children,
 }: {
   href: string;
   onNavigate: () => void;
   className?: string;
+  /** Marks the item as the page currently being viewed. */
+  current?: boolean;
   children: React.ReactNode;
 }) {
   if (isLiveRoute(href)) {
     return (
-      <Link to={href} onClick={onNavigate} className={className}>
+      <Link
+        to={href}
+        onClick={onNavigate}
+        className={className}
+        {...(current ? { "aria-current": "page" as const } : {})}
+      >
         {children}
       </Link>
     );

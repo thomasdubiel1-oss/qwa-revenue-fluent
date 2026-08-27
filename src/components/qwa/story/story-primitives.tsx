@@ -73,7 +73,7 @@ export function StoryFrame({
   return (
     <figure
       className={cn(
-        "min-w-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card",
+        "min-w-0 overflow-hidden rounded-xl border border-border bg-card shadow-card",
         className,
       )}
     >
