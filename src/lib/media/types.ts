@@ -64,6 +64,33 @@ export interface MediaSource {
   type?: string;
 }
 
+/**
+ * An approved external STILL image bound to a slot.
+ *
+ * Provider-agnostic: the still can come from any tool. It renders only when
+ * `rightsStatus === "commercially_cleared"`, which is only ever set by the
+ * human clearance mechanism (see lib/video/usage-rights).
+ */
+export interface MediaStill {
+  /** Landscape/desktop image URL. */
+  desktopSrc: string;
+  /** Purpose-built portrait/square crop. Absent = code fallback on mobile. */
+  mobileSrc?: string;
+  /** Aspect ratio the still was authored at; overrides the slot ratio. */
+  aspectRatio?: AspectRatioToken;
+  /** CSS object-position for framing; never distort the image. */
+  objectPosition?: string;
+  /** Business-story alt text. */
+  alt: string;
+  rightsStatus: UsageRightsStatus;
+  /** Named human who confirmed clearance in QWA. */
+  clearedBy?: string;
+  clearedAt?: string;
+  provider?: string;
+  notes?: string;
+}
+
+
 export interface FlagshipMediaAsset {
   id: string;
   /** Public route this slot lives on. */
