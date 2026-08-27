@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { DecisionIntelligenceStory } from "@/components/qwa/story/product-stories";
 import { ProductCta, ProductHero, ProductShell } from "@/components/qwa/product/primitives";
 import {
   AutonomyLadderSection,
   DecisionGovernanceSection,
   DecisionHistorySection,
-  DecisionRecordVisual,
   ExperimentSection,
   GuardrailSection,
   NextBestActionSection,
@@ -38,7 +38,7 @@ function DecisionIntelligencePage() {
         secondaryLabel="See the autonomy ladder"
         secondaryHref="#autonomy"
         note="Bounded. Reversible. Named owner on every decision."
-        visual={<DecisionRecordVisual />}
+        visual={<DecisionIntelligenceStory />}
       />
 
       <NextBestActionSection />
