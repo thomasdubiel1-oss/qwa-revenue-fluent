@@ -415,3 +415,171 @@ export function CommerceGovernanceSection() {
     </ProductSection>
   );
 }
+
+/* -------------------------------------------------------------------------
+ * Host copilot — the assist layer, never the replacement.
+ * ---------------------------------------------------------------------- */
+
+const copilotCues = [
+  {
+    signal: "Repeated sizing question · 6 viewers",
+    suggestion: "Surface the fit comparison card",
+    why: "Same question cluster in the last 90 seconds",
+  },
+  {
+    signal: "Price hesitation · 3 viewers",
+    suggestion: "Bundle framing, no discount",
+    why: "Margin floor blocks a deeper offer",
+  },
+  {
+    signal: "Cart adds rising on SKU 44-B",
+    suggestion: "Switch to SKU 44-B next",
+    why: "Inventory confirmed · 41 units",
+  },
+  {
+    signal: "Warranty claim asked twice",
+    suggestion: "Escalate — host answers live",
+    why: "Outside the approved answer boundary",
+  },
+];
+
+export function HostCopilotSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="copilot"
+      eyebrow="Host copilot"
+      title="One suggestion at a time, with the reason attached."
+      lede="The copilot reads the room and offers the next useful move — a spec card, a product switch, an objection frame, an escalation. It never fires on its own, never stacks prompts, and every cue carries the evidence behind it so the host can judge it in a second."
+      points={[
+        "Cues are ranked and rate-limited — the host sees one, not a feed",
+        "Every recommendation shows the signal that produced it",
+        "Anything outside the approved boundary is escalated, never answered",
+      ]}
+      media="right"
+    >
+      <ProductPanel title="Copilot · LC-2214" meta="assist only" footer={<IllustrativeNote />}>
+        <PanelBlock className="py-0">
+          <ul>
+            {copilotCues.map((c, i) => (
+              <motion.li
+                key={c.signal}
+                className="grid gap-1.5 border-b border-hairline px-5 py-4 first:pt-5 last:border-b-0 last:pb-5"
+                initial={{ opacity: 0, y: 6 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: duration.base, ease: ease.out, delay: i * 0.07 }}
+              >
+                <p className="text-data text-[0.7rem] uppercase tracking-[0.14em] text-muted-foreground/70">
+                  {c.signal}
+                </p>
+                <p className="text-[0.9375rem] font-medium leading-snug text-signal">
+                  {c.suggestion}
+                </p>
+                <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">{c.why}</p>
+              </motion.li>
+            ))}
+          </ul>
+        </PanelBlock>
+        <PanelBlock label="Host control" muted>
+          <DecisionCallout
+            label="Default"
+            value="Nothing auto-fires"
+            rule="The host accepts, edits or dismisses. Automation runs only where your team has enabled it."
+          />
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Live session → checkout / DM / appointment handoff.
+ * ---------------------------------------------------------------------- */
+
+const handoffPaths = [
+  { path: "Buy now", dest: "Checkout in room", carried: "Session, product, offer window" },
+  { path: "Needs a size check", dest: "DM follow-up", carried: "Question history, viewed SKUs" },
+  { path: "High-consideration item", dest: "Appointment", carried: "Cart, host notes, timezone" },
+  { path: "Left the room", dest: "Reactivation queue", carried: "Cart state, last product viewed" },
+];
+
+export function LiveHandoffSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="handoff"
+      eyebrow="Handoff"
+      title="Intent leaves the room with its context intact."
+      lede="Not every buyer converts on stream. Each path out of the live session — checkout, DM, appointment or follow-up — carries the same session, product and offer context, so the next conversation starts where the room left off."
+      media="below"
+    >
+      <div className="overflow-hidden rounded-[var(--radius)] border border-hairline">
+        <ul>
+          {handoffPaths.map((h, i) => (
+            <motion.li
+              key={h.path}
+              className="grid gap-1.5 border-b border-hairline px-5 py-4 last:border-b-0 sm:grid-cols-[minmax(0,16rem)_minmax(0,12rem)_minmax(0,1fr)] sm:items-baseline sm:gap-6"
+              initial={{ opacity: 0, y: 6 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: duration.base, ease: ease.out, delay: i * 0.06 }}
+            >
+              <p className="min-w-0 text-[0.9375rem] font-medium">{h.path}</p>
+              <p className="text-data min-w-0 text-[0.8125rem] text-signal">{h.dest}</p>
+              <p className="min-w-0 text-[0.8125rem] leading-relaxed text-muted-foreground">
+                Carries: {h.carried}
+              </p>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+      <IllustrativeNote className="mt-6">
+        Routing rules are configured per deployment. Nothing is sent without an enabled channel.
+      </IllustrativeNote>
+    </ProductSection>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Stream-to-revenue attribution + reactivation.
+ * ---------------------------------------------------------------------- */
+
+export function LiveAttributionSection() {
+  return (
+    <ProductSection
+      level="sub"
+      id="attribution"
+      eyebrow="Attribution"
+      title="Revenue traced back to the minute that produced it."
+      lede="Orders, later purchases and booked appointments are joined to the segment, host, product and offer window that contributed. The unit of analysis is the moment, not the stream."
+      points={[
+        "Purchases resolved to segment, host, SKU and offer window",
+        "Conversions after the stream credited to the session that started them",
+        "Same revenue record the rest of QWA reads — no separate live ledger",
+      ]}
+      media="right"
+      tone="paper"
+    >
+      <ProductPanel title="Session revenue · LC-2214" meta="traced" footer={<IllustrativeNote />}>
+        <PanelBlock label="By moment">
+          <FieldGrid
+            fields={[
+              { label: "Segment 2 · demo", value: "In room" },
+              { label: "Segment 4 · Q&A", value: "In room + DM" },
+              { label: "Post-stream follow-up", value: "SMS + email" },
+              { label: "Joined to record", value: "All paths", accent: true },
+            ]}
+          />
+        </PanelBlock>
+        <PanelBlock label="Reactivation" muted>
+          <DecisionCallout
+            label="Abandoned cart, no reply"
+            value="Follow-up at +2h, then +48h"
+            rule="Behaviour decides the path: viewed but no cart gets content, cart gets the cart, buyer gets nothing."
+          />
+        </PanelBlock>
+      </ProductPanel>
+    </ProductSection>
+  );
+}
