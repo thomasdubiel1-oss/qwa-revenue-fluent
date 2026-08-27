@@ -252,7 +252,12 @@ export function ProductSection({
     <Section
       id={id}
       tone={tone}
-      className={cn("scroll-mt-24 py-20 sm:py-24 lg:py-28", className)}
+      className={cn(
+        "scroll-mt-24",
+        sub ? "py-12 sm:py-14 lg:py-16" : "py-20 sm:py-24 lg:py-28",
+        className,
+      )}
+
     >
       <Container>
         {media === "below" ? (
