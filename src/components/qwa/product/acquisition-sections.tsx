@@ -290,7 +290,8 @@ export function CreativePerformanceSection() {
         "Role in the journey separated from raw click performance",
         "Winning patterns handed to Creative Studio as the next brief",
       ]}
-      media="left"
+      media="right"
+      level="sub"
     >
       <ProductPanel title="Creative contribution" meta="revenue-weighted" footer={<IllustrativeNote />}>
         <PanelBlock className="py-0">
