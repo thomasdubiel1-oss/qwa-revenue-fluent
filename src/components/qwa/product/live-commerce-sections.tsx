@@ -110,6 +110,7 @@ function LiveRoomVisualPanel() {
 export function AudienceSignalSection() {
   return (
     <ProductSection
+      level="sub"
       id="signal"
       eyebrow="Audience signal"
       title="A live room is a stream of intent, if you read it."
@@ -150,6 +151,7 @@ export function AudienceSignalSection() {
 export function ResponseSection() {
   return (
     <ProductSection
+      level="sub"
       id="response"
       eyebrow="Real-time response"
       title="Answers while the moment is still open."
@@ -260,6 +262,7 @@ export function OfferSection() {
 export function CheckoutSection() {
   return (
     <ProductSection
+      level="sub"
       id="checkout"
       eyebrow="Checkout continuity"
       title="The purchase does not leave the moment."
@@ -300,6 +303,7 @@ export function CheckoutSection() {
 export function HostConsoleSection() {
   return (
     <ProductSection
+      level="sub"
       id="console"
       eyebrow="Host console"
       title="The person on camera stays in charge."
@@ -326,6 +330,7 @@ export function HostConsoleSection() {
 export function PostStreamSection() {
   return (
     <ProductSection
+      level="sub"
       id="post-stream"
       eyebrow="After the stream"
       title="A session is an asset, not an event."
@@ -372,6 +377,7 @@ const commerceGovernance = [
 export function CommerceGovernanceSection() {
   return (
     <ProductSection
+      level="sub"
       id="governance"
       eyebrow="Governance"
       title="Live is the least forgiving surface you have."
