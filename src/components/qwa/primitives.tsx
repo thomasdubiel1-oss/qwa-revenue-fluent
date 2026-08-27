@@ -69,21 +69,61 @@ export function SectionHeading({
   return (
     <div
       className={cn(
-        "flex max-w-3xl flex-col gap-5",
+        "flex max-w-[46rem] flex-col",
         align === "center" && "mx-auto items-center text-center",
         className,
       )}
     >
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="text-display text-[clamp(2rem,4.4vw,3.4rem)]">{title}</h2>
-      {lede ? (
-        <p className="max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {lede}
-        </p>
-      ) : null}
+      {eyebrow ? <Eyebrow className="mb-6">{eyebrow}</Eyebrow> : null}
+      <h2 className="text-display text-[clamp(2rem,4.2vw,3.25rem)]">{title}</h2>
+      {lede ? <p className="text-lede mt-6 max-w-[38rem]">{lede}</p> : null}
     </div>
   );
 }
+
+/**
+ * QWA motif: a hairline that carries a signal node and a dashed return path.
+ * Used as a section divider and as a small structural accent inside panels.
+ */
+export function SignalRule({
+  className,
+  tone = "default",
+}: {
+  className?: string;
+  tone?: "default" | "ink";
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className={cn("flex w-full items-center gap-3", className)}
+    >
+      <span
+        className={cn(
+          "h-px flex-1",
+          tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline",
+        )}
+      />
+      <svg viewBox="0 0 64 8" className="h-2 w-16 text-signal" fill="none">
+        <path d="M0 4h18" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+        <circle cx="24" cy="4" r="2.5" fill="currentColor" />
+        <path
+          d="M30 4h34"
+          stroke="currentColor"
+          strokeWidth="1"
+          strokeDasharray="2 4"
+          opacity="0.6"
+        />
+      </svg>
+      <span
+        className={cn(
+          "h-px flex-1",
+          tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline",
+        )}
+      />
+    </div>
+  );
+}
+
 
 /** Scroll reveal without animation libraries. Honors prefers-reduced-motion. */
 export function Reveal({
