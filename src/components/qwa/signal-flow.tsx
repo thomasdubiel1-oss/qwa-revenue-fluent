@@ -95,10 +95,8 @@ export function SignalFlow({ className }: { className?: string }) {
                 <li
                   key={s.id}
                   className={cn(
-                    "relative flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2.5 py-2 transition-colors duration-500 sm:px-3",
-                    isActive
-                      ? "border-signal/35 bg-signal-soft/70"
-                      : "border-hairline bg-card/50",
+                    "relative flex min-w-0 items-center justify-between gap-2 rounded-md border px-2.5 py-2 transition-colors duration-500 sm:px-3",
+                    isActive ? "border-signal/40 bg-signal-soft/60" : "border-hairline bg-transparent",
                   )}
                 >
                   <span className="flex min-w-0 items-center gap-2">
@@ -120,6 +118,7 @@ export function SignalFlow({ className }: { className?: string }) {
                     )}
                   </span>
                 </li>
+
               );
             })}
           </ul>
