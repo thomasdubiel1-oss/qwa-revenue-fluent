@@ -42,7 +42,8 @@ export function createAdapter(
   integrationNote: string,
 ): VideoProviderAdapter {
   const capabilities = getCapabilities(id);
-  const requiredEnv = [PROVIDER_ENV[id].apiKey];
+  const envNames = PROVIDER_ENV[id];
+  const requiredEnv = envNames ? [envNames.apiKey] : [];
 
   function estimateCostUsd(request: VideoJobRequest): number {
     const clips = clipsRequired(

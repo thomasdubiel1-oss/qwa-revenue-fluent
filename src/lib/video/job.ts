@@ -10,6 +10,7 @@ import type {
   VideoJob,
   VideoJobRequest,
 } from "./types";
+import { canPublish } from "./usage-rights";
 
 export const JOB_STATES: JobState[] = [
   "draft",
@@ -17,6 +18,8 @@ export const JOB_STATES: JobState[] = [
   "generating",
   "evaluating",
   "selected",
+  "ready_for_review",
+  "ready_for_publish",
   "ready",
   "failed",
 ];
@@ -26,7 +29,11 @@ const ALLOWED_TRANSITIONS: Record<JobState, JobState[]> = {
   queued: ["generating", "failed"],
   generating: ["evaluating", "failed"],
   evaluating: ["selected", "failed"],
-  selected: ["ready", "failed"],
+  // Publish readiness is never reached directly: everything lands on review
+  // first, and only the usage-rights gate can promote it.
+  selected: ["ready_for_review", "failed"],
+  ready_for_review: ["ready_for_publish", "failed"],
+  ready_for_publish: ["ready", "failed"],
   ready: [],
   failed: ["queued"],
 };
@@ -66,6 +73,9 @@ export function createJob(
     id,
     request,
     state: "draft",
+    usageRightsStatus: "unknown",
+    clearedBy: null,
+    clearedAt: null,
     createdAt: now,
     updatedAt: now,
     attempts,
@@ -77,6 +87,14 @@ export function createJob(
 export function advanceJob(job: VideoJob, to: JobState, reason?: string): VideoJob {
   if (!canTransition(job.state, to)) {
     throw new Error(`Illegal job transition: ${job.state} → ${to}`);
+  }
+  if (
+    (to === "ready_for_publish" || to === "ready") &&
+    !canPublish(job.usageRightsStatus)
+  ) {
+    throw new Error(
+      `Job ${job.id} cannot reach "${to}": usage rights are "${job.usageRightsStatus}". Record a commercial clearance first.`,
+    );
   }
   return {
     ...job,
