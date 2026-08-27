@@ -91,7 +91,7 @@ const steps: Step[] = [
 
 
 const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
-const LEARN_INDEX = steps.length - 1;
+const LEARN_INDEX = steps.findIndex((s) => s.id === "learn");
 
 export function RevenueEngine() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
