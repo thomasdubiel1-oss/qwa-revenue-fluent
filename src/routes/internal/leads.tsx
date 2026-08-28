@@ -154,6 +154,7 @@ function LeadOpsConsole() {
   const [note, setNote] = React.useState("");
   const [taskTitle, setTaskTitle] = React.useState("");
   const [taskDue, setTaskDue] = React.useState("");
+  const [confirmStatus, setConfirmStatus] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const accessStatus = useServerFn(opsAccessStatusFn);
