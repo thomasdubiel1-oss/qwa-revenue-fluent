@@ -618,18 +618,177 @@ function LeadOpsConsole() {
                   <div>
                     <h3 className="mb-1 text-sm font-semibold">Set internal status</h3>
                     <div className="flex flex-wrap gap-2">
-                      {LEAD_STATUSES.map((s) => (
-                        <Button
-                          key={s}
-                          size="sm"
-                          variant={d.lead.status === s ? "default" : "outline"}
-                          disabled={statusMutation.isPending}
-                          onClick={() => statusMutation.mutate({ id: d.lead.id, status: s })}
-                        >
-                          {s}
-                        </Button>
-                      ))}
+                      {LEAD_STATUSES.map((s) => {
+                        const terminal = s === "archived" || s === "disqualified";
+                        const armed = confirmStatus === s;
+                        return (
+                          <Button
+                            key={s}
+                            size="sm"
+                            variant={
+                              d.lead.status === s ? "default" : armed ? "destructive" : "outline"
+                            }
+                            disabled={statusMutation.isPending}
+                            onClick={() => {
+                              if (terminal && !armed) {
+                                setConfirmStatus(s);
+                                return;
+                              }
+                              setConfirmStatus(null);
+                              statusMutation.mutate({ id: d.lead.id, status: s });
+                            }}
+                          >
+                            {armed ? `Confirm ${s}` : s}
+                          </Button>
+                        );
+                      })}
                     </div>
+                    <p className="mt-1 text-[0.68rem] text-muted-foreground">
+                      Archive and disqualify require a second confirming click. Every change is
+                      recorded on the activity timeline under{" "}
+                      <code>internal_operator</code>.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Internal note</h3>
+                    <form
+                      className="flex flex-col gap-2"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (note.trim().length < 2) return;
+                        noteMutation.mutate({ id: d.lead.id, note });
+                      }}
+                    >
+                      <textarea
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        rows={3}
+                        aria-label="Internal note"
+                        placeholder="What happened, what's next…"
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      />
+                      <div className="flex items-center gap-2">
+                        <Button
+                          type="submit"
+                          size="sm"
+                          disabled={noteMutation.isPending || note.trim().length < 2}
+                        >
+                          Add note
+                        </Button>
+                        {noteMutation.data && noteMutation.data.ok === false ? (
+                          <span className="text-xs text-destructive">
+                            Note rejected ({noteMutation.data.error}).
+                          </span>
+                        ) : null}
+                      </div>
+                    </form>
+                  </div>
+
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Follow-up tasks</h3>
+                    <form
+                      className="flex flex-col gap-2 sm:flex-row sm:items-end"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (taskTitle.trim().length < 2) return;
+                        taskMutation.mutate({
+                          id: d.lead.id,
+                          title: taskTitle,
+                          ...(taskDue ? { dueAt: new Date(taskDue).toISOString() } : {}),
+                        });
+                      }}
+                    >
+                      <Input
+                        value={taskTitle}
+                        onChange={(e) => setTaskTitle(e.target.value)}
+                        placeholder="Next action"
+                        aria-label="Task title"
+                      />
+                      <Input
+                        type="datetime-local"
+                        className="sm:w-[13rem]"
+                        value={taskDue}
+                        onChange={(e) => setTaskDue(e.target.value)}
+                        aria-label="Task due date and time"
+                      />
+                      <Button
+                        type="submit"
+                        size="sm"
+                        disabled={taskMutation.isPending || taskTitle.trim().length < 2}
+                      >
+                        Add task
+                      </Button>
+                    </form>
+                    <ul className="mt-3 flex flex-col gap-2">
+                      {(workflow.data?.ok ? workflow.data.data.tasks : []).map((t) => (
+                        <li
+                          key={t.id}
+                          className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/60 px-3 py-2"
+                        >
+                          <div className="min-w-0">
+                            <span
+                              className={cn(
+                                "text-xs font-medium",
+                                t.completedAt && "text-muted-foreground line-through",
+                              )}
+                            >
+                              {t.title}
+                            </span>
+                            <p className="text-[0.68rem] text-muted-foreground">
+                              {t.dueAt ? `Due ${fmtDate(t.dueAt)}` : "No due date"}
+                              {t.overdue ? " · overdue" : ""}
+                              {t.completedAt ? ` · completed ${fmtDate(t.completedAt)}` : ""}
+                            </p>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={taskDoneMutation.isPending}
+                            onClick={() =>
+                              taskDoneMutation.mutate({
+                                taskId: t.id,
+                                completed: !t.completedAt,
+                              })
+                            }
+                          >
+                            {t.completedAt ? "Reopen" : "Complete"}
+                          </Button>
+                        </li>
+                      ))}
+                      {workflow.data?.ok && workflow.data.data.tasks.length === 0 ? (
+                        <li className="text-xs text-muted-foreground">No tasks yet.</li>
+                      ) : null}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Operator activity</h3>
+                    <ul className="flex flex-col gap-2">
+                      {(workflow.data?.ok ? workflow.data.data.timeline : []).map((entry) => (
+                        <li key={entry.id} className="rounded-md border border-border/60 px-3 py-2">
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-xs font-medium capitalize">{entry.title}</span>
+                            <span className="text-[0.68rem] tabular-nums text-muted-foreground">
+                              {fmtDate(entry.at)}
+                            </span>
+                          </div>
+                          {entry.detail ? (
+                            <p className="mt-1 whitespace-pre-wrap break-words text-[0.68rem] text-muted-foreground">
+                              {entry.detail}
+                            </p>
+                          ) : null}
+                          <p className="mt-1 text-[0.62rem] uppercase tracking-[0.14em] text-muted-foreground">
+                            {entry.actorLabel ?? "internal_operator"}
+                          </p>
+                        </li>
+                      ))}
+                      {workflow.data?.ok && workflow.data.data.timeline.length === 0 ? (
+                        <li className="text-xs text-muted-foreground">
+                          No operator activity recorded.
+                        </li>
+                      ) : null}
+                    </ul>
                   </div>
 
                   <div>
