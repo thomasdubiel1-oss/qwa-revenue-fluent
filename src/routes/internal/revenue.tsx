@@ -76,6 +76,7 @@ function RevenueConsole() {
 
   const accessStatus = useServerFn(opsAccessStatusFn);
   const intelFn = useServerFn(opsRevenueIntelFn);
+  const workQueueFn = useServerFn(opsWorkQueueFn);
 
   const configured = useQuery({
     queryKey: ["ops", "configured"],
