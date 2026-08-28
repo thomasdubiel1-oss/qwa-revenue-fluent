@@ -86,7 +86,7 @@ export type OpsLeadDetail = {
     sourceCta: string | null;
     sourceRoute: string | null;
     utmCampaign: string | null;
-    metadata: unknown;
+    metadata: string | null;
   }[];
   deliveries: {
     id: string;

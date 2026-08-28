@@ -127,7 +127,7 @@ function LeadOpsConsole() {
 
   const overview = useQuery({
     queryKey: ["ops", "overview", key],
-    queryFn: () => overviewFn({ data: { key } }),
+    queryFn: () => overviewFn({ data: { key } as { key?: string } }),
     enabled: Boolean(key),
   });
 
@@ -597,7 +597,7 @@ function LeadOpsConsole() {
                       {d.events.length === 0 ? (
                         <li className="text-xs text-muted-foreground">No events recorded.</li>
                       ) : (
-                        d.events.map((e) => (
+                        d.events.map((e: (typeof d.events)[number]) => (
                           <li key={e.id} className="rounded-md border border-border/60 px-3 py-2">
                             <div className="flex items-center justify-between gap-3">
                               <span className="text-xs font-medium">{e.eventName}</span>
@@ -607,7 +607,7 @@ function LeadOpsConsole() {
                             </div>
                             {e.metadata ? (
                               <pre className="mt-1 whitespace-pre-wrap break-words text-[0.68rem] text-muted-foreground">
-                                {JSON.stringify(e.metadata)}
+                                {e.metadata}
                               </pre>
                             ) : null}
                           </li>
@@ -619,7 +619,7 @@ function LeadOpsConsole() {
                   <div>
                     <h3 className="mb-1 text-sm font-semibold">CRM outbox</h3>
                     <ul className="flex flex-col gap-2">
-                      {d.deliveries.map((delivery) => (
+                      {d.deliveries.map((delivery: (typeof d.deliveries)[number]) => (
                         <li
                           key={delivery.id}
                           className="rounded-md border border-border/60 px-3 py-2"

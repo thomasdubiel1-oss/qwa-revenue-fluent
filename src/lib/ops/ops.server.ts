@@ -134,7 +134,17 @@ export async function loadLeads(filters: OpsFilters): Promise<OpsLeadRow[]> {
     return [];
   }
 
-  type Joined = NonNullable<typeof data>[number] & {
+  type Joined = {
+    id: string;
+    submitted_at: string;
+    name: string;
+    company: string;
+    email: string;
+    phone: string | null;
+    website: string;
+    monthly_leads: string;
+    primary_goal: string;
+    status: string;
     demo_request_context: Array<Record<string, string | null>> | null;
     lead_deliveries: Array<{
       id: string;
@@ -145,7 +155,7 @@ export async function loadLeads(filters: OpsFilters): Promise<OpsLeadRow[]> {
     }> | null;
   };
 
-  const rows: OpsLeadRow[] = ((data ?? []) as Joined[]).map((row) => {
+  const rows: OpsLeadRow[] = ((data ?? []) as unknown as Joined[]).map((row) => {
     const ctx = row.demo_request_context?.[0] ?? null;
     const delivery =
       [...(row.lead_deliveries ?? [])].sort((a, b) =>
@@ -261,7 +271,7 @@ export async function loadLeadDetail(id: string): Promise<OpsLeadDetail | null> 
       sourceCta: e.source_cta,
       sourceRoute: e.source_route,
       utmCampaign: e.utm_campaign,
-      metadata: e.metadata,
+      metadata: e.metadata == null ? null : JSON.stringify(e.metadata),
     })),
     deliveries: (deliveries ?? []).map((d) => ({
       id: d.id,

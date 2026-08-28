@@ -30,7 +30,7 @@ export const opsAccessStatusFn = createServerFn({ method: "GET" }).handler(async
 });
 
 export const opsOverviewFn = createServerFn({ method: "POST" })
-  .inputValidator((data: KeyedInput<Record<string, never>>) => requireObject(data))
+  .inputValidator((data: { key?: string | undefined }) => requireObject(data))
   .handler(async ({ data }): Promise<OpsResponse<OpsOverview>> => {
     const { checkOpsAccess, loadOverview } = await import("./ops.server");
     const access = checkOpsAccess(data.key);
