@@ -327,6 +327,9 @@ function LeadOpsConsole() {
       actions={
         <>
           <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/work-queue">Work queue</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
             <Link to="/internal/revenue">Revenue intelligence</Link>
           </Button>
           <Button variant="outline" size="sm" onClick={invalidate}>
