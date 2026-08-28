@@ -56,13 +56,13 @@ async function audit(
       activity_type: activityType,
       note,
       actor_label: OPERATOR_LABEL,
-      metadata,
+      metadata: metadata as never,
     });
   }
   await db.from("conversion_events").insert({
     event_name: `ops_${activityType}`,
     demo_request_id: leadId,
-    metadata: { ...metadata, actor: OPERATOR_LABEL },
+    metadata: { ...metadata, actor: OPERATOR_LABEL } as never,
   });
 }
 
