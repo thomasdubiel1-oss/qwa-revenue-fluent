@@ -27,7 +27,7 @@ import {
 import { LEAD_STATUSES, type OpsFilters, type OpsLeadRow } from "@/lib/ops/types";
 import { cn } from "@/lib/utils";
 
-/** Drill-down parameters accepted from the Revenue Intelligence console. */
+/** Drill-down parameters accepted from the Revenue / Work Queue consoles. */
 type LeadsSearch = {
   status?: string;
   delivery?: string;
@@ -37,6 +37,8 @@ type LeadsSearch = {
   from?: string;
   to?: string;
   sort?: OpsFilters["sort"];
+  /** Deep-link straight to a lead detail drawer. */
+  lead?: string;
 };
 
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
@@ -54,6 +56,7 @@ export const Route = createFileRoute("/internal/leads")({
       ...(str(search["goal"]) ? { goal: str(search["goal"]) as string } : {}),
       ...(str(search["from"]) ? { from: str(search["from"]) as string } : {}),
       ...(str(search["to"]) ? { to: str(search["to"]) as string } : {}),
+      ...(str(search["lead"]) ? { lead: str(search["lead"]) as string } : {}),
       ...(sort === "newest" || sort === "oldest" || sort === "company" ? { sort } : {}),
     };
   },
