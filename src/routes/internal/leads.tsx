@@ -138,12 +138,16 @@ function Select({
 
 function LeadOpsConsole() {
   const search0 = Route.useSearch();
+  const { lead: deepLinkedLead, ...filterSearch } = search0;
   const { key, save } = useOpsKey();
   const [draftKey, setDraftKey] = React.useState("");
-  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...search0 });
+  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...filterSearch });
 
   const [search, setSearch] = React.useState("");
-  const [openId, setOpenId] = React.useState<string | null>(null);
+  const [openId, setOpenId] = React.useState<string | null>(deepLinkedLead ?? null);
+  const [note, setNote] = React.useState("");
+  const [taskTitle, setTaskTitle] = React.useState("");
+  const [taskDue, setTaskDue] = React.useState("");
   const queryClient = useQueryClient();
 
   const accessStatus = useServerFn(opsAccessStatusFn);
