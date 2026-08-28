@@ -185,6 +185,12 @@ function LeadOpsConsole() {
     enabled: Boolean(key && openId),
   });
 
+  const workflow = useQuery({
+    queryKey: ["ops", "workflow", key, openId],
+    queryFn: () => workflowFn({ data: { key, id: openId as string } }),
+    enabled: Boolean(key && openId),
+  });
+
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["ops"] });
   };
@@ -197,6 +203,30 @@ function LeadOpsConsole() {
 
   const retryMutation = useMutation({
     mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    onSuccess: invalidate,
+  });
+
+  const noteMutation = useMutation({
+    mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { key, ...vars } }),
+    onSuccess: () => {
+      setNote("");
+      invalidate();
+    },
+  });
+
+  const taskMutation = useMutation({
+    mutationFn: (vars: { id: string; title: string; dueAt?: string }) =>
+      createTaskFn({ data: { key, ...vars } }),
+    onSuccess: () => {
+      setTaskTitle("");
+      setTaskDue("");
+      invalidate();
+    },
+  });
+
+  const taskDoneMutation = useMutation({
+    mutationFn: (vars: { taskId: string; completed: boolean }) =>
+      setTaskDoneFn({ data: { key, ...vars } }),
     onSuccess: invalidate,
   });
 
