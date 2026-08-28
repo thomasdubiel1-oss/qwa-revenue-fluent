@@ -24,6 +24,12 @@ import {
   opsRetryDeliveryFn,
   opsSetStatusFn,
 } from "@/lib/ops/ops.functions";
+import {
+  opsAddNoteFn,
+  opsCreateTaskFn,
+  opsLeadWorkflowFn,
+  opsSetTaskDoneFn,
+} from "@/lib/ops/workflow.functions";
 import { LEAD_STATUSES, type OpsFilters, type OpsLeadRow } from "@/lib/ops/types";
 import { cn } from "@/lib/utils";
 
