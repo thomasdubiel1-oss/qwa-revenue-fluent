@@ -156,6 +156,10 @@ function LeadOpsConsole() {
   const detailFn = useServerFn(opsLeadDetailFn);
   const setStatusFn = useServerFn(opsSetStatusFn);
   const retryFn = useServerFn(opsRetryDeliveryFn);
+  const workflowFn = useServerFn(opsLeadWorkflowFn);
+  const addNoteFn = useServerFn(opsAddNoteFn);
+  const createTaskFn = useServerFn(opsCreateTaskFn);
+  const setTaskDoneFn = useServerFn(opsSetTaskDoneFn);
 
   const configured = useQuery({
     queryKey: ["ops", "configured"],
