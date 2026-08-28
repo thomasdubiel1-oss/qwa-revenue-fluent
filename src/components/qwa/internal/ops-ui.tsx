@@ -43,8 +43,8 @@ export function StatCard({
 }: {
   label: string;
   value: React.ReactNode;
-  hint?: string;
-  tone?: "default" | "signal" | "warn";
+  hint?: string | undefined;
+  tone?: "default" | "signal" | "warn" | undefined;
 }) {
   return (
     <div
