@@ -107,7 +107,8 @@ function WorkQueueConsole() {
   const [draftKey, setDraftKey] = React.useState("");
   const [sla, setSla] = React.useState<SlaThresholds>(DEFAULT_SLA);
   const [queue, setQueue] = React.useState<QueueKey | "all">(initial.queue ?? "all");
-  const [onlyOverdue, setOnlyOverdue] = React.useState(false);
+  const [view, setView] = React.useState<WorkQueueView | null>(initial.view ?? null);
+  const [onlyOverdue, setOnlyOverdue] = React.useState(initial.view === "overdue");
   const [sort, setSort] = React.useState<"priority" | "oldest" | "newest">("priority");
   const [expanded, setExpanded] = React.useState<string | null>(null);
   const [confirmId, setConfirmId] = React.useState<string | null>(null);
