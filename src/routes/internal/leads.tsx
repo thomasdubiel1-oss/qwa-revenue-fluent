@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import * as React from "react";
@@ -279,9 +279,13 @@ function LeadOpsConsole() {
       subtitle="Inbound demo requests, attribution and CRM delivery state"
       actions={
         <>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/revenue">Revenue intelligence</Link>
+          </Button>
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
           </Button>
+
           <Button variant="ghost" size="sm" onClick={() => save("")}>
             Lock
           </Button>
