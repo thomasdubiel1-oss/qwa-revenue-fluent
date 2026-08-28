@@ -14,6 +14,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
@@ -51,6 +52,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalLeadsRoute = InternalLeadsRouteImport.update({
+  id: '/internal/leads',
+  path: '/internal/leads',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalMediaProductionBriefRoute =
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/video-router-lab'
     | '/products/acquisition'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  InternalLeadsRoute: typeof InternalLeadsRoute
   InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
@@ -302,6 +315,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/leads': {
+      id: '/internal/leads'
+      path: '/internal/leads'
+      fullPath: '/internal/leads'
+      preLoaderRoute: typeof InternalLeadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/media-production-brief': {
@@ -404,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  InternalLeadsRoute: InternalLeadsRoute,
   InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
