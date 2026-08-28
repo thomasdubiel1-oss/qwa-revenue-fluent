@@ -88,6 +88,13 @@ function RevenueConsole() {
     enabled: Boolean(key),
   });
 
+  const queue = useQuery({
+    queryKey: ["ops", "work-queue", "summary", key],
+    queryFn: () => workQueueFn({ data: { key } }),
+    enabled: Boolean(key),
+  });
+  const queueSummary = queue.data?.ok ? queue.data.data.summary : null;
+
   const denied = intel.data?.ok === false && intel.data.access.state === "denied";
   const unconfigured = configured.data?.configured === false;
   const data = intel.data?.ok ? intel.data.data : null;
