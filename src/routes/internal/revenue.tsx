@@ -29,6 +29,7 @@ import {
 import { internalHead } from "@/config/seo";
 import { opsAccessStatusFn } from "@/lib/ops/ops.functions";
 import { opsRevenueIntelFn } from "@/lib/ops/intel.functions";
+import { opsWorkQueueFn } from "@/lib/ops/workflow.functions";
 import type { IntelWindow } from "@/lib/ops/intel.types";
 import { DEFERRED_REVENUE_METRICS, REVENUE_DATA_AVAILABLE } from "@/lib/ops/revenue-contract";
 
