@@ -183,6 +183,44 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_activity: {
+        Row: {
+          activity_type: string
+          actor_label: string
+          created_at: string
+          demo_request_id: string
+          id: string
+          metadata: Json | null
+          note: string | null
+        }
+        Insert: {
+          activity_type: string
+          actor_label?: string
+          created_at?: string
+          demo_request_id: string
+          id?: string
+          metadata?: Json | null
+          note?: string | null
+        }
+        Update: {
+          activity_type?: string
+          actor_label?: string
+          created_at?: string
+          demo_request_id?: string
+          id?: string
+          metadata?: Json | null
+          note?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_activity_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lead_deliveries: {
         Row: {
           attempt_count: number
@@ -229,6 +267,50 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "lead_deliveries_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_tasks: {
+        Row: {
+          actor_label: string
+          completed_at: string | null
+          created_at: string
+          demo_request_id: string
+          description: string | null
+          due_at: string | null
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          actor_label?: string
+          completed_at?: string | null
+          created_at?: string
+          demo_request_id: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          actor_label?: string
+          completed_at?: string | null
+          created_at?: string
+          demo_request_id?: string
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_tasks_demo_request_id_fkey"
             columns: ["demo_request_id"]
             isOneToOne: false
             referencedRelation: "demo_requests"

@@ -18,6 +18,7 @@ import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalRevenueRouteImport } from './routes/internal/revenue'
 import { Route as InternalVideoRouterLabRouteImport } from './routes/internal/video-router-lab'
+import { Route as InternalWorkQueueRouteImport } from './routes/internal/work-queue'
 import { Route as ProductsAcquisitionRouteImport } from './routes/products/acquisition'
 import { Route as ProductsAttributionRouteImport } from './routes/products/attribution'
 import { Route as ProductsBusinessIntelligenceRouteImport } from './routes/products/business-intelligence'
@@ -74,6 +75,11 @@ const InternalRevenueRoute = InternalRevenueRouteImport.update({
 const InternalVideoRouterLabRoute = InternalVideoRouterLabRouteImport.update({
   id: '/internal/video-router-lab',
   path: '/internal/video-router-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalWorkQueueRoute = InternalWorkQueueRouteImport.update({
+  id: '/internal/work-queue',
+  path: '/internal/work-queue',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProductsAcquisitionRoute = ProductsAcquisitionRouteImport.update({
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
+  '/internal/work-queue': typeof InternalWorkQueueRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
+  '/internal/work-queue': typeof InternalWorkQueueRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
   '/internal/video-router-lab': typeof InternalVideoRouterLabRoute
+  '/internal/work-queue': typeof InternalWorkQueueRoute
   '/products/acquisition': typeof ProductsAcquisitionRoute
   '/products/attribution': typeof ProductsAttributionRoute
   '/products/business-intelligence': typeof ProductsBusinessIntelligenceRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/internal/media-production-brief'
     | '/internal/revenue'
     | '/internal/video-router-lab'
+    | '/internal/work-queue'
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/business-intelligence'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/internal/media-production-brief'
     | '/internal/revenue'
     | '/internal/video-router-lab'
+    | '/internal/work-queue'
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/business-intelligence'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/internal/media-production-brief'
     | '/internal/revenue'
     | '/internal/video-router-lab'
+    | '/internal/work-queue'
     | '/products/acquisition'
     | '/products/attribution'
     | '/products/business-intelligence'
@@ -280,6 +292,7 @@ export interface RootRouteChildren {
   InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalRevenueRoute: typeof InternalRevenueRoute
   InternalVideoRouterLabRoute: typeof InternalVideoRouterLabRoute
+  InternalWorkQueueRoute: typeof InternalWorkQueueRoute
   ProductsAcquisitionRoute: typeof ProductsAcquisitionRoute
   ProductsAttributionRoute: typeof ProductsAttributionRoute
   ProductsBusinessIntelligenceRoute: typeof ProductsBusinessIntelligenceRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/internal/video-router-lab'
       fullPath: '/internal/video-router-lab'
       preLoaderRoute: typeof InternalVideoRouterLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/work-queue': {
+      id: '/internal/work-queue'
+      path: '/internal/work-queue'
+      fullPath: '/internal/work-queue'
+      preLoaderRoute: typeof InternalWorkQueueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/products/acquisition': {
@@ -448,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalRevenueRoute: InternalRevenueRoute,
   InternalVideoRouterLabRoute: InternalVideoRouterLabRoute,
+  InternalWorkQueueRoute: InternalWorkQueueRoute,
   ProductsAcquisitionRoute: ProductsAcquisitionRoute,
   ProductsAttributionRoute: ProductsAttributionRoute,
   ProductsBusinessIntelligenceRoute: ProductsBusinessIntelligenceRoute,
