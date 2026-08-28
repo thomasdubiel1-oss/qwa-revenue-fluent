@@ -28,6 +28,10 @@ import {
 } from "@/lib/ops/workflow.types";
 import { cn } from "@/lib/utils";
 
+/** Attention slices deep-linked from the Revenue Intelligence console. */
+type WorkQueueView = "overdue" | "due" | "tasks";
+
+
 export const Route = createFileRoute("/internal/work-queue")({
   ssr: false,
   head: () => internalHead("Operator Work Queue — QWA Internal"),
