@@ -148,10 +148,11 @@ export const PRIORITY_MODEL = {
   openTaskBonus: 5,
   /** min(20, ageHours / 6) — one point per six hours, capped. */
   ageCap: 20,
+  /** Self-reported monthly lead volume band, matched in order. */
   volumeBonus: [
-    { match: "1,000", points: 10 },
-    { match: "501", points: 8 },
-    { match: "201", points: 6 },
-    { match: "51", points: 3 },
+    { match: "25,000+", points: 10 },
+    { match: "5,000 – 25,000", points: 8 },
+    { match: "1,000 – 5,000", points: 6 },
+    { match: "250 – 1,000", points: 3 },
   ],
 } as const;
