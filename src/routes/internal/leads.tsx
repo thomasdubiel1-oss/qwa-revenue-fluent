@@ -134,9 +134,11 @@ function Select({
 }
 
 function LeadOpsConsole() {
+  const search0 = Route.useSearch();
   const { key, save } = useOpsKey();
   const [draftKey, setDraftKey] = React.useState("");
-  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest" });
+  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...search0 });
+
   const [search, setSearch] = React.useState("");
   const [openId, setOpenId] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
