@@ -169,6 +169,9 @@ function RevenueConsole() {
             ))}
           </div>
           <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/work-queue">Work queue</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
             <Link to="/internal/leads">Lead console</Link>
           </Button>
           <Button variant="ghost" size="sm" onClick={() => save("")}>
