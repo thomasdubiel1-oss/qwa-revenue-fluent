@@ -106,3 +106,18 @@ decision for the owner; the hooks are in place to drive one.
 5. Analytics provider choice and real IDs.
 6. HighLevel credentials (`LEAD_WEBHOOK_URL`, `LEAD_WEBHOOK_TOKEN`) — deferred.
 7. Final `VITE_SITE_URL` production domain.
+
+## Phase 5 — Internal Lead Operations Console
+
+Route: `/internal/leads` (noindex, nofollow, noarchive; excluded from sitemap and all public navigation).
+
+Access model (owner action required before use):
+1. Add a secret named `INTERNAL_OPS_TOKEN` (32+ random characters) in Project Settings → Secrets.
+2. Operators enter that key once per browser session; it is held in sessionStorage only and validated server-side with a timing-safe compare.
+3. Until the secret exists, the console renders a locked state and returns zero lead data.
+
+Recommended upgrade path: backend auth + a separate `user_roles` table with an `ops` role verified
+server-side. Only `checkOpsAccess()` in `src/lib/ops/ops.server.ts` needs to change.
+
+HighLevel remains deferred: retries requeue the outbox row and the drain reports `no_destination`
+until `LEAD_WEBHOOK_URL` is set.
