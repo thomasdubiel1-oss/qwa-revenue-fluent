@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import * as React from "react";
@@ -27,11 +27,39 @@ import {
 import { LEAD_STATUSES, type OpsFilters, type OpsLeadRow } from "@/lib/ops/types";
 import { cn } from "@/lib/utils";
 
+/** Drill-down parameters accepted from the Revenue Intelligence console. */
+type LeadsSearch = {
+  status?: string;
+  delivery?: string;
+  source?: string;
+  campaign?: string;
+  goal?: string;
+  from?: string;
+  to?: string;
+  sort?: OpsFilters["sort"];
+};
+
+const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
+
 export const Route = createFileRoute("/internal/leads")({
   ssr: false,
   head: () => internalHead("Lead Operations — QWA Internal"),
+  validateSearch: (search: Record<string, unknown>): LeadsSearch => {
+    const sort = str(search["sort"]);
+    return {
+      ...(str(search["status"]) ? { status: str(search["status"]) as string } : {}),
+      ...(str(search["delivery"]) ? { delivery: str(search["delivery"]) as string } : {}),
+      ...(str(search["source"]) ? { source: str(search["source"]) as string } : {}),
+      ...(str(search["campaign"]) ? { campaign: str(search["campaign"]) as string } : {}),
+      ...(str(search["goal"]) ? { goal: str(search["goal"]) as string } : {}),
+      ...(str(search["from"]) ? { from: str(search["from"]) as string } : {}),
+      ...(str(search["to"]) ? { to: str(search["to"]) as string } : {}),
+      ...(sort === "newest" || sort === "oldest" || sort === "company" ? { sort } : {}),
+    };
+  },
   component: LeadOpsConsole,
 });
+
 
 const KEY_STORAGE = "qwa:ops-key";
 
@@ -106,9 +134,11 @@ function Select({
 }
 
 function LeadOpsConsole() {
+  const search0 = Route.useSearch();
   const { key, save } = useOpsKey();
   const [draftKey, setDraftKey] = React.useState("");
-  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest" });
+  const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...search0 });
+
   const [search, setSearch] = React.useState("");
   const [openId, setOpenId] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -249,9 +279,13 @@ function LeadOpsConsole() {
       subtitle="Inbound demo requests, attribution and CRM delivery state"
       actions={
         <>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/revenue">Revenue intelligence</Link>
+          </Button>
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
           </Button>
+
           <Button variant="ghost" size="sm" onClick={() => save("")}>
             Lock
           </Button>
