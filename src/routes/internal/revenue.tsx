@@ -252,6 +252,53 @@ function RevenueConsole() {
         </SmallSampleNote>
       ) : null}
 
+      <section className="mt-6">
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <div>
+            <h2 className="text-sm font-semibold tracking-[-0.01em]">Operator attention</h2>
+            <p className="text-xs text-muted-foreground">
+              Live SLA state from the operator work queue. Counts are current, not window-scoped.
+            </p>
+          </div>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/work-queue">Open work queue</Link>
+          </Button>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <Link to="/internal/work-queue" search={{ view: "overdue" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <StatCard
+              label="Overdue"
+              value={queueSummary?.overdue ?? "—"}
+              hint="Past SLA threshold"
+              tone={(queueSummary?.overdue ?? 0) > 0 ? "warn" : "default"}
+            />
+          </Link>
+          <Link to="/internal/work-queue" search={{ view: "due" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <StatCard label="Due now" value={queueSummary?.dueNow ?? "—"} hint="Inside threshold" />
+          </Link>
+          <Link to="/internal/work-queue" search={{ queue: "stale_new" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <StatCard label="Stale new" value={queueSummary?.staleNew ?? "—"} hint="Untouched since submission" />
+          </Link>
+          <Link to="/internal/work-queue" search={{ queue: "delivery_failed" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <StatCard
+              label="Delivery failures"
+              value={queueSummary?.deliveryFailures ?? "—"}
+              hint={`${queueSummary?.deliveryPending ?? 0} pending`}
+              tone={(queueSummary?.deliveryFailures ?? 0) > 0 ? "warn" : "default"}
+            />
+          </Link>
+          <Link to="/internal/work-queue" search={{ view: "tasks" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <StatCard
+              label="Tasks due today"
+              value={queueSummary?.tasksDueToday ?? "—"}
+              hint={`${queueSummary?.openTasks ?? 0} open tasks`}
+            />
+          </Link>
+        </div>
+      </section>
+
+
+
       <div className="mt-6 grid gap-3 lg:grid-cols-2">
         <Panel
           title="Lead-state funnel"
