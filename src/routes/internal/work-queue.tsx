@@ -31,9 +31,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/work-queue")({
   ssr: false,
   head: () => internalHead("Operator Work Queue — QWA Internal"),
-  validateSearch: (search: Record<string, unknown>): { queue?: QueueKey } => {
+  validateSearch: (search: Record<string, unknown>): { queue?: QueueKey; view?: WorkQueueView } => {
     const q = typeof search["queue"] === "string" ? (search["queue"] as QueueKey) : undefined;
-    return q && (QUEUE_KEYS as readonly string[]).includes(q) ? { queue: q } : {};
+    const v = typeof search["view"] === "string" ? (search["view"] as WorkQueueView) : undefined;
+    return {
+      ...(q && (QUEUE_KEYS as readonly string[]).includes(q) ? { queue: q } : {}),
+      ...(v === "overdue" || v === "due" || v === "tasks" ? { view: v } : {}),
+    };
   },
   component: WorkQueueConsole,
 });
