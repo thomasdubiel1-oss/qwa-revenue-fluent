@@ -332,6 +332,11 @@ function WorkQueueConsole() {
         >
           Overdue only
         </Button>
+        {view === "due" || view === "tasks" ? (
+          <Button size="sm" variant="ghost" onClick={() => setView(null)}>
+            Clear “{view === "due" ? "due now" : "open tasks"}” filter
+          </Button>
+        ) : null}
         <label className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
           Sort
           <select
