@@ -152,10 +152,12 @@ function WorkQueueConsole() {
     let rows = result?.items ?? [];
     if (queue !== "all") rows = rows.filter((r) => r.queue === queue);
     if (onlyOverdue) rows = rows.filter((r) => r.overdue);
+    if (view === "due") rows = rows.filter((r) => r.dueSoon || r.overdue);
+    if (view === "tasks") rows = rows.filter((r) => r.openTasks > 0);
     if (sort === "oldest") rows = [...rows].sort((a, b) => (a.submittedAt < b.submittedAt ? -1 : 1));
     if (sort === "newest") rows = [...rows].sort((a, b) => (a.submittedAt > b.submittedAt ? -1 : 1));
     return rows;
-  }, [result, queue, onlyOverdue, sort]);
+  }, [result, queue, onlyOverdue, view, sort]);
 
   if (unconfigured) {
     return (
