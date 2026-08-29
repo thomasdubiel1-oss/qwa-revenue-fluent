@@ -43,6 +43,17 @@ export const PUBLIC_ROUTES: { path: string; priority: number; changefreq: string
   { path: "/products/live-commerce", priority: 0.8, changefreq: "monthly" },
   { path: "/products/business-intelligence", priority: 0.8, changefreq: "monthly" },
   { path: "/products/decision-intelligence", priority: 0.8, changefreq: "monthly" },
+  { path: "/solutions/ai-lead-response", priority: 0.9, changefreq: "monthly" },
+  { path: "/solutions/ai-appointment-setting", priority: 0.9, changefreq: "monthly" },
+  { path: "/solutions/ai-voice-agent", priority: 0.9, changefreq: "monthly" },
+  { path: "/solutions/customer-reactivation", priority: 0.85, changefreq: "monthly" },
+  { path: "/solutions/revenue-attribution", priority: 0.85, changefreq: "monthly" },
+  { path: "/industries/dental", priority: 0.8, changefreq: "monthly" },
+  { path: "/industries/medspa", priority: 0.8, changefreq: "monthly" },
+  { path: "/industries/hvac", priority: 0.8, changefreq: "monthly" },
+  { path: "/industries/plumbing", priority: 0.8, changefreq: "monthly" },
+  { path: "/industries/solar", priority: 0.8, changefreq: "monthly" },
+  { path: "/resources/what-is-an-ai-revenue-engine", priority: 0.9, changefreq: "monthly" },
   { path: "/privacy", priority: 0.3, changefreq: "yearly" },
   { path: "/terms", priority: 0.3, changefreq: "yearly" },
 ];
@@ -59,7 +70,19 @@ export function pageHead(options: {
   description: string;
   /** Absolute https URL of a meaningful cover image, when one exists. */
   image?: string;
-}): { meta: MetaTag[]; links: { rel: string; href: string }[] } {
+  /** og:type override — "article" for evergreen explainers. */
+  type?: "website" | "article";
+  /**
+   * Structured data for this page. Emitted only when the site is indexable is
+   * NOT required — valid JSON-LD is harmless on a noindex page and keeps
+   * preview parity with production.
+   */
+  jsonLd?: Record<string, unknown>[];
+}): {
+  meta: MetaTag[];
+  links: { rel: string; href: string }[];
+  scripts?: { type: string; children: string }[];
+} {
   const url = absoluteUrl(options.path);
   const meta: MetaTag[] = [
     { title: options.title },
@@ -71,7 +94,7 @@ export function pageHead(options: {
     { property: "og:site_name", content: SITE_NAME },
     { property: "og:title", content: options.title },
     { property: "og:description", content: options.description },
-    { property: "og:type", content: "website" },
+    { property: "og:type", content: options.type ?? "website" },
     { property: "og:url", content: url },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: options.title },
@@ -81,7 +104,16 @@ export function pageHead(options: {
     meta.push({ property: "og:image", content: options.image });
     meta.push({ name: "twitter:image", content: options.image });
   }
-  return { meta, links: [{ rel: "canonical", href: url }] };
+  const links = [{ rel: "canonical", href: url }];
+  if (!options.jsonLd?.length) return { meta, links };
+  return {
+    meta,
+    links,
+    scripts: options.jsonLd.map((entry) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(entry),
+    })),
+  };
 }
 
 /** Head payload for internal-only tooling routes: never indexed, no canonical. */

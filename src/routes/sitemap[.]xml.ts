@@ -11,11 +11,12 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const lastmod = new Date().toISOString().slice(0, 10);
+        // No <lastmod>: a build-time date is not a page-specific modification
+        // timestamp, and publishing one would be misleading.
         const urls = SITE_INDEXABLE
           ? PUBLIC_ROUTES.map(
               (route) =>
-                `  <url>\n    <loc>${absoluteUrl(route.path)}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority.toFixed(1)}</priority>\n  </url>`,
+                `  <url>\n    <loc>${absoluteUrl(route.path)}</loc>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority.toFixed(1)}</priority>\n  </url>`,
             ).join("\n")
           : "";
 
