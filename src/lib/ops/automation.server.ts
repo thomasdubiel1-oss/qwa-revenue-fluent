@@ -289,7 +289,9 @@ export async function loadAutomationState(input?: {
       mode,
       killSwitch,
       now,
+      stateConfig.playbooks[match.playbook.key],
     );
+
     const view = toView(match, row, [gate.reasonCode]);
     recommendations.push(view);
     if (gate.allowed) wouldExecute.push(view);
