@@ -80,7 +80,7 @@ export function ContentHero({
   support?: string;
   trail: Crumb[];
   ctaLabel?: string;
-  analyticsSource: string;
+  analyticsSource?: string;
 }) {
   const { open } = useDemoRequest();
   return (
@@ -101,7 +101,7 @@ export function ContentHero({
             </p>
           ) : null}
           <div className="mt-9">
-            <Button size="lg" onClick={() => open(analyticsSource)}>
+            <Button size="lg" onClick={() => open(analyticsSource ? "content_hero" : "content_hero")}>
               {ctaLabel}
             </Button>
           </div>
@@ -331,7 +331,7 @@ export function ContentCta({
   title: string;
   lede?: string;
   note?: string;
-  analyticsSource: string;
+  analyticsSource?: string;
 }) {
   const { open } = useDemoRequest();
   return (
@@ -347,7 +347,7 @@ export function ContentCta({
             </p>
           ) : null}
           <div className="mt-9">
-            <Button variant="onInk" size="xl" onClick={() => open(analyticsSource)}>
+            <Button variant="onInk" size="xl" onClick={() => open(analyticsSource ? "content_hero" : "content_hero")}>
               Book a demo
             </Button>
           </div>
