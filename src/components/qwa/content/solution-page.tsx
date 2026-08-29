@@ -77,7 +77,6 @@ export function SolutionPageView({ slug }: { slug: SolutionSlug }) {
         eyebrow="Before you roll out"
         heading={content.considerations.heading}
         lede={content.considerations.lede}
-        tone="paper"
       >
         <PointList points={content.considerations.points} />
       </ContentSection>
