@@ -15,6 +15,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as InternalAutomationRouteImport } from './routes/internal/automation'
+import { Route as InternalControlPlaneRouteImport } from './routes/internal/control-plane'
 import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalRevenueRouteImport } from './routes/internal/revenue'
@@ -60,6 +61,11 @@ const TermsRoute = TermsRouteImport.update({
 const InternalAutomationRoute = InternalAutomationRouteImport.update({
   id: '/internal/automation',
   path: '/internal/automation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalControlPlaneRoute = InternalControlPlaneRouteImport.update({
+  id: '/internal/control-plane',
+  path: '/internal/control-plane',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalLeadsRoute = InternalLeadsRouteImport.update({
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/internal/automation': typeof InternalAutomationRoute
+  '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/internal/automation': typeof InternalAutomationRoute
+  '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/internal/automation': typeof InternalAutomationRoute
+  '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/internal/automation'
+    | '/internal/control-plane'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/internal/automation'
+    | '/internal/control-plane'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -276,6 +287,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/internal/automation'
+    | '/internal/control-plane'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -301,6 +313,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   InternalAutomationRoute: typeof InternalAutomationRoute
+  InternalControlPlaneRoute: typeof InternalControlPlaneRoute
   InternalLeadsRoute: typeof InternalLeadsRoute
   InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalRevenueRoute: typeof InternalRevenueRoute
@@ -361,6 +374,13 @@ declare module '@tanstack/react-router' {
       path: '/internal/automation'
       fullPath: '/internal/automation'
       preLoaderRoute: typeof InternalAutomationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/control-plane': {
+      id: '/internal/control-plane'
+      path: '/internal/control-plane'
+      fullPath: '/internal/control-plane'
+      preLoaderRoute: typeof InternalControlPlaneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/leads': {
@@ -485,6 +505,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   InternalAutomationRoute: InternalAutomationRoute,
+  InternalControlPlaneRoute: InternalControlPlaneRoute,
   InternalLeadsRoute: InternalLeadsRoute,
   InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalRevenueRoute: InternalRevenueRoute,
