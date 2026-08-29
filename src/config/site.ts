@@ -143,8 +143,8 @@ export const navigation: NavGroup[] = [
         heading: "Trust",
         items: [
           { label: "Responsible AI", href: "/company/responsible-ai" },
-          { label: "Privacy", href: "/legal/privacy" },
-          { label: "Terms", href: "/legal/terms" },
+          { label: "Privacy", href: "/privacy" },
+          { label: "Terms", href: "/terms" },
           { label: "Status", href: "/company/status" },
         ],
       },
@@ -221,6 +221,8 @@ export const liveRoutes = [
   "/products/live-commerce",
   "/products/business-intelligence",
   "/products/decision-intelligence",
+  "/privacy",
+  "/terms",
 ] as const;
 
 export type LiveRoute = (typeof liveRoutes)[number];
@@ -228,6 +230,30 @@ export type LiveRoute = (typeof liveRoutes)[number];
 export function isLiveRoute(href: string): href is LiveRoute {
   return (liveRoutes as readonly string[]).includes(href);
 }
+
+/**
+ * Public navigation is built from live routes only. Configured future
+ * destinations stay in the arrays above as the roadmap of record, but a
+ * visitor never sees an inert menu entry: items without a shipped route are
+ * dropped, columns left empty are dropped, and a group with no live
+ * destination is not rendered at all.
+ */
+function withLiveItemsOnly<T extends { href: string }>(items: T[]): T[] {
+  return items.filter((item) => isLiveRoute(item.href));
+}
+
+export const visibleNavigation: NavGroup[] = navigation
+  .map((group) => ({
+    ...group,
+    columns: group.columns
+      .map((column) => ({ ...column, items: withLiveItemsOnly(column.items) }))
+      .filter((column) => column.items.length > 0),
+  }))
+  .filter((group) => group.columns.length > 0);
+
+export const visibleFooterColumns = footerColumns
+  .map((column) => ({ ...column, items: withLiveItemsOnly(column.items) }))
+  .filter((column) => column.items.length > 0);
 
 /* ------------------------------------------------------------------
  * Phase 2: product index + cross-navigation graph.
