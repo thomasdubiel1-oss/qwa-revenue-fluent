@@ -270,6 +270,9 @@ function AutomationConsole() {
       actions={
         <>
           <Button asChild variant="ghost" size="sm" className="min-h-11">
+            <Link to="/internal/control-plane">Control plane</Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="min-h-11">
             <Link to="/internal/work-queue">Work queue</Link>
           </Button>
           <Button asChild variant="ghost" size="sm" className="min-h-11">
