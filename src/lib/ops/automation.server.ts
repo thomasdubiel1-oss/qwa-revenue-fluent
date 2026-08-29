@@ -519,7 +519,9 @@ export async function runAutomation(options: { dryRun: boolean }): Promise<{
 }> {
   const now = Date.now();
   const { mode, killSwitch } = await loadSettings();
+  const runConfig = await effectiveConfig();
   const items = await snapshot();
+
   const { matches } = evaluatePlaybooks(items);
   const { byKey, executions } = await loadBookkeeping(items.map((i) => i.leadId));
 
