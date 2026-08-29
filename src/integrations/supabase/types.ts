@@ -10,10 +10,149 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
+      automation_executions: {
+        Row: {
+          actor_label: string
+          created_at: string
+          demo_request_id: string | null
+          detail: Json | null
+          execution_key: string
+          id: string
+          mode: string
+          outcome: string
+          playbook_key: string
+          playbook_version: number
+          reason_code: string
+        }
+        Insert: {
+          actor_label?: string
+          created_at?: string
+          demo_request_id?: string | null
+          detail?: Json | null
+          execution_key: string
+          id?: string
+          mode: string
+          outcome: string
+          playbook_key: string
+          playbook_version: number
+          reason_code: string
+        }
+        Update: {
+          actor_label?: string
+          created_at?: string
+          demo_request_id?: string | null
+          detail?: Json | null
+          execution_key?: string
+          id?: string
+          mode?: string
+          outcome?: string
+          playbook_key?: string
+          playbook_version?: number
+          reason_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_executions_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_recommendations: {
+        Row: {
+          action_payload: Json | null
+          action_type: string
+          actor_label: string
+          created_at: string
+          demo_request_id: string
+          execution_key: string
+          explanation: string | null
+          id: string
+          playbook_key: string
+          playbook_version: number
+          reason_codes: string[]
+          resolved_at: string | null
+          snooze_until: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          action_payload?: Json | null
+          action_type: string
+          actor_label?: string
+          created_at?: string
+          demo_request_id: string
+          execution_key: string
+          explanation?: string | null
+          id?: string
+          playbook_key: string
+          playbook_version: number
+          reason_codes?: string[]
+          resolved_at?: string | null
+          snooze_until?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          action_payload?: Json | null
+          action_type?: string
+          actor_label?: string
+          created_at?: string
+          demo_request_id?: string
+          execution_key?: string
+          explanation?: string | null
+          id?: string
+          playbook_key?: string
+          playbook_version?: number
+          reason_codes?: string[]
+          resolved_at?: string | null
+          snooze_until?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_recommendations_demo_request_id_fkey"
+            columns: ["demo_request_id"]
+            isOneToOne: false
+            referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_settings: {
+        Row: {
+          actor_label: string
+          created_at: string
+          id: string
+          kill_switch: boolean
+          mode: string
+          updated_at: string
+        }
+        Insert: {
+          actor_label?: string
+          created_at?: string
+          id?: string
+          kill_switch?: boolean
+          mode?: string
+          updated_at?: string
+        }
+        Update: {
+          actor_label?: string
+          created_at?: string
+          id?: string
+          kill_switch?: boolean
+          mode?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       conversion_events: {
         Row: {
           created_at: string

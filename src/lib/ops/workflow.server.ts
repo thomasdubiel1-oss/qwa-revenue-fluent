@@ -433,3 +433,18 @@ export async function moveLeadStatus(leadId: string, status: string, note?: stri
   await audit(leadId, "status_changed", body || null, { to: status });
   return result;
 }
+
+/**
+ * Phase 8 hook: lets the automation control plane write an auditable internal
+ * activity entry through the same audit path operators use. Internal only —
+ * no external channel exists anywhere in this module.
+ */
+export async function logWorkflowActivity(
+  leadId: string,
+  activityType: string,
+  note: string,
+  metadata: Record<string, unknown> = {},
+) {
+  await audit(leadId, activityType, clean(note, 2000) || null, metadata);
+  return { ok: true as const };
+}

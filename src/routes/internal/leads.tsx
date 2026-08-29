@@ -30,6 +30,11 @@ import {
   opsLeadWorkflowFn,
   opsSetTaskDoneFn,
 } from "@/lib/ops/workflow.functions";
+import {
+  opsDecideRecommendationFn,
+  opsLeadRecommendationsFn,
+} from "@/lib/ops/automation.functions";
+import type { RecommendationView } from "@/lib/ops/automation.types";
 import { LEAD_STATUSES, type OpsFilters, type OpsLeadRow } from "@/lib/ops/types";
 import { cn } from "@/lib/utils";
 
@@ -167,6 +172,8 @@ function LeadOpsConsole() {
   const addNoteFn = useServerFn(opsAddNoteFn);
   const createTaskFn = useServerFn(opsCreateTaskFn);
   const setTaskDoneFn = useServerFn(opsSetTaskDoneFn);
+  const leadRecsFn = useServerFn(opsLeadRecommendationsFn);
+  const decideRecFn = useServerFn(opsDecideRecommendationFn);
 
   const configured = useQuery({
     queryKey: ["ops", "configured"],
@@ -202,6 +209,14 @@ function LeadOpsConsole() {
     enabled: Boolean(key && openId),
   });
 
+  const recsQuery = useQuery({
+    queryKey: ["ops", "lead-recommendations", key, openId],
+    queryFn: () => leadRecsFn({ data: { key, id: openId as string } }),
+    enabled: Boolean(key && openId),
+  });
+
+  const leadRecs: RecommendationView[] = recsQuery.data?.ok ? recsQuery.data.data : [];
+
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["ops"] });
   };
@@ -214,6 +229,15 @@ function LeadOpsConsole() {
 
   const retryMutation = useMutation({
     mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    onSuccess: invalidate,
+  });
+
+  const recDecision = useMutation({
+    mutationFn: (vars: {
+      leadId: string;
+      playbookKey: string;
+      decision: "approve" | "dismiss" | "snooze";
+    }) => decideRecFn({ data: { key, ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
@@ -617,6 +641,59 @@ function LeadOpsConsole() {
                       label="Consent"
                       value={`${d.lead.consent ? "Granted" : "Not granted"} · ${fmtDate(d.lead.consentAt)}`}
                     />
+                  </div>
+
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Playbook recommendations</h3>
+                    {leadRecs.length === 0 ? (
+                      <p className="text-xs text-muted-foreground">
+                        No playbook currently triggers for this lead.
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col gap-2">
+                        {leadRecs.map((rec) => (
+                          <li
+                            key={rec.executionKey}
+                            className="rounded-md border border-border/70 p-2.5"
+                          >
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Pill tone="signal">{rec.playbookName}</Pill>
+                              <Pill tone="muted">
+                                {rec.recommendationStatus.replace(/_/g, " ")}
+                              </Pill>
+                              <span className="text-[0.68rem] text-muted-foreground">
+                                v{rec.playbookVersion} · +{rec.priorityBoost} priority
+                              </span>
+                            </div>
+                            <p className="mt-1 text-xs">{rec.action.title}</p>
+                            <p className="text-[0.68rem] text-muted-foreground">{rec.explanation}</p>
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {(["approve", "snooze", "dismiss"] as const).map((decision) => (
+                                <Button
+                                  key={decision}
+                                  size="sm"
+                                  variant={decision === "approve" ? "outline" : "ghost"}
+                                  disabled={recDecision.isPending}
+                                  onClick={() =>
+                                    recDecision.mutate({
+                                      leadId: d.lead.id,
+                                      playbookKey: rec.playbookKey,
+                                      decision,
+                                    })
+                                  }
+                                >
+                                  {decision === "snooze" ? "Snooze 24h" : decision}
+                                </Button>
+                              ))}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <p className="mt-1 text-[0.68rem] text-muted-foreground">
+                      Recommendations never send external communication. Decisions are recorded
+                      under <code>internal_operator</code>.
+                    </p>
                   </div>
 
                   <div>
