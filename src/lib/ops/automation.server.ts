@@ -206,11 +206,19 @@ function gateFor(
 }
 
 
+/** Phase 9: the governed active configuration, with the Phase 8 baseline fallback. */
+async function effectiveConfig() {
+  const { loadActiveConfig } = await import("./governance.server");
+  return loadActiveConfig();
+}
+
 async function snapshot(sla?: Partial<SlaThresholds> | undefined) {
   const { loadWorkQueue } = await import("./workflow.server");
-  const queue = await loadWorkQueue(sla);
+  const config = await effectiveConfig();
+  const queue = await loadWorkQueue({ ...config.sla, ...(sla ?? {}) });
   return queue.items;
 }
+
 
 async function loadBookkeeping(leadIds: string[]) {
   const db = await admin();
