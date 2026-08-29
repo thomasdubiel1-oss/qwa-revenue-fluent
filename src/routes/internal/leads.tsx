@@ -167,6 +167,8 @@ function LeadOpsConsole() {
   const addNoteFn = useServerFn(opsAddNoteFn);
   const createTaskFn = useServerFn(opsCreateTaskFn);
   const setTaskDoneFn = useServerFn(opsSetTaskDoneFn);
+  const leadRecsFn = useServerFn(opsLeadRecommendationsFn);
+  const decideRecFn = useServerFn(opsDecideRecommendationFn);
 
   const configured = useQuery({
     queryKey: ["ops", "configured"],
@@ -617,6 +619,59 @@ function LeadOpsConsole() {
                       label="Consent"
                       value={`${d.lead.consent ? "Granted" : "Not granted"} · ${fmtDate(d.lead.consentAt)}`}
                     />
+                  </div>
+
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Playbook recommendations</h3>
+                    {(recsQuery.data?.ok ? recsQuery.data.data : []).length === 0 ? (
+                      <p className="text-xs text-muted-foreground">
+                        No playbook currently triggers for this lead.
+                      </p>
+                    ) : (
+                      <ul className="flex flex-col gap-2">
+                        {(recsQuery.data?.ok ? recsQuery.data.data : []).map((rec) => (
+                          <li
+                            key={rec.executionKey}
+                            className="rounded-md border border-border/70 p-2.5"
+                          >
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Pill tone="signal">{rec.playbookName}</Pill>
+                              <Pill tone="muted">
+                                {rec.recommendationStatus.replace(/_/g, " ")}
+                              </Pill>
+                              <span className="text-[0.68rem] text-muted-foreground">
+                                v{rec.playbookVersion} · +{rec.priorityBoost} priority
+                              </span>
+                            </div>
+                            <p className="mt-1 text-xs">{rec.action.title}</p>
+                            <p className="text-[0.68rem] text-muted-foreground">{rec.explanation}</p>
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {(["approve", "snooze", "dismiss"] as const).map((decision) => (
+                                <Button
+                                  key={decision}
+                                  size="sm"
+                                  variant={decision === "approve" ? "outline" : "ghost"}
+                                  disabled={recDecision.isPending}
+                                  onClick={() =>
+                                    recDecision.mutate({
+                                      leadId: d.lead.id,
+                                      playbookKey: rec.playbookKey,
+                                      decision,
+                                    })
+                                  }
+                                >
+                                  {decision === "snooze" ? "Snooze 24h" : decision}
+                                </Button>
+                              ))}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <p className="mt-1 text-[0.68rem] text-muted-foreground">
+                      Recommendations never send external communication. Decisions are recorded
+                      under <code>internal_operator</code>.
+                    </p>
                   </div>
 
                   <div>
