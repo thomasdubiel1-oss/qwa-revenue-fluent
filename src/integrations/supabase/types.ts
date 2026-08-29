@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      automation_config_versions: {
+        Row: {
+          activated_at: string | null
+          actor_label: string
+          change_reason: string | null
+          config: Json
+          created_at: string
+          id: string
+          is_active: boolean
+          rolled_back_from: number | null
+          source: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          actor_label?: string
+          change_reason?: string | null
+          config: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          rolled_back_from?: number | null
+          source?: string
+          version: number
+        }
+        Update: {
+          activated_at?: string | null
+          actor_label?: string
+          change_reason?: string | null
+          config?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          rolled_back_from?: number | null
+          source?: string
+          version?: number
+        }
+        Relationships: []
+      }
       automation_executions: {
         Row: {
           actor_label: string
