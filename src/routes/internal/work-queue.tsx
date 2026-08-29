@@ -18,6 +18,7 @@ import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-u
 import { internalHead } from "@/config/seo";
 import { opsAccessStatusFn, opsRetryDeliveryFn } from "@/lib/ops/ops.functions";
 import { opsMoveStatusFn, opsWorkQueueFn } from "@/lib/ops/workflow.functions";
+import { opsAutomationStateFn } from "@/lib/ops/automation.functions";
 import {
   DEFAULT_SLA,
   QUEUE_KEYS,
@@ -118,6 +119,7 @@ function WorkQueueConsole() {
   const workQueueFn = useServerFn(opsWorkQueueFn);
   const moveStatusFn = useServerFn(opsMoveStatusFn);
   const retryFn = useServerFn(opsRetryDeliveryFn);
+  const automationFn = useServerFn(opsAutomationStateFn);
 
   const configured = useQuery({
     queryKey: ["ops", "configured"],
@@ -129,6 +131,28 @@ function WorkQueueConsole() {
     queryFn: () => workQueueFn({ data: { key, sla } }),
     enabled: Boolean(key),
   });
+
+  /** Phase 8: playbook recommendations shown inline; priority model unchanged. */
+  const automationQuery = useQuery({
+    queryKey: ["ops", "automation", key],
+    queryFn: () => automationFn({ data: { key } }),
+    enabled: Boolean(key),
+  });
+  const automation = automationQuery.data?.ok ? automationQuery.data.data : null;
+  const recsByLead = React.useMemo(() => {
+    const map = new Map<string, { name: string; action: string; status: string; boost: number }[]>();
+    for (const rec of automation?.recommendations ?? []) {
+      const list = map.get(rec.leadId) ?? [];
+      list.push({
+        name: rec.playbookName,
+        action: rec.action.title,
+        status: rec.recommendationStatus,
+        boost: rec.priorityBoost,
+      });
+      map.set(rec.leadId, list);
+    }
+    return map;
+  }, [automation]);
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
@@ -223,6 +247,11 @@ function WorkQueueConsole() {
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link to="/internal/revenue">Revenue intelligence</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/automation">
+              Automation{automation ? ` · ${automation.mode.replace("_", "-").toUpperCase()}` : ""}
+            </Link>
           </Button>
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
@@ -396,6 +425,16 @@ function WorkQueueConsole() {
                       <div className="text-xs text-muted-foreground">
                         {item.name} · {item.monthlyLeads}
                       </div>
+                      {(recsByLead.get(item.leadId) ?? []).map((rec) => (
+                        <div key={rec.name} className="mt-1 flex flex-wrap items-center gap-1.5">
+                          <Pill tone={rec.status === "approved" ? "positive" : "muted"}>
+                            {rec.name} · {rec.status.replace(/_/g, " ")}
+                          </Pill>
+                          <span className="text-[0.62rem] text-muted-foreground">
+                            {rec.action} (+{rec.boost} playbook)
+                          </span>
+                        </div>
+                      ))}
                     </td>
                     <td className="px-3 py-2.5">
                       <Pill tone={item.status === "new" ? "signal" : "neutral"}>{item.status}</Pill>
