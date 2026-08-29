@@ -35,6 +35,7 @@ import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
 import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
+import { Route as ResourcesWhatIsAnAiRevenueEngineRouteImport } from './routes/resources/what-is-an-ai-revenue-engine'
 import { Route as SolutionsAiAppointmentSettingRouteImport } from './routes/solutions/ai-appointment-setting'
 import { Route as SolutionsAiLeadResponseRouteImport } from './routes/solutions/ai-lead-response'
 import { Route as SolutionsAiVoiceAgentRouteImport } from './routes/solutions/ai-voice-agent'
@@ -176,6 +177,12 @@ const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
   path: '/products/voice',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesWhatIsAnAiRevenueEngineRoute =
+  ResourcesWhatIsAnAiRevenueEngineRouteImport.update({
+    id: '/resources/what-is-an-ai-revenue-engine',
+    path: '/resources/what-is-an-ai-revenue-engine',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const SolutionsAiAppointmentSettingRoute =
   SolutionsAiAppointmentSettingRouteImport.update({
     id: '/solutions/ai-appointment-setting',
@@ -242,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
   '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
   '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
@@ -277,6 +285,7 @@ export interface FileRoutesByTo {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
   '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
   '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
@@ -313,6 +322,7 @@ export interface FileRoutesById {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
   '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
   '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
     | '/solutions/ai-appointment-setting'
     | '/solutions/ai-lead-response'
     | '/solutions/ai-voice-agent'
@@ -385,6 +396,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
     | '/solutions/ai-appointment-setting'
     | '/solutions/ai-lead-response'
     | '/solutions/ai-voice-agent'
@@ -420,6 +432,7 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
     | '/solutions/ai-appointment-setting'
     | '/solutions/ai-lead-response'
     | '/solutions/ai-voice-agent'
@@ -456,6 +469,7 @@ export interface RootRouteChildren {
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
   ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
+  ResourcesWhatIsAnAiRevenueEngineRoute: typeof ResourcesWhatIsAnAiRevenueEngineRoute
   SolutionsAiAppointmentSettingRoute: typeof SolutionsAiAppointmentSettingRoute
   SolutionsAiLeadResponseRoute: typeof SolutionsAiLeadResponseRoute
   SolutionsAiVoiceAgentRoute: typeof SolutionsAiVoiceAgentRoute
@@ -649,6 +663,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsVoiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/what-is-an-ai-revenue-engine': {
+      id: '/resources/what-is-an-ai-revenue-engine'
+      path: '/resources/what-is-an-ai-revenue-engine'
+      fullPath: '/resources/what-is-an-ai-revenue-engine'
+      preLoaderRoute: typeof ResourcesWhatIsAnAiRevenueEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/solutions/ai-appointment-setting': {
       id: '/solutions/ai-appointment-setting'
       path: '/solutions/ai-appointment-setting'
@@ -728,6 +749,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
   ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
+  ResourcesWhatIsAnAiRevenueEngineRoute: ResourcesWhatIsAnAiRevenueEngineRoute,
   SolutionsAiAppointmentSettingRoute: SolutionsAiAppointmentSettingRoute,
   SolutionsAiLeadResponseRoute: SolutionsAiLeadResponseRoute,
   SolutionsAiVoiceAgentRoute: SolutionsAiVoiceAgentRoute,
