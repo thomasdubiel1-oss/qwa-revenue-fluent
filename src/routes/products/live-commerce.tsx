@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LiveCommerceStory } from "@/components/qwa/story/product-stories";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -26,7 +26,8 @@ const description =
   "Read the room in real time: classified audience signal, instant answers, bounded offer windows, checkout continuity and a host console that keeps a person in control.";
 
 export const Route = createFileRoute("/products/live-commerce")({
-  head: () => pageHead({ path: "/products/live-commerce", title, description }),
+  head: () =>
+    productHead({ path: "/products/live-commerce", name: "Live Commerce", title, description }),
   component: LiveCommercePage,
 });
 

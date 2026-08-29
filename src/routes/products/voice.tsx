@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VoiceAgentStory } from "@/components/qwa/story/product-stories";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,7 +25,8 @@ const description =
   "A persistent, context-aware AI conversation layer across voice, SMS, email, DM and web chat — one record, human takeover at any moment, and every call written back as structured data.";
 
 export const Route = createFileRoute("/products/voice")({
-  head: () => pageHead({ path: "/products/voice", title, description }),
+  head: () =>
+    productHead({ path: "/products/voice", name: "Voice + Conversations", title, description }),
   component: VoicePage,
 });
 

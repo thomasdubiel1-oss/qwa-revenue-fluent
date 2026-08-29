@@ -27,6 +27,8 @@ export type DemoSource =
   | "home_closing_cta"
   | "product_hero"
   | "product_cta"
+  | "content_hero"
+  | "content_cta"
   | "unknown";
 
 declare global {

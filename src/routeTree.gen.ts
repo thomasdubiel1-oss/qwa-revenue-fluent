@@ -14,6 +14,11 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as IndustriesDentalRouteImport } from './routes/industries/dental'
+import { Route as IndustriesHvacRouteImport } from './routes/industries/hvac'
+import { Route as IndustriesMedspaRouteImport } from './routes/industries/medspa'
+import { Route as IndustriesPlumbingRouteImport } from './routes/industries/plumbing'
+import { Route as IndustriesSolarRouteImport } from './routes/industries/solar'
 import { Route as InternalAutomationRouteImport } from './routes/internal/automation'
 import { Route as InternalControlPlaneRouteImport } from './routes/internal/control-plane'
 import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
@@ -30,6 +35,12 @@ import { Route as ProductsLiveCommerceRouteImport } from './routes/products/live
 import { Route as ProductsRevenueEngineRouteImport } from './routes/products/revenue-engine'
 import { Route as ProductsSearchRouteImport } from './routes/products/search'
 import { Route as ProductsVoiceRouteImport } from './routes/products/voice'
+import { Route as ResourcesWhatIsAnAiRevenueEngineRouteImport } from './routes/resources/what-is-an-ai-revenue-engine'
+import { Route as SolutionsAiAppointmentSettingRouteImport } from './routes/solutions/ai-appointment-setting'
+import { Route as SolutionsAiLeadResponseRouteImport } from './routes/solutions/ai-lead-response'
+import { Route as SolutionsAiVoiceAgentRouteImport } from './routes/solutions/ai-voice-agent'
+import { Route as SolutionsCustomerReactivationRouteImport } from './routes/solutions/customer-reactivation'
+import { Route as SolutionsRevenueAttributionRouteImport } from './routes/solutions/revenue-attribution'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
 
@@ -56,6 +67,31 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesDentalRoute = IndustriesDentalRouteImport.update({
+  id: '/industries/dental',
+  path: '/industries/dental',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesHvacRoute = IndustriesHvacRouteImport.update({
+  id: '/industries/hvac',
+  path: '/industries/hvac',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesMedspaRoute = IndustriesMedspaRouteImport.update({
+  id: '/industries/medspa',
+  path: '/industries/medspa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesPlumbingRoute = IndustriesPlumbingRouteImport.update({
+  id: '/industries/plumbing',
+  path: '/industries/plumbing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesSolarRoute = IndustriesSolarRouteImport.update({
+  id: '/industries/solar',
+  path: '/industries/solar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalAutomationRoute = InternalAutomationRouteImport.update({
@@ -141,6 +177,40 @@ const ProductsVoiceRoute = ProductsVoiceRouteImport.update({
   path: '/products/voice',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesWhatIsAnAiRevenueEngineRoute =
+  ResourcesWhatIsAnAiRevenueEngineRouteImport.update({
+    id: '/resources/what-is-an-ai-revenue-engine',
+    path: '/resources/what-is-an-ai-revenue-engine',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolutionsAiAppointmentSettingRoute =
+  SolutionsAiAppointmentSettingRouteImport.update({
+    id: '/solutions/ai-appointment-setting',
+    path: '/solutions/ai-appointment-setting',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolutionsAiLeadResponseRoute = SolutionsAiLeadResponseRouteImport.update({
+  id: '/solutions/ai-lead-response',
+  path: '/solutions/ai-lead-response',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsAiVoiceAgentRoute = SolutionsAiVoiceAgentRouteImport.update({
+  id: '/solutions/ai-voice-agent',
+  path: '/solutions/ai-voice-agent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsCustomerReactivationRoute =
+  SolutionsCustomerReactivationRouteImport.update({
+    id: '/solutions/customer-reactivation',
+    path: '/solutions/customer-reactivation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolutionsRevenueAttributionRoute =
+  SolutionsRevenueAttributionRouteImport.update({
+    id: '/solutions/revenue-attribution',
+    path: '/solutions/revenue-attribution',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   id: '/api/public/health',
   path: '/api/public/health',
@@ -158,6 +228,11 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/industries/dental': typeof IndustriesDentalRoute
+  '/industries/hvac': typeof IndustriesHvacRoute
+  '/industries/medspa': typeof IndustriesMedspaRoute
+  '/industries/plumbing': typeof IndustriesPlumbingRoute
+  '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
@@ -174,6 +249,12 @@ export interface FileRoutesByFullPath {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
+  '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
+  '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
+  '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
+  '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
+  '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
@@ -183,6 +264,11 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/industries/dental': typeof IndustriesDentalRoute
+  '/industries/hvac': typeof IndustriesHvacRoute
+  '/industries/medspa': typeof IndustriesMedspaRoute
+  '/industries/plumbing': typeof IndustriesPlumbingRoute
+  '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
@@ -199,6 +285,12 @@ export interface FileRoutesByTo {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
+  '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
+  '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
+  '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
+  '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
+  '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
@@ -209,6 +301,11 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/industries/dental': typeof IndustriesDentalRoute
+  '/industries/hvac': typeof IndustriesHvacRoute
+  '/industries/medspa': typeof IndustriesMedspaRoute
+  '/industries/plumbing': typeof IndustriesPlumbingRoute
+  '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/leads': typeof InternalLeadsRoute
@@ -225,6 +322,12 @@ export interface FileRoutesById {
   '/products/revenue-engine': typeof ProductsRevenueEngineRoute
   '/products/search': typeof ProductsSearchRoute
   '/products/voice': typeof ProductsVoiceRoute
+  '/resources/what-is-an-ai-revenue-engine': typeof ResourcesWhatIsAnAiRevenueEngineRoute
+  '/solutions/ai-appointment-setting': typeof SolutionsAiAppointmentSettingRoute
+  '/solutions/ai-lead-response': typeof SolutionsAiLeadResponseRoute
+  '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
+  '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
+  '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
 }
@@ -236,6 +339,11 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/industries/dental'
+    | '/industries/hvac'
+    | '/industries/medspa'
+    | '/industries/plumbing'
+    | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/leads'
@@ -252,6 +360,12 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
+    | '/solutions/ai-appointment-setting'
+    | '/solutions/ai-lead-response'
+    | '/solutions/ai-voice-agent'
+    | '/solutions/customer-reactivation'
+    | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
   fileRoutesByTo: FileRoutesByTo
@@ -261,6 +375,11 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/industries/dental'
+    | '/industries/hvac'
+    | '/industries/medspa'
+    | '/industries/plumbing'
+    | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/leads'
@@ -277,6 +396,12 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
+    | '/solutions/ai-appointment-setting'
+    | '/solutions/ai-lead-response'
+    | '/solutions/ai-voice-agent'
+    | '/solutions/customer-reactivation'
+    | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
   id:
@@ -286,6 +411,11 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/industries/dental'
+    | '/industries/hvac'
+    | '/industries/medspa'
+    | '/industries/plumbing'
+    | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/leads'
@@ -302,6 +432,12 @@ export interface FileRouteTypes {
     | '/products/revenue-engine'
     | '/products/search'
     | '/products/voice'
+    | '/resources/what-is-an-ai-revenue-engine'
+    | '/solutions/ai-appointment-setting'
+    | '/solutions/ai-lead-response'
+    | '/solutions/ai-voice-agent'
+    | '/solutions/customer-reactivation'
+    | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
   fileRoutesById: FileRoutesById
@@ -312,6 +448,11 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  IndustriesDentalRoute: typeof IndustriesDentalRoute
+  IndustriesHvacRoute: typeof IndustriesHvacRoute
+  IndustriesMedspaRoute: typeof IndustriesMedspaRoute
+  IndustriesPlumbingRoute: typeof IndustriesPlumbingRoute
+  IndustriesSolarRoute: typeof IndustriesSolarRoute
   InternalAutomationRoute: typeof InternalAutomationRoute
   InternalControlPlaneRoute: typeof InternalControlPlaneRoute
   InternalLeadsRoute: typeof InternalLeadsRoute
@@ -328,6 +469,12 @@ export interface RootRouteChildren {
   ProductsRevenueEngineRoute: typeof ProductsRevenueEngineRoute
   ProductsSearchRoute: typeof ProductsSearchRoute
   ProductsVoiceRoute: typeof ProductsVoiceRoute
+  ResourcesWhatIsAnAiRevenueEngineRoute: typeof ResourcesWhatIsAnAiRevenueEngineRoute
+  SolutionsAiAppointmentSettingRoute: typeof SolutionsAiAppointmentSettingRoute
+  SolutionsAiLeadResponseRoute: typeof SolutionsAiLeadResponseRoute
+  SolutionsAiVoiceAgentRoute: typeof SolutionsAiVoiceAgentRoute
+  SolutionsCustomerReactivationRoute: typeof SolutionsCustomerReactivationRoute
+  SolutionsRevenueAttributionRoute: typeof SolutionsRevenueAttributionRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicLeadsOutboxRoute: typeof ApiPublicLeadsOutboxRoute
 }
@@ -367,6 +514,41 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/dental': {
+      id: '/industries/dental'
+      path: '/industries/dental'
+      fullPath: '/industries/dental'
+      preLoaderRoute: typeof IndustriesDentalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/hvac': {
+      id: '/industries/hvac'
+      path: '/industries/hvac'
+      fullPath: '/industries/hvac'
+      preLoaderRoute: typeof IndustriesHvacRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/medspa': {
+      id: '/industries/medspa'
+      path: '/industries/medspa'
+      fullPath: '/industries/medspa'
+      preLoaderRoute: typeof IndustriesMedspaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/plumbing': {
+      id: '/industries/plumbing'
+      path: '/industries/plumbing'
+      fullPath: '/industries/plumbing'
+      preLoaderRoute: typeof IndustriesPlumbingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries/solar': {
+      id: '/industries/solar'
+      path: '/industries/solar'
+      fullPath: '/industries/solar'
+      preLoaderRoute: typeof IndustriesSolarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/automation': {
@@ -481,6 +663,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsVoiceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/what-is-an-ai-revenue-engine': {
+      id: '/resources/what-is-an-ai-revenue-engine'
+      path: '/resources/what-is-an-ai-revenue-engine'
+      fullPath: '/resources/what-is-an-ai-revenue-engine'
+      preLoaderRoute: typeof ResourcesWhatIsAnAiRevenueEngineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/ai-appointment-setting': {
+      id: '/solutions/ai-appointment-setting'
+      path: '/solutions/ai-appointment-setting'
+      fullPath: '/solutions/ai-appointment-setting'
+      preLoaderRoute: typeof SolutionsAiAppointmentSettingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/ai-lead-response': {
+      id: '/solutions/ai-lead-response'
+      path: '/solutions/ai-lead-response'
+      fullPath: '/solutions/ai-lead-response'
+      preLoaderRoute: typeof SolutionsAiLeadResponseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/ai-voice-agent': {
+      id: '/solutions/ai-voice-agent'
+      path: '/solutions/ai-voice-agent'
+      fullPath: '/solutions/ai-voice-agent'
+      preLoaderRoute: typeof SolutionsAiVoiceAgentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/customer-reactivation': {
+      id: '/solutions/customer-reactivation'
+      path: '/solutions/customer-reactivation'
+      fullPath: '/solutions/customer-reactivation'
+      preLoaderRoute: typeof SolutionsCustomerReactivationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/revenue-attribution': {
+      id: '/solutions/revenue-attribution'
+      path: '/solutions/revenue-attribution'
+      fullPath: '/solutions/revenue-attribution'
+      preLoaderRoute: typeof SolutionsRevenueAttributionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/health': {
       id: '/api/public/health'
       path: '/api/public/health'
@@ -504,6 +728,11 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  IndustriesDentalRoute: IndustriesDentalRoute,
+  IndustriesHvacRoute: IndustriesHvacRoute,
+  IndustriesMedspaRoute: IndustriesMedspaRoute,
+  IndustriesPlumbingRoute: IndustriesPlumbingRoute,
+  IndustriesSolarRoute: IndustriesSolarRoute,
   InternalAutomationRoute: InternalAutomationRoute,
   InternalControlPlaneRoute: InternalControlPlaneRoute,
   InternalLeadsRoute: InternalLeadsRoute,
@@ -520,6 +749,12 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRevenueEngineRoute: ProductsRevenueEngineRoute,
   ProductsSearchRoute: ProductsSearchRoute,
   ProductsVoiceRoute: ProductsVoiceRoute,
+  ResourcesWhatIsAnAiRevenueEngineRoute: ResourcesWhatIsAnAiRevenueEngineRoute,
+  SolutionsAiAppointmentSettingRoute: SolutionsAiAppointmentSettingRoute,
+  SolutionsAiLeadResponseRoute: SolutionsAiLeadResponseRoute,
+  SolutionsAiVoiceAgentRoute: SolutionsAiVoiceAgentRoute,
+  SolutionsCustomerReactivationRoute: SolutionsCustomerReactivationRoute,
+  SolutionsRevenueAttributionRoute: SolutionsRevenueAttributionRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicLeadsOutboxRoute: ApiPublicLeadsOutboxRoute,
 }

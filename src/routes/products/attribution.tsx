@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AttributionStory } from "@/components/qwa/story/product-stories";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -28,7 +28,8 @@ const description =
   "The closed-revenue reconciliation layer: identity and journey joining, explainable multi-touch contribution, reconciliation to CRM, commerce and payment records, and outcomes fed back into acquisition and decisions.";
 
 export const Route = createFileRoute("/products/attribution")({
-  head: () => pageHead({ path: "/products/attribution", title, description }),
+  head: () =>
+    productHead({ path: "/products/attribution", name: "Revenue Attribution", title, description }),
   component: AttributionPage,
 });
 
@@ -110,4 +111,3 @@ function AttributionPage() {
     </ProductShell>
   );
 }
-

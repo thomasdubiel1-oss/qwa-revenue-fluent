@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -23,7 +23,13 @@ const description =
   "Measure acquisition by revenue, not clicks. QWA joins every source, campaign and creative to closed revenue, grades lead quality on downstream outcomes and proposes budget moves your team approves.";
 
 export const Route = createFileRoute("/products/acquisition")({
-  head: () => pageHead({ path: "/products/acquisition", title, description }),
+  head: () =>
+    productHead({
+      path: "/products/acquisition",
+      name: "Customer Acquisition",
+      title,
+      description,
+    }),
   component: AcquisitionPage,
 });
 
@@ -98,4 +104,3 @@ function AcquisitionPage() {
     </ProductShell>
   );
 }
-

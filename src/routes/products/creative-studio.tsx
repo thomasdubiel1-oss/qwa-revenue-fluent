@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CreativeAcquisitionStory } from "@/components/qwa/story/product-stories";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -26,7 +26,8 @@ const description =
   "Production as a pipeline: brief, script, shot decomposition, model-agnostic provider routing, versioned variants for every placement, and human approval before anything publishes.";
 
 export const Route = createFileRoute("/products/creative-studio")({
-  head: () => pageHead({ path: "/products/creative-studio", title, description }),
+  head: () =>
+    productHead({ path: "/products/creative-studio", name: "Creative Studio", title, description }),
   component: CreativeStudioPage,
 });
 
