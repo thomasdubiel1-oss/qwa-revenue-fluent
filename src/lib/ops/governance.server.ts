@@ -78,7 +78,7 @@ export async function ensureBaselineVersion(): Promise<void> {
     .maybeSingle();
   if (data) return;
   const now = new Date().toISOString();
-  await db.from("automation_config_versions").insert({
+  const { error } = await db.from("automation_config_versions").insert({
     version: 1,
     is_active: true,
     config: baselineConfig() as never,
@@ -87,6 +87,8 @@ export async function ensureBaselineVersion(): Promise<void> {
     actor_label: OPERATOR_LABEL,
     activated_at: now,
   });
+  // Concurrent first reads can race; the unique index wins and we audit once.
+  if (error) return;
   await auditConfigEvent({
     reasonCode: "config_baseline_created",
     version: 1,
