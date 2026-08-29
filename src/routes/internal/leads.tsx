@@ -225,6 +225,15 @@ function LeadOpsConsole() {
     onSuccess: invalidate,
   });
 
+  const recDecision = useMutation({
+    mutationFn: (vars: {
+      leadId: string;
+      playbookKey: string;
+      decision: "approve" | "dismiss" | "snooze";
+    }) => decideRecFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    onSuccess: invalidate,
+  });
+
   const noteMutation = useMutation({
     mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { key, ...vars } }),
     onSuccess: () => {
