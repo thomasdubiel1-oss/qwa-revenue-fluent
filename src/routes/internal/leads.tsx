@@ -204,6 +204,12 @@ function LeadOpsConsole() {
     enabled: Boolean(key && openId),
   });
 
+  const recsQuery = useQuery({
+    queryKey: ["ops", "lead-recommendations", key, openId],
+    queryFn: () => leadRecsFn({ data: { key, id: openId as string } }),
+    enabled: Boolean(key && openId),
+  });
+
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["ops"] });
   };
