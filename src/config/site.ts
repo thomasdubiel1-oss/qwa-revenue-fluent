@@ -17,20 +17,56 @@ export const navigation: NavGroup[] = [
       {
         heading: "Revenue system",
         items: [
-          { label: "Revenue Engine", href: "/products/revenue-engine", description: "The closed-loop core" },
-          { label: "Customer Acquisition", href: "/products/acquisition", description: "Paid, organic, outbound" },
-          { label: "Voice + Conversations", href: "/products/voice", description: "Speak, text, respond" },
-          { label: "Live Commerce", href: "/products/live-commerce", description: "Sell in the moment" },
+          {
+            label: "Revenue Engine",
+            href: "/products/revenue-engine",
+            description: "The closed-loop core",
+          },
+          {
+            label: "Customer Acquisition",
+            href: "/products/acquisition",
+            description: "Paid, organic, outbound",
+          },
+          {
+            label: "Voice + Conversations",
+            href: "/products/voice",
+            description: "Speak, text, respond",
+          },
+          {
+            label: "Live Commerce",
+            href: "/products/live-commerce",
+            description: "Sell in the moment",
+          },
         ],
       },
       {
         heading: "Intelligence",
         items: [
-          { label: "Creative Studio", href: "/products/creative-studio", description: "Brief to campaign-ready" },
-          { label: "SEO / GEO", href: "/products/search", description: "Search and answer surfaces" },
-          { label: "Business Intelligence", href: "/products/business-intelligence", description: "Revenue truth" },
-          { label: "Revenue Attribution", href: "/products/attribution", description: "Where revenue came from" },
-          { label: "Decision Intelligence", href: "/products/decision-intelligence", description: "Autonomous optimization" },
+          {
+            label: "Creative Studio",
+            href: "/products/creative-studio",
+            description: "Brief to campaign-ready",
+          },
+          {
+            label: "SEO / GEO",
+            href: "/products/search",
+            description: "Search and answer surfaces",
+          },
+          {
+            label: "Business Intelligence",
+            href: "/products/business-intelligence",
+            description: "Revenue truth",
+          },
+          {
+            label: "Revenue Attribution",
+            href: "/products/attribution",
+            description: "Where revenue came from",
+          },
+          {
+            label: "Decision Intelligence",
+            href: "/products/decision-intelligence",
+            description: "Autonomous optimization",
+          },
         ],
       },
     ],
@@ -41,16 +77,36 @@ export const navigation: NavGroup[] = [
       {
         heading: "Convert inbound demand",
         items: [
-          { label: "AI lead response", href: "/solutions/ai-lead-response", description: "Answer every lead in seconds" },
-          { label: "AI appointment setting", href: "/solutions/ai-appointment-setting", description: "Qualified leads, booked slots" },
-          { label: "AI voice agent", href: "/solutions/ai-voice-agent", description: "Every call answered, in context" },
+          {
+            label: "AI lead response",
+            href: "/solutions/ai-lead-response",
+            description: "Answer every lead in seconds",
+          },
+          {
+            label: "AI appointment setting",
+            href: "/solutions/ai-appointment-setting",
+            description: "Qualified leads, booked slots",
+          },
+          {
+            label: "AI voice agent",
+            href: "/solutions/ai-voice-agent",
+            description: "Every call answered, in context",
+          },
         ],
       },
       {
         heading: "Grow existing revenue",
         items: [
-          { label: "Customer reactivation", href: "/solutions/customer-reactivation", description: "Recover dormant demand" },
-          { label: "Revenue attribution", href: "/solutions/revenue-attribution", description: "Spend joined to closed revenue" },
+          {
+            label: "Customer reactivation",
+            href: "/solutions/customer-reactivation",
+            description: "Recover dormant demand",
+          },
+          {
+            label: "Revenue attribution",
+            href: "/solutions/revenue-attribution",
+            description: "Spend joined to closed revenue",
+          },
         ],
       },
     ],
@@ -84,16 +140,32 @@ export const navigation: NavGroup[] = [
       {
         heading: "Healthcare and aesthetics",
         items: [
-          { label: "Dental", href: "/industries/dental", description: "New-patient enquiries and recall" },
-          { label: "Med spa", href: "/industries/medspa", description: "Consultations and re-treatment" },
+          {
+            label: "Dental",
+            href: "/industries/dental",
+            description: "New-patient enquiries and recall",
+          },
+          {
+            label: "Med spa",
+            href: "/industries/medspa",
+            description: "Consultations and re-treatment",
+          },
         ],
       },
       {
         heading: "Home services",
         items: [
           { label: "HVAC", href: "/industries/hvac", description: "Seasonal peaks and dispatch" },
-          { label: "Plumbing", href: "/industries/plumbing", description: "Emergency call capture" },
-          { label: "Solar", href: "/industries/solar", description: "Qualification and long cycles" },
+          {
+            label: "Plumbing",
+            href: "/industries/plumbing",
+            description: "Emergency call capture",
+          },
+          {
+            label: "Solar",
+            href: "/industries/solar",
+            description: "Qualification and long cycles",
+          },
         ],
       },
     ],

@@ -26,7 +26,12 @@ const description =
 
 export const Route = createFileRoute("/products/business-intelligence")({
   head: () =>
-    productHead({ path: "/products/business-intelligence", name: "Business Intelligence", title, description }),
+    productHead({
+      path: "/products/business-intelligence",
+      name: "Business Intelligence",
+      title,
+      description,
+    }),
   component: BusinessIntelligencePage,
 });
 

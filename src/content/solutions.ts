@@ -930,8 +930,7 @@ export const solutions: Record<SolutionSlug, SolutionContent> = {
         },
         {
           title: "Where budget is duplicated",
-          detail:
-            "Identifying revenue claimed by more than one platform and reporting it once.",
+          detail: "Identifying revenue claimed by more than one platform and reporting it once.",
         },
         {
           title: "How long the cycle really takes",

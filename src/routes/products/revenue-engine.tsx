@@ -2,10 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { RevenueEngineStory } from "@/components/qwa/story/product-stories";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import { pageHead } from "@/config/seo";
-import {
-  breadcrumbSchema,
-  softwareApplicationSchema,
-} from "@/lib/seo/jsonld";
+import { breadcrumbSchema, softwareApplicationSchema } from "@/lib/seo/jsonld";
 import {
   ChapterOpener,
   ProductCta,
@@ -128,7 +125,6 @@ function RevenueEnginePage() {
       <ExecutiveViewSection />
       <GovernanceSection />
       <IntegrationsSection />
-
 
       <RelatedProducts current="revenue-engine" />
 

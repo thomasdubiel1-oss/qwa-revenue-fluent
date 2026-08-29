@@ -160,8 +160,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Revenue Engine",
-          detail:
-            "Holds one record per patient across calls, forms, appointments and outcomes.",
+          detail: "Holds one record per patient across calls, forms, appointments and outcomes.",
         },
         {
           title: "Revenue Attribution",
@@ -360,8 +359,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Creative Studio",
-          detail:
-            "Produces the treatment-specific creative volume aesthetics campaigns consume.",
+          detail: "Produces the treatment-specific creative volume aesthetics campaigns consume.",
         },
         {
           title: "Revenue Attribution",
@@ -454,8 +452,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Local search and map click-to-call",
-          detail:
-            "High-intent calls with no context unless tracking numbers are in place.",
+          detail: "High-intent calls with no context unless tracking numbers are in place.",
         },
         {
           title: "Website and quote request forms",
@@ -464,8 +461,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Paid search during weather events",
-          detail:
-            "Expensive, time-critical clicks where a slow response wastes the entire spend.",
+          detail: "Expensive, time-critical clicks where a slow response wastes the entire spend.",
         },
         {
           title: "Maintenance plan members",
@@ -502,8 +498,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Service area confirmed",
-          detail:
-            "The address is checked against your service area before any time is offered.",
+          detail: "The address is checked against your service area before any time is offered.",
         },
         {
           title: "Job type identified",
@@ -669,8 +664,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Home service marketplaces",
-          detail:
-            "Shared leads where response order effectively decides who gets the job.",
+          detail: "Shared leads where response order effectively decides who gets the job.",
         },
         {
           title: "Past customers and referrals",
@@ -765,8 +759,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Revenue Attribution",
-          detail:
-            "Joins tracked calls to invoiced jobs and reconciles against the field system.",
+          detail: "Joins tracked calls to invoiced jobs and reconciles against the field system.",
         },
         {
           title: "Business Intelligence",
@@ -849,8 +842,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
       items: [
         {
           title: "Paid search and paid social",
-          detail:
-            "High cost per lead where slow response directly destroys the media budget.",
+          detail: "High cost per lead where slow response directly destroys the media budget.",
         },
         {
           title: "Purchased and shared leads",
@@ -859,8 +851,7 @@ export const industries: Record<IndustrySlug, IndustryContent> = {
         },
         {
           title: "Website and savings-estimate forms",
-          detail:
-            "Self-serve calculators and quote requests that arrive with partial information.",
+          detail: "Self-serve calculators and quote requests that arrive with partial information.",
         },
         {
           title: "Door-to-door and canvassing",

@@ -26,8 +26,7 @@ const description =
   "Technical diagnostics, topical authority mapping, intent-to-revenue joins and generative answer readiness — search work measured by pipeline, not by position alone.";
 
 export const Route = createFileRoute("/products/search")({
-  head: () =>
-    productHead({ path: "/products/search", name: "SEO / GEO", title, description }),
+  head: () => productHead({ path: "/products/search", name: "SEO / GEO", title, description }),
   component: SearchPage,
 });
 

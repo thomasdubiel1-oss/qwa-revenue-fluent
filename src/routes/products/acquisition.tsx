@@ -24,7 +24,12 @@ const description =
 
 export const Route = createFileRoute("/products/acquisition")({
   head: () =>
-    productHead({ path: "/products/acquisition", name: "Customer Acquisition", title, description }),
+    productHead({
+      path: "/products/acquisition",
+      name: "Customer Acquisition",
+      title,
+      description,
+    }),
   component: AcquisitionPage,
 });
 
@@ -99,4 +104,3 @@ function AcquisitionPage() {
     </ProductShell>
   );
 }
-

@@ -119,9 +119,6 @@ export function pageHead(options: {
 /** Head payload for internal-only tooling routes: never indexed, no canonical. */
 export function internalHead(title: string): { meta: MetaTag[] } {
   return {
-    meta: [
-      { title },
-      { name: "robots", content: "noindex, nofollow, noarchive" },
-    ],
+    meta: [{ title }, { name: "robots", content: "noindex, nofollow, noarchive" }],
   };
 }

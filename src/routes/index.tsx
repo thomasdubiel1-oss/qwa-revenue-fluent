@@ -11,7 +11,6 @@ import { ClosedLoop, OutcomePanel } from "@/components/qwa/closed-loop";
 import { PlatformPreview } from "@/components/qwa/platform";
 import { ClosingCta } from "@/components/qwa/cta";
 
-
 const title = "Quantum Web AI — The AI Revenue Operating System";
 const description =
   "QWA unifies acquisition, AI conversations, appointments, sales assistance and revenue attribution into one closed loop — so every signal is measured against the revenue it produced.";

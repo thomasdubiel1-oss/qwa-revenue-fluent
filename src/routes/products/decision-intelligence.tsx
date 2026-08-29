@@ -27,7 +27,12 @@ const description =
 
 export const Route = createFileRoute("/products/decision-intelligence")({
   head: () =>
-    productHead({ path: "/products/decision-intelligence", name: "Decision Intelligence", title, description }),
+    productHead({
+      path: "/products/decision-intelligence",
+      name: "Decision Intelligence",
+      title,
+      description,
+    }),
   component: DecisionIntelligencePage,
 });
 

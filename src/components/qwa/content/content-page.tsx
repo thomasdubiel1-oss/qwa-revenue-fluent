@@ -128,11 +128,7 @@ export function ContentSection({
   children?: React.ReactNode;
 }) {
   return (
-    <Section
-      id={id}
-      tone={tone}
-      className="border-t border-hairline py-16 sm:py-20 lg:py-24"
-    >
+    <Section id={id} tone={tone} className="border-t border-hairline py-16 sm:py-20 lg:py-24">
       <Container>
         <MotionReveal className="max-w-[52rem]">
           {eyebrow ? <p className="text-eyebrow">{eyebrow}</p> : null}
@@ -152,11 +148,7 @@ export function ContentSection({
 }
 
 /** Numbered workflow. Each step names the trigger and the resulting record. */
-export function StepList({
-  steps,
-}: {
-  steps: { title: string; detail: string }[];
-}) {
+export function StepList({ steps }: { steps: { title: string; detail: string }[] }) {
   return (
     <ol className="grid gap-px overflow-hidden rounded-xl border border-border bg-hairline sm:grid-cols-2">
       {steps.map((step, index) => (
@@ -210,7 +202,10 @@ export function PointList({ points }: { points: string[] }) {
   return (
     <ul className="grid max-w-[68ch] gap-3">
       {points.map((point) => (
-        <li key={point} className="flex gap-3 text-[0.9375rem] leading-relaxed text-muted-foreground">
+        <li
+          key={point}
+          className="flex gap-3 text-[0.9375rem] leading-relaxed text-muted-foreground"
+        >
           <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-signal" />
           <span>{point}</span>
         </li>
@@ -254,7 +249,10 @@ export function ComparisonTable({
                     {cell}
                   </th>
                 ) : (
-                  <td key={`${row[0]}-${index}`} className="px-5 py-4 align-top text-muted-foreground">
+                  <td
+                    key={`${row[0]}-${index}`}
+                    className="px-5 py-4 align-top text-muted-foreground"
+                  >
                     {cell}
                   </td>
                 ),
@@ -273,7 +271,13 @@ export type Faq = { question: string; answer: string };
  * Visible FAQ. The same array is passed to faqPageSchema(), so the structured
  * data can never describe content a visitor cannot read.
  */
-export function FaqSection({ faqs, heading = "Frequently asked questions" }: { faqs: Faq[]; heading?: string }) {
+export function FaqSection({
+  faqs,
+  heading = "Frequently asked questions",
+}: {
+  faqs: Faq[];
+  heading?: string;
+}) {
   return (
     <ContentSection id="faq" eyebrow="FAQ" heading={heading} tone="paper">
       <dl className="grid max-w-[68ch] gap-8">
