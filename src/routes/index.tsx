@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { SITE_NAME, absoluteUrl, pageHead } from "@/config/seo";
+import { pageHead } from "@/config/seo";
+import { organizationSchema, webSiteSchema } from "@/lib/seo/jsonld";
 import { SiteHeader } from "@/components/qwa/site-header";
 import { SiteFooter } from "@/components/qwa/site-footer";
 import { DemoRequestProvider } from "@/components/qwa/demo-request";
@@ -16,24 +17,13 @@ const description =
   "QWA unifies acquisition, AI conversations, appointments, sales assistance and revenue attribution into one closed loop — so every signal is measured against the revenue it produced.";
 
 export const Route = createFileRoute("/")({
-  head: () => {
-    const head = pageHead({ path: "/", title, description });
-    return {
-      ...head,
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: SITE_NAME,
-            url: absoluteUrl("/"),
-            description,
-          }),
-        },
-      ],
-    };
-  },
+  head: () =>
+    pageHead({
+      path: "/",
+      title,
+      description,
+      jsonLd: [organizationSchema(description), webSiteSchema(description)],
+    }),
   component: Index,
 });
 

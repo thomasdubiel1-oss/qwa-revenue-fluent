@@ -3,6 +3,10 @@ import { RevenueEngineStory } from "@/components/qwa/story/product-stories";
 import { RevenueEngine } from "@/components/qwa/revenue-engine";
 import { pageHead } from "@/config/seo";
 import {
+  breadcrumbSchema,
+  softwareApplicationSchema,
+} from "@/lib/seo/jsonld";
+import {
   ChapterOpener,
   ProductCta,
   ProductHero,
@@ -28,7 +32,35 @@ const description =
   "QWA's Revenue Engine turns every lead into a managed revenue journey: immediate response, qualification, cross-channel follow-up, booking, sales assistance, attribution, learning and reactivation.";
 
 export const Route = createFileRoute("/products/revenue-engine")({
-  head: () => pageHead({ path: "/products/revenue-engine", title, description }),
+  head: () =>
+    pageHead({
+      path: "/products/revenue-engine",
+      title,
+      description,
+      jsonLd: [
+        breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Revenue Engine", path: "/products/revenue-engine" },
+        ]),
+        // SoftwareApplication is valid here: this page describes an actual
+        // web application. No offers or ratings — QWA publishes neither.
+        softwareApplicationSchema({
+          name: "QWA Revenue Engine",
+          path: "/products/revenue-engine",
+          description,
+          applicationCategory: "BusinessApplication",
+          featureList: [
+            "Immediate inbound lead response",
+            "Conversational qualification",
+            "Cross-channel follow-up",
+            "Appointment booking",
+            "Sales assistance",
+            "Revenue attribution",
+            "Customer reactivation",
+          ],
+        }),
+      ],
+    }),
   component: RevenueEnginePage,
 });
 
