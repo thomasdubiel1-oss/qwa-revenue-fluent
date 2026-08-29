@@ -23,7 +23,8 @@ import type {
   RecommendationView,
 } from "./automation.types";
 import { AUTOMATION_MODES, REASON_CODES } from "./automation.types";
-import { evaluatePlaybooks, PLAYBOOKS, playbookByKey } from "./playbooks";
+import type { SimulationResult, SimulationRuleResult } from "./controlplane.types";
+import { evaluatePlaybooks, executionKey, PLAYBOOKS, playbookByKey } from "./playbooks";
 import type { PlaybookMatch } from "./playbooks";
 import { OPERATOR_LABEL } from "./workflow.server";
 import type { SlaThresholds, WorkQueueItem } from "./workflow.types";
@@ -674,4 +675,144 @@ export async function loadLeadRecommendations(leadId: string): Promise<Recommend
 
 export function playbookExists(key: string) {
   return Boolean(playbookByKey(key));
+}
+
+/**
+ * Phase 9 — deterministic, read-only simulation for a single real lead.
+ *
+ * Runs the exact Phase 8 predicates and the exact execution gate against live
+ * data and returns every input, rule and threshold that produced the outcome.
+ * There is no write path in this function: it never inserts, updates or
+ * deletes anything.
+ */
+export async function simulateLead(leadId: string): Promise<SimulationResult> {
+  const now = Date.now();
+  const [{ mode, killSwitch }, items, config, versionRow] = await Promise.all([
+    loadSettings(),
+    snapshot(),
+    effectiveConfig(),
+    (async () => {
+      const { loadActiveConfigVersion } = await import("./governance.server");
+      return loadActiveConfigVersion();
+    })(),
+  ]);
+
+  const item = items.find((i) => i.leadId === leadId) ?? null;
+  const base = {
+    simulatedAt: new Date().toISOString(),
+    readOnly: true as const,
+    mode,
+    killSwitch,
+    configVersion: versionRow.version,
+    thresholds: config.sla,
+  };
+
+  if (!item) {
+    return { ...base, found: false, lead: null, rules: [] };
+  }
+
+  const { byKey, executions } = await loadBookkeeping([leadId]);
+  const executedByPlaybook = new Map<string, { count: number; last: string }>();
+  for (const e of executions) {
+    if (e.outcome !== "executed" || e.demo_request_id !== leadId) continue;
+    const prev = executedByPlaybook.get(e.playbook_key);
+    if (!prev) executedByPlaybook.set(e.playbook_key, { count: 1, last: e.created_at });
+    else
+      executedByPlaybook.set(e.playbook_key, {
+        count: prev.count + 1,
+        last: prev.last > e.created_at ? prev.last : e.created_at,
+      });
+  }
+
+  const rules: SimulationRuleResult[] = PLAYBOOKS.map((p) => {
+    const limits = config.playbooks[p.key];
+    const triggerResult = p.trigger(item);
+    const stopResult = p.stop(item);
+    const key = executionKey(p.key, p.version, item.leadId);
+    const stats = executedByPlaybook.get(p.key);
+    const enabled = limits?.enabled ?? p.enabled;
+    const outcome: SimulationRuleResult["outcome"] = !enabled
+      ? "disabled"
+      : stopResult
+        ? "stopped"
+        : triggerResult
+          ? "matched"
+          : "no_match";
+
+    let gateAllowed = false;
+    let gateReasonCode: string =
+      outcome === "disabled"
+        ? REASON_CODES.PLAYBOOK_DISABLED
+        : outcome === "stopped"
+          ? REASON_CODES.STOP_CONDITION
+          : REASON_CODES.NOT_ELIGIBLE;
+
+    if (outcome === "matched") {
+      const match: PlaybookMatch = {
+        playbook: p,
+        item,
+        executionKey: key,
+        explanation: p.explain(item),
+        action: p.action,
+      };
+      const gate = gateFor(
+        match,
+        byKey.get(key),
+        stats?.count ?? 0,
+        stats?.last ?? null,
+        mode,
+        killSwitch,
+        now,
+        limits,
+      );
+      gateAllowed = gate.allowed;
+      gateReasonCode = gate.reasonCode;
+    }
+
+    return {
+      playbookKey: p.key,
+      playbookName: p.name,
+      playbookVersion: p.version,
+      outcome,
+      triggerText: p.triggerText,
+      stopText: p.stopText,
+      triggerResult,
+      stopResult,
+      explanation: p.explain(item),
+      actionType: p.action.type,
+      actionTitle: p.action.title,
+      actionDetail: p.action.detail,
+      dueInHours: p.action.dueInHours ?? null,
+      cooldownHours: limits?.cooldownHours ?? p.cooldownHours,
+      maxExecutionsPerLead: limits?.maxExecutionsPerLead ?? p.maxExecutionsPerLead,
+      executedCount: stats?.count ?? 0,
+      lastExecutedAt: stats?.last ?? null,
+      executionKey: key,
+      gateAllowed,
+      gateReasonCode,
+    };
+  });
+
+  return {
+    ...base,
+    found: true,
+    lead: {
+      id: item.leadId,
+      company: item.company,
+      name: item.name,
+      status: item.status,
+      queue: item.queue,
+      priority: item.priority,
+      priorityReasons: item.reasons,
+      ageHours: item.ageHours,
+      slaAgeHours: item.slaAgeHours,
+      slaThresholdHours: item.slaThresholdHours,
+      overdue: item.overdue,
+      dueSoon: item.dueSoon,
+      openTasks: item.openTasks,
+      deliveryStatus: item.deliveryStatus,
+      attemptCount: item.attemptCount,
+    },
+    rules,
+  };
 }
