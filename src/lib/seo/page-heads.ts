@@ -20,8 +20,9 @@ export function solutionHead(slug: SolutionSlug) {
     description: content.description,
     jsonLd: [
       breadcrumbSchema([
+        // Only paths that genuinely exist appear in the trail; there is no
+        // /solutions hub route, so none is claimed.
         { name: "Home", path: "/" },
-        { name: "Solutions", path: "/solutions" },
         { name: content.navLabel, path },
       ]),
       // The same array is rendered by <FaqSection /> on this page.
@@ -40,7 +41,6 @@ export function industryHead(slug: IndustrySlug) {
     jsonLd: [
       breadcrumbSchema([
         { name: "Home", path: "/" },
-        { name: "Industries", path: "/industries" },
         { name: content.navLabel, path },
       ]),
       faqPageSchema(content.faqs),
