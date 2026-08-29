@@ -49,7 +49,7 @@ function buildAnomalies(input: {
     windowHours: number;
     overdueLeads: number;
     deliveryFailures: number;
-    stuckPendingDeliveries: number;
+    stuckPending: number;
     executionErrors: number;
     staleRecommendationHours: number;
   };
@@ -100,11 +100,11 @@ function buildAnomalies(input: {
   signals.push({
     key: "stuck_pending_delivery",
     title: "Deliveries stuck pending",
-    rule: `count(latest delivery = pending AND lead age >= ${queue.sla.deliveryFailureHours}h) >= ${thresholds.stuckPendingDeliveries}`,
+    rule: `count(latest delivery = pending AND lead age >= ${queue.sla.deliveryFailureHours}h) >= ${thresholds.stuckPending}`,
     observed: stuck.length,
-    threshold: thresholds.stuckPendingDeliveries,
+    threshold: thresholds.stuckPending,
     windowHours: null,
-    breached: stuck.length >= thresholds.stuckPendingDeliveries,
+    breached: stuck.length >= thresholds.stuckPending,
     evidence: stuck.slice(0, 5).map((i) => ({
       label: i.company,
       detail: `pending for ${i.ageHours.toFixed(1)}h`,
