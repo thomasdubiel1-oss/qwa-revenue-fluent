@@ -176,7 +176,14 @@ function gateFor(
   mode: AutomationMode,
   killSwitch: boolean,
   now: number,
+  limits?: { enabled: boolean; cooldownHours: number; maxExecutionsPerLead: number } | undefined,
 ): Gate {
+  // Phase 9: governed configuration overrides the code defaults when present.
+  const cooldownHours = limits?.cooldownHours ?? match.playbook.cooldownHours;
+  const maxExecutions = limits?.maxExecutionsPerLead ?? match.playbook.maxExecutionsPerLead;
+  if (limits && limits.enabled === false) {
+    return { allowed: false, reasonCode: REASON_CODES.PLAYBOOK_DISABLED };
+  }
   if (killSwitch) return { allowed: false, reasonCode: REASON_CODES.KILL_SWITCH };
   if (mode === "off") return { allowed: false, reasonCode: REASON_CODES.MODE_OFF };
   if (row?.status === "dismissed") return { allowed: false, reasonCode: REASON_CODES.DISMISSED };
@@ -186,10 +193,10 @@ function gateFor(
   if (row?.status === "auto_executed") {
     return { allowed: false, reasonCode: REASON_CODES.ALREADY_EXECUTED };
   }
-  if (executedCount >= match.playbook.maxExecutionsPerLead) {
+  if (executedCount >= maxExecutions) {
     return { allowed: false, reasonCode: REASON_CODES.RATE_LIMIT };
   }
-  if (lastExecutedAt && now - new Date(lastExecutedAt).getTime() < match.playbook.cooldownHours * HOUR) {
+  if (lastExecutedAt && now - new Date(lastExecutedAt).getTime() < cooldownHours * HOUR) {
     return { allowed: false, reasonCode: REASON_CODES.COOLDOWN };
   }
   if (mode === "recommend" && row?.status !== "approved") {
@@ -197,6 +204,7 @@ function gateFor(
   }
   return { allowed: true, reasonCode: REASON_CODES.ELIGIBLE };
 }
+
 
 async function snapshot(sla?: Partial<SlaThresholds> | undefined) {
   const { loadWorkQueue } = await import("./workflow.server");
