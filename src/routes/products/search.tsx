@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -26,7 +26,8 @@ const description =
   "Technical diagnostics, topical authority mapping, intent-to-revenue joins and generative answer readiness — search work measured by pipeline, not by position alone.";
 
 export const Route = createFileRoute("/products/search")({
-  head: () => pageHead({ path: "/products/search", title, description }),
+  head: () =>
+    productHead({ path: "/products/search", name: "SEO / GEO", title, description }),
   component: SearchPage,
 });
 

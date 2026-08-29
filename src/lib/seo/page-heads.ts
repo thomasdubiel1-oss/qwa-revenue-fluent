@@ -47,3 +47,27 @@ export function industryHead(slug: IndustrySlug) {
     ],
   });
 }
+
+/**
+ * Product page head: unique metadata plus a BreadcrumbList. SoftwareApplication
+ * is added only on pages that genuinely describe an application (see
+ * /products/revenue-engine), not blanket-applied across the product set.
+ */
+export function productHead(input: {
+  path: string;
+  name: string;
+  title: string;
+  description: string;
+}) {
+  return pageHead({
+    path: input.path,
+    title: input.title,
+    description: input.description,
+    jsonLd: [
+      breadcrumbSchema([
+        { name: "Home", path: "/" },
+        { name: input.name, path: input.path },
+      ]),
+    ],
+  });
+}

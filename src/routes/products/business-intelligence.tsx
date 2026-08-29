@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { pageHead } from "@/config/seo";
+import { productHead } from "@/lib/seo/page-heads";
 import {
   ChapterOpener,
   ProductCta,
@@ -25,7 +25,8 @@ const description =
   "One set of numbers across ads, conversations, appointments, CRM and finance: executive briefs, anomaly detection with stated confidence, ranged forecasts and published data quality.";
 
 export const Route = createFileRoute("/products/business-intelligence")({
-  head: () => pageHead({ path: "/products/business-intelligence", title, description }),
+  head: () =>
+    productHead({ path: "/products/business-intelligence", name: "Business Intelligence", title, description }),
   component: BusinessIntelligencePage,
 });
 
