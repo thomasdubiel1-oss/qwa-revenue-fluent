@@ -430,45 +430,35 @@ function AutomationConsole() {
             title="Recommendations"
             description="Approve, snooze or dismiss. Every decision is recorded against the neutral internal_operator label."
           >
-            {pending && pending.length > 0 ? (
-              <ul className="flex flex-col">
-                {state.recommendations.map((rec) => (
-                  <RecommendationRow
-                    key={rec.executionKey}
-                    rec={rec}
-                    busy={decideMutation.isPending}
-                    onDecide={(decision) =>
-                      decideMutation.mutate({
-                        leadId: rec.leadId,
-                        playbookKey: rec.playbookKey,
-                        decision,
-                      })
-                    }
-                  />
-                ))}
-              </ul>
-            ) : state.recommendations.length > 0 ? (
-              <ul className="flex flex-col">
-                {state.recommendations.map((rec) => (
-                  <RecommendationRow
-                    key={rec.executionKey}
-                    rec={rec}
-                    busy={decideMutation.isPending}
-                    onDecide={(decision) =>
-                      decideMutation.mutate({
-                        leadId: rec.leadId,
-                        playbookKey: rec.playbookKey,
-                        decision,
-                      })
-                    }
-                  />
-                ))}
-              </ul>
+            {state.recommendations.length > 0 ? (
+              <>
+                <p className="mb-2 text-xs text-muted-foreground">
+                  {pending?.length ?? 0} awaiting a decision · {state.recommendations.length} total
+                  eligible.
+                </p>
+                <ul className="flex flex-col">
+                  {state.recommendations.map((rec) => (
+                    <RecommendationRow
+                      key={rec.executionKey}
+                      rec={rec}
+                      busy={decideMutation.isPending}
+                      onDecide={(decision) =>
+                        decideMutation.mutate({
+                          leadId: rec.leadId,
+                          playbookKey: rec.playbookKey,
+                          decision,
+                        })
+                      }
+                    />
+                  ))}
+                </ul>
+              </>
             ) : (
               <p className="text-sm text-muted-foreground">
                 No lead currently satisfies a playbook trigger. Nothing is recommended.
               </p>
             )}
+
           </Panel>
 
           <div className="grid gap-5 xl:grid-cols-2">
