@@ -543,7 +543,17 @@ export async function runAutomation(options: { dryRun: boolean }): Promise<{
   for (const match of matches) {
     const row = byKey.get(match.executionKey);
     const pair = executedByPair.get(`${match.playbook.key}:${match.item.leadId}`);
-    const gate = gateFor(match, row, pair?.count ?? 0, pair?.last ?? null, mode, killSwitch, now);
+    const gate = gateFor(
+      match,
+      row,
+      pair?.count ?? 0,
+      pair?.last ?? null,
+      mode,
+      killSwitch,
+      now,
+      runConfig.playbooks[match.playbook.key],
+    );
+
 
     if (!gate.allowed) {
       skipped.push({
