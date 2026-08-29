@@ -42,7 +42,7 @@ export const opsSimulateLeadFn = createServerFn({ method: "POST" })
   });
 
 export const opsConfigVersionsFn = createServerFn({ method: "POST" })
-  .inputValidator((data: Keyed<Record<string, never>>) => requireObject(data))
+  .inputValidator((data: Keyed<Record<string, unknown>>) => requireObject(data))
   .handler(async ({ data }): Promise<OpsResponse<ConfigVersion[]>> => {
     const { checkOpsAccess } = await import("./ops.server");
     const access = checkOpsAccess(data.key);
