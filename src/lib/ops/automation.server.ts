@@ -255,7 +255,12 @@ export async function loadAutomationState(input?: {
       : DEFAULT_WINDOW_HOURS;
   const windowStart = new Date(now - windowHours * HOUR).toISOString();
 
-  const [{ mode, killSwitch }, items] = await Promise.all([loadSettings(), snapshot(input?.sla)]);
+  const [{ mode, killSwitch }, items, stateConfig] = await Promise.all([
+    loadSettings(),
+    snapshot(input?.sla),
+    effectiveConfig(),
+  ]);
+
   const companyById = new Map(items.map((i) => [i.leadId, i.company]));
   const { matches, stopped } = evaluatePlaybooks(items);
   const { byKey, executions } = await loadBookkeeping(items.map((i) => i.leadId));
