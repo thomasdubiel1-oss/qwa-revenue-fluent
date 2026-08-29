@@ -39,21 +39,18 @@ export const navigation: NavGroup[] = [
     label: "Solutions",
     columns: [
       {
-        heading: "By objective",
+        heading: "Convert inbound demand",
         items: [
-          { label: "Grow pipeline", href: "/solutions/pipeline" },
-          { label: "Increase conversion", href: "/solutions/conversion" },
-          { label: "Reduce CAC", href: "/solutions/cac" },
-          { label: "Recover lost revenue", href: "/solutions/recovery" },
+          { label: "AI lead response", href: "/solutions/ai-lead-response", description: "Answer every lead in seconds" },
+          { label: "AI appointment setting", href: "/solutions/ai-appointment-setting", description: "Qualified leads, booked slots" },
+          { label: "AI voice agent", href: "/solutions/ai-voice-agent", description: "Every call answered, in context" },
         ],
       },
       {
-        heading: "By team",
+        heading: "Grow existing revenue",
         items: [
-          { label: "Revenue leadership", href: "/solutions/revenue" },
-          { label: "Marketing", href: "/solutions/marketing" },
-          { label: "Sales", href: "/solutions/sales" },
-          { label: "Operations", href: "/solutions/operations" },
+          { label: "Customer reactivation", href: "/solutions/customer-reactivation", description: "Recover dormant demand" },
+          { label: "Revenue attribution", href: "/solutions/revenue-attribution", description: "Spend joined to closed revenue" },
         ],
       },
     ],
@@ -85,21 +82,18 @@ export const navigation: NavGroup[] = [
     label: "Industries",
     columns: [
       {
-        heading: "Sectors",
+        heading: "Healthcare and aesthetics",
         items: [
-          { label: "Home services", href: "/industries/home-services" },
-          { label: "Healthcare", href: "/industries/healthcare" },
-          { label: "Automotive", href: "/industries/automotive" },
-          { label: "Financial services", href: "/industries/financial" },
+          { label: "Dental", href: "/industries/dental", description: "New-patient enquiries and recall" },
+          { label: "Med spa", href: "/industries/medspa", description: "Consultations and re-treatment" },
         ],
       },
       {
-        heading: "Motion",
+        heading: "Home services",
         items: [
-          { label: "High-velocity inbound", href: "/industries/inbound" },
-          { label: "Multi-location", href: "/industries/multi-location" },
-          { label: "Franchise networks", href: "/industries/franchise" },
-          { label: "E-commerce", href: "/industries/ecommerce" },
+          { label: "HVAC", href: "/industries/hvac", description: "Seasonal peaks and dispatch" },
+          { label: "Plumbing", href: "/industries/plumbing", description: "Emergency call capture" },
+          { label: "Solar", href: "/industries/solar", description: "Qualification and long cycles" },
         ],
       },
     ],
@@ -110,19 +104,11 @@ export const navigation: NavGroup[] = [
       {
         heading: "Learn",
         items: [
-          { label: "Revenue OS primer", href: "/resources/primer" },
-          { label: "Attribution guide", href: "/resources/attribution" },
-          { label: "Benchmarks", href: "/resources/benchmarks" },
-          { label: "Documentation", href: "/resources/docs" },
-        ],
-      },
-      {
-        heading: "Library",
-        items: [
-          { label: "Field notes", href: "/resources/notes" },
-          { label: "Product updates", href: "/resources/changelog" },
-          { label: "Webinars", href: "/resources/webinars" },
-          { label: "Glossary", href: "/resources/glossary" },
+          {
+            label: "What is an AI revenue engine?",
+            href: "/resources/what-is-an-ai-revenue-engine",
+            description: "Definition, the loop, and how it differs",
+          },
         ],
       },
     ],
@@ -175,23 +161,29 @@ export const footerColumns = [
     ],
   },
   {
+    heading: "Solutions",
+    items: [
+      { label: "AI lead response", href: "/solutions/ai-lead-response" },
+      { label: "AI appointment setting", href: "/solutions/ai-appointment-setting" },
+      { label: "AI voice agent", href: "/solutions/ai-voice-agent" },
+      { label: "Customer reactivation", href: "/solutions/customer-reactivation" },
+      { label: "Revenue attribution", href: "/solutions/revenue-attribution" },
+    ],
+  },
+  {
     heading: "Industries",
     items: [
-      { label: "Home services", href: "/industries/home-services" },
-      { label: "Healthcare", href: "/industries/healthcare" },
-      { label: "Automotive", href: "/industries/automotive" },
-      { label: "Financial services", href: "/industries/financial" },
-      { label: "E-commerce", href: "/industries/ecommerce" },
+      { label: "Dental", href: "/industries/dental" },
+      { label: "Med spa", href: "/industries/medspa" },
+      { label: "HVAC", href: "/industries/hvac" },
+      { label: "Plumbing", href: "/industries/plumbing" },
+      { label: "Solar", href: "/industries/solar" },
     ],
   },
   {
     heading: "Resources",
     items: [
-      { label: "Revenue OS primer", href: "/resources/primer" },
-      { label: "Attribution guide", href: "/resources/attribution" },
-      { label: "Benchmarks", href: "/resources/benchmarks" },
-      { label: "Documentation", href: "/resources/docs" },
-      { label: "Product updates", href: "/resources/changelog" },
+      { label: "What is an AI revenue engine?", href: "/resources/what-is-an-ai-revenue-engine" },
     ],
   },
   {
@@ -221,6 +213,17 @@ export const liveRoutes = [
   "/products/live-commerce",
   "/products/business-intelligence",
   "/products/decision-intelligence",
+  "/solutions/ai-lead-response",
+  "/solutions/ai-appointment-setting",
+  "/solutions/ai-voice-agent",
+  "/solutions/customer-reactivation",
+  "/solutions/revenue-attribution",
+  "/industries/dental",
+  "/industries/medspa",
+  "/industries/hvac",
+  "/industries/plumbing",
+  "/industries/solar",
+  "/resources/what-is-an-ai-revenue-engine",
   "/privacy",
   "/terms",
 ] as const;
