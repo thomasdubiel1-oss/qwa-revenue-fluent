@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "./primitives";
-import { isLiveRoute, navigation } from "@/config/site";
+import { isLiveRoute, visibleNavigation as navigation } from "@/config/site";
 import { useDemoRequest } from "./demo-request";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -142,12 +142,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
-          <Link
-            to="/"
-            className="hidden min-h-11 items-center rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
-          >
-            Sign in
-          </Link>
           <Button variant="ink" size="pill" onClick={() => open("site_header")} className="hidden sm:inline-flex">
             Book a demo
           </Button>
@@ -284,9 +278,6 @@ export function SiteHeader() {
               >
                 Book a demo
               </Button>
-              <Button variant="quiet" size="xl" asChild>
-                <Link to="/">Sign in</Link>
-              </Button>
             </div>
           </Container>
           </motion.div>
@@ -298,8 +289,9 @@ export function SiteHeader() {
 }
 
 /**
- * Nav items point at Phase 2 routes. Only routes that exist are linked;
- * the rest stay inert until their page ships, so nothing 404s.
+ * Navigation is already filtered to live routes, so every item resolves to a
+ * real page. The guard stays as a safety net: an unshipped destination is
+ * omitted entirely rather than rendered as an inert, misleading entry.
  */
 function NavTarget({
   href,
@@ -328,11 +320,7 @@ function NavTarget({
     );
   }
 
-  return (
-    <span className={cn(className, "cursor-default opacity-55")} aria-disabled="true">
-      {children}
-    </span>
-  );
+  return null;
 }
 
 export function Mark({ className }: { className?: string }) {

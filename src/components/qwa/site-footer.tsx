@@ -1,15 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./primitives";
-import { footerColumns, isLiveRoute } from "@/config/site";
+import { visibleFooterColumns as footerColumns } from "@/config/site";
 import { Mark } from "./site-header";
+import { PrivacyChoices } from "./privacy-choices";
 
-/** Only routes that exist are linked; the rest stay inert until published. */
-const legalLinks: { label: string; href?: "/privacy" | "/terms" }[] = [
+/** Only shipped pages are listed. Unpublished destinations are omitted entirely. */
+const legalLinks: { label: string; href: "/privacy" | "/terms" }[] = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
-  { label: "Security" },
-  { label: "Responsible AI" },
-  { label: "Status" },
 ];
 
 
@@ -35,24 +33,16 @@ export function SiteFooter() {
               <div key={col.heading} className="min-w-0">
                 <p className="text-eyebrow mb-4">{col.heading}</p>
                 <ul className="grid gap-2.5">
-                  {col.items.map((item) =>
-                    isLiveRoute(item.href) ? (
-                      <li key={item.label}>
-                        <Link
-                          to={item.href}
-                          className="-my-3 inline-flex min-h-11 items-center py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ) : (
-                      <li key={item.label} className="text-sm text-muted-foreground/55">
+                  {col.items.map((item) => (
+                    <li key={item.label}>
+                      <Link
+                        to={item.href}
+                        className="-my-3 inline-flex min-h-11 items-center py-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
                         {item.label}
-                      </li>
-                    ),
-                  )}
-
-
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
 
               </div>
@@ -67,20 +57,17 @@ export function SiteFooter() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {legalLinks.map((item) => (
               <li key={item.label}>
-                {item.href ? (
-                  <Link
-                    to={item.href}
-                    className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <span className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground/70">
-                    {item.label}
-                  </span>
-                )}
+                <Link
+                  to={item.href}
+                  className="-my-3 inline-flex min-h-11 items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
+            <li>
+              <PrivacyChoices className="-my-3 inline-flex min-h-11 cursor-pointer items-center py-3 text-xs text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+            </li>
           </ul>
         </div>
       </Container>
