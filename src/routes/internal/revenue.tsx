@@ -178,6 +178,9 @@ function RevenueConsole() {
             ))}
           </div>
           <Button variant="outline" size="sm" asChild>
+            <Link to="/internal/control-plane">Control plane</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
             <Link to="/internal/work-queue">Work queue</Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
