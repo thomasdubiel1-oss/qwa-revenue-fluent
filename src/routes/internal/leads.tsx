@@ -30,6 +30,11 @@ import {
   opsLeadWorkflowFn,
   opsSetTaskDoneFn,
 } from "@/lib/ops/workflow.functions";
+import {
+  opsDecideRecommendationFn,
+  opsLeadRecommendationsFn,
+} from "@/lib/ops/automation.functions";
+import type { RecommendationView } from "@/lib/ops/automation.types";
 import { LEAD_STATUSES, type OpsFilters, type OpsLeadRow } from "@/lib/ops/types";
 import { cn } from "@/lib/utils";
 
@@ -209,6 +214,8 @@ function LeadOpsConsole() {
     queryFn: () => leadRecsFn({ data: { key, id: openId as string } }),
     enabled: Boolean(key && openId),
   });
+
+  const leadRecs: RecommendationView[] = recsQuery.data?.ok ? recsQuery.data.data : [];
 
   const invalidate = () => {
     void queryClient.invalidateQueries({ queryKey: ["ops"] });
@@ -638,13 +645,13 @@ function LeadOpsConsole() {
 
                   <div>
                     <h3 className="mb-1 text-sm font-semibold">Playbook recommendations</h3>
-                    {(recsQuery.data?.ok ? recsQuery.data.data : []).length === 0 ? (
+                    {leadRecs.length === 0 ? (
                       <p className="text-xs text-muted-foreground">
                         No playbook currently triggers for this lead.
                       </p>
                     ) : (
                       <ul className="flex flex-col gap-2">
-                        {(recsQuery.data?.ok ? recsQuery.data.data : []).map((rec) => (
+                        {leadRecs.map((rec) => (
                           <li
                             key={rec.executionKey}
                             className="rounded-md border border-border/70 p-2.5"
