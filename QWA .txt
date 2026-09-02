@@ -1,0 +1,226 @@
+QWA Digital Twin — Cursor Master Build Brief
+
+Mission
+
+Act as QWA’s senior product architect and lead implementation engineer. Build a clickable, data-rich QWA Digital Twin that also serves as the engineering team’s executable product specification.
+
+This is not merely a dashboard mockup. Every page, chart, table, action, workflow, agent, and recommendation must map to a user need, business outcome, data source, backend requirement, engineering story, acceptance criteria, and release (V1–V4).
+
+Work incrementally, page by page and vertical slice by vertical slice. Preserve approved components and avoid unrelated changes.
+
+QWA purpose and commercial loop
+
+QWA is an AI-native commerce, customer-acquisition, and revenue-operations platform combining lead capture, immediate AI voice/SMS response, qualification, appointments, sales assistance, CRM, campaigns, content, funnels, live shopping, avatars, creators, commerce analytics, attribution, automations, and specialized AI agents.
+
+Core loop:
+
+Traffic → Lead → AI Response → Qualification → Appointment or Purchase → Revenue Attribution → Outcome Analysis → Recommended or Automated Improvement
+
+Every major feature must connect to this loop.
+
+Product principles
+
+	1.	Prioritize revenue, conversion, acquisition, retention, and operational improvement.
+	2.	Every important screen answers: What happened? Why? What should happen next?
+	3.	Recommendations show evidence, confidence, expected impact, and approval state.
+	4.	Humans can inspect, approve, reject, pause, and override consequential agent actions.
+	5.	Models and agent runtimes remain replaceable; QWA owns shared data, memory, workflows, permissions, evaluations, and audit history.
+	6.	Reuse components and centralized metric definitions.
+	7.	Maintain strict tenant isolation and role-based access.
+	8.	Clearly label proposed, simulated, and production-backed capabilities.
+	9.	Build accessible, responsive, premium enterprise interfaces.
+	10.	Do not generate the entire platform at once.
+
+Users
+
+	●	QWA Executive
+	●	QWA Platform Administrator
+	●	Client Executive
+	●	Marketing Operator
+	●	Sales Operator
+	●	Live Commerce Operator
+	●	Content Operator
+	●	AI Agent Supervisor
+	●	Analyst
+
+Navigation, data visibility, and actions must respect each role.
+
+Sixteen platform sections
+
+	1.	Executive Command Center
+	2.	Revenue Engine
+	3.	Acquisition Engine
+	4.	Live Shopping
+	5.	Content Studio
+	6.	AI Agent Control Center
+	7.	Quantum Concierge
+	8.	CRM and Customers
+	9.	Commerce and Products
+	10.	Funnels and Websites
+	11.	Creators and Affiliates
+	12.	Analytics and Attribution
+	13.	Automations
+	14.	Integrations
+	15.	Reports and Forecasting
+	16.	Administration
+
+Create the navigation shell for all sections, but develop only approved sections to full depth.
+
+Release boundaries
+
+	●	V1 — Revenue Engine: capture leads, respond, qualify, book, assist sales, record purchases, and attribute revenue.
+	●	V2 — Acquisition Engine: campaigns, content, funnels, audiences, experiments, and budget optimization.
+	●	V3 — Agentic Operations: specialized agents coordinating revenue, acquisition, content, commerce, and operations with guarded execution.
+	●	V4 — Outcome Learning: learn from commercial outcomes, recommend improvements, and safely execute approved changes.
+
+Future features may appear in the twin but must be visibly labeled and must not be confused with the 90-day production V1.
+
+Core domain model
+
+Define typed entities for Tenant, Account, User, Role, Permission, Contact, Lead, Customer, Conversation, Message, Qualification, Appointment, Opportunity, Order, OrderItem, Product, Campaign, AdSet, Advertisement, Audience, ContentAsset, Funnel, Page, LiveEvent, LiveSession, Host, Creator, Affiliate, Agent, AgentRun, AgentAction, ToolCall, Workflow, WorkflowRun, Recommendation, Approval, Alert, RevenueEvent, AttributionEvent, Experiment, Integration, and AuditEvent.
+
+Use TypeScript types and runtime validation. Keep domain logic independent from visualization components.
+
+Canonical event model
+
+Include at minimum: eventId, eventType, occurredAt, receivedAt, tenantId, accountId, actorType, actorId, contactId/customerId, sessionId, channel, sourceSystem, campaignId, agentId, agentRunId, action, status, monetaryValue, currency, cost, confidence, correlationId, causationId, metadata, and schemaVersion.
+
+Document required, optional, and conditional fields.
+
+Metric registry
+
+Do not calculate important KPIs independently inside React components. Centralize definitions with metric ID, business definition, formula, numerator, denominator, time basis, currency behavior, attribution model, included/excluded events, dimensions, freshness, owner, and limitations.
+
+Initial metrics: revenue, attributed revenue, influenced revenue, ad spend, ROAS, CAC, CPL, cost per qualified lead, speed to lead, qualification rate, booking rate, show rate, close rate, AOV, LTV, pipeline value, forecast revenue, agent success rate, human-intervention rate, agent cost per outcome, live conversion, revenue per live minute, and creator-attributed revenue.
+
+First vertical slice
+
+Build this complete simulated journey before broad expansion:
+
+Meta ad → Landing page → Lead → AI response → Qualification → Appointment → Sales interaction → Purchase → Attribution → Optimization recommendation
+
+The user must drill into the journey from the Executive Command Center. Connect Executive, Acquisition, Revenue, CRM, Quantum Concierge, Agent Control, Attribution, and Automations.
+
+Use deterministic fixtures and include: one success, one abandonment, one failed agent action, one human intervention, one attribution conflict, and one recommendation awaiting approval.
+
+First six full sections
+
+Executive Command Center
+
+Executive Overview, Revenue Performance, Acquisition Performance, Live Shopping Summary, Agent Activity, Alerts and Recommended Actions, Account Health, Forecast Against Target.
+
+Revenue Engine
+
+Revenue Overview, Lead Inbox, Lead Detail, Qualification Queue, Appointment Funnel, Pipeline, Conversation Inspector, Sales Assistance, Reactivation, Revenue Attribution.
+
+Acquisition Engine
+
+Acquisition Overview, Channel Comparison, Campaign Explorer/Detail, Creative Performance, Audience Performance, Spend and Pacing, Experiments, Budget Recommendations, Funnel Conversion.
+
+AI Agent Control Center
+
+Agent Overview/Directory/Detail, Live Activity, Run Inspector, Agent Graph, Approval Queue, Failures and Interventions, Cost and Latency, Evaluations and Quality.
+
+Live Shopping
+
+Overview, Operations Room, Session Detail, Engagement Timeline, Product Performance, Host Performance, Conversion Moments, Clip Generation, Post-live Analysis, Schedule.
+
+Analytics and Attribution
+
+Overview, Customer Journey, Channel/Campaign Attribution, Cohorts, Funnel Analysis, Revenue Influence, Attribution Conflicts, Data Quality, Report Builder.
+
+Build and approve these in small groups, not all at once.
+
+Mandatory page contract
+
+Every page needs a structured specification containing:
+
+	●	Stable page ID, title, release, roles
+	●	Primary business question and decision
+	●	Primary/secondary actions
+	●	KPIs, charts, tables, filters, and drill-downs
+	●	Entities and centralized metrics used
+	●	Proposed API requirements
+	●	Permissions and approval requirements
+	●	Agent behavior
+	●	Loading, empty, error, stale, partial-data, and restricted states
+	●	Analytics events
+	●	Accessibility and responsive behavior
+	●	Dependencies and responsible pod
+	●	Objective acceptance criteria
+	●	Implementation, simulation, and production-readiness status
+
+Visualization rules
+
+Use charts only when they improve comprehension. Every visualization needs a title, description, units, time range, freshness, tooltips, accessible representation, loading/empty/error states, and drill-down behavior where relevant. Do not add decorative graphs.
+
+Agent transparency
+
+For consequential actions, expose the agent, goal, inputs, memory/context, tools, output, evidence, confidence, cost, latency, evaluation, approval, business outcome, and audit history.
+
+Use explicit states: Suggested, Awaiting Approval, Approved, Running, Completed, Failed, Rejected, Paused, Overridden.
+
+Synthetic data
+
+Create a believable account with multiple channels, campaigns, ads, leads, customers, conversations, appointments, opportunities, orders, products, live sessions, creators, agent/workflow runs, alerts, and recommendations. Include anomalies and failures.
+
+Centralize fixtures behind repositories/service adapters. UI components must not import raw fixtures directly, so real APIs can replace simulation without rebuilding the UI.
+
+Technical direction
+
+Inspect the existing repository before proposing changes. Prefer established conventions. If foundations are absent, prefer React, Next.js, TypeScript, Tailwind, Shadcn UI, Recharts or ECharts, Supabase-compatible boundaries, Zod, Storybook where useful, Playwright, Vitest/current test framework, PostHog-compatible events, and Sentry-compatible error boundaries.
+
+Organize around routes, features, components, visualizations, domain, metrics, adapters, fixtures, services, permissions, analytics, tests, and product specifications. Adapt to the repository rather than creating a duplicate architecture. Document significant new dependencies.
+
+Lovable and Cursor responsibilities
+
+Lovable handles rapid composition, layouts, navigation, responsive exploration, forms, interactions, variants, and visual refinement.
+
+Cursor handles architecture, reusable components, complex charts, schemas, adapters, fixtures, state, refactoring, testing, accessibility, performance, documentation, and roadmap generation.
+
+Lovable changes may arrive through Git sync. Strengthen them without needlessly rewriting approved visual work.
+
+Page-by-page workflow
+
+	1.	Define the page contract.
+	2.	Confirm role and release boundary.
+	3.	Identify metrics and data.
+	4.	Prepare an exact Lovable prompt if needed.
+	5.	Implement/import the page.
+	6.	Refactor into reusable components.
+	7.	Connect deterministic synthetic data through an adapter.
+	8.	Add loading, empty, error, stale, partial, and permission states.
+	9.	Test critical interactions.
+	10.	Document proposed APIs.
+	11.	Write acceptance criteria.
+	12.	Present a concise review.
+	13.	Wait for approval before locking or expanding scope.
+
+Change control
+
+Inspect the working tree, preserve user changes, avoid unrelated refactors, never delete work without approval, and track approved/unapproved pages separately. Maintain an architecture-decision record, product-decision log, metric dictionary, page inventory, and implementation-status matrix.
+
+Definition of done
+
+A page is complete only when it serves a defined decision, matches the design system, uses centralized metrics and typed adapter data, contains realistic fixtures, has working filters/drill-downs and all states, is responsive and accessible, has tested critical interactions, complete API notes and acceptance criteria, visible V1–V4 status, and clearly distinguishes simulation from production behavior.
+
+Immediate assignment
+
+Do not build all 16 sections yet.
+
+	1.	Inspect the full repository, packages, routes, components, data layer, styling, Lovable code, tests, and documentation.
+	2.	Do not overwrite or remove existing work.
+	3.	Report the current stack, routes, reusable components, charts, data sources, auth/permissions, tests, technical debt, and missing foundations.
+	4.	Propose the smallest Digital Twin architecture.
+	5.	Produce the 16-section navigation tree.
+	6.	Produce the V1–V4 page inventory and implementation-status matrix.
+	7.	Draft the domain model, canonical event schema, and metric registry.
+	8.	Define the first revenue vertical slice in implementation order.
+	9.	Identify decisions requiring confirmation.
+	10.	Stop and present the audit and proposed milestone before major implementation.
+
+After approval, the first milestone is:
+
+Application shell + design system + synthetic-data adapter + Executive Overview + complete revenue vertical-slice drill-down.
+
+Lead with repository evidence. Do not return a generic plan that ignores the existing codebase.
