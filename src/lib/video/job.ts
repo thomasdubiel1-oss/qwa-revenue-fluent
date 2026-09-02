@@ -3,13 +3,7 @@
  * a future Postgres schema (video_jobs / video_job_attempts), so swapping the
  * in-memory store for Lovable Cloud later touches only the store module.
  */
-import type {
-  JobState,
-  ProviderAttempt,
-  ProviderId,
-  VideoJob,
-  VideoJobRequest,
-} from "./types";
+import type { JobState, ProviderAttempt, ProviderId, VideoJob, VideoJobRequest } from "./types";
 import { canPublish } from "./usage-rights";
 
 export const JOB_STATES: JobState[] = [
@@ -88,10 +82,7 @@ export function advanceJob(job: VideoJob, to: JobState, reason?: string): VideoJ
   if (!canTransition(job.state, to)) {
     throw new Error(`Illegal job transition: ${job.state} → ${to}`);
   }
-  if (
-    (to === "ready_for_publish" || to === "ready") &&
-    !canPublish(job.usageRightsStatus)
-  ) {
+  if ((to === "ready_for_publish" || to === "ready") && !canPublish(job.usageRightsStatus)) {
     throw new Error(
       `Job ${job.id} cannot reach "${to}": usage rights are "${job.usageRightsStatus}". Record a commercial clearance first.`,
     );

@@ -206,7 +206,6 @@ function gateFor(
   return { allowed: true, reasonCode: REASON_CODES.ELIGIBLE };
 }
 
-
 /** Phase 9: the governed active configuration, with the Phase 8 baseline fallback. */
 async function effectiveConfig() {
   const { loadActiveConfig } = await import("./governance.server");
@@ -219,7 +218,6 @@ async function snapshot(sla?: Partial<SlaThresholds> | undefined) {
   const queue = await loadWorkQueue({ ...config.sla, ...(sla ?? {}) });
   return queue.items;
 }
-
 
 async function loadBookkeeping(leadIds: string[]) {
   const db = await admin();
@@ -334,12 +332,17 @@ export async function loadAutomationState(input?: {
   const windowExecutions = executions.filter((e) => e.created_at >= windowStart);
   const counts: AutomationCounts = {
     eligible: recommendations.length,
-    recommended: recommendations.filter((r) => r.recommendationStatus === "pending" || r.recommendationStatus === "recommended").length,
+    recommended: recommendations.filter(
+      (r) => r.recommendationStatus === "pending" || r.recommendationStatus === "recommended",
+    ).length,
     approved: recommendations.filter((r) => r.recommendationStatus === "approved").length,
     dismissed: recommendations.filter((r) => r.recommendationStatus === "dismissed").length,
     snoozed: recommendations.filter((r) => r.recommendationStatus === "snoozed").length,
-    autoExecuted: windowExecutions.filter((e) => e.outcome === "executed" && e.playbook_key !== "control_plane").length,
-    blocked: windowExecutions.filter((e) => e.outcome === "blocked" || e.outcome === "skipped").length,
+    autoExecuted: windowExecutions.filter(
+      (e) => e.outcome === "executed" && e.playbook_key !== "control_plane",
+    ).length,
+    blocked: windowExecutions.filter((e) => e.outcome === "blocked" || e.outcome === "skipped")
+      .length,
     failed: windowExecutions.filter((e) => e.outcome === "failed").length,
   };
 
@@ -360,7 +363,9 @@ export async function loadAutomationState(input?: {
       maxExecutionsPerLead: p.maxExecutionsPerLead,
       enabled: p.enabled,
       eligible: mine.length,
-      pending: mine.filter((m) => m.recommendationStatus === "pending" || m.recommendationStatus === "recommended").length,
+      pending: mine.filter(
+        (m) => m.recommendationStatus === "pending" || m.recommendationStatus === "recommended",
+      ).length,
       executed: execs.filter((e) => e.outcome === "executed").length,
       blocked: blocked.filter((b) => b.playbookKey === p.key).length,
       lastExecutedAt: execs.find((e) => e.outcome === "executed")?.created_at ?? null,
@@ -377,9 +382,7 @@ export async function loadAutomationState(input?: {
     outcome: e.outcome as ExecutionOutcome,
     reasonCode: e.reason_code,
     detail:
-      e.detail && typeof e.detail === "object"
-        ? JSON.stringify(e.detail).slice(0, 300)
-        : null,
+      e.detail && typeof e.detail === "object" ? JSON.stringify(e.detail).slice(0, 300) : null,
     createdAt: e.created_at,
   }));
 
@@ -450,7 +453,11 @@ export async function decideRecommendation(input: {
   if (!match) return { ok: false as const, error: "not_eligible" };
 
   const status: RecommendationStatus =
-    input.decision === "approve" ? "approved" : input.decision === "dismiss" ? "dismissed" : "snoozed";
+    input.decision === "approve"
+      ? "approved"
+      : input.decision === "dismiss"
+        ? "dismissed"
+        : "snoozed";
 
   const id = await ensureRecommendation(match, status);
   if (!id) return { ok: false as const, error: "write_failed" };
@@ -469,7 +476,11 @@ export async function decideRecommendation(input: {
     input.leadId,
     `automation_${input.decision}`,
     `${match.playbook.name} — ${input.decision}`,
-    { playbook: match.playbook.key, version: match.playbook.version, execution_key: match.executionKey },
+    {
+      playbook: match.playbook.key,
+      version: match.playbook.version,
+      execution_key: match.executionKey,
+    },
   );
 
   await logExecution({
@@ -503,7 +514,8 @@ async function performAction(match: PlaybookMatch, mode: AutomationMode) {
     return created.ok;
   }
 
-  const type = match.action.type === "flag_review" ? "automation_flagged_review" : "automation_note";
+  const type =
+    match.action.type === "flag_review" ? "automation_flagged_review" : "automation_note";
   await logWorkflowActivity(
     match.item.leadId,
     type,
@@ -563,7 +575,6 @@ export async function runAutomation(options: { dryRun: boolean }): Promise<{
       now,
       runConfig.playbooks[match.playbook.key],
     );
-
 
     if (!gate.allowed) {
       skipped.push({

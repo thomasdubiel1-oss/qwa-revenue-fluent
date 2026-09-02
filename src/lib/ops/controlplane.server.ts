@@ -6,11 +6,7 @@
  * metrics, and every anomaly below is a plain arithmetic rule stated in full.
  */
 import type { AutomationState } from "./automation.types";
-import type {
-  AnomalySignal,
-  ControlPlaneState,
-  ExecutionOutcomeTally,
-} from "./controlplane.types";
+import type { AnomalySignal, ControlPlaneState, ExecutionOutcomeTally } from "./controlplane.types";
 import type { WorkQueueResult } from "./workflow.types";
 
 const HOUR = 3_600_000;

@@ -52,7 +52,6 @@ export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
     },
   },
 
-
   {
     id: "revenue-engine-loop",
     route: "/products/revenue-engine",
@@ -147,8 +146,7 @@ export const FLAGSHIP_MEDIA: FlagshipMediaAsset[] = [
     usageRightsStatus: "unknown",
     shotBrief:
       "Requires a genuine recorded call with documented consent from both parties. Do not synthesise a fake customer.",
-    notes:
-      "Intentionally not rendered. A synthetic 'customer call' would be a fabricated claim.",
+    notes: "Intentionally not rendered. A synthetic 'customer call' would be a fabricated claim.",
     source: null,
   },
   {

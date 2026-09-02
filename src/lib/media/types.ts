@@ -90,7 +90,6 @@ export interface MediaStill {
   notes?: string;
 }
 
-
 export interface FlagshipMediaAsset {
   id: string;
   /** Public route this slot lives on. */
@@ -131,5 +130,4 @@ export interface FlagshipMediaAsset {
 
   /** Approved external still. `null` until an image is produced AND cleared. */
   still?: MediaStill | null;
-
 }

@@ -41,7 +41,9 @@ export function getConsent(): ConsentState {
   if (cached) return cached;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    cached = raw ? { ...DEFAULT_CONSENT, ...(JSON.parse(raw) as Partial<ConsentState>) } : DEFAULT_CONSENT;
+    cached = raw
+      ? { ...DEFAULT_CONSENT, ...(JSON.parse(raw) as Partial<ConsentState>) }
+      : DEFAULT_CONSENT;
   } catch {
     cached = DEFAULT_CONSENT;
   }

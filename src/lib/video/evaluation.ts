@@ -21,7 +21,7 @@ export const EVALUATION_DIMENSIONS = [
 
 export type EvaluationDimension = (typeof EVALUATION_DIMENSIONS)[number];
 
-export interface EvaluationScores extends Record<EvaluationDimension, number> {}
+export type EvaluationScores = Record<EvaluationDimension, number>;
 
 export interface EvaluationResult {
   attemptProviderId: ProviderAttempt["providerId"];
@@ -61,10 +61,7 @@ function pseudoScore(seed: string): number {
   return 0.55 + (Math.abs(h) % 400) / 1000; // 0.55 – 0.95
 }
 
-export function mockScores(
-  request: VideoJobRequest,
-  providerId: string,
-): EvaluationScores {
+export function mockScores(request: VideoJobRequest, providerId: string): EvaluationScores {
   const scores = {} as EvaluationScores;
   for (const dim of EVALUATION_DIMENSIONS) {
     scores[dim] = Number(pseudoScore(`${providerId}:${dim}:${request.aspectRatio}`).toFixed(3));

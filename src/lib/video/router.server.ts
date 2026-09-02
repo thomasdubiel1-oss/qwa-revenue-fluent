@@ -93,9 +93,7 @@ async function buildPlanningStages(request: VideoJobRequest): Promise<PlanningSt
   });
 }
 
-export async function buildScoringContexts(
-  request: VideoJobRequest,
-): Promise<ScoringContext[]> {
+export async function buildScoringContexts(request: VideoJobRequest): Promise<ScoringContext[]> {
   const adapters = listShotAdapters();
   const statuses = await Promise.all(adapters.map((a) => a.getStatus()));
   return adapters.map((adapter, i) => ({
@@ -113,8 +111,7 @@ export async function planRoute(
 ): Promise<RoutingPlan> {
   const request = normalizeJobRequest(input);
   const preset =
-    WORKFLOW_PRESETS[input.presetId ?? "low_cost_prototype"] ??
-    WORKFLOW_PRESETS.low_cost_prototype;
+    WORKFLOW_PRESETS[input.presetId ?? "low_cost_prototype"] ?? WORKFLOW_PRESETS.low_cost_prototype;
   const strategy = preset.strategy;
   const planning = await buildPlanningStages(request);
   const ranked = rankProviders(await buildScoringContexts(request), heuristics);
@@ -169,7 +166,12 @@ export async function planRoute(
           "Assemble the full spot from prototype material first.",
           "Score each shot; only shots below the quality threshold escalate.",
           primary
-            ? `Escalated shots route to ${primary.displayName}, then ${eligible.slice(1, 3).map((r) => r.displayName).join(" → ") || "no fallback"}.`
+            ? `Escalated shots route to ${primary.displayName}, then ${
+                eligible
+                  .slice(1, 3)
+                  .map((r) => r.displayName)
+                  .join(" → ") || "no fallback"
+              }.`
             : "No eligible premium provider for escalation.",
           "Prototype material never ships: it is replaced or cleared before publish.",
         ]

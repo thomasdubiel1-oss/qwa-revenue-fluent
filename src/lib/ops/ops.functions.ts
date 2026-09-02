@@ -7,13 +7,7 @@
  */
 import { createServerFn } from "@tanstack/react-start";
 
-import type {
-  OpsFilters,
-  OpsLeadDetail,
-  OpsLeadRow,
-  OpsOverview,
-  OpsResponse,
-} from "./types";
+import type { OpsFilters, OpsLeadDetail, OpsLeadRow, OpsOverview, OpsResponse } from "./types";
 
 type KeyedInput<T> = T & { key?: string | undefined };
 

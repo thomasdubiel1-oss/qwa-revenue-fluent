@@ -75,7 +75,8 @@ export const PLAYBOOKS: PlaybookDefinition[] = [
     version: 1,
     name: "Contacted follow-up",
     intent: "A contacted lead never sits without a scheduled next action.",
-    triggerText: "status = contacted AND no open task AND (due soon OR overdue vs follow-up target)",
+    triggerText:
+      "status = contacted AND no open task AND (due soon OR overdue vs follow-up target)",
     stopText: "an open task already exists, or status has moved on",
     action: {
       type: "create_task",
@@ -150,7 +151,8 @@ export const PLAYBOOKS: PlaybookDefinition[] = [
     action: {
       type: "log_activity",
       title: "Delivery pending past target",
-      detail: "Recorded an operational activity entry so the delay is visible on the lead timeline.",
+      detail:
+        "Recorded an operational activity entry so the delay is visible on the lead timeline.",
     },
     slaHoursLabel: "failure attention target",
     priorityBoost: 10,

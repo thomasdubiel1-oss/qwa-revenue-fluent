@@ -129,8 +129,7 @@ export const HOME_HERO_STORYBOARD: StoryboardPackage = {
         "A small deep-teal marker travels smoothly left to right along a fine dark horizontal line on paper white, passing four subtle notches; each notch it passes darkens from light grey to ink. Measured, confident cadence with micro-pauses. Static camera, shallow depth, soft studio light. Restrained and precise.",
       negative:
         "no trailing comet tail, no glow trail, no bouncing, no acceleration spikes, no icons, no labels",
-      continuity:
-        "Marker size and teal value must match the accent introduced in shot 3 exactly.",
+      continuity: "Marker size and teal value must match the accent introduced in shot 3 exactly.",
     },
     {
       n: 5,

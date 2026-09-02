@@ -74,7 +74,6 @@ export const Route = createFileRoute("/internal/leads")({
   component: LeadOpsConsole,
 });
 
-
 const KEY_STORAGE = "qwa:ops-key";
 
 function useOpsKey() {
@@ -222,8 +221,7 @@ function LeadOpsConsole() {
   };
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { id: string; status: string }) =>
-      setStatusFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; status: string }) => setStatusFn({ data: { key, ...vars } }),
     onSuccess: invalidate,
   });
 
@@ -296,9 +294,10 @@ function LeadOpsConsole() {
         >
           <div className="max-w-2xl space-y-3 text-sm text-muted-foreground">
             <p>
-              This console reads lead PII exclusively through server-side, service-role queries.
-              It stays inert until an access secret named <code className="text-foreground">INTERNAL_OPS_TOKEN</code>{" "}
-              (32+ random characters) is added in Project Settings → Secrets.
+              This console reads lead PII exclusively through server-side, service-role queries. It
+              stays inert until an access secret named{" "}
+              <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
+              added in Project Settings → Secrets.
             </p>
             <p>
               No users, passwords, or accounts have been invented. When a full auth layer is
@@ -317,7 +316,10 @@ function LeadOpsConsole() {
   if (!key || denied) {
     return (
       <OpsShell title="Lead Operations" subtitle="Internal access required">
-        <Panel title="Enter operator access key" description="Session-scoped. Never stored on disk.">
+        <Panel
+          title="Enter operator access key"
+          description="Session-scoped. Never stored on disk."
+        >
           <form
             className="flex max-w-lg flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
@@ -372,12 +374,19 @@ function LeadOpsConsole() {
     >
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
         <StatCard label="Total leads" value={summary?.totalLeads ?? "—"} hint="All time" />
-        <StatCard label="New" value={summary?.newLeads ?? "—"} hint="Awaiting triage" tone="signal" />
+        <StatCard
+          label="New"
+          value={summary?.newLeads ?? "—"}
+          hint="Awaiting triage"
+          tone="signal"
+        />
         <StatCard label="Last 7 days" value={summary?.last7Days ?? "—"} />
         <StatCard
           label="CRM pending"
           value={summary?.delivery.pending ?? "—"}
-          hint={summary?.destinationConfigured ? "Destination configured" : "No destination configured"}
+          hint={
+            summary?.destinationConfigured ? "Destination configured" : "No destination configured"
+          }
         />
         <StatCard label="CRM sent" value={summary?.delivery.sent ?? "—"} />
         <StatCard
@@ -439,7 +448,10 @@ function LeadOpsConsole() {
           label="Delivery"
           value={filters.delivery ?? "all"}
           onChange={(v) => setFilters((f) => ({ ...f, delivery: v }))}
-          options={["all", "pending", "sent", "failed", "none"].map((v) => ({ value: v, label: v }))}
+          options={["all", "pending", "sent", "failed", "none"].map((v) => ({
+            value: v,
+            label: v,
+          }))}
         />
         <Select
           label="Source"
@@ -669,7 +681,9 @@ function LeadOpsConsole() {
                               </span>
                             </div>
                             <p className="mt-1 text-xs">{rec.action.title}</p>
-                            <p className="text-[0.68rem] text-muted-foreground">{rec.explanation}</p>
+                            <p className="text-[0.68rem] text-muted-foreground">
+                              {rec.explanation}
+                            </p>
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {(["approve", "snooze", "dismiss"] as const).map((decision) => (
                                 <Button
@@ -729,8 +743,7 @@ function LeadOpsConsole() {
                     </div>
                     <p className="mt-1 text-[0.68rem] text-muted-foreground">
                       Archive and disqualify require a second confirming click. Every change is
-                      recorded on the activity timeline under{" "}
-                      <code>internal_operator</code>.
+                      recorded on the activity timeline under <code>internal_operator</code>.
                     </p>
                   </div>
 

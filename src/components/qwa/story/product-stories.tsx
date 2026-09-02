@@ -38,7 +38,11 @@ export function RevenueEngineStory() {
       >
         <StoryJourney
           stages={revenueStages}
-          returnPath={{ from: 6, to: 0, label: "Revenue attributed back · quiet leads reactivated" }}
+          returnPath={{
+            from: 6,
+            to: 0,
+            label: "Revenue attributed back · quiet leads reactivated",
+          }}
         />
       </StoryFrame>
     </FlagshipMedia>

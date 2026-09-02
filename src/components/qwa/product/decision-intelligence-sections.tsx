@@ -112,7 +112,9 @@ export function NextBestActionSection() {
     >
       <ProductPanel title="Record · CU-40277" meta="next best action" footer={<IllustrativeNote />}>
         <PanelBlock label="Recommended">
-          <p className="text-[0.9375rem] font-medium">Call within 30 minutes; do not send SMS first.</p>
+          <p className="text-[0.9375rem] font-medium">
+            Call within 30 minutes; do not send SMS first.
+          </p>
           <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-foreground">
             Two inbound calls in the last hour, no reply to prior SMS, high-value category.
           </p>
@@ -133,11 +135,31 @@ export function NextBestActionSection() {
  * ---------------------------------------------------------------------- */
 
 const ladder = [
-  { level: "L0", name: "Observe", body: "The system reports. It proposes nothing and changes nothing." },
-  { level: "L1", name: "Recommend", body: "Actions are proposed with reasoning; a person executes them." },
-  { level: "L2", name: "Approve", body: "The system prepares the change; a named approver releases it." },
-  { level: "L3", name: "Act within bounds", body: "The system acts inside explicit limits and logs every change." },
-  { level: "L4", name: "Act and report", body: "Reserved for low-risk, fully reversible, well-evidenced actions." },
+  {
+    level: "L0",
+    name: "Observe",
+    body: "The system reports. It proposes nothing and changes nothing.",
+  },
+  {
+    level: "L1",
+    name: "Recommend",
+    body: "Actions are proposed with reasoning; a person executes them.",
+  },
+  {
+    level: "L2",
+    name: "Approve",
+    body: "The system prepares the change; a named approver releases it.",
+  },
+  {
+    level: "L3",
+    name: "Act within bounds",
+    body: "The system acts inside explicit limits and logs every change.",
+  },
+  {
+    level: "L4",
+    name: "Act and report",
+    body: "Reserved for low-risk, fully reversible, well-evidenced actions.",
+  },
 ];
 
 export function AutonomyLadderSection() {
@@ -182,7 +204,9 @@ export function AutonomyLadderSection() {
                       <span className="text-data text-[0.7rem] text-signal">{l.level}</span>
                       <span className="text-[1.0625rem] font-medium">{l.name}</span>
                     </div>
-                    <p className="text-[0.875rem] leading-relaxed text-ink-foreground/60">{l.body}</p>
+                    <p className="text-[0.875rem] leading-relaxed text-ink-foreground/60">
+                      {l.body}
+                    </p>
                   </motion.li>
                 ))}
               </ol>
@@ -248,10 +272,26 @@ export function GuardrailSection() {
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Spend ceiling", value: "Per decision", caption: "No action can exceed the limit set for its type." },
-          { label: "Rate limit", value: "Per window", caption: "Frequency of automated change is capped." },
-          { label: "Blast radius", value: "Scoped", caption: "Changes apply to a defined segment, never the whole book." },
-          { label: "Rollback", value: "One click", caption: "Every automated change has a tested reverse path." },
+          {
+            label: "Spend ceiling",
+            value: "Per decision",
+            caption: "No action can exceed the limit set for its type.",
+          },
+          {
+            label: "Rate limit",
+            value: "Per window",
+            caption: "Frequency of automated change is capped.",
+          },
+          {
+            label: "Blast radius",
+            value: "Scoped",
+            caption: "Changes apply to a defined segment, never the whole book.",
+          },
+          {
+            label: "Rollback",
+            value: "One click",
+            caption: "Every automated change has a tested reverse path.",
+          },
         ].map((s) => (
           <StatCell key={s.label} {...s} />
         ))}
@@ -264,10 +304,34 @@ export function GuardrailSection() {
 /* ---------------------------------------------------------------------- */
 
 const history = [
-  { id: "DC-9038", action: "Paused creative variant D", by: "System · L3", result: "CAC −4.1%", state: "Kept" },
-  { id: "DC-9031", action: "Extended reminder window to 24h", by: "M. Alvarez", result: "No-show −6 pts", state: "Kept" },
-  { id: "DC-9024", action: "Raised outbound cadence", by: "System · L3", result: "Opt-out +2.3 pts", state: "Rolled back" },
-  { id: "DC-9019", action: "Reallocated $4k to search", by: "VP Revenue", result: "Inconclusive", state: "Kept" },
+  {
+    id: "DC-9038",
+    action: "Paused creative variant D",
+    by: "System · L3",
+    result: "CAC −4.1%",
+    state: "Kept",
+  },
+  {
+    id: "DC-9031",
+    action: "Extended reminder window to 24h",
+    by: "M. Alvarez",
+    result: "No-show −6 pts",
+    state: "Kept",
+  },
+  {
+    id: "DC-9024",
+    action: "Raised outbound cadence",
+    by: "System · L3",
+    result: "Opt-out +2.3 pts",
+    state: "Rolled back",
+  },
+  {
+    id: "DC-9019",
+    action: "Reallocated $4k to search",
+    by: "VP Revenue",
+    result: "Inconclusive",
+    state: "Kept",
+  },
 ];
 
 export function DecisionHistorySection() {
@@ -322,11 +386,31 @@ export function DecisionHistorySection() {
 /* ---------------------------------------------------------------------- */
 
 const diGovernance = [
-  { control: "Autonomy level", held: "Executive sponsor", detail: "Set per decision type; raising a level is an explicit, logged change." },
-  { control: "Approval routing", held: "Named approvers", detail: "Each decision type routes to a person, never to a shared inbox." },
-  { control: "Limits", held: "Finance / operations", detail: "Ceilings, rate limits and segment scope defined before autonomy is granted." },
-  { control: "Rollback", held: "Any approver", detail: "Reversal available without engineering involvement." },
-  { control: "Audit", held: "System", detail: "Inputs, model version, bounds and outcome retained per decision." },
+  {
+    control: "Autonomy level",
+    held: "Executive sponsor",
+    detail: "Set per decision type; raising a level is an explicit, logged change.",
+  },
+  {
+    control: "Approval routing",
+    held: "Named approvers",
+    detail: "Each decision type routes to a person, never to a shared inbox.",
+  },
+  {
+    control: "Limits",
+    held: "Finance / operations",
+    detail: "Ceilings, rate limits and segment scope defined before autonomy is granted.",
+  },
+  {
+    control: "Rollback",
+    held: "Any approver",
+    detail: "Reversal available without engineering involvement.",
+  },
+  {
+    control: "Audit",
+    held: "System",
+    detail: "Inputs, model version, bounds and outcome retained per decision.",
+  },
 ];
 
 export function DecisionGovernanceSection() {
@@ -372,17 +456,36 @@ export function DecisionGovernanceSection() {
   );
 }
 
-
 /* -------------------------------------------------------------------------
  * Detect + frame — the evidence before the proposal.
  * ---------------------------------------------------------------------- */
 
 const evidence = [
-  { label: "Observed", value: "CAC gap of $193 between two channels", note: "Trailing 28 days, attributed revenue" },
-  { label: "Population", value: "214 closed-won records", note: "Coverage 80.6% · stated with the figure" },
-  { label: "Stability", value: "Holds across 3 of 4 weeks", note: "Week 2 excluded — feed degraded" },
-  { label: "Not explained by", value: "Seasonality or mix shift", note: "Checked against the same period last year" },
-  { label: "Confidence", value: "Medium", note: "No holdout yet; one variant drives most of the gap" },
+  {
+    label: "Observed",
+    value: "CAC gap of $193 between two channels",
+    note: "Trailing 28 days, attributed revenue",
+  },
+  {
+    label: "Population",
+    value: "214 closed-won records",
+    note: "Coverage 80.6% · stated with the figure",
+  },
+  {
+    label: "Stability",
+    value: "Holds across 3 of 4 weeks",
+    note: "Week 2 excluded — feed degraded",
+  },
+  {
+    label: "Not explained by",
+    value: "Seasonality or mix shift",
+    note: "Checked against the same period last year",
+  },
+  {
+    label: "Confidence",
+    value: "Medium",
+    note: "No holdout yet; one variant drives most of the gap",
+  },
 ];
 
 export function DetectSection() {

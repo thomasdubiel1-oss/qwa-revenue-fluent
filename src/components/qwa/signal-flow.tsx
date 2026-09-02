@@ -30,12 +30,28 @@ const sources: Source[] = [
 
 /** One pass of the loop, as the panel narrates it. */
 const phases = [
-  { key: "capture", node: "Interpreting signal", event: (s: Source) => `${s.label} signal captured · ${s.detail}` },
-  { key: "respond", node: "Responding in channel", event: (s: Source) => `First response sent · ${s.label} · 9.2s` },
-  { key: "qualify", node: "Qualifying", event: () => "Fit score 87 · budget, timing, service area" },
+  {
+    key: "capture",
+    node: "Interpreting signal",
+    event: (s: Source) => `${s.label} signal captured · ${s.detail}`,
+  },
+  {
+    key: "respond",
+    node: "Responding in channel",
+    event: (s: Source) => `First response sent · ${s.label} · 9.2s`,
+  },
+  {
+    key: "qualify",
+    node: "Qualifying",
+    event: () => "Fit score 87 · budget, timing, service area",
+  },
   { key: "book", node: "Booking", event: () => "Appointment set · Tue 10:20am" },
   { key: "sale", node: "Writing outcome", event: () => "Closed–won · $14,200" },
-  { key: "attribute", node: "Attributing revenue", event: (s: Source) => `$14,200 attributed to ${s.label}` },
+  {
+    key: "attribute",
+    node: "Attributing revenue",
+    event: (s: Source) => `$14,200 attributed to ${s.label}`,
+  },
 ] as const;
 
 const SOURCE_Y = (i: number) => (220 * (i + 0.5)) / sources.length;
@@ -92,7 +108,6 @@ export function SignalFlow({ className }: { className?: string }) {
           <p className="shrink-0 text-[0.75rem] text-muted-foreground">Illustrative simulation</p>
         </div>
 
-
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(3.5rem,0.62fr)_minmax(0,1fr)] items-stretch gap-2 pt-4 sm:gap-3">
           {/* Sources */}
           <ul className="grid content-between gap-1.5">
@@ -103,7 +118,9 @@ export function SignalFlow({ className }: { className?: string }) {
                   key={s.id}
                   className={cn(
                     "relative flex min-w-0 items-center justify-between gap-2 rounded-md border px-2.5 py-2 transition-colors duration-500 sm:px-3",
-                    isActive ? "border-signal/40 bg-signal-soft/60" : "border-hairline bg-transparent",
+                    isActive
+                      ? "border-signal/40 bg-signal-soft/60"
+                      : "border-hairline bg-transparent",
                   )}
                 >
                   <span className="flex min-w-0 items-center gap-2">
@@ -128,7 +145,6 @@ export function SignalFlow({ className }: { className?: string }) {
               );
             })}
           </ul>
-
 
           {/* Routing + intelligence node */}
           <div className="relative">
@@ -223,9 +239,7 @@ export function SignalFlow({ className }: { className?: string }) {
               { label: "Sale", value: sold ? "Closed–won" : "pending", on: sold },
               {
                 label: "Revenue",
-                value: attributed
-                  ? `$${attributedTotal.toLocaleString("en-US")}`
-                  : "attributing…",
+                value: attributed ? `$${attributedTotal.toLocaleString("en-US")}` : "attributing…",
                 on: attributed,
               },
             ].map((o) => (
@@ -233,7 +247,9 @@ export function SignalFlow({ className }: { className?: string }) {
                 key={o.label}
                 className={cn(
                   "min-w-0 rounded-lg border px-2.5 py-2.5 transition-colors duration-500 sm:px-3",
-                  o.on ? "border-hairline-strong bg-card shadow-card" : "border-hairline bg-card/40",
+                  o.on
+                    ? "border-hairline-strong bg-card shadow-card"
+                    : "border-hairline bg-card/40",
                 )}
               >
                 <p className="truncate text-[0.8rem] font-medium">{o.label}</p>

@@ -197,12 +197,36 @@ export function ResponseSection() {
  * ---------------------------------------------------------------------- */
 
 const offerRules = [
-  { label: "Trigger", value: "Buying intent > threshold", body: "Opened when classified intent in the room crosses the configured level." },
-  { label: "Inventory", value: "Checked live", body: "Never offered beyond what the system of record can actually fulfil." },
-  { label: "Margin floor", value: "Enforced", body: "Discount depth bounded by a floor your finance team sets." },
-  { label: "Duration", value: "Bounded", body: "Windows expire on a timer; no indefinite urgency theatre." },
-  { label: "Frequency", value: "Capped", body: "A viewer sees a limited number of windows per session." },
-  { label: "Override", value: "Host controls", body: "The host can close any window instantly, from the console." },
+  {
+    label: "Trigger",
+    value: "Buying intent > threshold",
+    body: "Opened when classified intent in the room crosses the configured level.",
+  },
+  {
+    label: "Inventory",
+    value: "Checked live",
+    body: "Never offered beyond what the system of record can actually fulfil.",
+  },
+  {
+    label: "Margin floor",
+    value: "Enforced",
+    body: "Discount depth bounded by a floor your finance team sets.",
+  },
+  {
+    label: "Duration",
+    value: "Bounded",
+    body: "Windows expire on a timer; no indefinite urgency theatre.",
+  },
+  {
+    label: "Frequency",
+    value: "Capped",
+    body: "A viewer sees a limited number of windows per session.",
+  },
+  {
+    label: "Override",
+    value: "Host controls",
+    body: "The host can close any window instantly, from the console.",
+  },
 ];
 
 export function OfferSection() {
@@ -312,10 +336,26 @@ export function HostConsoleSection() {
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Room pulse", value: "Live", caption: "Classified questions and intent, summarised as they arrive." },
-          { label: "Queued action", value: "Visible", caption: "The next engine action is shown before it fires." },
-          { label: "Kill switch", value: "One tap", caption: "Close any offer window or pause automation instantly." },
-          { label: "Sell-through", value: "Per SKU", caption: "What is moving, against inventory, in the moment." },
+          {
+            label: "Room pulse",
+            value: "Live",
+            caption: "Classified questions and intent, summarised as they arrive.",
+          },
+          {
+            label: "Queued action",
+            value: "Visible",
+            caption: "The next engine action is shown before it fires.",
+          },
+          {
+            label: "Kill switch",
+            value: "One tap",
+            caption: "Close any offer window or pause automation instantly.",
+          },
+          {
+            label: "Sell-through",
+            value: "Per SKU",
+            caption: "What is moving, against inventory, in the moment.",
+          },
         ].map((s) => (
           <StatCell key={s.label} {...s} />
         ))}
@@ -367,11 +407,31 @@ export function PostStreamSection() {
 /* ---------------------------------------------------------------------- */
 
 const commerceGovernance = [
-  { control: "Discount policy", held: "Finance", detail: "Margin floors and maximum depth set before any window can open." },
-  { control: "Claim boundaries", held: "Brand / legal", detail: "Topics the engine may never answer are blocked, not merely discouraged." },
-  { control: "Inventory truth", held: "Commerce system", detail: "Offers are constrained by the system of record, never by a cached count." },
-  { control: "Host override", held: "Host", detail: "Any automated action can be paused or closed live from the console." },
-  { control: "Session record", held: "System", detail: "Transcript, offers, orders and decisions retained for review." },
+  {
+    control: "Discount policy",
+    held: "Finance",
+    detail: "Margin floors and maximum depth set before any window can open.",
+  },
+  {
+    control: "Claim boundaries",
+    held: "Brand / legal",
+    detail: "Topics the engine may never answer are blocked, not merely discouraged.",
+  },
+  {
+    control: "Inventory truth",
+    held: "Commerce system",
+    detail: "Offers are constrained by the system of record, never by a cached count.",
+  },
+  {
+    control: "Host override",
+    held: "Host",
+    detail: "Any automated action can be paused or closed live from the console.",
+  },
+  {
+    control: "Session record",
+    held: "System",
+    detail: "Transcript, offers, orders and decisions retained for review.",
+  },
 ];
 
 export function CommerceGovernanceSection() {

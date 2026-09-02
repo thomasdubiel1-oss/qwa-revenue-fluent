@@ -13,11 +13,7 @@ import type {
 export const DURATION_TARGETS: DurationTarget[] = [15, 30, 60];
 export const ASPECT_RATIOS: AspectRatio[] = ["16:9", "9:16", "1:1"];
 export const QUALITY_TIERS: QualityTier[] = ["efficient", "balanced", "premium"];
-export const LATENCY_PREFERENCES: LatencyPreference[] = [
-  "fastest",
-  "balanced",
-  "quality-first",
-];
+export const LATENCY_PREFERENCES: LatencyPreference[] = ["fastest", "balanced", "quality-first"];
 
 const MAX_OUTPUTS = 4;
 
@@ -25,8 +21,7 @@ const MAX_OUTPUTS = 4;
 export function normalizeDuration(value: number | undefined): DurationTarget {
   if (typeof value !== "number" || !Number.isFinite(value)) return 30;
   return DURATION_TARGETS.reduce<DurationTarget>(
-    (best, candidate) =>
-      Math.abs(candidate - value) < Math.abs(best - value) ? candidate : best,
+    (best, candidate) => (Math.abs(candidate - value) < Math.abs(best - value) ? candidate : best),
     DURATION_TARGETS[0]!,
   );
 }

@@ -32,7 +32,6 @@ import { cn } from "@/lib/utils";
 /** Attention slices deep-linked from the Revenue Intelligence console. */
 type WorkQueueView = "overdue" | "due" | "tasks";
 
-
 export const Route = createFileRoute("/internal/work-queue")({
   ssr: false,
   head: () => internalHead("Operator Work Queue — QWA Internal"),
@@ -140,7 +139,10 @@ function WorkQueueConsole() {
   });
   const automation = automationQuery.data?.ok ? automationQuery.data.data : null;
   const recsByLead = React.useMemo(() => {
-    const map = new Map<string, { name: string; action: string; status: string; boost: number }[]>();
+    const map = new Map<
+      string,
+      { name: string; action: string; status: string; boost: number }[]
+    >();
     for (const rec of automation?.recommendations ?? []) {
       const list = map.get(rec.leadId) ?? [];
       list.push({
@@ -168,7 +170,8 @@ function WorkQueueConsole() {
     onSuccess: invalidate,
   });
 
-  const denied = queueQuery.data && queueQuery.data.ok === false && queueQuery.data.access.state === "denied";
+  const denied =
+    queueQuery.data && queueQuery.data.ok === false && queueQuery.data.access.state === "denied";
   const unconfigured = configured.data?.configured === false;
   const result = queueQuery.data?.ok ? queueQuery.data.data : null;
 
@@ -178,8 +181,10 @@ function WorkQueueConsole() {
     if (onlyOverdue) rows = rows.filter((r) => r.overdue);
     if (view === "due") rows = rows.filter((r) => r.dueSoon || r.overdue);
     if (view === "tasks") rows = rows.filter((r) => r.openTasks > 0);
-    if (sort === "oldest") rows = [...rows].sort((a, b) => (a.submittedAt < b.submittedAt ? -1 : 1));
-    if (sort === "newest") rows = [...rows].sort((a, b) => (a.submittedAt > b.submittedAt ? -1 : 1));
+    if (sort === "oldest")
+      rows = [...rows].sort((a, b) => (a.submittedAt < b.submittedAt ? -1 : 1));
+    if (sort === "newest")
+      rows = [...rows].sort((a, b) => (a.submittedAt > b.submittedAt ? -1 : 1));
     return rows;
   }, [result, queue, onlyOverdue, view, sort]);
 
@@ -195,8 +200,8 @@ function WorkQueueConsole() {
             stays inert until a secret named{" "}
             <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
             added in Project Settings → Secrets. No users or passwords have been invented; when a
-            real auth layer arrives only{" "}
-            <code className="text-foreground">checkOpsAccess</code> changes.
+            real auth layer arrives only <code className="text-foreground">checkOpsAccess</code>{" "}
+            changes.
           </p>
         </Panel>
       </OpsShell>
@@ -206,7 +211,10 @@ function WorkQueueConsole() {
   if (!key || denied) {
     return (
       <OpsShell title="Operator Work Queue" subtitle="Internal access required">
-        <Panel title="Enter operator access key" description="Session-scoped. Never stored on disk.">
+        <Panel
+          title="Enter operator access key"
+          description="Session-scoped. Never stored on disk."
+        >
           <form
             className="flex max-w-lg flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
@@ -272,15 +280,32 @@ function WorkQueueConsole() {
           hint="Past operational target"
           tone={(s?.overdue ?? 0) > 0 ? "warn" : "default"}
         />
-        <StatCard label="Due soon" value={s?.dueNow ?? "—"} hint="Final quarter of target" tone="signal" />
-        <StatCard label="Stale new" value={s?.staleNew ?? "—"} hint={`> ${sla.staleNewHours}h in new`} />
+        <StatCard
+          label="Due soon"
+          value={s?.dueNow ?? "—"}
+          hint="Final quarter of target"
+          tone="signal"
+        />
+        <StatCard
+          label="Stale new"
+          value={s?.staleNew ?? "—"}
+          hint={`> ${sla.staleNewHours}h in new`}
+        />
         <StatCard
           label="Delivery failures"
           value={s?.deliveryFailures ?? "—"}
           tone={(s?.deliveryFailures ?? 0) > 0 ? "warn" : "default"}
         />
-        <StatCard label="Tasks due today" value={s?.tasksDueToday ?? "—"} hint={`${s?.openTasks ?? 0} open`} />
-        <StatCard label="Open items" value={s?.totalOpen ?? "—"} hint="Excludes archived / disqualified" />
+        <StatCard
+          label="Tasks due today"
+          value={s?.tasksDueToday ?? "—"}
+          hint={`${s?.openTasks ?? 0} open`}
+        />
+        <StatCard
+          label="Open items"
+          value={s?.totalOpen ?? "—"}
+          hint="Excludes archived / disqualified"
+        />
       </div>
 
       <div className="mt-6 grid gap-3 lg:grid-cols-3">
@@ -387,14 +412,16 @@ function WorkQueueConsole() {
         <table className="w-full min-w-[62rem] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border/70 text-left">
-              {["Priority", "Queue", "Lead", "Status", "Age", "SLA", "Delivery", "Tasks", ""].map((h) => (
-                <th
-                  key={h}
-                  className="whitespace-nowrap px-3 py-2.5 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-muted-foreground"
-                >
-                  {h}
-                </th>
-              ))}
+              {["Priority", "Queue", "Lead", "Status", "Age", "SLA", "Delivery", "Tasks", ""].map(
+                (h) => (
+                  <th
+                    key={h}
+                    className="whitespace-nowrap px-3 py-2.5 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-muted-foreground"
+                  >
+                    {h}
+                  </th>
+                ),
+              )}
             </tr>
           </thead>
           <tbody>
@@ -579,7 +606,11 @@ function WorkQueueConsole() {
                                   >
                                     Confirm archive
                                   </Button>
-                                  <Button size="sm" variant="ghost" onClick={() => setConfirmId(null)}>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => setConfirmId(null)}
+                                  >
                                     Cancel
                                   </Button>
                                 </>

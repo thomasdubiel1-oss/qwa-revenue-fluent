@@ -101,9 +101,7 @@ export function Panel({
     <section className={cn("rounded-xl border border-border/70 bg-card", className)}>
       <div className="border-b border-border/60 px-4 py-3">
         <h2 className="text-sm font-semibold tracking-[-0.01em]">{title}</h2>
-        {description ? (
-          <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
-        ) : null}
+        {description ? <p className="mt-0.5 text-xs text-muted-foreground">{description}</p> : null}
       </div>
       <div className="p-4">{children}</div>
     </section>
@@ -162,7 +160,9 @@ export function KeyValue({ label, value }: { label: string; value: React.ReactNo
       <span className="text-[0.62rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
         {label}
       </span>
-      <span className="break-words text-sm">{value || <span className="text-muted-foreground">—</span>}</span>
+      <span className="break-words text-sm">
+        {value || <span className="text-muted-foreground">—</span>}
+      </span>
     </div>
   );
 }
@@ -325,4 +325,3 @@ export function BreakdownTable({
     </table>
   );
 }
-

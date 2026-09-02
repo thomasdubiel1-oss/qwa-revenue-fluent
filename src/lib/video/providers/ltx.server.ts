@@ -63,14 +63,10 @@ export const ltxAdapter: VideoProviderAdapter = {
   },
 
   async submit(): Promise<SubmitResult> {
-    throw new Error(
-      `LTX Studio is a manual-handoff workflow provider in QWA. ${HANDOFF_NOTE}`,
-    );
+    throw new Error(`LTX Studio is a manual-handoff workflow provider in QWA. ${HANDOFF_NOTE}`);
   },
 
   async poll(): Promise<PollResult> {
-    throw new Error(
-      `LTX Studio has no automated job state in QWA. ${HANDOFF_NOTE}`,
-    );
+    throw new Error(`LTX Studio has no automated job state in QWA. ${HANDOFF_NOTE}`);
   },
 };

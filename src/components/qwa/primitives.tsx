@@ -1,16 +1,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export function Container({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+export function Container({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
-      className={cn("mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-12", className)}
-      {...props}
-    >
+    <div className={cn("mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-12", className)} {...props}>
       {children}
     </div>
   );
@@ -44,7 +37,13 @@ export function Section({
   );
 }
 
-export function Eyebrow({ className, children }: { className?: string; children: React.ReactNode }) {
+export function Eyebrow({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
   return (
     <p className={cn("text-eyebrow", className)}>
       <span className="mr-2 inline-block h-1 w-1 translate-y-[-2px] rounded-full bg-signal align-middle" />
@@ -93,15 +92,9 @@ export function SignalRule({
   tone?: "default" | "ink";
 }) {
   return (
-    <div
-      aria-hidden="true"
-      className={cn("flex w-full items-center gap-3", className)}
-    >
+    <div aria-hidden="true" className={cn("flex w-full items-center gap-3", className)}>
       <span
-        className={cn(
-          "h-px flex-1",
-          tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline",
-        )}
+        className={cn("h-px flex-1", tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline")}
       />
       <svg viewBox="0 0 64 8" className="h-2 w-16 text-signal" fill="none">
         <path d="M0 4h18" stroke="currentColor" strokeWidth="1" opacity="0.5" />
@@ -115,15 +108,11 @@ export function SignalRule({
         />
       </svg>
       <span
-        className={cn(
-          "h-px flex-1",
-          tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline",
-        )}
+        className={cn("h-px flex-1", tone === "ink" ? "bg-ink-foreground/15" : "bg-hairline")}
       />
     </div>
   );
 }
-
 
 /** Scroll reveal without animation libraries. Honors prefers-reduced-motion. */
 export function Reveal({
@@ -177,13 +166,7 @@ export function Hairline({ className }: { className?: string }) {
   return <div className={cn("h-px w-full bg-hairline", className)} aria-hidden="true" />;
 }
 
-export function Pill({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+export function Pill({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <span
       className={cn(

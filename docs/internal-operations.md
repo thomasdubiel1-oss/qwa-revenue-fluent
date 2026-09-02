@@ -7,13 +7,13 @@ navigation. Nothing in this system sends email, SMS or calls, connects a CRM
 
 ## Phase freezes
 
-| Phase | Scope | Frozen commit |
-| --- | --- | --- |
-| 4C | Launch hardening, SEO gate, consent, legal, health | `740867cf6c7363243ca34fd37585ba645faf2a03` |
-| 5 | Lead operations console | `b162c589f6148d1d011c08102c71485298881712` |
-| 6 | Revenue intelligence | `a7b45eab4770c6ba91867cffea7a35675d9e7e05` |
-| 7 | Operator command center | `08231044a2c936d46d02ce43e9b0d8948da8473b` |
-| 8 | Automation control plane & playbook engine | `43c4b975edf02b58c7dd035f278a337e08c6cc04` |
+| Phase | Scope                                              | Frozen commit                              |
+| ----- | -------------------------------------------------- | ------------------------------------------ |
+| 4C    | Launch hardening, SEO gate, consent, legal, health | `740867cf6c7363243ca34fd37585ba645faf2a03` |
+| 5     | Lead operations console                            | `b162c589f6148d1d011c08102c71485298881712` |
+| 6     | Revenue intelligence                               | `a7b45eab4770c6ba91867cffea7a35675d9e7e05` |
+| 7     | Operator command center                            | `08231044a2c936d46d02ce43e9b0d8948da8473b` |
+| 8     | Automation control plane & playbook engine         | `43c4b975edf02b58c7dd035f278a337e08c6cc04` |
 
 The public visual/copy/interaction baseline stays frozen; it changes only for a
 verified regression, security issue or critical accessibility defect.
@@ -57,13 +57,13 @@ UI.
 
 ### Anomaly rules (deterministic, no scoring model)
 
-| Signal | Rule |
-| --- | --- |
-| Overdue accumulation | `count(open leads past SLA target) >= overdueLeads` (default 5) |
-| Delivery failures | `count(open leads, latest delivery = failed) >= deliveryFailures` (default 3) |
+| Signal                 | Rule                                                                                           |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| Overdue accumulation   | `count(open leads past SLA target) >= overdueLeads` (default 5)                                |
+| Delivery failures      | `count(open leads, latest delivery = failed) >= deliveryFailures` (default 3)                  |
 | Stuck pending delivery | `count(latest delivery = pending AND age >= deliveryFailureHours) >= stuckPending` (default 3) |
-| Automation errors | `count(executions with outcome = failed in window) >= executionErrors` (default 1) |
-| Stale recommendations | `count(pending recommendations older than staleRecommendationHours) >= 1` (default 24h) |
+| Automation errors      | `count(executions with outcome = failed in window) >= executionErrors` (default 1)             |
+| Stale recommendations  | `count(pending recommendations older than staleRecommendationHours) >= 1` (default 24h)        |
 
 Default anomaly window: 24h. Each signal shows observed count, threshold,
 window, evidence rows and a drill-down link.

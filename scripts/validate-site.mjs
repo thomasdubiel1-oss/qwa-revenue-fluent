@@ -12,9 +12,7 @@ function walk(path) {
   const absolute = join(root, path);
   return readdirSync(absolute).flatMap((name) => {
     const child = join(absolute, name);
-    return statSync(child).isDirectory()
-      ? walk(relative(root, child))
-      : [relative(root, child)];
+    return statSync(child).isDirectory() ? walk(relative(root, child)) : [relative(root, child)];
   });
 }
 
@@ -80,7 +78,10 @@ for (const route of indexedRoutes) {
 }
 
 check(new Set(liveRoutes).size === liveRoutes.length, "liveRoutes contains duplicate entries");
-check(new Set(indexedRoutes).size === indexedRoutes.length, "PUBLIC_ROUTES contains duplicate entries");
+check(
+  new Set(indexedRoutes).size === indexedRoutes.length,
+  "PUBLIC_ROUTES contains duplicate entries",
+);
 
 const envExample = read(".env.example");
 for (const line of envExample.split(/\r?\n/)) {
@@ -107,7 +108,9 @@ const serverOnlyNames = [
 for (const file of browserFiles) {
   const source = read(file);
   for (const secretName of serverOnlyNames) {
-    check(!source.includes(`process.env[\"${secretName}\"]`) && !source.includes(`process.env['${secretName}']`),
+    check(
+      !source.includes(`process.env[\"${secretName}\"]`) &&
+        !source.includes(`process.env['${secretName}']`),
       `Browser-reachable file references server secret ${secretName}: ${file}`,
     );
   }

@@ -198,14 +198,7 @@ export function ProductSection({
 
   const heading = (
     <div className="min-w-0">
-      <p
-        className={cn(
-          "text-eyebrow",
-          sub && "text-muted-foreground/70",
-        )}
-      >
-        {eyebrow}
-      </p>
+      <p className={cn("text-eyebrow", sub && "text-muted-foreground/70")}>{eyebrow}</p>
       <Heading
         className={cn(
           "text-display mt-4 max-w-[21ch] text-balance",
@@ -257,7 +250,6 @@ export function ProductSection({
         sub ? "py-12 sm:py-14 lg:py-16" : "py-20 sm:py-24 lg:py-28",
         className,
       )}
-
     >
       <Container>
         {media === "below" ? (
@@ -506,12 +498,7 @@ export function DecisionCallout({
 }) {
   const tone = usePanelTone();
   return (
-    <div
-      className={cn(
-        "border-l-2 border-signal pl-4",
-        className,
-      )}
-    >
+    <div className={cn("border-l-2 border-signal pl-4", className)}>
       <p
         className={cn(
           "text-data text-[0.65rem] uppercase tracking-[0.14em]",
@@ -564,12 +551,7 @@ export function FieldGrid({
           >
             {f.label}
           </dt>
-          <dd
-            className={cn(
-              "mt-1.5 text-[0.9375rem] font-medium",
-              f.accent && "text-signal",
-            )}
-          >
+          <dd className={cn("mt-1.5 text-[0.9375rem] font-medium", f.accent && "text-signal")}>
             {f.value}
           </dd>
         </div>
@@ -667,9 +649,7 @@ export function Chip({
         className,
       )}
     >
-      {active ? (
-        <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
-      ) : null}
+      {active ? <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" /> : null}
       {children}
     </span>
   );
@@ -692,15 +672,7 @@ export function PanelProgress({ value }: { value: number }) {
 }
 
 /** Closing invitation. One action, nothing else. */
-export function ProductCta({
-  title,
-  lede,
-  note,
-}: {
-  title: string;
-  lede?: string;
-  note?: string;
-}) {
+export function ProductCta({ title, lede, note }: { title: string; lede?: string; note?: string }) {
   const { open } = useDemoRequest();
   return (
     <Section tone="ink" className="py-24 lg:py-32">

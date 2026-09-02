@@ -9,7 +9,6 @@ import { useDemoRequest } from "./demo-request";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-
 export function SiteHeader() {
   const { open } = useDemoRequest();
   const [scrolled, setScrolled] = React.useState(false);
@@ -75,7 +74,6 @@ export function SiteHeader() {
     };
   }, [mobileOpen]);
 
-
   const scheduleClose = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
     closeTimer.current = window.setTimeout(() => setOpenMenu(null), 120);
@@ -95,7 +93,11 @@ export function SiteHeader() {
       onMouseLeave={scheduleClose}
     >
       <Container className="flex h-16 items-center gap-6 lg:h-[4.5rem]">
-        <Link to="/" className="flex min-h-11 shrink-0 items-center gap-2.5" aria-label="Quantum Web AI home">
+        <Link
+          to="/"
+          className="flex min-h-11 shrink-0 items-center gap-2.5"
+          aria-label="Quantum Web AI home"
+        >
           <Mark />
           <span className="text-[0.95rem] font-semibold tracking-tight">Quantum Web AI</span>
         </Link>
@@ -138,11 +140,15 @@ export function SiteHeader() {
               </button>
             </div>
           ))}
-
         </nav>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
-          <Button variant="ink" size="pill" onClick={() => open("site_header")} className="hidden sm:inline-flex">
+          <Button
+            variant="ink"
+            size="pill"
+            onClick={() => open("site_header")}
+            className="hidden sm:inline-flex"
+          >
             Book a demo
           </Button>
           <button
@@ -216,7 +222,6 @@ export function SiteHeader() {
         </AnimatePresence>
       </div>
 
-
       {/* Mobile menu */}
       <AnimatePresence initial={false}>
         {mobileOpen ? (
@@ -228,62 +233,61 @@ export function SiteHeader() {
             transition={{ duration: duration.fast, ease: ease.standard }}
             className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-hairline bg-background xl:hidden"
           >
-          <Container className="py-6">
-            <ul className="grid gap-2">
-              {navigation.map((group) => (
-                <li key={group.label} className="border-b border-hairline pb-2">
-                  <details className="group">
-                    <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
-                      {group.label}
-                      <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
-                    </summary>
-                    <div className="grid gap-5 pb-4">
-                      {group.columns.map((col) => (
-                        <div key={col.heading}>
-                          <p className="text-eyebrow mb-2">{col.heading}</p>
-                          <ul className="grid">
-                            {col.items.map((item) => (
-                              <li key={item.label}>
-                                <NavTarget
-                                  href={item.href}
-                                  onNavigate={() => setMobileOpen(false)}
-                                  current={isCurrent(item.href)}
-                                  className={cn(
-                                    "flex min-h-11 items-center py-2 text-sm",
-                                    isCurrent(item.href)
-                                      ? "font-medium text-foreground"
-                                      : "text-muted-foreground",
-                                  )}
-                                >
-                                  {item.label}
-                                </NavTarget>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </details>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6 flex flex-col gap-3">
-              <Button
-                variant="ink"
-                size="xl"
-                onClick={() => {
-                  setMobileOpen(false);
-                  open("site_header");
-                }}
-              >
-                Book a demo
-              </Button>
-            </div>
-          </Container>
+            <Container className="py-6">
+              <ul className="grid gap-2">
+                {navigation.map((group) => (
+                  <li key={group.label} className="border-b border-hairline pb-2">
+                    <details className="group">
+                      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between py-3 text-base font-medium">
+                        {group.label}
+                        <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+                      </summary>
+                      <div className="grid gap-5 pb-4">
+                        {group.columns.map((col) => (
+                          <div key={col.heading}>
+                            <p className="text-eyebrow mb-2">{col.heading}</p>
+                            <ul className="grid">
+                              {col.items.map((item) => (
+                                <li key={item.label}>
+                                  <NavTarget
+                                    href={item.href}
+                                    onNavigate={() => setMobileOpen(false)}
+                                    current={isCurrent(item.href)}
+                                    className={cn(
+                                      "flex min-h-11 items-center py-2 text-sm",
+                                      isCurrent(item.href)
+                                        ? "font-medium text-foreground"
+                                        : "text-muted-foreground",
+                                    )}
+                                  >
+                                    {item.label}
+                                  </NavTarget>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-6 flex flex-col gap-3">
+                <Button
+                  variant="ink"
+                  size="xl"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    open("site_header");
+                  }}
+                >
+                  Book a demo
+                </Button>
+              </div>
+            </Container>
           </motion.div>
         ) : null}
       </AnimatePresence>
-
     </header>
   );
 }
@@ -330,9 +334,23 @@ export function Mark({ className }: { className?: string }) {
       aria-hidden="true"
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none">
-        <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.6" className="text-ink-foreground" opacity="0.5" />
+        <circle
+          cx="12"
+          cy="12"
+          r="7.5"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          className="text-ink-foreground"
+          opacity="0.5"
+        />
         <circle cx="12" cy="12" r="2.6" className="fill-signal" />
-        <path d="M16.5 16.5 L20 20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="text-ink-foreground" />
+        <path
+          d="M16.5 16.5 L20 20"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          className="text-ink-foreground"
+        />
       </svg>
     </span>
   );

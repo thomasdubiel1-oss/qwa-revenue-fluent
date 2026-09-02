@@ -129,7 +129,10 @@ function RevenueConsole() {
   if (!key || denied) {
     return (
       <OpsShell title="Revenue Intelligence" subtitle="Internal access required">
-        <Panel title="Enter operator access key" description="Session-scoped. Never stored on disk.">
+        <Panel
+          title="Enter operator access key"
+          description="Session-scoped. Never stored on disk."
+        >
           <form
             className="flex max-w-lg flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
@@ -192,9 +195,7 @@ function RevenueConsole() {
         </>
       }
     >
-      {intel.isLoading ? (
-        <p className="text-sm text-muted-foreground">Computing…</p>
-      ) : null}
+      {intel.isLoading ? <p className="text-sm text-muted-foreground">Computing…</p> : null}
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
@@ -202,7 +203,11 @@ function RevenueConsole() {
           value={t?.windowLeads ?? "—"}
           hint={data ? undefined : "—"}
         />
-        <StatCard label="Accepted demo requests" value={t?.accepted ?? "—"} hint="Server-recorded" />
+        <StatCard
+          label="Accepted demo requests"
+          value={t?.accepted ?? "—"}
+          hint="Server-recorded"
+        />
         <StatCard label="Last 7 days" value={t?.last7 ?? "—"} />
         <StatCard label="Last 30 days" value={t?.last30 ?? "—"} />
       </div>
@@ -268,7 +273,11 @@ function RevenueConsole() {
           </Button>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-          <Link to="/internal/work-queue" search={{ view: "overdue" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link
+            to="/internal/work-queue"
+            search={{ view: "overdue" }}
+            className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <StatCard
               label="Overdue"
               value={queueSummary?.overdue ?? "—"}
@@ -276,13 +285,29 @@ function RevenueConsole() {
               tone={(queueSummary?.overdue ?? 0) > 0 ? "warn" : "default"}
             />
           </Link>
-          <Link to="/internal/work-queue" search={{ view: "due" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link
+            to="/internal/work-queue"
+            search={{ view: "due" }}
+            className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <StatCard label="Due now" value={queueSummary?.dueNow ?? "—"} hint="Inside threshold" />
           </Link>
-          <Link to="/internal/work-queue" search={{ queue: "stale_new" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-            <StatCard label="Stale new" value={queueSummary?.staleNew ?? "—"} hint="Untouched since submission" />
+          <Link
+            to="/internal/work-queue"
+            search={{ queue: "stale_new" }}
+            className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <StatCard
+              label="Stale new"
+              value={queueSummary?.staleNew ?? "—"}
+              hint="Untouched since submission"
+            />
           </Link>
-          <Link to="/internal/work-queue" search={{ queue: "delivery_failed" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link
+            to="/internal/work-queue"
+            search={{ queue: "delivery_failed" }}
+            className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <StatCard
               label="Delivery failures"
               value={queueSummary?.deliveryFailures ?? "—"}
@@ -290,7 +315,11 @@ function RevenueConsole() {
               tone={(queueSummary?.deliveryFailures ?? 0) > 0 ? "warn" : "default"}
             />
           </Link>
-          <Link to="/internal/work-queue" search={{ view: "tasks" }} className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Link
+            to="/internal/work-queue"
+            search={{ view: "tasks" }}
+            className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
             <StatCard
               label="Tasks due today"
               value={queueSummary?.tasksDueToday ?? "—"}
@@ -299,8 +328,6 @@ function RevenueConsole() {
           </Link>
         </div>
       </section>
-
-
 
       <div className="mt-6 grid gap-3 lg:grid-cols-2">
         <Panel
@@ -356,10 +383,7 @@ function RevenueConsole() {
         </p>
         <ul className="mt-3 grid gap-3 lg:grid-cols-2">
           {(data?.insights ?? []).map((insight) => (
-            <li
-              key={insight.id}
-              className="rounded-xl border border-border/70 bg-card p-4"
-            >
+            <li key={insight.id} className="rounded-xl border border-border/70 bg-card p-4">
               <div className="flex flex-wrap items-center gap-2">
                 <Pill
                   tone={

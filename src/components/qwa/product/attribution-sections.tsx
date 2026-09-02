@@ -119,10 +119,7 @@ function ReturnPathVisualPanel() {
             transition={{ duration: duration.base, ease: ease.out, delay: 1.7 }}
           >
             <span className="text-data text-[var(--positive)]">$14,200 returned</span>
-            <span className="text-muted-foreground">
-              {" "}
-              to Paid social · retargeting set
-            </span>
+            <span className="text-muted-foreground"> to Paid social · retargeting set</span>
           </motion.p>
         </div>
       </PanelBlock>
@@ -154,7 +151,11 @@ export function JoinedJourneySection() {
       media="right"
       tone="paper"
     >
-      <ProductPanel title="Record · CU-40118" meta="identity resolved" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Record · CU-40118"
+        meta="identity resolved"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock label="Joined identities">
           <div className="flex flex-wrap gap-2">
             <Chip active>Ad click id</Chip>
@@ -184,7 +185,11 @@ export function JoinedJourneySection() {
 const models = [
   { name: "Last touch", use: "Fast operational reads", caveat: "Overstates closing channels" },
   { name: "Linear", use: "Even journey coverage", caveat: "Ignores intensity of a touch" },
-  { name: "Position based", use: "First and last emphasis", caveat: "Weights set by policy, not proof" },
+  {
+    name: "Position based",
+    use: "First and last emphasis",
+    caveat: "Weights set by policy, not proof",
+  },
   { name: "Contribution", use: "Default QWA model", caveat: "An estimate, stated as one" },
 ];
 
@@ -202,7 +207,11 @@ export function ModelSection() {
       ]}
       media="left"
     >
-      <ProductPanel title="Attribution models" meta="contribution active" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Attribution models"
+        meta="contribution active"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ul>
             {models.map((m, i) => (
@@ -260,8 +269,8 @@ export function ReturnPathSection() {
           </h2>
           <p className="mt-5 max-w-[36rem] text-pretty text-[1.0625rem] leading-relaxed text-ink-foreground/70">
             Closed-won value is split across the touches that preceded it and written back onto each
-            one. A campaign, a creative variant and a single conversation each carry the revenue they
-            contributed to — not an index, a currency figure.
+            one. A campaign, a creative variant and a single conversation each carry the revenue
+            they contributed to — not an index, a currency figure.
           </p>
         </MotionReveal>
 
@@ -272,7 +281,8 @@ export function ReturnPathSection() {
             meta="contribution model · 90d"
             footer={
               <IllustrativeNote tone="ink">
-                Illustrative allocation. Contribution is a modelled estimate, not measured causation.
+                Illustrative allocation. Contribution is a modelled estimate, not measured
+                causation.
               </IllustrativeNote>
             }
           >
@@ -498,11 +508,31 @@ export function FeedbackSection() {
 /* ---------------------------------------------------------------------- */
 
 const governance = [
-  { control: "Model selection", held: "Revenue operations", detail: "Active model and weights are configuration, versioned on change." },
-  { control: "Attribution windows", held: "Revenue operations", detail: "Window length set per business unit and shown on every report." },
-  { control: "Manual overrides", held: "Named approver", detail: "Any override records who made it, when and the stated reason." },
-  { control: "Finance approval", held: "Finance", detail: "Periods close only after finance signs the reconciliation." },
-  { control: "Audit trail", held: "System", detail: "Every number can be traced to the events and model that produced it." },
+  {
+    control: "Model selection",
+    held: "Revenue operations",
+    detail: "Active model and weights are configuration, versioned on change.",
+  },
+  {
+    control: "Attribution windows",
+    held: "Revenue operations",
+    detail: "Window length set per business unit and shown on every report.",
+  },
+  {
+    control: "Manual overrides",
+    held: "Named approver",
+    detail: "Any override records who made it, when and the stated reason.",
+  },
+  {
+    control: "Finance approval",
+    held: "Finance",
+    detail: "Periods close only after finance signs the reconciliation.",
+  },
+  {
+    control: "Audit trail",
+    held: "System",
+    detail: "Every number can be traced to the events and model that produced it.",
+  },
 ];
 
 export function AttributionGovernanceSection() {
@@ -578,11 +608,31 @@ export function AttributionIntegrationsSection() {
 /* ---------------------------------------------------------------------- */
 
 const identitySignals = [
-  { signal: "Ad click identifier", joined: "Deterministic", note: "Click id carried through to session and form." },
-  { signal: "Web session", joined: "Deterministic", note: "First-party session stitched on identified visit." },
-  { signal: "Phone number", joined: "Deterministic", note: "Inbound caller matched to an existing contact." },
-  { signal: "CRM contact", joined: "Deterministic", note: "System-of-record contact is the anchor identity." },
-  { signal: "Household device", joined: "Probabilistic", note: "Held separately and labelled; never silently merged." },
+  {
+    signal: "Ad click identifier",
+    joined: "Deterministic",
+    note: "Click id carried through to session and form.",
+  },
+  {
+    signal: "Web session",
+    joined: "Deterministic",
+    note: "First-party session stitched on identified visit.",
+  },
+  {
+    signal: "Phone number",
+    joined: "Deterministic",
+    note: "Inbound caller matched to an existing contact.",
+  },
+  {
+    signal: "CRM contact",
+    joined: "Deterministic",
+    note: "System-of-record contact is the anchor identity.",
+  },
+  {
+    signal: "Household device",
+    joined: "Probabilistic",
+    note: "Held separately and labelled; never silently merged.",
+  },
 ];
 
 export function IdentityResolutionSection() {
@@ -599,7 +649,11 @@ export function IdentityResolutionSection() {
       ]}
       media="right"
     >
-      <ProductPanel title="Identity graph · CU-40118" meta="5 signals" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Identity graph · CU-40118"
+        meta="5 signals"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ul>
             {identitySignals.map((s) => (
@@ -689,7 +743,11 @@ export function ConfidenceLineageSection() {
       ]}
       media="left"
     >
-      <ProductPanel title="Figure detail · March" meta="lineage available" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Figure detail · March"
+        meta="lineage available"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock label="Quality of the number">
           <FieldGrid
             fields={[
@@ -708,7 +766,10 @@ export function ConfidenceLineageSection() {
               "Model: contribution v4, 90-day window",
               "Reconciliation: matched to booked revenue, variance $0",
             ].map((step) => (
-              <li key={step} className="text-data text-[0.75rem] leading-relaxed text-muted-foreground">
+              <li
+                key={step}
+                className="text-data text-[0.75rem] leading-relaxed text-muted-foreground"
+              >
                 {step}
               </li>
             ))}

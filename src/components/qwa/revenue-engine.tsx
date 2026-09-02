@@ -23,7 +23,11 @@ const steps: Step[] = [
     time: "T+0s",
     title: "A signal arrives",
     body: "A paid click, a search visit, an Instagram DM or an inbound call — every entry point lands in the same graph with full source context.",
-    event: { channel: "Instagram DM", label: "New signal captured", meta: "campaign: q3-retarget-04" },
+    event: {
+      channel: "Instagram DM",
+      label: "New signal captured",
+      meta: "campaign: q3-retarget-04",
+    },
   },
   {
     id: "respond",
@@ -37,7 +41,11 @@ const steps: Step[] = [
     time: "T+1m",
     title: "Qualification",
     body: "Budget, timing, location and fit are resolved conversationally and written to the customer record — no forms, no drop-off.",
-    event: { channel: "Qualification", label: "Fit score 87", meta: "budget · timing · service area" },
+    event: {
+      channel: "Qualification",
+      label: "Fit score 87",
+      meta: "budget · timing · service area",
+    },
   },
   {
     id: "followup",
@@ -72,24 +80,36 @@ const steps: Step[] = [
     time: "Continuous",
     title: "Revenue attribution",
     body: "The revenue travels back down the chain — to the campaign, the creative, the conversation and the rep that produced it. Not to a last click.",
-    event: { channel: "Attribution", label: "Revenue assigned", meta: "q3-retarget-04 · creative 12", value: "$14,200" },
+    event: {
+      channel: "Attribution",
+      label: "Revenue assigned",
+      meta: "q3-retarget-04 · creative 12",
+      value: "$14,200",
+    },
   },
   {
     id: "learn",
     time: "Ongoing",
     title: "The system learns",
     body: "Outcomes re-weight the model: budget, cadence and next-best-action shift before the next signal arrives.",
-    event: { channel: "Optimization", label: "Next best action updated", meta: "creative 12 · +18% budget" },
+    event: {
+      channel: "Optimization",
+      label: "Next best action updated",
+      meta: "creative 12 · +18% budget",
+    },
   },
   {
     id: "reactivate",
     time: "Later",
     title: "Reactivation",
     body: "Dormant leads and past customers re-enter the loop on intent, not on a calendar date — pipeline you already paid for.",
-    event: { channel: "Reactivation", label: "Dormant lead re-engaged", meta: "intent signal · 214 days idle" },
+    event: {
+      channel: "Reactivation",
+      label: "Dormant lead re-engaged",
+      meta: "intent signal · 214 days idle",
+    },
   },
 ];
-
 
 const ATTRIBUTION_INDEX = steps.findIndex((s) => s.id === "attribute");
 const LEARN_INDEX = steps.findIndex((s) => s.id === "learn");
@@ -130,7 +150,6 @@ export function RevenueEngine({
     </Section>
   );
 }
-
 
 /* -------------------------------------------------------------------------
  * Desktop: pinned, scrubbed cinematic sequence (GSAP ScrollTrigger)
@@ -186,15 +205,7 @@ function PinnedSequence() {
   );
 }
 
-function StepNarrative({
-  index,
-  step,
-  progress,
-}: {
-  index: number;
-  step: Step;
-  progress: number;
-}) {
+function StepNarrative({ index, step, progress }: { index: number; step: Step; progress: number }) {
   return (
     <div className="min-w-0">
       <div className="flex items-center gap-4">
@@ -227,7 +238,6 @@ function StepNarrative({
           </p>
         </motion.div>
       </div>
-
 
       <ol className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
         {steps.map((s, i) => (
@@ -291,7 +301,6 @@ function RecordStage({ index, progress }: { index: number; progress: number }) {
               transition={{ duration: 1.1, ease: ease.out }}
             />
           </div>
-
 
           <div className="grid gap-6 p-6 sm:grid-cols-[8.5rem_minmax(0,1fr)]">
             <JourneySpine index={index} attributing={attributing} />
@@ -460,7 +469,6 @@ function JourneySpine({ index, attributing }: { index: number; attributing: bool
   );
 }
 
-
 /* -------------------------------------------------------------------------
  * Mobile / reduced motion: linear progression, no pinning, no scrub
  * ---------------------------------------------------------------------- */
@@ -544,4 +552,3 @@ function EventCard({ step, highlight = false }: { step: Step; highlight?: boolea
     </div>
   );
 }
-

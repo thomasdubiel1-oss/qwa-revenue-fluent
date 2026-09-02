@@ -16,11 +16,7 @@ import { cn } from "@/lib/utils";
 import { track, type DemoSource } from "@/lib/analytics";
 import { captureCampaignContext, getAttribution } from "@/lib/leads/attribution";
 import { submitDemoRequest } from "@/lib/leads/provider";
-import {
-  validateDemoForm,
-  type DemoFormValues,
-  type FieldErrors,
-} from "@/lib/leads/validation";
+import { validateDemoForm, type DemoFormValues, type FieldErrors } from "@/lib/leads/validation";
 import type { DemoRequestPayload } from "@/lib/leads/types";
 
 export type { DemoRequestPayload };
@@ -92,7 +88,6 @@ export function DemoRequestProvider({ children }: { children: React.ReactNode })
           setOpen(next);
         }}
       >
-
         <DialogContent className="max-h-[92vh] gap-0 overflow-y-auto rounded-2xl border-hairline p-0 sm:max-w-2xl">
           <DialogHeader className="space-y-3 border-b border-hairline px-6 py-6 text-left sm:px-8">
             <DialogTitle className="text-display text-2xl sm:text-3xl">
@@ -320,7 +315,10 @@ export function DemoRequestForm({
       </div>
 
       {/* Honeypot — visually and programmatically hidden from real users. */}
-      <div aria-hidden="true" className="pointer-events-none absolute left-[-9999px] h-0 w-0 overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[-9999px] h-0 w-0 overflow-hidden"
+      >
         <label htmlFor="company-website-url">Do not fill this field</label>
         <input
           ref={trapRef}
@@ -368,7 +366,9 @@ export function DemoRequestForm({
 
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" variant="ink" size="xl" disabled={submitting}>
-          {submitting ? "Sending…" : status === "error" ? (
+          {submitting ? (
+            "Sending…"
+          ) : status === "error" ? (
             <>
               <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Try again

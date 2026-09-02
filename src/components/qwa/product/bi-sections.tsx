@@ -136,8 +136,16 @@ export function SingleSourceSection() {
 /* ---------------------------------------------------------------------- */
 
 const layers = [
-  { layer: "Executive", question: "Are we growing, and what is driving it?", cadence: "Weekly brief" },
-  { layer: "Function", question: "Which channels, creatives and teams are producing?", cadence: "Daily" },
+  {
+    layer: "Executive",
+    question: "Are we growing, and what is driving it?",
+    cadence: "Weekly brief",
+  },
+  {
+    layer: "Function",
+    question: "Which channels, creatives and teams are producing?",
+    cadence: "Daily",
+  },
   { layer: "Operator", question: "What should I do in the next hour?", cadence: "Live" },
 ];
 
@@ -324,10 +332,26 @@ export function DataQualitySection() {
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Coverage", value: "80.6%", caption: "Share of booked revenue joined to a journey." },
-          { label: "Freshness", value: "< 15 min", caption: "Lag on the slowest connected source." },
-          { label: "Join success", value: "94.2%", caption: "Events successfully resolved to a record." },
-          { label: "Degraded feeds", value: "1", caption: "Affected metrics flagged wherever they appear." },
+          {
+            label: "Coverage",
+            value: "80.6%",
+            caption: "Share of booked revenue joined to a journey.",
+          },
+          {
+            label: "Freshness",
+            value: "< 15 min",
+            caption: "Lag on the slowest connected source.",
+          },
+          {
+            label: "Join success",
+            value: "94.2%",
+            caption: "Events successfully resolved to a record.",
+          },
+          {
+            label: "Degraded feeds",
+            value: "1",
+            caption: "Affected metrics flagged wherever they appear.",
+          },
         ].map((s) => (
           <StatCell key={s.label} {...s} />
         ))}
@@ -340,11 +364,31 @@ export function DataQualitySection() {
 /* ---------------------------------------------------------------------- */
 
 const biGovernance = [
-  { control: "Metric definitions", held: "Revenue operations", detail: "Versioned centrally; changes are dated and visible on every report." },
-  { control: "Access", held: "Administrators", detail: "Row and field-level access scoped by role and business unit." },
-  { control: "Period locking", held: "Finance", detail: "Closed periods stop moving once reconciliation is signed." },
-  { control: "Export", held: "Policy", detail: "Exports logged; sensitive fields excluded by configuration." },
-  { control: "Lineage", held: "System", detail: "Every figure traceable to sources, transforms and the active model." },
+  {
+    control: "Metric definitions",
+    held: "Revenue operations",
+    detail: "Versioned centrally; changes are dated and visible on every report.",
+  },
+  {
+    control: "Access",
+    held: "Administrators",
+    detail: "Row and field-level access scoped by role and business unit.",
+  },
+  {
+    control: "Period locking",
+    held: "Finance",
+    detail: "Closed periods stop moving once reconciliation is signed.",
+  },
+  {
+    control: "Export",
+    held: "Policy",
+    detail: "Exports logged; sensitive fields excluded by configuration.",
+  },
+  {
+    control: "Lineage",
+    held: "System",
+    detail: "Every figure traceable to sources, transforms and the active model.",
+  },
 ];
 
 export function BiGovernanceSection() {
@@ -379,11 +423,17 @@ export function BiGovernanceSection() {
         </PanelBlock>
       </ProductPanel>
       <div className="mt-8 flex flex-wrap gap-2.5">
-        {["Warehouse", "CRM", "Ad platforms", "Telephony", "Commerce", "Finance / ERP", "BI tools"].map(
-          (c) => (
-            <Chip key={c}>{c}</Chip>
-          ),
-        )}
+        {[
+          "Warehouse",
+          "CRM",
+          "Ad platforms",
+          "Telephony",
+          "Commerce",
+          "Finance / ERP",
+          "BI tools",
+        ].map((c) => (
+          <Chip key={c}>{c}</Chip>
+        ))}
       </div>
       <IllustrativeNote className="mt-6">
         Adapter categories only. Nothing is connected until configured for your deployment.
@@ -391,7 +441,6 @@ export function BiGovernanceSection() {
     </ProductSection>
   );
 }
-
 
 /* -------------------------------------------------------------------------
  * Unified business record — the canonical entity graph.
@@ -456,8 +505,16 @@ export function EntityGraphSection() {
 
 const lineage = [
   { step: "Source", value: "9 connected systems", note: "Ads, web, voice, commerce, CRM, finance" },
-  { step: "Resolve", value: "Identity + session join", note: "94.2% of events resolved to a record" },
-  { step: "Define", value: "Qualified lead v4", note: "Owned by revenue operations · locked 12 Feb" },
+  {
+    step: "Resolve",
+    value: "Identity + session join",
+    note: "94.2% of events resolved to a record",
+  },
+  {
+    step: "Define",
+    value: "Qualified lead v4",
+    note: "Owned by revenue operations · locked 12 Feb",
+  },
   { step: "Model", value: "Attribution v7", note: "Assumptions published with the figure" },
   { step: "Report", value: "$512,400 attributed", note: "Coverage 80.6% · stated on the number" },
 ];

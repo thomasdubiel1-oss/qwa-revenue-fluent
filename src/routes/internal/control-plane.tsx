@@ -147,7 +147,11 @@ function ControlPlane() {
     mutationFn: (vars: { version: number; reason: string }) =>
       rollbackFn({ data: { key, ...vars } }),
     onSuccess: (res) => {
-      setNotice(res.ok ? `Rolled back into version ${res.version}.` : `Rollback rejected: ${label(res.error)}.`);
+      setNotice(
+        res.ok
+          ? `Rolled back into version ${res.version}.`
+          : `Rollback rejected: ${label(res.error)}.`,
+      );
       invalidate();
     },
   });
@@ -189,7 +193,10 @@ function ControlPlane() {
   if (!key || denied) {
     return (
       <OpsShell title="Revenue Operations Control Plane" subtitle="Internal access required">
-        <Panel title="Enter operator access key" description="Session-scoped. Never stored on disk.">
+        <Panel
+          title="Enter operator access key"
+          description="Session-scoped. Never stored on disk."
+        >
           <form
             className="flex max-w-lg flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
@@ -210,7 +217,9 @@ function ControlPlane() {
             </Button>
           </form>
           {denied ? (
-            <p className="mt-3 text-sm text-destructive">Key rejected. Check the configured secret.</p>
+            <p className="mt-3 text-sm text-destructive">
+              Key rejected. Check the configured secret.
+            </p>
           ) : null}
         </Panel>
       </OpsShell>
@@ -242,7 +251,12 @@ function ControlPlane() {
             className="min-h-11"
             onClick={() => {
               const next = !state?.killSwitch;
-              if (!next || window.confirm("Engage the kill switch? All automation execution stops immediately.")) {
+              if (
+                !next ||
+                window.confirm(
+                  "Engage the kill switch? All automation execution stops immediately.",
+                )
+              ) {
                 killMutation.mutate(next);
               }
             }}
@@ -253,9 +267,13 @@ function ControlPlane() {
         </>
       }
     >
-      {stateQuery.isLoading ? <p className="text-sm text-muted-foreground">Loading control plane…</p> : null}
+      {stateQuery.isLoading ? (
+        <p className="text-sm text-muted-foreground">Loading control plane…</p>
+      ) : null}
       {stateQuery.isError ? (
-        <p className="text-sm text-destructive">Control plane state failed to load. Retry the request.</p>
+        <p className="text-sm text-destructive">
+          Control plane state failed to load. Retry the request.
+        </p>
       ) : null}
       {notice ? <p className="text-sm text-foreground">{notice}</p> : null}
 
@@ -263,7 +281,11 @@ function ControlPlane() {
         <div className="flex flex-col gap-5">
           <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 xl:grid-cols-8">
             <StatCard label="Open leads" value={state.queue.totalOpen} />
-            <StatCard label="Overdue" value={state.queue.overdue} tone={state.queue.overdue > 0 ? "warn" : "default"} />
+            <StatCard
+              label="Overdue"
+              value={state.queue.overdue}
+              tone={state.queue.overdue > 0 ? "warn" : "default"}
+            />
             <StatCard label="Untriaged" value={state.queue.untriaged} />
             <StatCard
               label="Delivery failures"
@@ -271,7 +293,11 @@ function ControlPlane() {
               tone={state.queue.deliveryFailures > 0 ? "warn" : "default"}
             />
             <StatCard label="Eligible" value={state.automation.eligible} />
-            <StatCard label="Awaiting approval" value={state.automation.pendingApproval} tone="signal" />
+            <StatCard
+              label="Awaiting approval"
+              value={state.automation.pendingApproval}
+              tone="signal"
+            />
             <StatCard label="Blocked / skipped" value={state.automation.blocked} />
             <StatCard label="Config versions" value={state.versionCount} />
           </section>
@@ -323,14 +349,22 @@ function ControlPlane() {
               {state.anomalies.map((a) => (
                 <li key={a.key} className="rounded-lg border border-border p-3">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Pill tone={a.breached ? "warn" : "muted"}>{a.breached ? "Attention" : "Normal"}</Pill>
+                    <Pill tone={a.breached ? "warn" : "muted"}>
+                      {a.breached ? "Attention" : "Normal"}
+                    </Pill>
                     <span className="text-sm font-medium text-foreground">{a.title}</span>
                     <span className="text-xs text-muted-foreground">
                       observed {a.observed} · threshold {a.threshold}
                       {a.windowHours ? ` · ${a.windowHours}h window` : ""}
                     </span>
                     <Link
-                      to={a.drillTo === "automation" ? "/internal/automation" : a.drillTo === "leads" ? "/internal/leads" : "/internal/work-queue"}
+                      to={
+                        a.drillTo === "automation"
+                          ? "/internal/automation"
+                          : a.drillTo === "leads"
+                            ? "/internal/leads"
+                            : "/internal/work-queue"
+                      }
                       className="ml-auto text-xs underline underline-offset-4"
                     >
                       Drill down
@@ -390,7 +424,9 @@ function ControlPlane() {
                 <tbody>
                   {state.recentExecutions.map((e) => (
                     <tr key={e.id} className="border-t border-border">
-                      <td className="py-2 text-muted-foreground">{new Date(e.createdAt).toLocaleString()}</td>
+                      <td className="py-2 text-muted-foreground">
+                        {new Date(e.createdAt).toLocaleString()}
+                      </td>
                       <td>
                         {e.leadId ? (
                           <Link
@@ -449,7 +485,9 @@ function ControlPlane() {
                         {p.name} <span className="text-xs text-muted-foreground">v{p.version}</span>
                       </td>
                       <td>
-                        <Pill tone={p.enabled ? "muted" : "warn"}>{p.enabled ? "enabled" : "disabled"}</Pill>
+                        <Pill tone={p.enabled ? "muted" : "warn"}>
+                          {p.enabled ? "enabled" : "disabled"}
+                        </Pill>
                       </td>
                       <td>{p.eligible}</td>
                       <td>{p.pending}</td>
@@ -470,7 +508,10 @@ function ControlPlane() {
             description="Runs the exact live rules against a real lead. This never writes, executes or schedules anything."
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-              <label htmlFor="sim-lead" className="flex flex-1 flex-col gap-1 text-xs text-muted-foreground">
+              <label
+                htmlFor="sim-lead"
+                className="flex flex-1 flex-col gap-1 text-xs text-muted-foreground"
+              >
                 <span>Lead</span>
                 <select
                   id="sim-lead"
@@ -505,8 +546,9 @@ function ControlPlane() {
                 <div className="flex flex-wrap items-center gap-2">
                   <Pill tone="muted">Simulation · no data changed</Pill>
                   <span className="text-xs text-muted-foreground">
-                    mode {AUTOMATION_MODE_LABELS[sim.mode]} · config v{sim.configVersion} · kill switch{" "}
-                    {sim.killSwitch ? "engaged" : "released"} · {new Date(sim.simulatedAt).toLocaleString()}
+                    mode {AUTOMATION_MODE_LABELS[sim.mode]} · config v{sim.configVersion} · kill
+                    switch {sim.killSwitch ? "engaged" : "released"} ·{" "}
+                    {new Date(sim.simulatedAt).toLocaleString()}
                   </span>
                 </div>
                 {sim.lead ? (
@@ -515,30 +557,40 @@ function ControlPlane() {
                       <span className="text-foreground">{sim.lead.company}</span> · status{" "}
                       {label(sim.lead.status)} · queue {label(sim.lead.queue)} · priority{" "}
                       {sim.lead.priority} · {sim.lead.slaAgeHours.toFixed(1)}h vs{" "}
-                      {sim.lead.slaThresholdHours}h target · open tasks {sim.lead.openTasks} · delivery{" "}
-                      {sim.lead.deliveryStatus ? label(sim.lead.deliveryStatus) : "none"} (
+                      {sim.lead.slaThresholdHours}h target · open tasks {sim.lead.openTasks} ·
+                      delivery {sim.lead.deliveryStatus ? label(sim.lead.deliveryStatus) : "none"} (
                       {sim.lead.attemptCount} attempt(s))
                     </p>
                     <ul className="flex flex-col gap-2">
                       {sim.rules.map((r) => (
                         <li key={r.playbookKey} className="rounded-lg border border-border p-3">
                           <div className="flex flex-wrap items-center gap-2">
-                            <Pill tone={r.outcome === "matched" ? "signal" : "muted"}>{label(r.outcome)}</Pill>
+                            <Pill tone={r.outcome === "matched" ? "signal" : "muted"}>
+                              {label(r.outcome)}
+                            </Pill>
                             <span className="text-sm font-medium text-foreground">
-                              {r.playbookName} <span className="text-xs text-muted-foreground">v{r.playbookVersion}</span>
+                              {r.playbookName}{" "}
+                              <span className="text-xs text-muted-foreground">
+                                v{r.playbookVersion}
+                              </span>
                             </span>
                             <span className="ml-auto text-xs text-muted-foreground">
-                              would {r.gateAllowed ? "execute" : "not execute"} · {label(r.gateReasonCode)}
+                              would {r.gateAllowed ? "execute" : "not execute"} ·{" "}
+                              {label(r.gateReasonCode)}
                             </span>
                           </div>
                           <dl className="mt-2 grid gap-1 text-xs text-muted-foreground sm:grid-cols-2">
                             <div>
                               <dt className="inline text-foreground">Trigger: </dt>
-                              <dd className="inline font-mono">{r.triggerText} → {String(r.triggerResult)}</dd>
+                              <dd className="inline font-mono">
+                                {r.triggerText} → {String(r.triggerResult)}
+                              </dd>
                             </div>
                             <div>
                               <dt className="inline text-foreground">Stop: </dt>
-                              <dd className="inline font-mono">{r.stopText} → {String(r.stopResult)}</dd>
+                              <dd className="inline font-mono">
+                                {r.stopText} → {String(r.stopResult)}
+                              </dd>
                             </div>
                             <div>
                               <dt className="inline text-foreground">Proposed internal action: </dt>
@@ -550,8 +602,8 @@ function ControlPlane() {
                             <div>
                               <dt className="inline text-foreground">Limits: </dt>
                               <dd className="inline">
-                                cooldown {r.cooldownHours}h · max {r.maxExecutionsPerLead}/lead · executed{" "}
-                                {r.executedCount}
+                                cooldown {r.cooldownHours}h · max {r.maxExecutionsPerLead}/lead ·
+                                executed {r.executedCount}
                               </dd>
                             </div>
                             <div className="sm:col-span-2">
@@ -600,7 +652,9 @@ function ControlPlane() {
                   id="cfg-follow"
                   labelText="Follow-up target (h)"
                   value={config.sla.followUpHours}
-                  onChange={(n) => setDraft({ ...config, sla: { ...config.sla, followUpHours: n } })}
+                  onChange={(n) =>
+                    setDraft({ ...config, sla: { ...config.sla, followUpHours: n } })
+                  }
                 />
                 <NumberField
                   id="cfg-delivery"
@@ -615,7 +669,9 @@ function ControlPlane() {
                   id="cfg-stale"
                   labelText="Stale new target (h)"
                   value={config.sla.staleNewHours}
-                  onChange={(n) => setDraft({ ...config, sla: { ...config.sla, staleNewHours: n } })}
+                  onChange={(n) =>
+                    setDraft({ ...config, sla: { ...config.sla, staleNewHours: n } })
+                  }
                 />
                 <NumberField
                   id="cfg-window"
@@ -652,7 +708,9 @@ function ControlPlane() {
               </div>
 
               <div className="mt-4 flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-wide text-muted-foreground">Playbooks</span>
+                <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                  Playbooks
+                </span>
                 <div className="flex flex-wrap gap-2">
                   {state.playbooks.map((p) => {
                     const pc = config.playbooks[p.key];
@@ -693,11 +751,17 @@ function ControlPlane() {
                     setNotice("No configuration changes to save.");
                     return;
                   }
-                  if (!window.confirm("Activate a new configuration version with these thresholds?")) return;
+                  if (
+                    !window.confirm("Activate a new configuration version with these thresholds?")
+                  )
+                    return;
                   saveMutation.mutate({ config: draft, reason });
                 }}
               >
-                <label htmlFor="cfg-reason" className="flex flex-1 flex-col gap-1 text-xs text-muted-foreground">
+                <label
+                  htmlFor="cfg-reason"
+                  className="flex flex-1 flex-col gap-1 text-xs text-muted-foreground"
+                >
                   <span>Change reason (required, recorded in the audit trail)</span>
                   <Input
                     id="cfg-reason"
@@ -707,7 +771,11 @@ function ControlPlane() {
                     placeholder="Why this threshold is changing"
                   />
                 </label>
-                <Button type="submit" className="min-h-11" disabled={saveMutation.isPending || !draft}>
+                <Button
+                  type="submit"
+                  className="min-h-11"
+                  disabled={saveMutation.isPending || !draft}
+                >
                   Save &amp; activate
                 </Button>
                 <Button
@@ -743,9 +811,13 @@ function ControlPlane() {
                           {label(v.source)}
                           {v.rolledBackFrom ? ` of v${v.rolledBackFrom}` : ""}
                         </td>
-                        <td className="max-w-[22rem] text-muted-foreground">{v.changeReason ?? "—"}</td>
+                        <td className="max-w-[22rem] text-muted-foreground">
+                          {v.changeReason ?? "—"}
+                        </td>
                         <td className="text-muted-foreground">{v.actorLabel}</td>
-                        <td className="text-muted-foreground">{new Date(v.createdAt).toLocaleString()}</td>
+                        <td className="text-muted-foreground">
+                          {new Date(v.createdAt).toLocaleString()}
+                        </td>
                         <td>
                           {v.isActive ? null : (
                             <Button
@@ -755,7 +827,8 @@ function ControlPlane() {
                               className="min-h-11"
                               disabled={rollbackMutation.isPending}
                               onClick={() => {
-                                if (!window.confirm(`Roll back to configuration v${v.version}?`)) return;
+                                if (!window.confirm(`Roll back to configuration v${v.version}?`))
+                                  return;
                                 rollbackMutation.mutate({
                                   version: v.version,
                                   reason: reason.trim() || `Rollback to v${v.version}`,

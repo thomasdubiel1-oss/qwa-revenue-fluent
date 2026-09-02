@@ -190,9 +190,9 @@ function VideoRouterLab() {
           </span>
           <h1 className="text-display text-[clamp(1.9rem,3.4vw,2.75rem)]">Video Router Lab</h1>
           <p className="text-lede max-w-[42rem]">
-            Configure a creative job and inspect how the QWA Creative Engine would rank
-            providers. All numbers on this page are simulated: scoring uses mock heuristics
-            and no provider call is made.
+            Configure a creative job and inspect how the QWA Creative Engine would rank providers.
+            All numbers on this page are simulated: scoring uses mock heuristics and no provider
+            call is made.
           </p>
         </header>
 
@@ -329,8 +329,8 @@ function VideoRouterLab() {
                           {r.displayName}
                         </p>
                         <p className="font-mono text-xs text-muted-foreground">
-                          {r.eligible ? `${(r.score * 100).toFixed(0)}/100` : "ineligible"} ·
-                          ${r.estimatedCostUsd.toFixed(2)} · ~
+                          {r.eligible ? `${(r.score * 100).toFixed(0)}/100` : "ineligible"} · $
+                          {r.estimatedCostUsd.toFixed(2)} · ~
                           {Math.max(1, Math.round(r.estimatedLatencySeconds / 60))} min ·{" "}
                           {r.clipsRequired} clip{r.clipsRequired === 1 ? "" : "s"}
                         </p>
@@ -366,8 +366,7 @@ function VideoRouterLab() {
                         <span className="text-muted-foreground">
                           {" "}
                           · {stageOwnerLabel(stage.owner)}
-                          {stage.optional ? " · optional" : ""} —{" "}
-                          {stage.detail}
+                          {stage.optional ? " · optional" : ""} — {stage.detail}
                         </span>
                       </span>
                     </li>
@@ -387,8 +386,8 @@ function VideoRouterLab() {
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">{hub.note}</p>
                     <p className="mt-1 font-mono text-[0.68rem] text-muted-foreground">
-                      est. ${hub.estimatedCostUsd.toFixed(2)} · storyboard ·
-                      {" "}shot sequencing · aspect + duration plan ·
+                      est. ${hub.estimatedCostUsd.toFixed(2)} · storyboard · shot sequencing ·
+                      aspect + duration plan ·
                       {hub.capabilities.prototypeAssembly ? " prototype assembly" : ""}
                     </p>
                   </div>
@@ -426,8 +425,8 @@ function VideoRouterLab() {
                   ))}
                 </ul>
                 <p className="mt-3 text-[0.68rem] text-muted-foreground">
-                  Workflow status only — not a legal determination. A named human must
-                  confirm clearance before any public use.
+                  Workflow status only — not a legal determination. A named human must confirm
+                  clearance before any public use.
                 </p>
               </div>
             ) : null}
@@ -442,10 +441,18 @@ function VideoRouterLab() {
                 <table className="mt-4 w-full text-left text-xs">
                   <thead className="text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
                     <tr>
-                      <th scope="col" className="py-2 font-medium">Length</th>
-                      <th scope="col" className="py-2 font-medium">Prototype-first</th>
-                      <th scope="col" className="py-2 font-medium">Premium everywhere</th>
-                      <th scope="col" className="py-2 font-medium">Delta</th>
+                      <th scope="col" className="py-2 font-medium">
+                        Length
+                      </th>
+                      <th scope="col" className="py-2 font-medium">
+                        Prototype-first
+                      </th>
+                      <th scope="col" className="py-2 font-medium">
+                        Premium everywhere
+                      </th>
+                      <th scope="col" className="py-2 font-medium">
+                        Delta
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="font-mono">
@@ -494,8 +501,8 @@ function VideoRouterLab() {
                                 : health === "manual_handoff"
                                   ? "bg-signal/50"
                                   : health === "degraded"
-                                  ? "bg-amber-500"
-                                  : "bg-muted-foreground/40",
+                                    ? "bg-amber-500"
+                                    : "bg-muted-foreground/40",
                             )}
                           />
                           {health ? HEALTH_LABEL[health] : "Checking\u2026"}

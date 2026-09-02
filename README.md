@@ -6,6 +6,7 @@ PRIMARY GOAL
 Build a premium homepage and reusable design system that establish the visual and product standard for all future QWA pages. The site should sell measurable business outcomes, not generic AI. Core positioning: QWA is the AI Revenue Operating System. The primary operating loop is: Acquire → Engage → Convert → Attribute → Predict → Decide → Execute → Learn.
 
 PHASE 1 SCOPE ONLY
+
 1. Global design system
 2. Header/navigation
 3. Flagship homepage
@@ -16,9 +17,10 @@ PHASE 1 SCOPE ONLY
 8. Reusable section/card/button/type/spacing/motion components
 9. Premium footer
 10. Demo/contact lead form UI
-Do NOT build all product pages yet. Create the architecture and reusable components so Phase 2 can extend cleanly.
+    Do NOT build all product pages yet. Create the architecture and reusable components so Phase 2 can extend cleanly.
 
 VISUAL DIRECTION
+
 - Premium California technology aesthetic.
 - Apple-inspired restraint, not an Apple copy.
 - Light and dark surfaces used intentionally; predominantly clean white/near-black with highly restrained accent treatment.
@@ -84,11 +86,12 @@ Each card should have a concise outcome-led sentence and be structured to become
 
 G. WHY QWA
 Communicate 3–4 differentiators:
+
 - Closed-loop revenue attribution
 - Cross-platform neutrality
 - Persistent customer/revenue graph
 - Controlled autonomous optimization
-Make the language commercial and concrete.
+  Make the language commercial and concrete.
 
 H. FINAL CTA
 Strong, minimal final section. “See what QWA could change in your revenue engine.” CTA: Book a private demo.
@@ -97,6 +100,7 @@ I. FOOTER
 Premium multi-column footer structured for future product, industry, platform, company, legal and resources pages. Keep visually restrained.
 
 INTERACTION & MOTION
+
 - Use Framer Motion or suitable native animation patterns where appropriate.
 - Smooth reveal/scroll interactions.
 - Hero visualization should feel alive with subtle activity.
@@ -105,6 +109,7 @@ INTERACTION & MOTION
 - No animation should materially hurt performance.
 
 TECHNICAL REQUIREMENTS
+
 - Full-stack TypeScript project using Lovable default stack with Tailwind/shadcn conventions.
 - Clean reusable component architecture.
 - Semantic HTML.

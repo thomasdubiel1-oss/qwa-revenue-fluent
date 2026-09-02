@@ -18,7 +18,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         /* QWA */
         ink: "bg-ink text-ink-foreground shadow-card transition-all hover:-translate-y-px hover:shadow-lift",
-        signal: "bg-signal text-signal-foreground shadow-card transition-all hover:-translate-y-px hover:shadow-lift",
+        signal:
+          "bg-signal text-signal-foreground shadow-card transition-all hover:-translate-y-px hover:shadow-lift",
         quiet:
           "border border-hairline-strong bg-transparent text-foreground transition-colors hover:bg-accent",
         onInk:
@@ -34,7 +35,6 @@ const buttonVariants = cva(
         pill: "h-10 rounded-full px-5",
         icon: "h-9 w-9",
       },
-
     },
     defaultVariants: {
       variant: "default",

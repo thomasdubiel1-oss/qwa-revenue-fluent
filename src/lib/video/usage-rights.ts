@@ -26,16 +26,11 @@ export const USAGE_RIGHTS_NOTE: Record<UsageRightsStatus, string> = {
   prototype_only:
     "Created under a personal/free plan. Internal prototyping only — regenerate or clear under a commercial plan before public use.",
   blocked_for_publish: "Explicitly withheld from publication by a reviewer.",
-  commercially_cleared:
-    "A named human confirmed commercial clearance for this asset in QWA.",
+  commercially_cleared: "A named human confirmed commercial clearance for this asset in QWA.",
 };
 
 /** Statuses that may never reach a publish-ready state. */
-const NON_PUBLISHABLE: UsageRightsStatus[] = [
-  "unknown",
-  "prototype_only",
-  "blocked_for_publish",
-];
+const NON_PUBLISHABLE: UsageRightsStatus[] = ["unknown", "prototype_only", "blocked_for_publish"];
 
 export function canPublish(status: UsageRightsStatus): boolean {
   return status === "commercially_cleared";
@@ -86,10 +81,7 @@ export function evaluatePublishGate(
 }
 
 /** Apply the gate to a job. Never upgrades rights, only caps state. */
-export function applyPublishGate(
-  job: VideoJob,
-  assets: CreativeAsset[] = [],
-): VideoJob {
+export function applyPublishGate(job: VideoJob, assets: CreativeAsset[] = []): VideoJob {
   const gate = evaluatePublishGate(job.usageRightsStatus, assets, "ready_for_publish");
   return { ...job, state: gate.resolvedState };
 }

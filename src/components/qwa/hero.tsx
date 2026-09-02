@@ -39,10 +39,7 @@ export function Hero() {
       <Container className="pb-24 lg:pb-32">
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:gap-20 xl:gap-24">
           <motion.div className="min-w-0" variants={container} initial="hidden" animate="visible">
-            <motion.p
-              variants={item}
-              className="text-eyebrow flex items-center gap-2.5"
-            >
+            <motion.p variants={item} className="text-eyebrow flex items-center gap-2.5">
               <span className="h-1 w-1 rounded-full bg-signal animate-node-pulse" />
               The AI Revenue Operating System
             </motion.p>
@@ -80,7 +77,6 @@ export function Hero() {
                   </dd>
                 </div>
               ))}
-
             </motion.dl>
           </motion.div>
 

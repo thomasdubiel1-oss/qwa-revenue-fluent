@@ -189,7 +189,9 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01" on, "cv01" on;
+    font-feature-settings:
+      "ss01" on,
+      "cv01" on;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
@@ -249,7 +251,6 @@
     96px 96px;
   opacity: 0.35;
   mask-image: radial-gradient(ellipse 70% 55% at 42% 22%, black, transparent 72%);
-
 }
 
 @utility text-lede {
@@ -277,7 +278,6 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
 }
-
 
 /* ---- Motion ---- */
 

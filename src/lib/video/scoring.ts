@@ -6,12 +6,7 @@
  * provider benchmarks or real billing data.
  */
 import { clipsRequired } from "./normalize";
-import type {
-  ProviderCapabilities,
-  ProviderId,
-  ProviderStatus,
-  VideoJobRequest,
-} from "./types";
+import type { ProviderCapabilities, ProviderId, ProviderStatus, VideoJobRequest } from "./types";
 
 export const SCORING_MODEL_VERSION = "mock-heuristic-v1";
 
@@ -70,10 +65,7 @@ const QUALITY_RANK: Record<ProviderCapabilities["qualityTier"], number> = {
 };
 
 /** Hard eligibility gates — a provider failing any of these is never selected. */
-export function findBlockers(
-  request: VideoJobRequest,
-  caps: ProviderCapabilities,
-): string[] {
+export function findBlockers(request: VideoJobRequest, caps: ProviderCapabilities): string[] {
   const blockers: string[] = [];
   if (!caps.aspectRatios.includes(request.aspectRatio)) {
     blockers.push(`Does not support ${request.aspectRatio}`);
@@ -87,10 +79,7 @@ export function findBlockers(
   if (request.referenceAssets.length > 0 && !caps.supportsReferenceAssets) {
     blockers.push("No reference asset support");
   }
-  if (
-    request.durationTargetSeconds > caps.maxClipDurationSeconds &&
-    !caps.supportsExtension
-  ) {
+  if (request.durationTargetSeconds > caps.maxClipDurationSeconds && !caps.supportsExtension) {
     blockers.push(
       `Cannot reach ${request.durationTargetSeconds}s (max clip ${caps.maxClipDurationSeconds}s, no extension)`,
     );
@@ -155,11 +144,26 @@ function availabilityScore(ctx: ScoringContext): number {
 }
 
 export const DEFAULT_HEURISTICS: ScoringHeuristic[] = [
-  { id: "capability", label: "Capability fit", weight: DEFAULT_WEIGHTS.capability, score: capabilityScore },
-  { id: "quality", label: "Quality tier match", weight: DEFAULT_WEIGHTS.quality, score: qualityScore },
+  {
+    id: "capability",
+    label: "Capability fit",
+    weight: DEFAULT_WEIGHTS.capability,
+    score: capabilityScore,
+  },
+  {
+    id: "quality",
+    label: "Quality tier match",
+    weight: DEFAULT_WEIGHTS.quality,
+    score: qualityScore,
+  },
   { id: "cost", label: "Cost efficiency", weight: DEFAULT_WEIGHTS.cost, score: costScore },
   { id: "latency", label: "Latency fit", weight: DEFAULT_WEIGHTS.latency, score: latencyScore },
-  { id: "availability", label: "Availability", weight: DEFAULT_WEIGHTS.availability, score: availabilityScore },
+  {
+    id: "availability",
+    label: "Availability",
+    weight: DEFAULT_WEIGHTS.availability,
+    score: availabilityScore,
+  },
 ];
 
 function describe(label: string, value: number): string {

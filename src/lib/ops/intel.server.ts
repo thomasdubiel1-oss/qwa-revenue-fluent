@@ -52,11 +52,7 @@ function delta(current: number, previous: number, previousHasData: boolean): Del
   return { current, previous, pct: ((current - previous) / previous) * 100 };
 }
 
-function breakdown(
-  leads: LeadRow[],
-  keyOf: (lead: LeadRow) => string,
-  limit = 8,
-): Breakdown[] {
+function breakdown(leads: LeadRow[], keyOf: (lead: LeadRow) => string, limit = 8): Breakdown[] {
   const map = new Map<string, { count: number; qualified: number; disqualified: number }>();
   for (const lead of leads) {
     const k = keyOf(lead);
@@ -96,9 +92,9 @@ function series(leads: LeadRow[], keyer: (iso: string) => string): TrendPoint[] 
     const k = keyer(lead.submitted_at);
     map.set(k, (map.get(k) ?? 0) + 1);
   }
-  return [...map.entries()].map(([date, count]) => ({ date, count })).sort((a, b) =>
-    a.date < b.date ? -1 : 1,
-  );
+  return [...map.entries()]
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => (a.date < b.date ? -1 : 1));
 }
 
 function median(values: number[]): number | null {
@@ -107,7 +103,7 @@ function median(values: number[]): number | null {
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 === 1
     ? (sorted[mid] as number)
-    : (((sorted[mid - 1] as number) + (sorted[mid] as number)) / 2);
+    : ((sorted[mid - 1] as number) + (sorted[mid] as number)) / 2;
 }
 
 export async function loadRevenueIntel(options: {
@@ -190,7 +186,12 @@ export async function loadRevenueIntel(options: {
       count: count("reviewing", "contacted"),
       share: share(count("reviewing", "contacted")),
     },
-    { key: "qualified", label: "Qualified", count: count("qualified"), share: share(count("qualified")) },
+    {
+      key: "qualified",
+      label: "Qualified",
+      count: count("qualified"),
+      share: share(count("qualified")),
+    },
     {
       key: "closed_out",
       label: "Disqualified / archived",
@@ -223,13 +224,10 @@ export async function loadRevenueIntel(options: {
 
   const staleCutoff = now - staleHours * 60 * 60 * 1000;
   const staleLeads = leads.filter((l) => l.status === "new" && ts(l) < staleCutoff);
-  const oldestStale = staleLeads.reduce<number | null>(
-    (max, l) => {
-      const hours = (now - ts(l)) / (60 * 60 * 1000);
-      return max === null || hours > max ? hours : max;
-    },
-    null,
-  );
+  const oldestStale = staleLeads.reduce<number | null>((max, l) => {
+    const hours = (now - ts(l)) / (60 * 60 * 1000);
+    return max === null || hours > max ? hours : max;
+  }, null);
 
   const ctx = (lead: LeadRow) => ctxById.get(lead.id);
   const bySourceCta = breakdown(inWindow, (l) => label(ctx(l)?.source_cta));

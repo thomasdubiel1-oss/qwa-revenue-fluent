@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  motion,
-  useInView,
-  useMotionValue,
-  useSpring,
-  type HTMLMotionProps,
-} from "motion/react";
+import { motion, useInView, useMotionValue, useSpring, type HTMLMotionProps } from "motion/react";
 import { cn } from "@/lib/utils";
 import { duration, ease, riseVariants, staggerParent } from "@/lib/motion";
 import { useHydratedReducedMotion as useReducedMotion } from "@/hooks/use-hydrated-reduced-motion";

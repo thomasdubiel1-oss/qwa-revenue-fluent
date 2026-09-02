@@ -48,8 +48,7 @@ function useDataSaver(): boolean {
     };
     const c = nav.connection;
     if (!c) return;
-    const evaluate = () =>
-      setSaving(Boolean(c.saveData) || /(^|-)2g$/.test(c.effectiveType ?? ""));
+    const evaluate = () => setSaving(Boolean(c.saveData) || /(^|-)2g$/.test(c.effectiveType ?? ""));
     evaluate();
     c.addEventListener?.("change", evaluate);
     return () => c.removeEventListener?.("change", evaluate);
@@ -153,7 +152,6 @@ export function FlagshipMedia({
   const ratio = compact ? asset.mobileAspectRatio : asset.aspectRatio;
   const stillRatio = still?.aspectRatio ?? ratio;
 
-
   return (
     <div
       ref={ref}
@@ -200,8 +198,6 @@ export function FlagshipMedia({
           />
         </div>
       ) : null}
-
-
 
       {mountVideo && src ? (
         <video

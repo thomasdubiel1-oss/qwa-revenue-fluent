@@ -38,7 +38,6 @@ const railNodes = [
   { name: "Reactivate", label: true },
 ];
 
-
 export function RevenueLoopVisual() {
   return (
     <FlagshipMedia id="revenue-engine-loop" unframed>
@@ -139,7 +138,6 @@ function LoopRail() {
             </g>
           );
         })}
-
 
         {/* Revenue returns to the source that produced it. This is the beat the
             whole page is built around, so it resolves last and alone. */}
@@ -407,9 +405,7 @@ export function QualificationSection() {
                 <th scope="row" className="py-3 pr-4 text-[0.875rem] font-medium">
                   Fit score
                 </th>
-                <td className="py-3 pr-4 text-[0.8125rem] text-muted-foreground">
-                  threshold 70
-                </td>
+                <td className="py-3 pr-4 text-[0.8125rem] text-muted-foreground">threshold 70</td>
                 <td className="text-data w-[5.5rem] py-3 text-right text-[1.0625rem] font-medium tabular-nums">
                   {total}
                 </td>

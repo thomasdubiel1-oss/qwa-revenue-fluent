@@ -32,10 +32,35 @@ type LedgerRow = {
 };
 
 const ledger: LedgerRow[] = [
-  { source: "Paid social · retargeting", spend: "$4,180", leads: "212", revenue: "$61,400", index: 0.94, best: true },
-  { source: "Search · high intent", spend: "$9,640", leads: "331", revenue: "$88,900", index: 0.71 },
-  { source: "Creator partnerships", spend: "$3,200", leads: "148", revenue: "$21,050", index: 0.44 },
-  { source: "Paid social · prospecting", spend: "$7,900", leads: "506", revenue: "$28,300", index: 0.29 },
+  {
+    source: "Paid social · retargeting",
+    spend: "$4,180",
+    leads: "212",
+    revenue: "$61,400",
+    index: 0.94,
+    best: true,
+  },
+  {
+    source: "Search · high intent",
+    spend: "$9,640",
+    leads: "331",
+    revenue: "$88,900",
+    index: 0.71,
+  },
+  {
+    source: "Creator partnerships",
+    spend: "$3,200",
+    leads: "148",
+    revenue: "$21,050",
+    index: 0.44,
+  },
+  {
+    source: "Paid social · prospecting",
+    spend: "$7,900",
+    leads: "506",
+    revenue: "$28,300",
+    index: 0.29,
+  },
   { source: "Marketplace listings", spend: "$1,450", leads: "64", revenue: "$4,100", index: 0.12 },
 ];
 
@@ -133,7 +158,11 @@ export function DemandIntakeSection() {
       level="sub"
       tone="paper"
     >
-      <ProductPanel title="Intake adapters" meta="configured per account" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Intake adapters"
+        meta="configured per account"
+        footer={<IllustrativeNote />}
+      >
         {intake.map((g) => (
           <PanelBlock key={g.label} label={g.label}>
             <div className="flex flex-wrap gap-2">
@@ -189,7 +218,10 @@ export function LeadQualitySection() {
         <PanelBlock className="py-0">
           <ul>
             {qualityRows.map((q) => (
-              <li key={q.label} className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5">
+              <li
+                key={q.label}
+                className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5"
+              >
                 <div className="flex items-baseline justify-between gap-4">
                   <p className="text-[0.9375rem] font-medium">{q.label}</p>
                   <p className="text-data text-[0.875rem] tabular-nums text-muted-foreground">
@@ -199,7 +231,9 @@ export function LeadQualitySection() {
                 <div className="mt-3">
                   <PanelProgress value={q.value} />
                 </div>
-                <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-foreground">{q.note}</p>
+                <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-foreground">
+                  {q.note}
+                </p>
               </li>
             ))}
           </ul>
@@ -238,7 +272,11 @@ export function PacingSection() {
       level="sub"
       tone="paper"
     >
-      <ProductPanel title="Pacing proposal · week 14" meta="awaiting approval" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Pacing proposal · week 14"
+        meta="awaiting approval"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-5">
           <DecisionCallout
             label="Proposed"
@@ -293,11 +331,18 @@ export function CreativePerformanceSection() {
       media="right"
       level="sub"
     >
-      <ProductPanel title="Creative contribution" meta="revenue-weighted" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Creative contribution"
+        meta="revenue-weighted"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ul>
             {creatives.map((c, i) => (
-              <li key={c.name} className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5">
+              <li
+                key={c.name}
+                className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5"
+              >
                 <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                   <p className="min-w-0 text-[0.9375rem] font-medium">{c.name}</p>
                   <p className="text-data text-[0.9375rem] font-medium">{c.revenue}</p>
@@ -346,7 +391,6 @@ export function AcquisitionAttributionSection() {
         </MotionReveal>
 
         <MotionReveal delay={0.08} className="mt-8">
-
           <ProductPanel
             tone="ink"
             title="Closed · $14,200"
@@ -419,7 +463,6 @@ export function AcquisitionExecutiveSection() {
         </MotionReveal>
 
         <MotionReveal delay={0.08} className="mt-10">
-
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
@@ -453,11 +496,31 @@ export function AcquisitionExecutiveSection() {
  * ---------------------------------------------------------------------- */
 
 const controls = [
-  { label: "Budget authority", detail: "Ceilings, floors and who may approve a reallocation.", held: "You" },
-  { label: "Channel policy", detail: "Which platforms QWA may buy on, and which it may only read.", held: "You" },
-  { label: "Data sharing", detail: "What is returned to ad platforms, and in what form.", held: "You" },
-  { label: "Attribution model", detail: "Credit rules agreed with finance before anything is reported.", held: "You and finance" },
-  { label: "Change log", detail: "Every proposal, approval and rollback retained with its rationale.", held: "System" },
+  {
+    label: "Budget authority",
+    detail: "Ceilings, floors and who may approve a reallocation.",
+    held: "You",
+  },
+  {
+    label: "Channel policy",
+    detail: "Which platforms QWA may buy on, and which it may only read.",
+    held: "You",
+  },
+  {
+    label: "Data sharing",
+    detail: "What is returned to ad platforms, and in what form.",
+    held: "You",
+  },
+  {
+    label: "Attribution model",
+    detail: "Credit rules agreed with finance before anything is reported.",
+    held: "You and finance",
+  },
+  {
+    label: "Change log",
+    detail: "Every proposal, approval and rollback retained with its rationale.",
+    held: "System",
+  },
 ];
 
 export function AcquisitionGovernanceSection() {
@@ -475,7 +538,6 @@ export function AcquisitionGovernanceSection() {
               keeps the receipt.
             </p>
           </MotionReveal>
-
 
           <MotionStagger stagger={0.04} className="min-w-0 border-t border-hairline">
             {controls.map((c) => (

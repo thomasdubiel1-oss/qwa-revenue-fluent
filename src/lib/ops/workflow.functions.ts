@@ -21,7 +21,9 @@ function requireId(id: unknown): string {
 }
 
 export const opsWorkQueueFn = createServerFn({ method: "POST" })
-  .inputValidator((data: Keyed<{ sla?: Partial<SlaThresholds> | undefined }>) => requireObject(data))
+  .inputValidator((data: Keyed<{ sla?: Partial<SlaThresholds> | undefined }>) =>
+    requireObject(data),
+  )
   .handler(async ({ data }): Promise<OpsResponse<WorkQueueResult>> => {
     const { checkOpsAccess } = await import("./ops.server");
     const access = checkOpsAccess(data.key);

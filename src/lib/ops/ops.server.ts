@@ -158,9 +158,8 @@ export async function loadLeads(filters: OpsFilters): Promise<OpsLeadRow[]> {
   const rows: OpsLeadRow[] = ((data ?? []) as unknown as Joined[]).map((row) => {
     const ctx = row.demo_request_context?.[0] ?? null;
     const delivery =
-      [...(row.lead_deliveries ?? [])].sort((a, b) =>
-        a.created_at < b.created_at ? 1 : -1,
-      )[0] ?? null;
+      [...(row.lead_deliveries ?? [])].sort((a, b) => (a.created_at < b.created_at ? 1 : -1))[0] ??
+      null;
     return {
       id: row.id,
       submittedAt: row.submitted_at,

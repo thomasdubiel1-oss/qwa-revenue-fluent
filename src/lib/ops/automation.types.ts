@@ -33,13 +33,7 @@ export const AUTOMATION_ACTION_LABELS: Record<AutomationActionType, string> = {
 };
 
 export type RecommendationStatus =
-  | "recommended"
-  | "approved"
-  | "dismissed"
-  | "snoozed"
-  | "auto_executed"
-  | "blocked"
-  | "failed";
+  "recommended" | "approved" | "dismissed" | "snoozed" | "auto_executed" | "blocked" | "failed";
 
 export type ExecutionOutcome = "executed" | "skipped" | "blocked" | "failed";
 

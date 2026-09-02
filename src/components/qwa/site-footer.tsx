@@ -10,7 +10,6 @@ const legalLinks: { label: string; href: "/privacy" | "/terms" }[] = [
   { label: "Terms", href: "/terms" },
 ];
 
-
 export function SiteFooter() {
   return (
     <footer className="border-t border-hairline bg-paper">
@@ -25,7 +24,9 @@ export function SiteFooter() {
               The AI Revenue Operating System. One closed loop from first signal to attributed
               revenue.
             </p>
-            <p className="text-data mt-6 text-xs text-muted-foreground">San Francisco, California</p>
+            <p className="text-data mt-6 text-xs text-muted-foreground">
+              San Francisco, California
+            </p>
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
@@ -44,7 +45,6 @@ export function SiteFooter() {
                     </li>
                   ))}
                 </ul>
-
               </div>
             ))}
           </nav>

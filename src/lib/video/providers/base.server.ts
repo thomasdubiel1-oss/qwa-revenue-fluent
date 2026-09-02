@@ -29,9 +29,7 @@ export interface AdapterPricing {
 
 export class NotConfiguredError extends Error {
   constructor(id: ProviderId, missingEnv: string[]) {
-    super(
-      `Provider "${id}" is not configured. Missing server env: ${missingEnv.join(", ")}.`,
-    );
+    super(`Provider "${id}" is not configured. Missing server env: ${missingEnv.join(", ")}.`);
     this.name = "NotConfiguredError";
   }
 }
@@ -46,23 +44,15 @@ export function createAdapter(
   const requiredEnv = envNames ? [envNames.apiKey] : [];
 
   function estimateCostUsd(request: VideoJobRequest): number {
-    const clips = clipsRequired(
-      request.durationTargetSeconds,
-      capabilities.maxClipDurationSeconds,
-    );
+    const clips = clipsRequired(request.durationTargetSeconds, capabilities.maxClipDurationSeconds);
     const seconds = clips * capabilities.maxClipDurationSeconds;
     return seconds * pricing.usdPerSecond * request.outputCount;
   }
 
   function estimateLatencySeconds(request: VideoJobRequest): number {
-    const clips = clipsRequired(
-      request.durationTargetSeconds,
-      capabilities.maxClipDurationSeconds,
-    );
+    const clips = clipsRequired(request.durationTargetSeconds, capabilities.maxClipDurationSeconds);
     // Clips within one output are generated sequentially; outputs are queued.
-    return (
-      pricing.queueOverheadSeconds + clips * pricing.secondsPerClip * request.outputCount
-    );
+    return pricing.queueOverheadSeconds + clips * pricing.secondsPerClip * request.outputCount;
   }
 
   return {
@@ -92,9 +82,7 @@ export function createAdapter(
       // TODO(integration): POST the normalized request to the vendor API.
       // Map `request` to the vendor payload here — nowhere else in the system.
       void request;
-      throw new Error(
-        `Provider "${id}" submit() is not implemented. ${integrationNote}`,
-      );
+      throw new Error(`Provider "${id}" submit() is not implemented. ${integrationNote}`);
     },
 
     async poll(providerJobId: string): Promise<PollResult> {

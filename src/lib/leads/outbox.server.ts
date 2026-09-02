@@ -114,11 +114,11 @@ export async function drainLeadOutbox(limit = 20): Promise<DrainResult> {
   let failed = 0;
 
   for (const row of rows ?? []) {
-    const { data: lead } = await supabaseAdmin
+    const { data: lead } = (await supabaseAdmin
       .from("demo_requests")
       .select("*, demo_request_context(*)")
       .eq("id", row.demo_request_id)
-      .maybeSingle() as { data: LeadRow | null };
+      .maybeSingle()) as { data: LeadRow | null };
     if (!lead) continue;
 
     const attempt = row.attempt_count + 1;

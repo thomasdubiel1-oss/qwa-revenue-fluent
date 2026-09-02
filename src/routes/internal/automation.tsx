@@ -113,7 +113,9 @@ function RecommendationRow({
           </p>
           <p className="mt-1 text-[0.68rem] text-muted-foreground">
             reason: {rec.reasonCodes.map(reasonLabel).join(", ")}
-            {rec.snoozeUntil ? ` · snoozed until ${new Date(rec.snoozeUntil).toLocaleString()}` : ""}
+            {rec.snoozeUntil
+              ? ` · snoozed until ${new Date(rec.snoozeUntil).toLocaleString()}`
+              : ""}
           </p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-2">
@@ -190,14 +192,18 @@ function AutomationConsole() {
   const runMutation = useMutation({
     mutationFn: (isDry: boolean) => runFn({ data: { key, dryRun: isDry } }),
     onSuccess: (res, isDry) => {
-      if (res.ok && isDry) setDryRun({ executed: res.result.executed, skipped: res.result.skipped });
+      if (res.ok && isDry)
+        setDryRun({ executed: res.result.executed, skipped: res.result.skipped });
       if (!isDry) setDryRun(null);
       invalidate();
     },
   });
   const decideMutation = useMutation({
-    mutationFn: (vars: { leadId: string; playbookKey: string; decision: "approve" | "dismiss" | "snooze" }) =>
-      decideFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    mutationFn: (vars: {
+      leadId: string;
+      playbookKey: string;
+      decision: "approve" | "dismiss" | "snooze";
+    }) => decideFn({ data: { key, ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
@@ -227,7 +233,10 @@ function AutomationConsole() {
   if (!key || denied) {
     return (
       <OpsShell title="Automation Control Plane" subtitle="Internal access required">
-        <Panel title="Enter operator access key" description="Session-scoped. Never stored on disk.">
+        <Panel
+          title="Enter operator access key"
+          description="Session-scoped. Never stored on disk."
+        >
           <form
             className="flex max-w-lg flex-col gap-3 sm:flex-row"
             onSubmit={(e) => {
@@ -248,7 +257,9 @@ function AutomationConsole() {
             </Button>
           </form>
           {denied ? (
-            <p className="mt-3 text-sm text-destructive">Key rejected. Check the configured secret.</p>
+            <p className="mt-3 text-sm text-destructive">
+              Key rejected. Check the configured secret.
+            </p>
           ) : null}
         </Panel>
       </OpsShell>
@@ -303,7 +314,9 @@ function AutomationConsole() {
         <p className="text-sm text-muted-foreground">Evaluating playbooks…</p>
       ) : null}
       {stateQuery.isError ? (
-        <p className="text-sm text-destructive">Automation state failed to load. Retry the request.</p>
+        <p className="text-sm text-destructive">
+          Automation state failed to load. Retry the request.
+        </p>
       ) : null}
 
       {state ? (
@@ -375,11 +388,14 @@ function AutomationConsole() {
                 <ul className="mt-2 flex flex-col gap-1">
                   {dryRun.executed.slice(0, 12).map((e) => (
                     <li key={`${e.leadId}-${e.playbookKey}`} className="text-muted-foreground">
-                      would {e.action.replace(/_/g, " ")} · {e.playbookKey} · lead {e.leadId.slice(0, 8)}
+                      would {e.action.replace(/_/g, " ")} · {e.playbookKey} · lead{" "}
+                      {e.leadId.slice(0, 8)}
                     </li>
                   ))}
                   {dryRun.executed.length === 0 ? (
-                    <li className="text-muted-foreground">Nothing would execute in the current mode.</li>
+                    <li className="text-muted-foreground">
+                      Nothing would execute in the current mode.
+                    </li>
                   ) : null}
                 </ul>
               </div>
@@ -461,11 +477,13 @@ function AutomationConsole() {
                 No lead currently satisfies a playbook trigger. Nothing is recommended.
               </p>
             )}
-
           </Panel>
 
           <div className="grid gap-5 xl:grid-cols-2">
-            <Panel title="Blocked & exceptions" description="Explicit reason codes — never an unexplained skip.">
+            <Panel
+              title="Blocked & exceptions"
+              description="Explicit reason codes — never an unexplained skip."
+            >
               {state.blocked.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No blocked items.</p>
               ) : (
@@ -496,7 +514,9 @@ function AutomationConsole() {
               description={`Append-only audit log for the last ${state.windowHours}h.`}
             >
               {state.executions.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No executions recorded in this window.</p>
+                <p className="text-sm text-muted-foreground">
+                  No executions recorded in this window.
+                </p>
               ) : (
                 <ul className="flex flex-col gap-2">
                   {state.executions.slice(0, 30).map((e) => (
@@ -505,10 +525,20 @@ function AutomationConsole() {
                         <span className="tabular-nums text-muted-foreground">
                           {new Date(e.createdAt).toLocaleString()}
                         </span>
-                        <Pill tone={e.outcome === "executed" ? "positive" : e.outcome === "failed" ? "warn" : "muted"}>
+                        <Pill
+                          tone={
+                            e.outcome === "executed"
+                              ? "positive"
+                              : e.outcome === "failed"
+                                ? "warn"
+                                : "muted"
+                          }
+                        >
                           {e.outcome}
                         </Pill>
-                        <span>{e.playbookKey} v{e.playbookVersion}</span>
+                        <span>
+                          {e.playbookKey} v{e.playbookVersion}
+                        </span>
                         <span className="text-muted-foreground">{reasonLabel(e.reasonCode)}</span>
                         <span className="text-muted-foreground">mode {e.mode}</span>
                       </div>

@@ -32,22 +32,22 @@ function PrivacyPage() {
         <p>
           When you arrive from a campaign link, the site records first-touch campaign parameters
           (utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid), the
-          referring site, and the first page you landed on. This is held in your browser’s
-          session storage — it is first-party, cleared when you close the tab, and attached to a
-          demo request only if you submit one.
+          referring site, and the first page you landed on. This is held in your browser’s session
+          storage — it is first-party, cleared when you close the tab, and attached to a demo
+          request only if you submit one.
         </p>
         <p>
           Alongside a submitted request we also store the page and call-to-action you submitted
           from, your browser’s user agent string, and a one-way hashed signal derived from your
-          network address that is used solely for rate limiting and duplicate detection. The
-          address itself is not stored.
+          network address that is used solely for rate limiting and duplicate detection. The address
+          itself is not stored.
         </p>
       </LegalSection>
 
       <LegalSection heading="Cookies and third-party tracking">
         <p>
-          This site currently sets no advertising cookies and loads no third-party analytics,
-          tag manager, or tracking SDK. The only browser storage in use is the first-party session
+          This site currently sets no advertising cookies and loads no third-party analytics, tag
+          manager, or tracking SDK. The only browser storage in use is the first-party session
           storage described above, plus a local preference record if you change your storage
           settings.
         </p>
@@ -75,8 +75,8 @@ function PrivacyPage() {
         </p>
         <PendingReview>
           The retention period, the legal basis for processing, and any market-specific rights
-          (including GDPR/UK GDPR and CCPA/CPRA disclosures) must be confirmed by counsel and
-          stated here before launch.
+          (including GDPR/UK GDPR and CCPA/CPRA disclosures) must be confirmed by counsel and stated
+          here before launch.
         </PendingReview>
       </LegalSection>
 

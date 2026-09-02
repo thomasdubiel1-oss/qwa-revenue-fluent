@@ -24,11 +24,27 @@ import { FlagshipMedia } from "@/components/qwa/media/flagship-media";
 const pipeline = [
   { stage: "Brief", detail: "Offer, audience, claim boundaries", spend: "No spend" },
   { stage: "Script", detail: "Hook, proof, single call to action", spend: "No spend" },
-  { stage: "Storyboard", detail: "Shot plan, aspect and duration set before spend", spend: "LTX · low cost" },
-  { stage: "Prototype", detail: "Low-cost rough cut proves pacing first", spend: "LTX · prototype only" },
-  { stage: "Routing", detail: "Only approved shots go to a premium provider", spend: "Premium · approved shots" },
+  {
+    stage: "Storyboard",
+    detail: "Shot plan, aspect and duration set before spend",
+    spend: "LTX · low cost",
+  },
+  {
+    stage: "Prototype",
+    detail: "Low-cost rough cut proves pacing first",
+    spend: "LTX · prototype only",
+  },
+  {
+    stage: "Routing",
+    detail: "Only approved shots go to a premium provider",
+    spend: "Premium · approved shots",
+  },
   { stage: "Assembly", detail: "Cuts, captions, aspect variants", spend: "No spend" },
-  { stage: "Review", detail: "Named human approves rights and release", spend: "Clearance required" },
+  {
+    stage: "Review",
+    detail: "Named human approves rights and release",
+    spend: "Clearance required",
+  },
 ];
 
 export function ProductionPipelineVisual() {
@@ -44,7 +60,11 @@ function ProductionPipelineVisualPanel() {
     <ProductPanel
       title="Job · CS-2210 · coverage comparison"
       meta="7 stages · prototype first · human gated"
-      footer={<IllustrativeNote>Illustrative pipeline state. No provider is called from this page.</IllustrativeNote>}
+      footer={
+        <IllustrativeNote>
+          Illustrative pipeline state. No provider is called from this page.
+        </IllustrativeNote>
+      }
     >
       <PanelBlock className="py-6">
         <ol className="grid gap-0">
@@ -75,9 +95,7 @@ function ProductionPipelineVisualPanel() {
                   <motion.span
                     className={cn(
                       "text-data text-[0.68rem] uppercase tracking-[0.12em]",
-                      p.spend.startsWith("Premium")
-                        ? "text-signal"
-                        : "text-muted-foreground/80",
+                      p.spend.startsWith("Premium") ? "text-signal" : "text-muted-foreground/80",
                     )}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -152,10 +170,30 @@ export function BriefSection() {
  * ---------------------------------------------------------------------- */
 
 const shots = [
-  { n: "01", label: "Hook", body: "Two policies side by side, one visibly shorter.", spec: "2.5s · static-to-motion" },
-  { n: "02", label: "Proof", body: "The roadside line item resolving into a monthly figure.", spec: "5s · generated" },
-  { n: "03", label: "Human", body: "Advisor on a call, unhurried, mid-sentence.", spec: "4s · generated" },
-  { n: "04", label: "Action", body: "One instruction, held long enough to read.", spec: "3.5s · template" },
+  {
+    n: "01",
+    label: "Hook",
+    body: "Two policies side by side, one visibly shorter.",
+    spec: "2.5s · static-to-motion",
+  },
+  {
+    n: "02",
+    label: "Proof",
+    body: "The roadside line item resolving into a monthly figure.",
+    spec: "5s · generated",
+  },
+  {
+    n: "03",
+    label: "Human",
+    body: "Advisor on a call, unhurried, mid-sentence.",
+    spec: "4s · generated",
+  },
+  {
+    n: "04",
+    label: "Action",
+    body: "One instruction, held long enough to read.",
+    spec: "3.5s · template",
+  },
 ];
 
 export function ShotDecompositionSection() {
@@ -228,12 +266,16 @@ export function ProviderRoutingSection() {
       tone="paper"
       level="sub"
     >
-      <ProductPanel title="Routing candidates · shot 02" meta="simulation only" footer={
-        <IllustrativeNote>
-          Provider credentials are configured server-side by your team. No provider is connected or
-          called from this page.
-        </IllustrativeNote>
-      }>
+      <ProductPanel
+        title="Routing candidates · shot 02"
+        meta="simulation only"
+        footer={
+          <IllustrativeNote>
+            Provider credentials are configured server-side by your team. No provider is connected
+            or called from this page.
+          </IllustrativeNote>
+        }
+      >
         <PanelBlock className="py-5">
           <DecisionCallout
             label="Would route to"
@@ -286,7 +328,11 @@ export function VariantSection() {
       tone="paper"
       level="sub"
     >
-      <ProductPanel title="Variant set · CS-2210" meta="v3 · 9 assets" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Variant set · CS-2210"
+        meta="v3 · 9 assets"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock label="Derived formats">
           <div className="flex flex-wrap gap-2">
             {formats.map((f, i) => (
@@ -333,10 +379,16 @@ export function VariantSection() {
  * ---------------------------------------------------------------------- */
 
 const checks = [
-  { label: "Brand system", detail: "Type, color, logo placement and safe areas enforced on export." },
+  {
+    label: "Brand system",
+    detail: "Type, color, logo placement and safe areas enforced on export.",
+  },
   { label: "Claim boundaries", detail: "Prohibited language flagged before a cut reaches review." },
   { label: "Legibility", detail: "Caption contrast and hold time checked at each aspect ratio." },
-  { label: "Artifact review", detail: "Generated footage screened for defects a person would catch." },
+  {
+    label: "Artifact review",
+    detail: "Generated footage screened for defects a person would catch.",
+  },
 ];
 
 export function QualitySection() {
@@ -378,9 +430,17 @@ export function QualitySection() {
  * ---------------------------------------------------------------------- */
 
 const headline = [
-  { label: "Revenue from produced creative", value: "$96K", caption: "Joined to the full contribution chain" },
+  {
+    label: "Revenue from produced creative",
+    value: "$96K",
+    caption: "Joined to the full contribution chain",
+  },
   { label: "Cost per approved asset", value: "$41", caption: "Generation, assembly and review" },
-  { label: "Brief to first cut", value: "2h 40m", caption: "Median across the last production cycle" },
+  {
+    label: "Brief to first cut",
+    value: "2h 40m",
+    caption: "Median across the last production cycle",
+  },
 ];
 
 const secondary = [
@@ -427,12 +487,36 @@ export function CreativeFeedbackSection() {
  * ---------------------------------------------------------------------- */
 
 const controls = [
-  { label: "Approval gate", detail: "Nothing publishes without a named human approval.", held: "You" },
-  { label: "Claim policy", detail: "Language your legal team prohibits, enforced before review.", held: "You and legal" },
-  { label: "Provider allowlist", detail: "Which generation providers may be used, and for what.", held: "You" },
-  { label: "Rights and retention", detail: "Where assets live, how long, and who may export them.", held: "You" },
-  { label: "Disclosure", detail: "AI-generated footage labelled per your policy and jurisdiction.", held: "You" },
-  { label: "Version history", detail: "Every cut, prompt and approval retained and auditable.", held: "System" },
+  {
+    label: "Approval gate",
+    detail: "Nothing publishes without a named human approval.",
+    held: "You",
+  },
+  {
+    label: "Claim policy",
+    detail: "Language your legal team prohibits, enforced before review.",
+    held: "You and legal",
+  },
+  {
+    label: "Provider allowlist",
+    detail: "Which generation providers may be used, and for what.",
+    held: "You",
+  },
+  {
+    label: "Rights and retention",
+    detail: "Where assets live, how long, and who may export them.",
+    held: "You",
+  },
+  {
+    label: "Disclosure",
+    detail: "AI-generated footage labelled per your policy and jurisdiction.",
+    held: "You",
+  },
+  {
+    label: "Version history",
+    detail: "Every cut, prompt and approval retained and auditable.",
+    held: "System",
+  },
 ];
 
 export function CreativeGovernanceSection() {

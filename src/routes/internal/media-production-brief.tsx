@@ -19,8 +19,7 @@ import type { FlagshipMediaAsset, MediaPriority, MediaStatus } from "@/lib/media
 import { cn } from "@/lib/utils";
 
 const title = "Media Production Brief — QWA Internal";
-const description =
-  "Internal production checklist for every flagship media slot on the QWA site.";
+const description = "Internal production checklist for every flagship media slot on the QWA site.";
 
 export const Route = createFileRoute("/internal/media-production-brief")({
   head: () => ({
@@ -196,8 +195,8 @@ function MediaProductionBrief() {
           </h1>
           <p className="text-lede max-w-[46rem]">
             Every flagship media slot on the public site, with the story beat it carries, the
-            geometry it must be produced at, and its rights state. Footage never mounts unless
-            an entry is commercially cleared, so nothing here can ship an unlicensed asset.
+            geometry it must be produced at, and its rights state. Footage never mounts unless an
+            entry is commercially cleared, so nothing here can ship an unlicensed asset.
           </p>
         </header>
 
@@ -264,9 +263,7 @@ function MediaProductionBrief() {
               </div>
             ))}
           {visible.length === 0 ? (
-            <p className="text-[0.9375rem] text-muted-foreground">
-              No slots match this filter.
-            </p>
+            <p className="text-[0.9375rem] text-muted-foreground">No slots match this filter.</p>
           ) : null}
         </section>
 
@@ -291,13 +288,11 @@ function MediaProductionBrief() {
         <SignalRule className="my-12" />
 
         <section aria-label="External generation queue">
-          <h2 className="text-[1.25rem] font-medium tracking-tight">
-            External generation queue
-          </h2>
+          <h2 className="text-[1.25rem] font-medium tracking-tight">External generation queue</h2>
           <p className="mt-2 max-w-[46rem] text-[0.9375rem] leading-relaxed text-muted-foreground">
             In priority order. Each one runs LTX storyboard and prototype first, then a premium
-            provider for approved shots only, then recorded human clearance before a source is
-            bound in the manifest.
+            provider for approved shots only, then recorded human clearance before a source is bound
+            in the manifest.
           </p>
           <ol className="mt-6 flex flex-col divide-y divide-hairline border-y border-hairline">
             {external.map((a, i) => (

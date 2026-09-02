@@ -5,15 +5,15 @@ Nothing here is applied automatically — each item is a deliberate launch actio
 
 ## 1. Environment configuration
 
-| Variable | Scope | Required for | Status |
-| --- | --- | --- | --- |
-| `VITE_SITE_URL` | build/client | Canonical URLs, OG `og:url`, sitemap | **Set at launch** (defaults to `https://quantumwebai.com`) |
-| `VITE_SITE_INDEXABLE` | build/client | Turns robots/sitemap/`meta robots` from noindex to indexable | **Set to `true` only at launch** |
-| `SUPABASE_URL` | server | Lead persistence | Configured |
-| `SUPABASE_SERVICE_ROLE_KEY` | server | Lead persistence (server-only) | Configured |
-| `LOVABLE_CRON_SECRET` | server | Authenticates `/api/public/leads-outbox` | Configured |
-| `LEAD_WEBHOOK_URL` | server | CRM/HighLevel outbox destination | **Deferred** — outbox queues durably without it |
-| `LEAD_WEBHOOK_TOKEN` | server | Auth header for the CRM webhook | **Deferred** |
+| Variable                    | Scope        | Required for                                                 | Status                                                     |
+| --------------------------- | ------------ | ------------------------------------------------------------ | ---------------------------------------------------------- |
+| `VITE_SITE_URL`             | build/client | Canonical URLs, OG `og:url`, sitemap                         | **Set at launch** (defaults to `https://quantumwebai.com`) |
+| `VITE_SITE_INDEXABLE`       | build/client | Turns robots/sitemap/`meta robots` from noindex to indexable | **Set to `true` only at launch**                           |
+| `SUPABASE_URL`              | server       | Lead persistence                                             | Configured                                                 |
+| `SUPABASE_SERVICE_ROLE_KEY` | server       | Lead persistence (server-only)                               | Configured                                                 |
+| `LOVABLE_CRON_SECRET`       | server       | Authenticates `/api/public/leads-outbox`                     | Configured                                                 |
+| `LEAD_WEBHOOK_URL`          | server       | CRM/HighLevel outbox destination                             | **Deferred** — outbox queues durably without it            |
+| `LEAD_WEBHOOK_TOKEN`        | server       | Auth header for the CRM webhook                              | **Deferred**                                               |
 
 Client-visible values must be `VITE_*` only. No service-role key, webhook token
 or cron secret is referenced anywhere in browser-reachable code.
@@ -112,6 +112,7 @@ decision for the owner; the hooks are in place to drive one.
 Route: `/internal/leads` (noindex, nofollow, noarchive; excluded from sitemap and all public navigation).
 
 Access model (owner action required before use):
+
 1. Add a secret named `INTERNAL_OPS_TOKEN` (32+ random characters) in Project Settings → Secrets.
 2. Operators enter that key once per browser session; it is held in sessionStorage only and validated server-side with a timing-safe compare.
 3. Until the secret exists, the console renders a locked state and returns zero lead data.

@@ -93,24 +93,39 @@ export async function loadWorkQueue(
   const db = await admin();
   const now = Date.now();
 
-  const [{ data: leads }, { data: deliveries }, { data: contexts }, { data: tasks }, { data: activity }] =
-    await Promise.all([
-      db
-        .from("demo_requests")
-        .select("id,submitted_at,updated_at,name,company,email,phone,monthly_leads,primary_goal,status")
-        .order("submitted_at", { ascending: false })
-        .limit(1000),
-      db
-        .from("lead_deliveries")
-        .select("id,demo_request_id,status,attempt_count,last_error,created_at"),
-      db.from("demo_request_context").select("demo_request_id,source_cta,source_route,utm_campaign,utm_source"),
-      db.from("lead_tasks").select("id,demo_request_id,due_at,completed_at"),
-      db.from("lead_activity").select("demo_request_id,created_at"),
-    ]);
+  const [
+    { data: leads },
+    { data: deliveries },
+    { data: contexts },
+    { data: tasks },
+    { data: activity },
+  ] = await Promise.all([
+    db
+      .from("demo_requests")
+      .select(
+        "id,submitted_at,updated_at,name,company,email,phone,monthly_leads,primary_goal,status",
+      )
+      .order("submitted_at", { ascending: false })
+      .limit(1000),
+    db
+      .from("lead_deliveries")
+      .select("id,demo_request_id,status,attempt_count,last_error,created_at"),
+    db
+      .from("demo_request_context")
+      .select("demo_request_id,source_cta,source_route,utm_campaign,utm_source"),
+    db.from("lead_tasks").select("id,demo_request_id,due_at,completed_at"),
+    db.from("lead_activity").select("demo_request_id,created_at"),
+  ]);
 
   const latestDelivery = new Map<
     string,
-    { id: string; status: string; attempt_count: number; last_error: string | null; created_at: string }
+    {
+      id: string;
+      status: string;
+      attempt_count: number;
+      last_error: string | null;
+      created_at: string;
+    }
   >();
   for (const d of deliveries ?? []) {
     const prev = latestDelivery.get(d.demo_request_id);
@@ -205,7 +220,10 @@ export async function loadWorkQueue(
 
     const agePoints = Math.min(PRIORITY_MODEL.ageCap, Math.floor(ageHours / 6));
     if (agePoints > 0) {
-      reasons.push({ label: `Age ${Math.floor(ageHours)}h (1 pt / 6h, cap 20)`, points: agePoints });
+      reasons.push({
+        label: `Age ${Math.floor(ageHours)}h (1 pt / 6h, cap 20)`,
+        points: agePoints,
+      });
     }
 
     let total = base + agePoints;
@@ -342,11 +360,7 @@ export async function addLeadNote(leadId: string, note: string) {
   const body = clean(note, 2000);
   if (body.length < 2) return { ok: false as const, error: "note_too_short" };
   const db = await admin();
-  const { data: lead } = await db
-    .from("demo_requests")
-    .select("id")
-    .eq("id", leadId)
-    .maybeSingle();
+  const { data: lead } = await db.from("demo_requests").select("id").eq("id", leadId).maybeSingle();
   if (!lead) return { ok: false as const, error: "not_found" };
 
   await audit(leadId, "note_added", body, { length: body.length });
@@ -409,12 +423,9 @@ export async function setTaskCompletion(taskId: string, completed: boolean) {
     .eq("id", taskId);
   if (error) return { ok: false as const, error: "update_failed" };
 
-  await audit(
-    task.demo_request_id,
-    completed ? "task_completed" : "task_reopened",
-    task.title,
-    { task_id: taskId },
-  );
+  await audit(task.demo_request_id, completed ? "task_completed" : "task_reopened", task.title, {
+    task_id: taskId,
+  });
   return { ok: true as const };
 }
 

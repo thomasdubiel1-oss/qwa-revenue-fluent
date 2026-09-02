@@ -40,15 +40,7 @@ function CopyButton({ value, label }: { value: string; label: string }) {
   );
 }
 
-function Block({
-  title,
-  body,
-  copyLabel,
-}: {
-  title: string;
-  body: string;
-  copyLabel: string;
-}) {
+function Block({ title, body, copyLabel }: { title: string; body: string; copyLabel: string }) {
   return (
     <section className="rounded-xl border border-hairline bg-surface p-6 sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -170,9 +162,7 @@ export function StoryboardPanel({ pkg }: { pkg: StoryboardPackage }) {
             <dt className="text-data text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
               Current gate
             </dt>
-            <dd className="mt-1 text-[0.875rem] text-signal">
-              {STORYBOARD_GATE_LABEL[pkg.gate]}
-            </dd>
+            <dd className="mt-1 text-[0.875rem] text-signal">{STORYBOARD_GATE_LABEL[pkg.gate]}</dd>
           </div>
           <div>
             <dt className="text-data text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
@@ -205,7 +195,10 @@ export function StoryboardPanel({ pkg }: { pkg: StoryboardPackage }) {
           </div>
           <ul className="mt-4 flex flex-col gap-2">
             {pkg.globalNegative.map((v) => (
-              <li key={v} className="text-data text-[0.78rem] leading-relaxed text-muted-foreground">
+              <li
+                key={v}
+                className="text-data text-[0.78rem] leading-relaxed text-muted-foreground"
+              >
                 {v}
               </li>
             ))}
@@ -229,7 +222,11 @@ export function StoryboardPanel({ pkg }: { pkg: StoryboardPackage }) {
         </p>
       </section>
 
-      <Block title="Master LTX storyboard prompt" body={pkg.masterPrompt} copyLabel="master prompt" />
+      <Block
+        title="Master LTX storyboard prompt"
+        body={pkg.masterPrompt}
+        copyLabel="master prompt"
+      />
       <Block
         title="LTX prototype prompt — after storyboard approval only"
         body={pkg.prototypePrompt}
@@ -240,7 +237,10 @@ export function StoryboardPanel({ pkg }: { pkg: StoryboardPackage }) {
         <h3 className="text-[1.0625rem] font-medium tracking-tight">Acceptance checklist</h3>
         <ul className="mt-5 flex flex-col divide-y divide-hairline border-y border-hairline">
           {pkg.acceptanceChecklist.map((c) => (
-            <li key={c.label} className="grid gap-1 py-4 sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-6">
+            <li
+              key={c.label}
+              className="grid gap-1 py-4 sm:grid-cols-[12rem_minmax(0,1fr)] sm:gap-6"
+            >
               <span className="text-data text-[0.7rem] uppercase tracking-[0.14em] text-muted-foreground">
                 {c.label}
               </span>
@@ -253,14 +253,17 @@ export function StoryboardPanel({ pkg }: { pkg: StoryboardPackage }) {
       <section className="rounded-xl border border-hairline bg-surface p-6 sm:p-7">
         <h3 className="text-[1.0625rem] font-medium tracking-tight">Status gates</h3>
         <p className="mt-2 max-w-[52rem] text-[0.875rem] leading-relaxed text-muted-foreground">
-          One step at a time, in order. Footage may only be bound in the manifest after the
-          final gate is recorded by a human.
+          One step at a time, in order. Footage may only be bound in the manifest after the final
+          gate is recorded by a human.
         </p>
         <ol className="mt-5 flex flex-col divide-y divide-hairline border-y border-hairline">
           {STORYBOARD_GATE_ORDER.map((gate, i) => {
             const state = i < currentIndex ? "done" : i === currentIndex ? "current" : "pending";
             return (
-              <li key={gate} className="grid gap-1.5 py-4 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-6">
+              <li
+                key={gate}
+                className="grid gap-1.5 py-4 sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-6"
+              >
                 <span className="flex items-baseline gap-2.5">
                   <span
                     className={cn(

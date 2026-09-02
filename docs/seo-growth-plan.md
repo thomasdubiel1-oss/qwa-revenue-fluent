@@ -6,14 +6,14 @@ and the sitemap remain excluded from indexing, and the whole site stays
 
 ## Current published surface
 
-| Group | Routes |
-| --- | --- |
-| Home | `/` |
-| Products | nine `/products/*` pages |
-| Solutions | `/solutions/ai-lead-response`, `/solutions/ai-appointment-setting`, `/solutions/ai-voice-agent`, `/solutions/customer-reactivation`, `/solutions/revenue-attribution` |
-| Industries | `/industries/dental`, `/industries/medspa`, `/industries/hvac`, `/industries/plumbing`, `/industries/solar` |
-| Resources | `/resources/what-is-an-ai-revenue-engine` |
-| Legal | `/privacy`, `/terms` |
+| Group      | Routes                                                                                                                                                                |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home       | `/`                                                                                                                                                                   |
+| Products   | nine `/products/*` pages                                                                                                                                              |
+| Solutions  | `/solutions/ai-lead-response`, `/solutions/ai-appointment-setting`, `/solutions/ai-voice-agent`, `/solutions/customer-reactivation`, `/solutions/revenue-attribution` |
+| Industries | `/industries/dental`, `/industries/medspa`, `/industries/hvac`, `/industries/plumbing`, `/industries/solar`                                                           |
+| Resources  | `/resources/what-is-an-ai-revenue-engine`                                                                                                                             |
+| Legal      | `/privacy`, `/terms`                                                                                                                                                  |
 
 Every route above is declared once in `src/config/seo.ts` (`PUBLIC_ROUTES`),
 which is the single source for canonical URLs, robots directives and the
@@ -47,20 +47,20 @@ business, it does not go into schema and it does not go into copy.
 ## Programmatic expansion (Industry x Problem x Solution)
 
 The typed model lives in `src/content/seo-growth-model.ts`. It is a planning
-artefact: it produces *candidates*, never routes, and nothing in it is wired
+artefact: it produces _candidates_, never routes, and nothing in it is wired
 into the sitemap or the router.
 
 A candidate becomes a page only after a human writes it and it passes all six
 quality gates:
 
-| Gate | Test |
-| --- | --- |
-| `differentiated-intent` | The query behind this page is materially different from an existing page's query, not a synonym. |
+| Gate                      | Test                                                                                                                    |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `differentiated-intent`   | The query behind this page is materially different from an existing page's query, not a synonym.                        |
 | `unique-industry-context` | At least 60% of the body is specific to that industry: its lead sources, its terminology, its workflow, its objections. |
-| `substantive-usefulness` | A practitioner in that industry would find something here they could act on today. |
-| `internal-linking` | Linked from its industry page and its solution page, and links back to both. |
-| `canonical-correctness` | Self-canonical, present exactly once in `PUBLIC_ROUTES`, no near-duplicate competing for the same query. |
-| `human-review` | A named person has read the whole page and approved the claims in it. |
+| `substantive-usefulness`  | A practitioner in that industry would find something here they could act on today.                                      |
+| `internal-linking`        | Linked from its industry page and its solution page, and links back to both.                                            |
+| `canonical-correctness`   | Self-canonical, present exactly once in `PUBLIC_ROUTES`, no near-duplicate competing for the same query.                |
+| `human-review`            | A named person has read the whole page and approved the claims in it.                                                   |
 
 Batch generation is explicitly out of scope. If the combination cannot clear
 `substantive-usefulness` on its own merits, the right answer is a section on an

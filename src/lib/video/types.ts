@@ -5,13 +5,7 @@
  * contracts; product UI only ever consumes them.
  */
 
-export type ProviderId =
-  | "veo"
-  | "seedance"
-  | "kling"
-  | "runway"
-  | "higgsfield"
-  | "ltx";
+export type ProviderId = "veo" | "seedance" | "kling" | "runway" | "higgsfield" | "ltx";
 
 /**
  * What a provider does in the pipeline. Planning providers never compete for
@@ -37,10 +31,7 @@ export type ProductionTier = "prototype" | "production";
  * clearance inside QWA.
  */
 export type UsageRightsStatus =
-  | "unknown"
-  | "prototype_only"
-  | "blocked_for_publish"
-  | "commercially_cleared";
+  "unknown" | "prototype_only" | "blocked_for_publish" | "commercially_cleared";
 
 export type AspectRatio = "16:9" | "9:16" | "1:1";
 
@@ -52,12 +43,7 @@ export type QualityTier = "efficient" | "balanced" | "premium";
 export type LatencyPreference = "fastest" | "balanced" | "quality-first";
 
 export type ProviderHealth =
-  | "not_configured"
-  | "manual_handoff"
-  | "ready"
-  | "degraded"
-  | "unavailable"
-  | "unknown";
+  "not_configured" | "manual_handoff" | "ready" | "degraded" | "unavailable" | "unknown";
 
 /** Static, discoverable capability metadata. Safe to expose to the browser. */
 export interface PlanningCapabilities {

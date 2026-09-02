@@ -166,9 +166,17 @@ function ContinuityVisualPanel() {
  * ---------------------------------------------------------------------- */
 
 const callTurns = [
-  { t: "00:02", who: "QWA", body: "Thanks for calling — I have your quote from Monday open. Is this about the roadside add-on?" },
+  {
+    t: "00:02",
+    who: "QWA",
+    body: "Thanks for calling — I have your quote from Monday open. Is this about the roadside add-on?",
+  },
   { t: "00:11", who: "Caller", body: "Yes. And can it start before the fifteenth?" },
-  { t: "00:16", who: "QWA", body: "It can. Roadside is $9 a month on your quote, and a start date of the twelfth is available." },
+  {
+    t: "00:16",
+    who: "QWA",
+    body: "It can. Roadside is $9 a month on your quote, and a start date of the twelfth is available.",
+  },
   { t: "00:34", who: "Caller", body: "Let's do it. Can someone walk me through the paperwork?" },
 ];
 
@@ -191,12 +199,17 @@ export function InboundVoiceSection() {
       <ProductPanel
         title="Live call · inbound"
         meta="recognized in 0.4s"
-        footer={<IllustrativeNote>Simulated call. Not a recording of a real customer.</IllustrativeNote>}
+        footer={
+          <IllustrativeNote>Simulated call. Not a recording of a real customer.</IllustrativeNote>
+        }
       >
         <PanelBlock className="py-0">
           <ol className="divide-y divide-hairline">
             {callTurns.map((c) => (
-              <li key={c.t} className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 py-3.5 first:pt-5 last:pb-5">
+              <li
+                key={c.t}
+                className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 py-3.5 first:pt-5 last:pb-5"
+              >
                 <span className="text-data pt-0.5 text-[0.7rem] tabular-nums text-muted-foreground/70">
                   {c.t}
                 </span>
@@ -255,7 +268,11 @@ export function OutboundSection() {
       media="left"
       level="sub"
     >
-      <ProductPanel title="Contact policy" meta="account default: strict" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Contact policy"
+        meta="account default: strict"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-5">
           <DecisionCallout
             label="Next outbound"
@@ -296,10 +313,30 @@ export function OutboundSection() {
  * ---------------------------------------------------------------------- */
 
 const takeover = [
-  { n: "01", label: "Trigger", head: "Rep clicks take over, or a rule fires.", body: "Pricing exceptions, complaints and legal language escalate automatically." },
-  { n: "02", label: "State handed", head: "Live transcript, record fields and the pending offer.", body: "The rep sees what was promised before they speak." },
-  { n: "03", label: "Warm transfer", head: "Caller stays on the line, context travels ahead.", body: "QWA introduces the rep and steps back mid-call." },
-  { n: "04", label: "Return", head: "Rep hands routine follow-up back.", body: "Reminders and confirmations resume automatically, on the same thread." },
+  {
+    n: "01",
+    label: "Trigger",
+    head: "Rep clicks take over, or a rule fires.",
+    body: "Pricing exceptions, complaints and legal language escalate automatically.",
+  },
+  {
+    n: "02",
+    label: "State handed",
+    head: "Live transcript, record fields and the pending offer.",
+    body: "The rep sees what was promised before they speak.",
+  },
+  {
+    n: "03",
+    label: "Warm transfer",
+    head: "Caller stays on the line, context travels ahead.",
+    body: "QWA introduces the rep and steps back mid-call.",
+  },
+  {
+    n: "04",
+    label: "Return",
+    head: "Rep hands routine follow-up back.",
+    body: "Reminders and confirmations resume automatically, on the same thread.",
+  },
 ];
 
 export function TakeoverSection() {
@@ -331,7 +368,9 @@ export function TakeoverSection() {
                   <p className="text-data text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground/80">
                     {s.label}
                   </p>
-                  <p className="mt-1.5 text-pretty text-[1rem] font-medium leading-snug">{s.head}</p>
+                  <p className="mt-1.5 text-pretty text-[1rem] font-medium leading-snug">
+                    {s.head}
+                  </p>
                   <p className="mt-1.5 text-pretty text-[0.875rem] leading-relaxed text-muted-foreground">
                     {s.body}
                   </p>
@@ -364,7 +403,11 @@ export function VoiceBookingSection() {
       media="left"
       level="sub"
     >
-      <ProductPanel title="In-call scheduling" meta="held during conversation" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="In-call scheduling"
+        meta="held during conversation"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-5">
           <DecisionCallout
             label="Booked"
@@ -415,7 +458,11 @@ export function SummarySection() {
       tone="paper"
       level="sub"
     >
-      <ProductPanel title={`Call record · ${RECORD_ID}`} meta="duration 4m 12s" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title={`Call record · ${RECORD_ID}`}
+        meta="duration 4m 12s"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock label="Summary" className="py-5">
           <p className="text-pretty text-[0.9375rem] leading-relaxed text-muted-foreground">
             Returning caller confirmed the two-vehicle quote, added roadside coverage at $9/mo and
@@ -450,8 +497,14 @@ export function SummarySection() {
  * ---------------------------------------------------------------------- */
 
 const brief = [
-  { label: "Where they are", value: "Confirmed quote, added roadside, wants a start date before the 15th." },
-  { label: "What was promised", value: "$118/mo plus $9 roadside. Start date of the 12th is available." },
+  {
+    label: "Where they are",
+    value: "Confirmed quote, added roadside, wants a start date before the 15th.",
+  },
+  {
+    label: "What was promised",
+    value: "$118/mo plus $9 roadside. Start date of the 12th is available.",
+  },
   { label: "Likely objection", value: "Comparison shopping on deductible, not on monthly price." },
   { label: "Open with", value: "The 12th start date, then the coverage comparison." },
 ];
@@ -475,7 +528,10 @@ export function PreCallBriefSection() {
         <PanelBlock className="py-0">
           <ul>
             {brief.map((b) => (
-              <li key={b.label} className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5">
+              <li
+                key={b.label}
+                className="border-b border-hairline py-4 first:pt-5 last:border-b-0 last:pb-5"
+              >
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                   <p className="text-data text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground/80">
                     {b.label}
@@ -498,7 +554,11 @@ export function PreCallBriefSection() {
 
 const headline = [
   { label: "Answered inbound", value: "99.1%", caption: "Across voice, chat and messaging" },
-  { label: "Conversation to appointment", value: "31.7%", caption: "Qualified conversations that booked" },
+  {
+    label: "Conversation to appointment",
+    value: "31.7%",
+    caption: "Qualified conversations that booked",
+  },
   { label: "Revenue from conversations", value: "$486K", caption: "Joined to a full source chain" },
 ];
 
@@ -520,7 +580,6 @@ export function ConversationAnalyticsSection() {
         </MotionReveal>
 
         <MotionReveal delay={0.08} className="mt-8">
-
           <div className="overflow-hidden rounded-xl border border-border bg-card shadow-card">
             <div className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {headline.map((m) => (
@@ -554,12 +613,36 @@ export function ConversationAnalyticsSection() {
  * ---------------------------------------------------------------------- */
 
 const controls = [
-  { label: "Escalation policy", detail: "Conditions that must reach a named human, immediately.", held: "You" },
-  { label: "Recording and consent", detail: "Per-jurisdiction recording, disclosure and retention configuration.", held: "You" },
-  { label: "Contact windows", detail: "Hours, time zones and frequency caps per channel.", held: "You" },
-  { label: "Human takeover", detail: "One action to take any live conversation, without losing state.", held: "Your rep" },
-  { label: "Voice identity", detail: "Disclosure that the caller is speaking with an AI assistant.", held: "You" },
-  { label: "Audit trail", detail: "Every turn, decision and override retained and exportable.", held: "System" },
+  {
+    label: "Escalation policy",
+    detail: "Conditions that must reach a named human, immediately.",
+    held: "You",
+  },
+  {
+    label: "Recording and consent",
+    detail: "Per-jurisdiction recording, disclosure and retention configuration.",
+    held: "You",
+  },
+  {
+    label: "Contact windows",
+    detail: "Hours, time zones and frequency caps per channel.",
+    held: "You",
+  },
+  {
+    label: "Human takeover",
+    detail: "One action to take any live conversation, without losing state.",
+    held: "Your rep",
+  },
+  {
+    label: "Voice identity",
+    detail: "Disclosure that the caller is speaking with an AI assistant.",
+    held: "You",
+  },
+  {
+    label: "Audit trail",
+    detail: "Every turn, decision and override retained and exportable.",
+    held: "System",
+  },
 ];
 
 export function VoiceGovernanceSection() {
@@ -608,7 +691,10 @@ const adapterGroups = [
   { heading: "Messaging", items: ["SMS and MMS", "Social DM", "Web chat", "Email"] },
   { heading: "Records", items: ["CRM objects", "Custom fields", "Conversation sync"] },
   { heading: "Scheduling", items: ["Rep calendars", "Territory rules", "Dispatch windows"] },
-  { heading: "Speech and language", items: ["Model-agnostic routing", "Bring your own provider", "On-prem inference"] },
+  {
+    heading: "Speech and language",
+    items: ["Model-agnostic routing", "Bring your own provider", "On-prem inference"],
+  },
   { heading: "Compliance", items: ["Consent stores", "Suppression lists", "Retention policy"] },
 ];
 

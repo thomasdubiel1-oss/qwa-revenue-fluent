@@ -62,7 +62,8 @@ export const WORKFLOW_PRESETS: Record<WorkflowPresetId, WorkflowPreset> = {
         id: "prototype",
         label: "Prototype / rough assembly",
         owner: "planning_provider",
-        detail: "Low-cost generation and rough cut to test pacing before spending on premium shots.",
+        detail:
+          "Low-cost generation and rough cut to test pacing before spending on premium shots.",
         producesRights: "prototype_only",
       },
       {
@@ -130,8 +131,7 @@ export const WORKFLOW_PRESETS: Record<WorkflowPresetId, WorkflowPreset> = {
         id: "clearance",
         label: "Commercial clearance",
         owner: "human",
-        detail:
-          "A named reviewer records clearance per asset. Without it the job stays at review.",
+        detail: "A named reviewer records clearance per asset. Without it the job stays at review.",
         producesRights: "unknown",
       },
     ],
@@ -161,9 +161,7 @@ export interface CostComparisonRow {
   savingsPct: number;
 }
 
-export function costComparison(
-  durations: DurationTarget[] = [15, 30, 60],
-): CostComparisonRow[] {
+export function costComparison(durations: DurationTarget[] = [15, 30, 60]): CostComparisonRow[] {
   return durations.map((durationSeconds) => {
     const premium = durationSeconds * ILLUSTRATIVE.premiumPerSecond;
     const prototype =

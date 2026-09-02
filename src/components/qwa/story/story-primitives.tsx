@@ -147,13 +147,7 @@ function StageDot({ kind = "step" }: { kind?: StoryStageKind }) {
   return <span className={cn("block shrink-0", NODE_STYLE[kind])} />;
 }
 
-function StageText({
-  stage,
-  align,
-}: {
-  stage: StoryStage;
-  align: "center" | "left";
-}) {
+function StageText({ stage, align }: { stage: StoryStage; align: "center" | "left" }) {
   const emphasised = stage.kind === "outcome" || stage.kind === "active";
   return (
     <div className={cn("min-w-0", align === "center" ? "text-center" : "text-left")}>
@@ -306,7 +300,6 @@ function VerticalJourney({
         </motion.div>
       ) : null}
 
-
       <ul className="relative grid gap-6">
         <div className="absolute bottom-3 left-[0.5625rem] top-3 w-px -translate-x-1/2 bg-hairline-strong" />
         {stages.map((s, i) => (
@@ -330,7 +323,6 @@ function VerticalJourney({
         </p>
       ) : null}
     </div>
-
   );
 }
 

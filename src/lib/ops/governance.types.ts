@@ -101,7 +101,12 @@ export function normalizeConfig(input: unknown): AutomationConfig {
     sla: {
       triageHours: NUM(sla.triageHours, base.sla.triageHours, 0.25, 24 * 14),
       followUpHours: NUM(sla.followUpHours, base.sla.followUpHours, 1, 24 * 30),
-      deliveryFailureHours: NUM(sla.deliveryFailureHours, base.sla.deliveryFailureHours, 0.25, 24 * 14),
+      deliveryFailureHours: NUM(
+        sla.deliveryFailureHours,
+        base.sla.deliveryFailureHours,
+        0.25,
+        24 * 14,
+      ),
       staleNewHours: NUM(sla.staleNewHours, base.sla.staleNewHours, 1, 24 * 30),
     },
     playbooks,

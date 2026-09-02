@@ -113,10 +113,26 @@ export function DiscoveryGraphVisual() {
 /* ---------------------------------------------------------------------- */
 
 const diagnostics = [
-  { issue: "Comparison pages render key claims client-side", sev: "High", effect: "Not reliably parseable by crawlers or answer engines" },
-  { issue: "Duplicate location pages competing on one intent", sev: "High", effect: "Splits authority across near-identical URLs" },
-  { issue: "Missing product and FAQ structured data", sev: "Medium", effect: "Reduces eligibility for structured surfaces" },
-  { issue: "Slow largest contentful paint on mobile templates", sev: "Medium", effect: "Degrades crawl efficiency and user outcomes" },
+  {
+    issue: "Comparison pages render key claims client-side",
+    sev: "High",
+    effect: "Not reliably parseable by crawlers or answer engines",
+  },
+  {
+    issue: "Duplicate location pages competing on one intent",
+    sev: "High",
+    effect: "Splits authority across near-identical URLs",
+  },
+  {
+    issue: "Missing product and FAQ structured data",
+    sev: "Medium",
+    effect: "Reduces eligibility for structured surfaces",
+  },
+  {
+    issue: "Slow largest contentful paint on mobile templates",
+    sev: "Medium",
+    effect: "Degrades crawl efficiency and user outcomes",
+  },
 ];
 
 export function DiagnosticsSection() {
@@ -135,7 +151,11 @@ export function DiagnosticsSection() {
       tone="paper"
       level="sub"
     >
-      <ProductPanel title="Diagnostics · property scan" meta="prioritised" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Diagnostics · property scan"
+        meta="prioritised"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ul>
             {diagnostics.map((d) => (
@@ -206,10 +226,18 @@ export function ArchitectureSection() {
 /* ---------------------------------------------------------------------- */
 
 const intents = [
-  { cluster: "Compare coverage options", intent: "Evaluation", outcome: "Highest qualified pipeline" },
+  {
+    cluster: "Compare coverage options",
+    intent: "Evaluation",
+    outcome: "Highest qualified pipeline",
+  },
   { cluster: "Is roadside worth it", intent: "Research", outcome: "Assists later conversations" },
   { cluster: "Cancel and switch", intent: "Transactional", outcome: "Fastest to appointment" },
-  { cluster: "Cheapest coverage", intent: "Price shopping", outcome: "Low close rate, deprioritised" },
+  {
+    cluster: "Cheapest coverage",
+    intent: "Price shopping",
+    outcome: "Low close rate, deprioritised",
+  },
 ];
 
 export function IntentSection() {
@@ -261,12 +289,30 @@ export function IntentSection() {
  * ---------------------------------------------------------------------- */
 
 const geo = [
-  { label: "Entity clarity", body: "Who you are, what you sell and where you operate stated unambiguously and consistently across the property." },
-  { label: "Structured answers", body: "Questions answered in self-contained passages that stand on their own when quoted out of context." },
-  { label: "Sourceability", body: "Claims tied to a date, a method or a named source so an answer engine has something to cite." },
-  { label: "Freshness", body: "Material facts carry visible last-reviewed dates and a review cadence." },
-  { label: "Authority signals", body: "Author, expertise and organisational identity expressed in markup, not just in prose." },
-  { label: "Citation-worthiness", body: "Original data, definitions and comparisons that are worth referencing rather than restating." },
+  {
+    label: "Entity clarity",
+    body: "Who you are, what you sell and where you operate stated unambiguously and consistently across the property.",
+  },
+  {
+    label: "Structured answers",
+    body: "Questions answered in self-contained passages that stand on their own when quoted out of context.",
+  },
+  {
+    label: "Sourceability",
+    body: "Claims tied to a date, a method or a named source so an answer engine has something to cite.",
+  },
+  {
+    label: "Freshness",
+    body: "Material facts carry visible last-reviewed dates and a review cadence.",
+  },
+  {
+    label: "Authority signals",
+    body: "Author, expertise and organisational identity expressed in markup, not just in prose.",
+  },
+  {
+    label: "Citation-worthiness",
+    body: "Original data, definitions and comparisons that are worth referencing rather than restating.",
+  },
 ];
 
 export function GeoSection() {
@@ -339,7 +385,11 @@ export function ProductionSection() {
       media="right"
       level="sub"
     >
-      <ProductPanel title="Page · multi-vehicle guide" meta="stage 3 of 4" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Page · multi-vehicle guide"
+        meta="stage 3 of 4"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ol>
             {[
@@ -389,10 +439,26 @@ export function MonitoringSection() {
     >
       <div className="grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: "Cluster visibility", value: "Tracked", caption: "Per cluster, once a search data source is connected." },
-          { label: "Page opportunities", value: "Ranked", caption: "Pages closest to a meaningful position change." },
-          { label: "Answer presence", value: "Observed", caption: "Sampled, best-effort, never presented as guaranteed." },
-          { label: "Revenue join", value: "Native", caption: "Sessions joined to conversations and closed-won." },
+          {
+            label: "Cluster visibility",
+            value: "Tracked",
+            caption: "Per cluster, once a search data source is connected.",
+          },
+          {
+            label: "Page opportunities",
+            value: "Ranked",
+            caption: "Pages closest to a meaningful position change.",
+          },
+          {
+            label: "Answer presence",
+            value: "Observed",
+            caption: "Sampled, best-effort, never presented as guaranteed.",
+          },
+          {
+            label: "Revenue join",
+            value: "Native",
+            caption: "Sessions joined to conversations and closed-won.",
+          },
         ].map((s) => (
           <StatCell key={s.label} {...s} />
         ))}
@@ -407,11 +473,31 @@ export function MonitoringSection() {
 /* ---------------------------------------------------------------------- */
 
 const searchGovernance = [
-  { control: "Editorial approval", held: "Content lead", detail: "No page reaches publish-ready without a named editorial sign-off." },
-  { control: "Factual review", held: "Subject owner", detail: "Claims are checked against sources before review can be closed." },
-  { control: "Brand rules", held: "Brand", detail: "Tone, prohibited language and claim boundaries enforced at draft time." },
-  { control: "Auto-publish", held: "Off by default", detail: "Enabled per collection, never globally, and always reversible." },
-  { control: "Change history", held: "System", detail: "Every draft, edit and approval retained against the page record." },
+  {
+    control: "Editorial approval",
+    held: "Content lead",
+    detail: "No page reaches publish-ready without a named editorial sign-off.",
+  },
+  {
+    control: "Factual review",
+    held: "Subject owner",
+    detail: "Claims are checked against sources before review can be closed.",
+  },
+  {
+    control: "Brand rules",
+    held: "Brand",
+    detail: "Tone, prohibited language and claim boundaries enforced at draft time.",
+  },
+  {
+    control: "Auto-publish",
+    held: "Off by default",
+    detail: "Enabled per collection, never globally, and always reversible.",
+  },
+  {
+    control: "Change history",
+    held: "System",
+    detail: "Every draft, edit and approval retained against the page record.",
+  },
 ];
 
 export function SearchGovernanceSection() {
@@ -467,7 +553,11 @@ const surfaces = [
   { surface: "AI answer engines", role: "Summarised answers with citations", state: "Sampled" },
   { surface: "Assistants and chat", role: "Conversational product questions", state: "Sampled" },
   { surface: "Owned content", role: "Guides, comparisons and FAQ passages", state: "Mapped" },
-  { surface: "Third-party sources", role: "Directories and references answers quote", state: "Observed" },
+  {
+    surface: "Third-party sources",
+    role: "Directories and references answers quote",
+    state: "Observed",
+  },
 ];
 
 export function SurfaceMapSection() {
@@ -485,7 +575,11 @@ export function SurfaceMapSection() {
       media="right"
       level="sub"
     >
-      <ProductPanel title="Surface map · coverage category" meta="6 surfaces" footer={<IllustrativeNote />}>
+      <ProductPanel
+        title="Surface map · coverage category"
+        meta="6 surfaces"
+        footer={<IllustrativeNote />}
+      >
         <PanelBlock className="py-0">
           <ul>
             {surfaces.map((s) => (
