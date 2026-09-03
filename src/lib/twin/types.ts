@@ -23,6 +23,13 @@ export type JourneyStep = {
 
 export type RevenueJourney = {
   id: string;
+  scenario:
+    | "success"
+    | "abandonment"
+    | "agent_failure"
+    | "human_intervention"
+    | "attribution_conflict"
+    | "approval_pending";
   contact: string;
   source: string;
   campaign: string;

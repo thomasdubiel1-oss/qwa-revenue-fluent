@@ -14,6 +14,7 @@ export const Route = createFileRoute("/robots.txt")({
           ? [
               "User-agent: *",
               "Allow: /",
+              "Disallow: /app",
               "Disallow: /internal/",
               "Disallow: /api/",
               "",

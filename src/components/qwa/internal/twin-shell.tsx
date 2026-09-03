@@ -21,7 +21,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const sections = [
-  ["Executive Command", "/internal/executive", Gauge, "V1"],
+  ["Executive Command", "/app", Gauge, "V1"],
   ["Revenue Engine", "/internal/revenue", Activity, "V1"],
   ["Acquisition Engine", null, Megaphone, "V2"],
   ["Live Shopping", null, Radio, "V2"],
@@ -35,7 +35,7 @@ const sections = [
   ["Analytics & Attribution", null, BarChart3, "V1"],
   ["Automations", "/internal/automation", Workflow, "V3"],
   ["Integrations", null, Cable, "V1"],
-  ["Reports & Forecasting", null, FileBarChart, "V2"],
+  ["Reports & Forecasting", null, FileBarChart, "V4"],
   ["Administration", null, Settings2, "V1"],
 ] as const;
 
@@ -75,7 +75,7 @@ export function TwinShell({ children }: { children: ReactNode }) {
                 to={href}
                 className={cn(
                   classes,
-                  href === "/internal/executive" &&
+                  href === "/app" &&
                     "bg-ink text-ink-foreground hover:bg-ink hover:text-ink-foreground",
                 )}
               >

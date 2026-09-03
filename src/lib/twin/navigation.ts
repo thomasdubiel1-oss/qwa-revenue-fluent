@@ -1,0 +1,18 @@
+export const twinSections = [
+  { label: "Executive Command", href: "/app", release: "V1" },
+  { label: "Revenue Engine", href: "/internal/revenue", release: "V1" },
+  { label: "Acquisition Engine", href: null, release: "V2" },
+  { label: "Live Shopping", href: null, release: "V2" },
+  { label: "Content Studio", href: null, release: "V2" },
+  { label: "AI Agent Control", href: "/internal/control-plane", release: "V3" },
+  { label: "Quantum Concierge", href: null, release: "V1" },
+  { label: "CRM & Customers", href: "/internal/leads", release: "V1" },
+  { label: "Commerce & Products", href: null, release: "V2" },
+  { label: "Funnels & Websites", href: null, release: "V2" },
+  { label: "Creators & Affiliates", href: null, release: "V2" },
+  { label: "Analytics & Attribution", href: null, release: "V1" },
+  { label: "Automations", href: "/internal/automation", release: "V3" },
+  { label: "Integrations", href: null, release: "V1" },
+  { label: "Reports & Forecasting", href: null, release: "V4" },
+  { label: "Administration", href: null, release: "V1" },
+] as const;

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -21,6 +22,7 @@ import { Route as IndustriesPlumbingRouteImport } from './routes/industries/plum
 import { Route as IndustriesSolarRouteImport } from './routes/industries/solar'
 import { Route as InternalAutomationRouteImport } from './routes/internal/automation'
 import { Route as InternalControlPlaneRouteImport } from './routes/internal/control-plane'
+import { Route as InternalExecutiveRouteImport } from './routes/internal/executive'
 import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
 import { Route as InternalRevenueRouteImport } from './routes/internal/revenue'
@@ -47,6 +49,11 @@ import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/le
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -102,6 +109,11 @@ const InternalAutomationRoute = InternalAutomationRouteImport.update({
 const InternalControlPlaneRoute = InternalControlPlaneRouteImport.update({
   id: '/internal/control-plane',
   path: '/internal/control-plane',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalExecutiveRoute = InternalExecutiveRouteImport.update({
+  id: '/internal/executive',
+  path: '/internal/executive',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalLeadsRoute = InternalLeadsRouteImport.update({
@@ -224,6 +236,7 @@ const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -235,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
+  '/internal/executive': typeof InternalExecutiveRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -260,6 +274,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -271,6 +286,7 @@ export interface FileRoutesByTo {
   '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
+  '/internal/executive': typeof InternalExecutiveRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -297,6 +313,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -308,6 +325,7 @@ export interface FileRoutesById {
   '/industries/solar': typeof IndustriesSolarRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
+  '/internal/executive': typeof InternalExecutiveRoute
   '/internal/leads': typeof InternalLeadsRoute
   '/internal/media-production-brief': typeof InternalMediaProductionBriefRoute
   '/internal/revenue': typeof InternalRevenueRoute
@@ -335,6 +353,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/app'
     | '/privacy'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -346,6 +365,7 @@ export interface FileRouteTypes {
     | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
+    | '/internal/executive'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -371,6 +391,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/app'
     | '/privacy'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -382,6 +403,7 @@ export interface FileRouteTypes {
     | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
+    | '/internal/executive'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -407,6 +429,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/privacy'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -418,6 +441,7 @@ export interface FileRouteTypes {
     | '/industries/solar'
     | '/internal/automation'
     | '/internal/control-plane'
+    | '/internal/executive'
     | '/internal/leads'
     | '/internal/media-production-brief'
     | '/internal/revenue'
@@ -444,6 +468,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRoute
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -455,6 +480,7 @@ export interface RootRouteChildren {
   IndustriesSolarRoute: typeof IndustriesSolarRoute
   InternalAutomationRoute: typeof InternalAutomationRoute
   InternalControlPlaneRoute: typeof InternalControlPlaneRoute
+  InternalExecutiveRoute: typeof InternalExecutiveRoute
   InternalLeadsRoute: typeof InternalLeadsRoute
   InternalMediaProductionBriefRoute: typeof InternalMediaProductionBriefRoute
   InternalRevenueRoute: typeof InternalRevenueRoute
@@ -486,6 +512,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -563,6 +596,13 @@ declare module '@tanstack/react-router' {
       path: '/internal/control-plane'
       fullPath: '/internal/control-plane'
       preLoaderRoute: typeof InternalControlPlaneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/executive': {
+      id: '/internal/executive'
+      path: '/internal/executive'
+      fullPath: '/internal/executive'
+      preLoaderRoute: typeof InternalExecutiveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/leads': {
@@ -724,6 +764,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRoute,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -735,6 +776,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesSolarRoute: IndustriesSolarRoute,
   InternalAutomationRoute: InternalAutomationRoute,
   InternalControlPlaneRoute: InternalControlPlaneRoute,
+  InternalExecutiveRoute: InternalExecutiveRoute,
   InternalLeadsRoute: InternalLeadsRoute,
   InternalMediaProductionBriefRoute: InternalMediaProductionBriefRoute,
   InternalRevenueRoute: InternalRevenueRoute,

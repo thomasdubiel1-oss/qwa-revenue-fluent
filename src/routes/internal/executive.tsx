@@ -29,7 +29,7 @@ const statusTone: Record<JourneyStatus, "positive" | "signal" | "warn" | "muted"
   conflict: "warn",
 };
 
-function ExecutiveCommandCenter() {
+export function ExecutiveCommandCenter() {
   const [snapshot, setSnapshot] = React.useState<ExecutiveSnapshot | null>(null);
   const [selected, setSelected] = React.useState<string | null>(null);
   React.useEffect(() => {

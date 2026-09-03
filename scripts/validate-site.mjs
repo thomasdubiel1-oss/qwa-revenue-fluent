@@ -58,6 +58,7 @@ const implementedPublicRoutes = routeFiles
   .filter(
     (route) =>
       !route.startsWith("/api/") &&
+      route !== "/app" &&
       !route.startsWith("/internal/") &&
       route !== "/robots.txt" &&
       route !== "/sitemap.xml" &&
