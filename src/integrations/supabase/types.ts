@@ -14,6 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_memberships: {
+        Row: {
+          account_id: string
+          created_at: string
+          role: Database["public"]["Enums"]["account_role"]
+          tenant_id: string
+          user_id: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          role?: Database["public"]["Enums"]["account_role"]
+          tenant_id: string
+          user_id: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          role?: Database["public"]["Enums"]["account_role"]
+          tenant_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_memberships_account_id_tenant_id_fkey"
+            columns: ["account_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "account_memberships_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      accounts: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounts_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       automation_config_versions: {
         Row: {
           activated_at: string | null
@@ -523,18 +594,50 @@ export type Database = {
         }
         Relationships: []
       }
+      tenants: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      has_account_role: {
+        Args: {
+          allowed_roles: Database["public"]["Enums"]["account_role"][]
+          target_account_id: string
+        }
+        Returns: boolean
+      }
+      is_account_member: {
+        Args: { target_account_id: string }
+        Returns: boolean
+      }
       purge_expired_lead_data: {
         Args: { retention_days?: number }
         Returns: number
       }
     }
     Enums: {
-      [_ in never]: never
+      account_role: "owner" | "admin" | "operator" | "analyst" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -661,6 +764,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_role: ["owner", "admin", "operator", "analyst", "viewer"],
+    },
   },
 } as const
