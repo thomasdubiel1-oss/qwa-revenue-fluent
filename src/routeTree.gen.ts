@@ -15,6 +15,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as IndustriesDentalRouteImport } from './routes/industries/dental'
 import { Route as IndustriesHvacRouteImport } from './routes/industries/hvac'
 import { Route as IndustriesMedspaRouteImport } from './routes/industries/medspa'
@@ -76,6 +77,11 @@ const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
 } as any)
 const IndustriesDentalRoute = IndustriesDentalRouteImport.update({
   id: '/industries/dental',
@@ -275,13 +281,13 @@ export interface FileRoutesByFullPath {
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
+  '/app/': typeof AppIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -314,6 +320,7 @@ export interface FileRoutesByTo {
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
+  '/app': typeof AppIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
@@ -354,6 +361,7 @@ export interface FileRoutesById {
   '/solutions/ai-voice-agent': typeof SolutionsAiVoiceAgentRoute
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
+  '/app/': typeof AppIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
@@ -395,13 +403,13 @@ export interface FileRouteTypes {
     | '/solutions/ai-voice-agent'
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
+    | '/app/'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/privacy'
     | '/robots.txt'
     | '/sitemap.xml'
@@ -434,6 +442,7 @@ export interface FileRouteTypes {
     | '/solutions/ai-voice-agent'
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
+    | '/app'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/solutions/ai-voice-agent'
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
+    | '/app/'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
@@ -560,6 +570,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/industries/dental': {
       id: '/industries/dental'
@@ -782,10 +799,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
   AppJourneysJourneyIdRoute: typeof AppJourneysJourneyIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
   AppJourneysJourneyIdRoute: AppJourneysJourneyIdRoute,
 }
 
