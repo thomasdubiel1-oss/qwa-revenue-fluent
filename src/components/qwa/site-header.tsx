@@ -143,6 +143,12 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 xl:ml-0">
+          <Link
+            to="/app"
+            className="hidden min-h-11 items-center px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+          >
+            Sign in
+          </Link>
           <Button
             variant="ink"
             size="pill"
@@ -273,6 +279,13 @@ export function SiteHeader() {
                 ))}
               </ul>
               <div className="mt-6 flex flex-col gap-3">
+                <Link
+                  to="/app"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-hairline px-6 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+                >
+                  Sign in
+                </Link>
                 <Button
                   variant="ink"
                   size="xl"
