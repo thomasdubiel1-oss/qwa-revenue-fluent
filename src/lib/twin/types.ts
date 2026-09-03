@@ -60,4 +60,5 @@ export type ExecutiveSnapshot = {
 
 export interface ExecutiveSnapshotRepository {
   getSnapshot(): Promise<ExecutiveSnapshot>;
+  getJourney(id: string): Promise<RevenueJourney | null>;
 }

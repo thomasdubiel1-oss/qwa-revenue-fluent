@@ -45,6 +45,7 @@ import { Route as SolutionsCustomerReactivationRouteImport } from './routes/solu
 import { Route as SolutionsRevenueAttributionRouteImport } from './routes/solutions/revenue-attribution'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
+import { Route as AppJourneysJourneyIdRouteImport } from './routes/app/journeys/$journeyId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -233,10 +234,15 @@ const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
   path: '/api/public/leads-outbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppJourneysJourneyIdRoute = AppJourneysJourneyIdRouteImport.update({
+  id: '/journeys/$journeyId',
+  path: '/journeys/$journeyId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -271,10 +277,11 @@ export interface FileRoutesByFullPath {
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
+  '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -309,11 +316,12 @@ export interface FileRoutesByTo {
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
+  '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -348,6 +356,7 @@ export interface FileRoutesById {
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
+  '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -388,6 +397,7 @@ export interface FileRouteTypes {
     | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
+    | '/app/journeys/$journeyId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -426,6 +436,7 @@ export interface FileRouteTypes {
     | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
+    | '/app/journeys/$journeyId'
   id:
     | '__root__'
     | '/'
@@ -464,11 +475,12 @@ export interface FileRouteTypes {
     | '/solutions/revenue-attribution'
     | '/api/public/health'
     | '/api/public/leads-outbox'
+    | '/app/journeys/$journeyId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -759,12 +771,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLeadsOutboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/journeys/$journeyId': {
+      id: '/app/journeys/$journeyId'
+      path: '/journeys/$journeyId'
+      fullPath: '/app/journeys/$journeyId'
+      preLoaderRoute: typeof AppJourneysJourneyIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppJourneysJourneyIdRoute: typeof AppJourneysJourneyIdRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppJourneysJourneyIdRoute: AppJourneysJourneyIdRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, CircleAlert, Clock3, ShieldCheck } from "lucide-react";
 import * as React from "react";
 import { Panel, Pill } from "@/components/qwa/internal/ops-ui";
@@ -247,14 +247,23 @@ export function ExecutiveCommandCenter() {
           ))}
           {journey ? (
             <div className="mt-5 border-t border-border pt-5">
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <h3 className="font-semibold">Journey {journey.id}</h3>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="text-sm text-muted-foreground hover:text-foreground"
-                >
-                  Close trace
-                </button>
+                <div className="flex items-center gap-3">
+                  <Link
+                    to="/app/journeys/$journeyId"
+                    params={{ journeyId: journey.id }}
+                    className="text-sm font-medium text-signal hover:underline"
+                  >
+                    Open full journey
+                  </Link>
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    Close trace
+                  </button>
+                </div>
               </div>
               <ol className="grid gap-3 lg:grid-cols-3">
                 {journey.steps.map((step) => (

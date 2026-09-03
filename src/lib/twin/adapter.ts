@@ -6,4 +6,8 @@ export const simulatedExecutiveRepository: ExecutiveSnapshotRepository = {
   async getSnapshot() {
     return structuredClone(executiveSnapshotFixture);
   },
+  async getJourney(id) {
+    const journey = executiveSnapshotFixture.journeys.find((item) => item.id === id);
+    return journey ? structuredClone(journey) : null;
+  },
 };
