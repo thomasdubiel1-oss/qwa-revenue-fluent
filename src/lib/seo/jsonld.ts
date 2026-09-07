@@ -10,12 +10,29 @@ import { SITE_NAME, absoluteUrl } from "@/config/seo";
 
 export type JsonLd = Record<string, unknown>;
 
-/** Head-ready <script type="application/ld+json"> payloads. */
+/**
+ * Head-ready <script type="application/ld+json"> payloads.
+ * Identical entries are emitted once: a page that composes several builders
+ * (for example a shared breadcrumb) must never ship duplicate graph nodes.
+ */
 export function jsonLdScripts(items: JsonLd[]): { type: string; children: string }[] {
-  return items.map((item) => ({
+  return dedupeJsonLd(items).map((item) => ({
     type: "application/ld+json",
     children: JSON.stringify(item),
   }));
+}
+
+/** Structural de-duplication by serialized payload, preserving first order. */
+export function dedupeJsonLd(items: JsonLd[]): JsonLd[] {
+  const seen = new Set<string>();
+  const out: JsonLd[] = [];
+  for (const item of items) {
+    const key = JSON.stringify(item);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
 }
 
 const ORGANIZATION_ID = `${absoluteUrl("/")}#organization`;

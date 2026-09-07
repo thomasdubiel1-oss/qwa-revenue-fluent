@@ -106,14 +106,17 @@ export function pageHead(options: {
   }
   const links = [{ rel: "canonical", href: url }];
   if (!options.jsonLd?.length) return { meta, links };
-  return {
-    meta,
-    links,
-    scripts: options.jsonLd.map((entry) => ({
-      type: "application/ld+json",
-      children: JSON.stringify(entry),
-    })),
-  };
+  // De-duplicate structurally identical payloads so a page composing several
+  // builders never emits the same node twice.
+  const seen = new Set<string>();
+  const scripts: { type: string; children: string }[] = [];
+  for (const entry of options.jsonLd) {
+    const children = JSON.stringify(entry);
+    if (seen.has(children)) continue;
+    seen.add(children);
+    scripts.push({ type: "application/ld+json", children });
+  }
+  return { meta, links, scripts };
 }
 
 /** Head payload for internal-only tooling routes: never indexed, no canonical. */
