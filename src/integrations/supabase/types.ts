@@ -89,6 +89,7 @@ export type Database = {
         Row: {
           activated_at: string | null
           actor_label: string
+          actor_user_id: string | null
           change_reason: string | null
           config: Json
           created_at: string
@@ -101,6 +102,7 @@ export type Database = {
         Insert: {
           activated_at?: string | null
           actor_label?: string
+          actor_user_id?: string | null
           change_reason?: string | null
           config: Json
           created_at?: string
@@ -113,6 +115,7 @@ export type Database = {
         Update: {
           activated_at?: string | null
           actor_label?: string
+          actor_user_id?: string | null
           change_reason?: string | null
           config?: Json
           created_at?: string
@@ -127,6 +130,7 @@ export type Database = {
       automation_executions: {
         Row: {
           actor_label: string
+          actor_user_id: string | null
           created_at: string
           demo_request_id: string | null
           detail: Json | null
@@ -140,6 +144,7 @@ export type Database = {
         }
         Insert: {
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id?: string | null
           detail?: Json | null
@@ -153,6 +158,7 @@ export type Database = {
         }
         Update: {
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id?: string | null
           detail?: Json | null
@@ -179,6 +185,7 @@ export type Database = {
           action_payload: Json | null
           action_type: string
           actor_label: string
+          actor_user_id: string | null
           created_at: string
           demo_request_id: string
           execution_key: string
@@ -196,6 +203,7 @@ export type Database = {
           action_payload?: Json | null
           action_type: string
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id: string
           execution_key: string
@@ -213,6 +221,7 @@ export type Database = {
           action_payload?: Json | null
           action_type?: string
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id?: string
           execution_key?: string
@@ -239,6 +248,7 @@ export type Database = {
       automation_settings: {
         Row: {
           actor_label: string
+          actor_user_id: string | null
           created_at: string
           id: string
           kill_switch: boolean
@@ -247,6 +257,7 @@ export type Database = {
         }
         Insert: {
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           id?: string
           kill_switch?: boolean
@@ -255,6 +266,7 @@ export type Database = {
         }
         Update: {
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           id?: string
           kill_switch?: boolean
@@ -432,10 +444,38 @@ export type Database = {
         }
         Relationships: []
       }
+      internal_users: {
+        Row: {
+          created_at: string
+          disabled_at: string | null
+          display_label: string
+          role: Database["public"]["Enums"]["internal_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          disabled_at?: string | null
+          display_label: string
+          role?: Database["public"]["Enums"]["internal_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          disabled_at?: string | null
+          display_label?: string
+          role?: Database["public"]["Enums"]["internal_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       lead_activity: {
         Row: {
           activity_type: string
           actor_label: string
+          actor_user_id: string | null
           created_at: string
           demo_request_id: string
           id: string
@@ -445,6 +485,7 @@ export type Database = {
         Insert: {
           activity_type: string
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id: string
           id?: string
@@ -454,6 +495,7 @@ export type Database = {
         Update: {
           activity_type?: string
           actor_label?: string
+          actor_user_id?: string | null
           created_at?: string
           demo_request_id?: string
           id?: string
@@ -526,6 +568,7 @@ export type Database = {
       lead_tasks: {
         Row: {
           actor_label: string
+          actor_user_id: string | null
           completed_at: string | null
           created_at: string
           demo_request_id: string
@@ -537,6 +580,7 @@ export type Database = {
         }
         Insert: {
           actor_label?: string
+          actor_user_id?: string | null
           completed_at?: string | null
           created_at?: string
           demo_request_id: string
@@ -548,6 +592,7 @@ export type Database = {
         }
         Update: {
           actor_label?: string
+          actor_user_id?: string | null
           completed_at?: string | null
           created_at?: string
           demo_request_id?: string
@@ -627,6 +672,13 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_internal_role: {
+        Args: {
+          _roles: Database["public"]["Enums"]["internal_role"][]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_account_member: {
         Args: { target_account_id: string }
         Returns: boolean
@@ -638,6 +690,7 @@ export type Database = {
     }
     Enums: {
       account_role: "owner" | "admin" | "operator" | "analyst" | "viewer"
+      internal_role: "viewer" | "ops" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -766,6 +819,7 @@ export const Constants = {
   public: {
     Enums: {
       account_role: ["owner", "admin", "operator", "analyst", "viewer"],
+      internal_role: ["viewer", "ops", "admin"],
     },
   },
 } as const
