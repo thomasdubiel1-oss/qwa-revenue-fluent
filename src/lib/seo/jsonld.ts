@@ -35,7 +35,6 @@ export function dedupeJsonLd(items: JsonLd[]): JsonLd[] {
   return out;
 }
 
-
 const ORGANIZATION_ID = `${absoluteUrl("/")}#organization`;
 const WEBSITE_ID = `${absoluteUrl("/")}#website`;
 
