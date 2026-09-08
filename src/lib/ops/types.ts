@@ -13,11 +13,18 @@ export type LeadStatus = (typeof LEAD_STATUSES)[number];
 
 export type DeliveryStatus = "pending" | "sent" | "failed";
 
+/** Internal staff roles (Phase 10). viewer < ops < admin. */
+export const INTERNAL_ROLES = ["viewer", "ops", "admin"] as const;
+export type InternalRole = (typeof INTERNAL_ROLES)[number];
+
+export type InternalActor = { userId: string; role: InternalRole; label: string };
+
 export type OpsAccessState =
   | { state: "ready" }
-  /** INTERNAL_OPS_TOKEN is not configured — console is architecturally locked. */
-  | { state: "unconfigured" }
-  | { state: "denied" };
+  /** No valid internal session on the request. */
+  | { state: "unauthenticated" }
+  /** Signed in, but not an enabled internal user with a sufficient role. */
+  | { state: "forbidden" };
 
 export type OpsOverview = {
   totalLeads: number;
