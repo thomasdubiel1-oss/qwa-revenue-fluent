@@ -9,6 +9,8 @@
  * Version 1 is the Phase 8 baseline, materialised on first read so current
  * behaviour is preserved exactly until an operator changes something.
  */
+import { actorFields } from "./auth.server";
+
 import type { AutomationConfig, ConfigVersion } from "./governance.types";
 import { baselineConfig, diffConfig, normalizeConfig } from "./governance.types";
 import { OPERATOR_LABEL } from "./workflow.server";
@@ -64,7 +66,7 @@ async function auditConfigEvent(input: {
     outcome: "executed",
     reason_code: input.reasonCode,
     detail: input.detail as never,
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
   });
 }
 
@@ -84,7 +86,7 @@ export async function ensureBaselineVersion(): Promise<void> {
     config: baselineConfig() as never,
     source: "baseline",
     change_reason: "Phase 8 behaviour captured as the initial governed baseline.",
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
     activated_at: now,
   });
   // Concurrent first reads can race; the unique index wins and we audit once.
@@ -186,7 +188,7 @@ export async function createConfigVersion(input: {
     config: next as never,
     source: "operator",
     change_reason: reason,
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
   });
   if (error) return { ok: false, error: "write_failed" };
 
@@ -232,7 +234,7 @@ export async function rollbackConfig(input: {
     config: target.config as never,
     source: "rollback",
     change_reason: reason,
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
     rolled_back_from: target.version,
   });
   if (error) return { ok: false, error: "write_failed" };
