@@ -81,6 +81,9 @@ function ControlPlane() {
   const [draft, setDraft] = React.useState<AutomationConfig | null>(null);
   const [notice, setNotice] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
   const controlFn = useServerFn(opsControlPlaneFn);
   const queueFn = useServerFn(opsWorkQueueFn);
@@ -179,7 +182,7 @@ function ControlPlane() {
                   "Engage the kill switch? All automation execution stops immediately.",
                 )
               ) {
-                killMutation.mutate(next);
+                canAdmin && killMutation.mutate(next);
               }
             }}
             disabled={killMutation.isPending}
@@ -242,7 +245,7 @@ function ControlPlane() {
                       )
                     )
                       return;
-                    modeMutation.mutate(mode);
+                    canAdmin && modeMutation.mutate(mode);
                   }}
                   className={cn(
                     "min-h-11 rounded-md border px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -453,7 +456,7 @@ function ControlPlane() {
                 type="button"
                 className="min-h-11"
                 disabled={!selectedLead || simulateMutation.isPending}
-                onClick={() => simulateMutation.mutate(selectedLead)}
+                onClick={() => canOps && simulateMutation.mutate(selectedLead)}
               >
                 Simulate
               </Button>
@@ -677,7 +680,7 @@ function ControlPlane() {
                     !window.confirm("Activate a new configuration version with these thresholds?")
                   )
                     return;
-                  saveMutation.mutate({ config: draft, reason });
+                  canAdmin && saveMutation.mutate({ config: draft, reason });
                 }}
               >
                 <label
@@ -751,7 +754,7 @@ function ControlPlane() {
                               onClick={() => {
                                 if (!window.confirm(`Roll back to configuration v${v.version}?`))
                                   return;
-                                rollbackMutation.mutate({
+                                canAdmin && rollbackMutation.mutate({
                                   version: v.version,
                                   reason: reason.trim() || `Rollback to v${v.version}`,
                                 });

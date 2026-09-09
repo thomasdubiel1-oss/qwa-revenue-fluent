@@ -97,6 +97,9 @@ function WorkQueueConsole() {
   const [expanded, setExpanded] = React.useState<string | null>(null);
   const [confirmId, setConfirmId] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
   const workQueueFn = useServerFn(opsWorkQueueFn);
   const moveStatusFn = useServerFn(opsMoveStatusFn);
@@ -187,6 +190,9 @@ function WorkQueueConsole() {
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
           </Button>
+          <span className="rounded-full border border-border px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
+            {role}
+          </span>
           <InternalSignOutButton />
         </>
       }
@@ -483,7 +489,7 @@ function WorkQueueConsole() {
                                   variant="outline"
                                   disabled={statusMutation.isPending || item.status === next}
                                   onClick={() =>
-                                    statusMutation.mutate({ id: item.leadId, status: next })
+                                    canOps && statusMutation.mutate({ id: item.leadId, status: next })
                                   }
                                 >
                                   Move to {next}
@@ -494,7 +500,7 @@ function WorkQueueConsole() {
                                   size="sm"
                                   variant="outline"
                                   disabled={retryMutation.isPending}
-                                  onClick={() => retryMutation.mutate(item.deliveryId as string)}
+                                  onClick={() => canOps && retryMutation.mutate(item.deliveryId as string)}
                                 >
                                   Retry delivery
                                 </Button>
@@ -506,7 +512,7 @@ function WorkQueueConsole() {
                                     variant="destructive"
                                     disabled={statusMutation.isPending}
                                     onClick={() =>
-                                      statusMutation.mutate({
+                                      canOps && statusMutation.mutate({
                                         id: item.leadId,
                                         status: "disqualified",
                                       })
@@ -519,7 +525,7 @@ function WorkQueueConsole() {
                                     variant="destructive"
                                     disabled={statusMutation.isPending}
                                     onClick={() =>
-                                      statusMutation.mutate({ id: item.leadId, status: "archived" })
+                                      canOps && statusMutation.mutate({ id: item.leadId, status: "archived" })
                                     }
                                   >
                                     Confirm archive

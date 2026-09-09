@@ -143,6 +143,9 @@ function LeadOpsConsole() {
   const [taskDue, setTaskDue] = React.useState("");
   const [confirmStatus, setConfirmStatus] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
   const overviewFn = useServerFn(opsOverviewFn);
   const leadsFn = useServerFn(opsLeadsFn);
@@ -276,6 +279,9 @@ function LeadOpsConsole() {
             Refresh
           </Button>
 
+          <span className="rounded-full border border-border px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
+            {role}
+          </span>
           <InternalSignOutButton />
         </>
       }
@@ -600,7 +606,7 @@ function LeadOpsConsole() {
                                   variant={decision === "approve" ? "outline" : "ghost"}
                                   disabled={recDecision.isPending}
                                   onClick={() =>
-                                    recDecision.mutate({
+                                    canOps && recDecision.mutate({
                                       leadId: d.lead.id,
                                       playbookKey: rec.playbookKey,
                                       decision,
@@ -641,7 +647,7 @@ function LeadOpsConsole() {
                                 return;
                               }
                               setConfirmStatus(null);
-                              statusMutation.mutate({ id: d.lead.id, status: s });
+                              canOps && statusMutation.mutate({ id: d.lead.id, status: s });
                             }}
                           >
                             {armed ? `Confirm ${s}` : s}
@@ -662,7 +668,7 @@ function LeadOpsConsole() {
                       onSubmit={(e) => {
                         e.preventDefault();
                         if (note.trim().length < 2) return;
-                        noteMutation.mutate({ id: d.lead.id, note });
+                        canOps && noteMutation.mutate({ id: d.lead.id, note });
                       }}
                     >
                       <textarea
@@ -697,7 +703,7 @@ function LeadOpsConsole() {
                       onSubmit={(e) => {
                         e.preventDefault();
                         if (taskTitle.trim().length < 2) return;
-                        taskMutation.mutate({
+                        canOps && taskMutation.mutate({
                           id: d.lead.id,
                           title: taskTitle,
                           ...(taskDue ? { dueAt: new Date(taskDue).toISOString() } : {}),
@@ -751,7 +757,7 @@ function LeadOpsConsole() {
                             variant="outline"
                             disabled={taskDoneMutation.isPending}
                             onClick={() =>
-                              taskDoneMutation.mutate({
+                              canOps && taskDoneMutation.mutate({
                                 taskId: t.id,
                                 completed: !t.completedAt,
                               })
@@ -878,7 +884,7 @@ function LeadOpsConsole() {
                               size="sm"
                               variant="outline"
                               disabled={retryMutation.isPending}
-                              onClick={() => retryMutation.mutate(delivery.id)}
+                              onClick={() => canOps && retryMutation.mutate(delivery.id)}
                             >
                               Retry delivery
                             </Button>

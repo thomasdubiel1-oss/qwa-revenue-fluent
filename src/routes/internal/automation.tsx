@@ -143,6 +143,9 @@ function AutomationConsole() {
     skipped: { leadId: string; playbookKey: string; reasonCode: string }[];
   }>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
   const stateFn = useServerFn(opsAutomationStateFn);
   const modeFn = useServerFn(opsSetAutomationModeFn);
@@ -213,7 +216,7 @@ function AutomationConsole() {
             variant="outline"
             size="sm"
             className="min-h-11"
-            onClick={() => runMutation.mutate(true)}
+            onClick={() => canAdmin && runMutation.mutate(true)}
             disabled={runMutation.isPending}
           >
             Dry-run preview
@@ -222,7 +225,7 @@ function AutomationConsole() {
             variant={state?.killSwitch ? "default" : "destructive"}
             size="sm"
             className="min-h-11"
-            onClick={() => killMutation.mutate(!state?.killSwitch)}
+            onClick={() => canAdmin && killMutation.mutate(!state?.killSwitch)}
             disabled={killMutation.isPending}
           >
             {state?.killSwitch ? "Release kill switch" : "Kill switch"}
@@ -266,7 +269,7 @@ function AutomationConsole() {
                   key={mode}
                   type="button"
                   disabled={modeMutation.isPending || (state.killSwitch && mode !== "off")}
-                  onClick={() => modeMutation.mutate(mode)}
+                  onClick={() => canAdmin && modeMutation.mutate(mode)}
                   className={cn(
                     "min-h-11 rounded-lg border px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
                     state.mode === mode
@@ -286,7 +289,7 @@ function AutomationConsole() {
                 size="sm"
                 className="min-h-11"
                 disabled={runMutation.isPending || state.mode === "off" || state.killSwitch}
-                onClick={() => runMutation.mutate(false)}
+                onClick={() => canAdmin && runMutation.mutate(false)}
               >
                 Run now
               </Button>
@@ -382,7 +385,7 @@ function AutomationConsole() {
                       rec={rec}
                       busy={decideMutation.isPending}
                       onDecide={(decision) =>
-                        decideMutation.mutate({
+                        canOps && decideMutation.mutate({
                           leadId: rec.leadId,
                           playbookKey: rec.playbookKey,
                           decision,
