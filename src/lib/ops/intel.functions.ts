@@ -20,8 +20,11 @@ export const opsRevenueIntelFn = createServerFn({ method: "POST" })
     return {
       ok: true,
       data: await loadRevenueIntel({
-        ...(data.windowDays !== undefined ? { windowDays: data.windowDays } : {}),
-        ...(data.staleHours !== undefined ? { staleHours: data.staleHours } : {}),
+        windowDays:
+          data.windowDays === 7 || data.windowDays === 30 || data.windowDays === 90
+            ? data.windowDays
+            : 30,
+        staleHours: typeof data.staleHours === "number" ? data.staleHours : 24,
       }),
     };
   });
