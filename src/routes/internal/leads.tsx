@@ -17,7 +17,6 @@ import {
 } from "@/components/qwa/internal/ops-ui";
 import { internalHead } from "@/config/seo";
 import {
-  opsAccessStatusFn,
   opsLeadDetailFn,
   opsLeadsFn,
   opsOverviewFn,
@@ -136,7 +135,6 @@ function LeadOpsConsole() {
   const [confirmStatus, setConfirmStatus] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const overviewFn = useServerFn(opsOverviewFn);
   const leadsFn = useServerFn(opsLeadsFn);
   const detailFn = useServerFn(opsLeadDetailFn);
@@ -149,10 +147,6 @@ function LeadOpsConsole() {
   const leadRecsFn = useServerFn(opsLeadRecommendationsFn);
   const decideRecFn = useServerFn(opsDecideRecommendationFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const overview = useQuery({
     queryKey: ["ops", "overview"],
@@ -236,11 +230,7 @@ function LeadOpsConsole() {
     onSuccess: invalidate,
   });
 
-  const denied =
-    (overview.data && overview.data.ok === false && overview.data.access.state === "denied") ||
-    (leads.data && leads.data.ok === false && leads.data.access.state === "denied");
 
-  const unconfigured = configured.data?.configured === false;
 
   const rows: OpsLeadRow[] = leads.data?.ok ? leads.data.data : [];
   const summary = overview.data?.ok ? overview.data.data : null;
@@ -257,68 +247,6 @@ function LeadOpsConsole() {
     () => ["all", ...new Set(rows.map((r) => r.primaryGoal))],
     [rows],
   );
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Lead Operations" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <div className="max-w-2xl space-y-3 text-sm text-muted-foreground">
-            <p>
-              This console reads lead PII exclusively through server-side, service-role queries. It
-              stays inert until an access secret named{" "}
-              <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-              added in Project Settings → Secrets.
-            </p>
-            <p>
-              No users, passwords, or accounts have been invented. When a full auth layer is
-              introduced, the recommended model is backend auth plus a separate{" "}
-              <code className="text-foreground">user_roles</code> table with an{" "}
-              <code className="text-foreground">ops</code> role verified server-side; only{" "}
-              <code className="text-foreground">checkOpsAccess</code> in{" "}
-              <code className="text-foreground">src/lib/ops/ops.server.ts</code> would change.
-            </p>
-          </div>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Lead Operations" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit">Unlock</Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-xs text-destructive">
-              That key was rejected. No lead data was returned.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   return (
     <OpsShell

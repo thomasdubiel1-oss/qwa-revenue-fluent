@@ -89,16 +89,11 @@ function WorkQueueConsole() {
   const [confirmId, setConfirmId] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const workQueueFn = useServerFn(opsWorkQueueFn);
   const moveStatusFn = useServerFn(opsMoveStatusFn);
   const retryFn = useServerFn(opsRetryDeliveryFn);
   const automationFn = useServerFn(opsAutomationStateFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const queueQuery = useQuery({
     queryKey: ["ops", "work-queue", sla],
@@ -143,9 +138,6 @@ function WorkQueueConsole() {
     onSuccess: invalidate,
   });
 
-  const denied =
-    queueQuery.data && queueQuery.data.ok === false && queueQuery.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const result = queueQuery.data?.ok ? queueQuery.data.data : null;
 
   const items: WorkQueueItem[] = React.useMemo(() => {
@@ -160,60 +152,6 @@ function WorkQueueConsole() {
       rows = [...rows].sort((a, b) => (a.submittedAt > b.submittedAt ? -1 : 1));
     return rows;
   }, [result, queue, onlyOverdue, view, sort]);
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Operator Work Queue" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            The work queue reads lead PII exclusively through server-side, service-role queries and
-            stays inert until a secret named{" "}
-            <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-            added in Project Settings → Secrets. No users or passwords have been invented; when a
-            real auth layer arrives only <code className="text-foreground">checkOpsAccess</code>{" "}
-            changes.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Operator Work Queue" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit">Unlock</Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-xs text-destructive">
-              That key was rejected. No lead data was returned.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   const s = result?.summary;
 

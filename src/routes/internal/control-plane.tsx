@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn } from "@/lib/ops/ops.functions";
 import { opsSetAutomationModeFn, opsSetKillSwitchFn } from "@/lib/ops/automation.functions";
 import { AUTOMATION_MODE_LABELS, type AutomationMode } from "@/lib/ops/automation.types";
 import { opsWorkQueueFn } from "@/lib/ops/workflow.functions";
@@ -74,7 +73,6 @@ function ControlPlane() {
   const [notice, setNotice] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const controlFn = useServerFn(opsControlPlaneFn);
   const queueFn = useServerFn(opsWorkQueueFn);
   const versionsFn = useServerFn(opsConfigVersionsFn);
@@ -84,11 +82,6 @@ function ControlPlane() {
   const modeFn = useServerFn(opsSetAutomationModeFn);
   const killFn = useServerFn(opsSetKillSwitchFn);
 
-  const configured = useQuery({ queryKey: ["ops", "configured"], queryFn: () => accessStatus({}) });
-  const stateQuery = useQuery({
-    queryKey: ["ops", "control-plane"],
-    queryFn: () => controlFn({}),
-  });
   const queueQuery = useQuery({
     queryKey: ["ops", "control-plane-queue"],
     queryFn: () => queueFn({}),
@@ -136,67 +129,11 @@ function ControlPlane() {
     onSuccess: invalidate,
   });
 
-  const denied =
-    stateQuery.data && stateQuery.data.ok === false && stateQuery.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const state = stateQuery.data?.ok ? stateQuery.data.data : null;
   const versions = versionsQuery.data?.ok ? versionsQuery.data.data : [];
   const queueItems = queueQuery.data?.ok ? queueQuery.data.data.items : [];
   const sim = simulateMutation.data?.ok ? simulateMutation.data.data : null;
   const config = draft ?? state?.activeVersion.config ?? null;
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Revenue Operations Control Plane" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            Add a secret named <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+
-            random characters) in Project Settings → Secrets. Until then the control plane reads
-            nothing and changes nothing.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Revenue Operations Control Plane" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit" className="min-h-11">
-              Unlock
-            </Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-sm text-destructive">
-              Key rejected. Check the configured secret.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   return (
     <OpsShell
