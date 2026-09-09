@@ -69,7 +69,7 @@ function RevenueConsole() {
 
   const queue = useQuery({
     queryKey: ["ops", "work-queue", "summary"],
-    queryFn: () => workQueueFn({}),
+    queryFn: () => workQueueFn({ data: {} }),
   });
   const queueSummary = queue.data?.ok ? queue.data.data.summary : null;
 

@@ -112,7 +112,7 @@ function WorkQueueConsole() {
   /** Phase 8: playbook recommendations shown inline; priority model unchanged. */
   const automationQuery = useQuery({
     queryKey: ["ops", "automation"],
-    queryFn: () => automationFn({}),
+    queryFn: () => automationFn({ data: {} }),
   });
   const automation = automationQuery.data?.ok ? automationQuery.data.data : null;
   const recsByLead = React.useMemo(() => {

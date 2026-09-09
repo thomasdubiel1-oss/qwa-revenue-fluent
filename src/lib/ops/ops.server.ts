@@ -1,38 +1,23 @@
 /**
  * Server-only data access for the internal Lead Operations Console.
  *
- * ACCESS MODEL (documented dependency):
- *   The console is gated by a single server-side secret, `INTERNAL_OPS_TOKEN`.
- *   When that secret is absent, every read/write here refuses and reports
- *   `unconfigured` — the route exists but returns no lead data at all.
- *   The intended upgrade path is Supabase auth + a `user_roles` table with an
- *   `ops` role checked server-side; the boundary functions below are the only
- *   place that would change.
+ * ACCESS MODEL (Phase 10):
+ *   Every caller is authorized in `auth.server.ts` from an authenticated
+ *   Supabase session plus a durable `internal_users` role. There is no shared
+ *   access token and no public signup.
  *
  * Lead PII never reaches an anonymous client: all reads run through the
  * service-role client inside server functions. No privileged credential is
  * ever imported at module scope or shipped to the browser.
  */
-import { createHash, timingSafeEqual } from "crypto";
-
 import type {
   DeliveryStatus,
-  OpsAccessState,
   OpsFilters,
   OpsLeadDetail,
   OpsLeadRow,
   OpsOverview,
 } from "./types";
 import { LEAD_STATUSES } from "./types";
-
-export function checkOpsAccess(key: unknown): OpsAccessState {
-  const secret = process.env["INTERNAL_OPS_TOKEN"];
-  if (!secret || secret.trim().length < 16) return { state: "unconfigured" };
-  const provided = typeof key === "string" ? key : "";
-  const a = createHash("sha256").update(provided).digest();
-  const b = createHash("sha256").update(secret).digest();
-  return timingSafeEqual(a, b) ? { state: "ready" } : { state: "denied" };
-}
 
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
