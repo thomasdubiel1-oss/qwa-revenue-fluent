@@ -159,7 +159,7 @@ function LeadOpsConsole() {
 
   const overview = useQuery({
     queryKey: ["ops", "overview"],
-    queryFn: () => overviewFn({}),
+    queryFn: () => overviewFn({ data: {} }),
   });
 
   React.useEffect(() => {

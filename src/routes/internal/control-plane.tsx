@@ -91,13 +91,17 @@ function ControlPlane() {
   const modeFn = useServerFn(opsSetAutomationModeFn);
   const killFn = useServerFn(opsSetKillSwitchFn);
 
+  const stateQuery = useQuery({
+    queryKey: ["ops", "control-plane"],
+    queryFn: () => controlFn({ data: {} }),
+  });
   const queueQuery = useQuery({
     queryKey: ["ops", "control-plane-queue"],
-    queryFn: () => queueFn({}),
+    queryFn: () => queueFn({ data: {} }),
   });
   const versionsQuery = useQuery({
     queryKey: ["ops", "config-versions"],
-    queryFn: () => versionsFn({}),
+    queryFn: () => versionsFn({ data: {} }),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });

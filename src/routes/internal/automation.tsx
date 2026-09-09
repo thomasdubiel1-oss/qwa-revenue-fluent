@@ -153,7 +153,7 @@ function AutomationConsole() {
 
   const stateQuery = useQuery({
     queryKey: ["ops", "automation"],
-    queryFn: () => stateFn({}),
+    queryFn: () => stateFn({ data: {} }),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
