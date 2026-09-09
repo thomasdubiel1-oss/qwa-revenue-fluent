@@ -26,6 +26,11 @@ import {
   Sparkbars,
   StatCard,
 } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import { opsRevenueIntelFn } from "@/lib/ops/intel.functions";
 import { opsWorkQueueFn } from "@/lib/ops/workflow.functions";
@@ -35,7 +40,11 @@ import { DEFERRED_REVENUE_METRICS, REVENUE_DATA_AVAILABLE } from "@/lib/ops/reve
 export const Route = createFileRoute("/internal/revenue")({
   ssr: false,
   head: () => internalHead("Revenue Intelligence — QWA Internal"),
-  component: RevenueConsole,
+  component: () => (
+    <InternalGate title="Revenue Intelligence">
+      <RevenueConsole />
+    </InternalGate>
+  ),
 });
 
 function fmtDuration(ms: number | null) {
@@ -102,9 +111,7 @@ function RevenueConsole() {
           <Button variant="outline" size="sm" asChild>
             <Link to="/internal/leads">Lead console</Link>
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <InternalSignOutButton />
         </>
       }
     >

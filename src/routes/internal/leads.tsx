@@ -15,6 +15,11 @@ import {
   Pill,
   StatCard,
 } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import {
   opsLeadDetailFn,
@@ -70,7 +75,11 @@ export const Route = createFileRoute("/internal/leads")({
       ...(sort === "newest" || sort === "oldest" || sort === "company" ? { sort } : {}),
     };
   },
-  component: LeadOpsConsole,
+  component: () => (
+    <InternalGate title="Lead Operations">
+      <LeadOpsConsole />
+    </InternalGate>
+  ),
 });
 
 function fmtDate(value: string | null) {
@@ -267,9 +276,7 @@ function LeadOpsConsole() {
             Refresh
           </Button>
 
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <InternalSignOutButton />
         </>
       }
     >

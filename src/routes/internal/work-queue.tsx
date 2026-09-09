@@ -15,8 +15,13 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn, opsRetryDeliveryFn } from "@/lib/ops/ops.functions";
+import { opsRetryDeliveryFn } from "@/lib/ops/ops.functions";
 import { opsMoveStatusFn, opsWorkQueueFn } from "@/lib/ops/workflow.functions";
 import { opsAutomationStateFn } from "@/lib/ops/automation.functions";
 import {
@@ -43,7 +48,11 @@ export const Route = createFileRoute("/internal/work-queue")({
       ...(v === "overdue" || v === "due" || v === "tasks" ? { view: v } : {}),
     };
   },
-  component: WorkQueueConsole,
+  component: () => (
+    <InternalGate title="Work Queue">
+      <WorkQueueConsole />
+    </InternalGate>
+  ),
 });
 
 function age(hours: number) {
@@ -178,9 +187,7 @@ function WorkQueueConsole() {
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <InternalSignOutButton />
         </>
       }
     >

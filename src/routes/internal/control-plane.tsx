@@ -16,6 +16,11 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import { opsSetAutomationModeFn, opsSetKillSwitchFn } from "@/lib/ops/automation.functions";
 import { AUTOMATION_MODE_LABELS, type AutomationMode } from "@/lib/ops/automation.types";
@@ -33,7 +38,11 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/control-plane")({
   ssr: false,
   head: () => internalHead("Revenue Operations Control Plane — QWA Internal"),
-  component: ControlPlane,
+  component: () => (
+    <InternalGate title="Control Plane">
+      <ControlPlane />
+    </InternalGate>
+  ),
 });
 
 const label = (s: string) => s.replace(/_/g, " ");

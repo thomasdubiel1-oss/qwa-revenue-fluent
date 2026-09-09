@@ -17,6 +17,11 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import {
   opsAutomationStateFn,
@@ -37,7 +42,11 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/automation")({
   ssr: false,
   head: () => internalHead("Automation Control Plane — QWA Internal"),
-  component: AutomationConsole,
+  component: () => (
+    <InternalGate title="Automation Control">
+      <AutomationConsole />
+    </InternalGate>
+  ),
 });
 
 function reasonLabel(code: string) {
