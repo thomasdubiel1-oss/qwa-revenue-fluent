@@ -17,8 +17,12 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn } from "@/lib/ops/ops.functions";
 import {
   opsAutomationStateFn,
   opsDecideRecommendationFn,
@@ -38,31 +42,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/automation")({
   ssr: false,
   head: () => internalHead("Automation Control Plane — QWA Internal"),
-  component: AutomationConsole,
+  component: () => (
+    <InternalGate title="Automation Control">
+      <AutomationConsole />
+    </InternalGate>
+  ),
 });
-
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
 
 function reasonLabel(code: string) {
   return code.replace(/_/g, " ");
@@ -153,44 +138,39 @@ function RecommendationRow({
 }
 
 function AutomationConsole() {
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [dryRun, setDryRun] = React.useState<null | {
     executed: { leadId: string; playbookKey: string; action: string }[];
     skipped: { leadId: string; playbookKey: string; reasonCode: string }[];
   }>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const stateFn = useServerFn(opsAutomationStateFn);
   const modeFn = useServerFn(opsSetAutomationModeFn);
   const killFn = useServerFn(opsSetKillSwitchFn);
   const runFn = useServerFn(opsRunAutomationFn);
   const decideFn = useServerFn(opsDecideRecommendationFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const stateQuery = useQuery({
-    queryKey: ["ops", "automation", key],
-    queryFn: () => stateFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "automation"],
+    queryFn: () => stateFn({ data: {} }),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const modeMutation = useMutation({
-    mutationFn: (mode: AutomationMode) => modeFn({ data: { key, mode } }),
+    mutationFn: (mode: AutomationMode) => modeFn({ data: { mode } }),
     onSuccess: invalidate,
   });
   const killMutation = useMutation({
-    mutationFn: (engaged: boolean) => killFn({ data: { key, engaged } }),
+    mutationFn: (engaged: boolean) => killFn({ data: { engaged } }),
     onSuccess: invalidate,
   });
   const runMutation = useMutation({
-    mutationFn: (isDry: boolean) => runFn({ data: { key, dryRun: isDry } }),
+    mutationFn: (isDry: boolean) => runFn({ data: { dryRun: isDry } }),
     onSuccess: (res, isDry) => {
       if (res.ok && isDry)
         setDryRun({ executed: res.result.executed, skipped: res.result.skipped });
@@ -203,68 +183,11 @@ function AutomationConsole() {
       leadId: string;
       playbookKey: string;
       decision: "approve" | "dismiss" | "snooze";
-    }) => decideFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    }) => decideFn({ data: { ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
-  const denied =
-    stateQuery.data && stateQuery.data.ok === false && stateQuery.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const state = stateQuery.data?.ok ? stateQuery.data.data : null;
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Automation Control Plane" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            Automation stays inert until a secret named{" "}
-            <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-            added in Project Settings → Secrets. With no credential the control plane evaluates
-            nothing and mutates nothing.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Automation Control Plane" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit" className="min-h-11">
-              Unlock
-            </Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-sm text-destructive">
-              Key rejected. Check the configured secret.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   const pending = state?.recommendations.filter(
     (r) => r.recommendationStatus === "pending" || r.recommendationStatus === "recommended",
@@ -293,7 +216,7 @@ function AutomationConsole() {
             variant="outline"
             size="sm"
             className="min-h-11"
-            onClick={() => runMutation.mutate(true)}
+            onClick={() => canAdmin && runMutation.mutate(true)}
             disabled={runMutation.isPending}
           >
             Dry-run preview
@@ -302,7 +225,7 @@ function AutomationConsole() {
             variant={state?.killSwitch ? "default" : "destructive"}
             size="sm"
             className="min-h-11"
-            onClick={() => killMutation.mutate(!state?.killSwitch)}
+            onClick={() => canAdmin && killMutation.mutate(!state?.killSwitch)}
             disabled={killMutation.isPending}
           >
             {state?.killSwitch ? "Release kill switch" : "Kill switch"}
@@ -346,7 +269,7 @@ function AutomationConsole() {
                   key={mode}
                   type="button"
                   disabled={modeMutation.isPending || (state.killSwitch && mode !== "off")}
-                  onClick={() => modeMutation.mutate(mode)}
+                  onClick={() => canAdmin && modeMutation.mutate(mode)}
                   className={cn(
                     "min-h-11 rounded-lg border px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50",
                     state.mode === mode
@@ -366,7 +289,7 @@ function AutomationConsole() {
                 size="sm"
                 className="min-h-11"
                 disabled={runMutation.isPending || state.mode === "off" || state.killSwitch}
-                onClick={() => runMutation.mutate(false)}
+                onClick={() => canAdmin && runMutation.mutate(false)}
               >
                 Run now
               </Button>
@@ -462,7 +385,7 @@ function AutomationConsole() {
                       rec={rec}
                       busy={decideMutation.isPending}
                       onDecide={(decision) =>
-                        decideMutation.mutate({
+                        canOps && decideMutation.mutate({
                           leadId: rec.leadId,
                           playbookKey: rec.playbookKey,
                           decision,

@@ -15,9 +15,13 @@ import {
   Pill,
   StatCard,
 } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import {
-  opsAccessStatusFn,
   opsLeadDetailFn,
   opsLeadsFn,
   opsOverviewFn,
@@ -71,31 +75,12 @@ export const Route = createFileRoute("/internal/leads")({
       ...(sort === "newest" || sort === "oldest" || sort === "company" ? { sort } : {}),
     };
   },
-  component: LeadOpsConsole,
+  component: () => (
+    <InternalGate title="Lead Operations">
+      <LeadOpsConsole />
+    </InternalGate>
+  ),
 });
-
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState<string>("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
 
 function fmtDate(value: string | null) {
   if (!value) return "—";
@@ -149,8 +134,6 @@ function Select({
 function LeadOpsConsole() {
   const search0 = Route.useSearch();
   const { lead: deepLinkedLead, ...filterSearch } = search0;
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...filterSearch });
 
   const [search, setSearch] = React.useState("");
@@ -160,8 +143,10 @@ function LeadOpsConsole() {
   const [taskDue, setTaskDue] = React.useState("");
   const [confirmStatus, setConfirmStatus] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const overviewFn = useServerFn(opsOverviewFn);
   const leadsFn = useServerFn(opsLeadsFn);
   const detailFn = useServerFn(opsLeadDetailFn);
@@ -174,15 +159,10 @@ function LeadOpsConsole() {
   const leadRecsFn = useServerFn(opsLeadRecommendationsFn);
   const decideRecFn = useServerFn(opsDecideRecommendationFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const overview = useQuery({
-    queryKey: ["ops", "overview", key],
-    queryFn: () => overviewFn({ data: { key } as { key?: string } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "overview"],
+    queryFn: () => overviewFn({ data: {} }),
   });
 
   React.useEffect(() => {
@@ -191,27 +171,26 @@ function LeadOpsConsole() {
   }, [search]);
 
   const leads = useQuery({
-    queryKey: ["ops", "leads", key, filters],
-    queryFn: () => leadsFn({ data: { key, filters } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "leads", filters],
+    queryFn: () => leadsFn({ data: { filters } }),
   });
 
   const detail = useQuery({
-    queryKey: ["ops", "detail", key, openId],
-    queryFn: () => detailFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "detail", openId],
+    queryFn: () => detailFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const workflow = useQuery({
-    queryKey: ["ops", "workflow", key, openId],
-    queryFn: () => workflowFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "workflow", openId],
+    queryFn: () => workflowFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const recsQuery = useQuery({
-    queryKey: ["ops", "lead-recommendations", key, openId],
-    queryFn: () => leadRecsFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "lead-recommendations", openId],
+    queryFn: () => leadRecsFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const leadRecs: RecommendationView[] = recsQuery.data?.ok ? recsQuery.data.data : [];
@@ -221,12 +200,12 @@ function LeadOpsConsole() {
   };
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { id: string; status: string }) => setStatusFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; status: string }) => setStatusFn({ data: { ...vars } }),
     onSuccess: invalidate,
   });
 
   const retryMutation = useMutation({
-    mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    mutationFn: (deliveryId: string) => retryFn({ data: { deliveryId } }),
     onSuccess: invalidate,
   });
 
@@ -235,12 +214,12 @@ function LeadOpsConsole() {
       leadId: string;
       playbookKey: string;
       decision: "approve" | "dismiss" | "snooze";
-    }) => decideRecFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    }) => decideRecFn({ data: { ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
   const noteMutation = useMutation({
-    mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { ...vars } }),
     onSuccess: () => {
       setNote("");
       invalidate();
@@ -249,7 +228,7 @@ function LeadOpsConsole() {
 
   const taskMutation = useMutation({
     mutationFn: (vars: { id: string; title: string; dueAt?: string }) =>
-      createTaskFn({ data: { key, ...vars } }),
+      createTaskFn({ data: { ...vars } }),
     onSuccess: () => {
       setTaskTitle("");
       setTaskDue("");
@@ -259,15 +238,11 @@ function LeadOpsConsole() {
 
   const taskDoneMutation = useMutation({
     mutationFn: (vars: { taskId: string; completed: boolean }) =>
-      setTaskDoneFn({ data: { key, ...vars } }),
+      setTaskDoneFn({ data: { ...vars } }),
     onSuccess: invalidate,
   });
 
-  const denied =
-    (overview.data && overview.data.ok === false && overview.data.access.state === "denied") ||
-    (leads.data && leads.data.ok === false && leads.data.access.state === "denied");
 
-  const unconfigured = configured.data?.configured === false;
 
   const rows: OpsLeadRow[] = leads.data?.ok ? leads.data.data : [];
   const summary = overview.data?.ok ? overview.data.data : null;
@@ -284,68 +259,6 @@ function LeadOpsConsole() {
     () => ["all", ...new Set(rows.map((r) => r.primaryGoal))],
     [rows],
   );
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Lead Operations" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <div className="max-w-2xl space-y-3 text-sm text-muted-foreground">
-            <p>
-              This console reads lead PII exclusively through server-side, service-role queries. It
-              stays inert until an access secret named{" "}
-              <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-              added in Project Settings → Secrets.
-            </p>
-            <p>
-              No users, passwords, or accounts have been invented. When a full auth layer is
-              introduced, the recommended model is backend auth plus a separate{" "}
-              <code className="text-foreground">user_roles</code> table with an{" "}
-              <code className="text-foreground">ops</code> role verified server-side; only{" "}
-              <code className="text-foreground">checkOpsAccess</code> in{" "}
-              <code className="text-foreground">src/lib/ops/ops.server.ts</code> would change.
-            </p>
-          </div>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Lead Operations" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit">Unlock</Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-xs text-destructive">
-              That key was rejected. No lead data was returned.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   return (
     <OpsShell
@@ -366,9 +279,10 @@ function LeadOpsConsole() {
             Refresh
           </Button>
 
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <span className="rounded-full border border-border px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
+            {role}
+          </span>
+          <InternalSignOutButton />
         </>
       }
     >
@@ -692,7 +606,7 @@ function LeadOpsConsole() {
                                   variant={decision === "approve" ? "outline" : "ghost"}
                                   disabled={recDecision.isPending}
                                   onClick={() =>
-                                    recDecision.mutate({
+                                    canOps && recDecision.mutate({
                                       leadId: d.lead.id,
                                       playbookKey: rec.playbookKey,
                                       decision,
@@ -733,7 +647,7 @@ function LeadOpsConsole() {
                                 return;
                               }
                               setConfirmStatus(null);
-                              statusMutation.mutate({ id: d.lead.id, status: s });
+                              canOps && statusMutation.mutate({ id: d.lead.id, status: s });
                             }}
                           >
                             {armed ? `Confirm ${s}` : s}
@@ -754,7 +668,7 @@ function LeadOpsConsole() {
                       onSubmit={(e) => {
                         e.preventDefault();
                         if (note.trim().length < 2) return;
-                        noteMutation.mutate({ id: d.lead.id, note });
+                        canOps && noteMutation.mutate({ id: d.lead.id, note });
                       }}
                     >
                       <textarea
@@ -789,7 +703,7 @@ function LeadOpsConsole() {
                       onSubmit={(e) => {
                         e.preventDefault();
                         if (taskTitle.trim().length < 2) return;
-                        taskMutation.mutate({
+                        canOps && taskMutation.mutate({
                           id: d.lead.id,
                           title: taskTitle,
                           ...(taskDue ? { dueAt: new Date(taskDue).toISOString() } : {}),
@@ -843,7 +757,7 @@ function LeadOpsConsole() {
                             variant="outline"
                             disabled={taskDoneMutation.isPending}
                             onClick={() =>
-                              taskDoneMutation.mutate({
+                              canOps && taskDoneMutation.mutate({
                                 taskId: t.id,
                                 completed: !t.completedAt,
                               })
@@ -970,7 +884,7 @@ function LeadOpsConsole() {
                               size="sm"
                               variant="outline"
                               disabled={retryMutation.isPending}
-                              onClick={() => retryMutation.mutate(delivery.id)}
+                              onClick={() => canOps && retryMutation.mutate(delivery.id)}
                             >
                               Retry delivery
                             </Button>

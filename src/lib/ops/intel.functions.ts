@@ -19,6 +19,12 @@ export const opsRevenueIntelFn = createServerFn({ method: "POST" })
     const { loadRevenueIntel } = await import("./intel.server");
     return {
       ok: true,
-      data: await loadRevenueIntel({ windowDays: data.windowDays, staleHours: data.staleHours }),
+      data: await loadRevenueIntel({
+        windowDays:
+          data.windowDays === 7 || data.windowDays === 30 || data.windowDays === 90
+            ? data.windowDays
+            : 30,
+        staleHours: typeof data.staleHours === "number" ? data.staleHours : 24,
+      }),
     };
   });

@@ -15,8 +15,13 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn, opsRetryDeliveryFn } from "@/lib/ops/ops.functions";
+import { opsRetryDeliveryFn } from "@/lib/ops/ops.functions";
 import { opsMoveStatusFn, opsWorkQueueFn } from "@/lib/ops/workflow.functions";
 import { opsAutomationStateFn } from "@/lib/ops/automation.functions";
 import {
@@ -43,31 +48,12 @@ export const Route = createFileRoute("/internal/work-queue")({
       ...(v === "overdue" || v === "due" || v === "tasks" ? { view: v } : {}),
     };
   },
-  component: WorkQueueConsole,
+  component: () => (
+    <InternalGate title="Work Queue">
+      <WorkQueueConsole />
+    </InternalGate>
+  ),
 });
-
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
 
 function age(hours: number) {
   if (hours < 1) return `${Math.max(1, Math.round(hours * 60))}m`;
@@ -103,8 +89,6 @@ function SlaField({
 
 function WorkQueueConsole() {
   const initial = Route.useSearch();
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [sla, setSla] = React.useState<SlaThresholds>(DEFAULT_SLA);
   const [queue, setQueue] = React.useState<QueueKey | "all">(initial.queue ?? "all");
   const [view, setView] = React.useState<WorkQueueView | null>(initial.view ?? null);
@@ -113,29 +97,25 @@ function WorkQueueConsole() {
   const [expanded, setExpanded] = React.useState<string | null>(null);
   const [confirmId, setConfirmId] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const workQueueFn = useServerFn(opsWorkQueueFn);
   const moveStatusFn = useServerFn(opsMoveStatusFn);
   const retryFn = useServerFn(opsRetryDeliveryFn);
   const automationFn = useServerFn(opsAutomationStateFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const queueQuery = useQuery({
-    queryKey: ["ops", "work-queue", key, sla],
-    queryFn: () => workQueueFn({ data: { key, sla } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "work-queue", sla],
+    queryFn: () => workQueueFn({ data: { sla } }),
   });
 
   /** Phase 8: playbook recommendations shown inline; priority model unchanged. */
   const automationQuery = useQuery({
-    queryKey: ["ops", "automation", key],
-    queryFn: () => automationFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "automation"],
+    queryFn: () => automationFn({ data: {} }),
   });
   const automation = automationQuery.data?.ok ? automationQuery.data.data : null;
   const recsByLead = React.useMemo(() => {
@@ -159,20 +139,17 @@ function WorkQueueConsole() {
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { id: string; status: string }) => moveStatusFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; status: string }) => moveStatusFn({ data: { ...vars } }),
     onSuccess: () => {
       setConfirmId(null);
       invalidate();
     },
   });
   const retryMutation = useMutation({
-    mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    mutationFn: (deliveryId: string) => retryFn({ data: { deliveryId } }),
     onSuccess: invalidate,
   });
 
-  const denied =
-    queueQuery.data && queueQuery.data.ok === false && queueQuery.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const result = queueQuery.data?.ok ? queueQuery.data.data : null;
 
   const items: WorkQueueItem[] = React.useMemo(() => {
@@ -187,60 +164,6 @@ function WorkQueueConsole() {
       rows = [...rows].sort((a, b) => (a.submittedAt > b.submittedAt ? -1 : 1));
     return rows;
   }, [result, queue, onlyOverdue, view, sort]);
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Operator Work Queue" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            The work queue reads lead PII exclusively through server-side, service-role queries and
-            stays inert until a secret named{" "}
-            <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-            added in Project Settings → Secrets. No users or passwords have been invented; when a
-            real auth layer arrives only <code className="text-foreground">checkOpsAccess</code>{" "}
-            changes.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Operator Work Queue" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit">Unlock</Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-xs text-destructive">
-              That key was rejected. No lead data was returned.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   const s = result?.summary;
 
@@ -267,9 +190,10 @@ function WorkQueueConsole() {
           <Button variant="outline" size="sm" onClick={invalidate}>
             Refresh
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <span className="rounded-full border border-border px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
+            {role}
+          </span>
+          <InternalSignOutButton />
         </>
       }
     >
@@ -565,7 +489,7 @@ function WorkQueueConsole() {
                                   variant="outline"
                                   disabled={statusMutation.isPending || item.status === next}
                                   onClick={() =>
-                                    statusMutation.mutate({ id: item.leadId, status: next })
+                                    canOps && statusMutation.mutate({ id: item.leadId, status: next })
                                   }
                                 >
                                   Move to {next}
@@ -576,7 +500,7 @@ function WorkQueueConsole() {
                                   size="sm"
                                   variant="outline"
                                   disabled={retryMutation.isPending}
-                                  onClick={() => retryMutation.mutate(item.deliveryId as string)}
+                                  onClick={() => canOps && retryMutation.mutate(item.deliveryId as string)}
                                 >
                                   Retry delivery
                                 </Button>
@@ -588,7 +512,7 @@ function WorkQueueConsole() {
                                     variant="destructive"
                                     disabled={statusMutation.isPending}
                                     onClick={() =>
-                                      statusMutation.mutate({
+                                      canOps && statusMutation.mutate({
                                         id: item.leadId,
                                         status: "disqualified",
                                       })
@@ -601,7 +525,7 @@ function WorkQueueConsole() {
                                     variant="destructive"
                                     disabled={statusMutation.isPending}
                                     onClick={() =>
-                                      statusMutation.mutate({ id: item.leadId, status: "archived" })
+                                      canOps && statusMutation.mutate({ id: item.leadId, status: "archived" })
                                     }
                                   >
                                     Confirm archive

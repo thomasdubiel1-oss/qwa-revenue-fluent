@@ -10,6 +10,8 @@
  * inserts, `lead_activity` inserts and automation bookkeeping. No email, SMS,
  * call, ad-spend, CRM or revenue write exists anywhere in this file.
  */
+import { actorFields } from "./auth.server";
+
 import type {
   AutomationCounts,
   AutomationMode,
@@ -72,7 +74,7 @@ export async function setMode(mode: string) {
   const db = await admin();
   const { error } = await db
     .from("automation_settings")
-    .update({ mode, actor_label: OPERATOR_LABEL })
+    .update({ mode, ...actorFields() })
     .eq("id", "global");
   if (error) return { ok: false as const, error: "update_failed" };
   await logExecution({
@@ -92,7 +94,7 @@ export async function setKillSwitch(engaged: boolean) {
   const db = await admin();
   const update: { kill_switch: boolean; actor_label: string; mode?: string } = {
     kill_switch: engaged,
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
   };
   // Engaging the kill switch also forces the mode back to OFF so no execution
   // path can run even if the switch is later released without a review.
@@ -132,7 +134,7 @@ async function logExecution(input: {
     outcome: input.outcome,
     reason_code: input.reasonCode,
     detail: input.detail as never,
-    actor_label: OPERATOR_LABEL,
+    ...actorFields(),
   });
 }
 
@@ -413,7 +415,7 @@ async function ensureRecommendation(match: PlaybookMatch, status: Recommendation
   if (data) {
     await db
       .from("automation_recommendations")
-      .update({ status, actor_label: OPERATOR_LABEL, resolved_at: new Date().toISOString() })
+      .update({ status, ...actorFields(), resolved_at: new Date().toISOString() })
       .eq("id", data.id);
     return data.id;
   }
@@ -430,7 +432,7 @@ async function ensureRecommendation(match: PlaybookMatch, status: Recommendation
       action_payload: match.action as never,
       reason_codes: [REASON_CODES.ELIGIBLE],
       explanation: match.explanation,
-      actor_label: OPERATOR_LABEL,
+      ...actorFields(),
     })
     .select("id")
     .maybeSingle();
@@ -618,7 +620,7 @@ export async function runAutomation(options: { dryRun: boolean }): Promise<{
       outcome: "executed",
       reason_code: REASON_CODES.ELIGIBLE,
       detail: { action: match.action.type, explanation: match.explanation } as never,
-      actor_label: OPERATOR_LABEL,
+      ...actorFields(),
     });
     if (claimError) {
       skipped.push({

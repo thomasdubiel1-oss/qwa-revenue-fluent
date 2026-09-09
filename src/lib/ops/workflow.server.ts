@@ -10,6 +10,8 @@
  * Actor identity is a neutral label (`internal_operator`) because only a
  * shared token exists today. No individual user is ever claimed.
  */
+import { actorFields } from "./auth.server";
+
 import type {
   LeadActivityEntry,
   LeadTask,
@@ -55,14 +57,14 @@ async function audit(
       demo_request_id: leadId,
       activity_type: activityType,
       note,
-      actor_label: OPERATOR_LABEL,
+      ...actorFields(),
       metadata: metadata as never,
     });
   }
   await db.from("conversion_events").insert({
     event_name: `ops_${activityType}`,
     demo_request_id: leadId,
-    metadata: { ...metadata, actor: OPERATOR_LABEL } as never,
+    metadata: { ...metadata, actor: actorFields().actor_label } as never,
   });
 }
 
@@ -398,7 +400,7 @@ export async function createLeadTask(input: {
       title,
       description,
       due_at: dueAt,
-      actor_label: OPERATOR_LABEL,
+      ...actorFields(),
     })
     .select("id")
     .maybeSingle();

@@ -26,8 +26,12 @@ import {
   Sparkbars,
   StatCard,
 } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn } from "@/lib/ops/ops.functions";
 import { opsRevenueIntelFn } from "@/lib/ops/intel.functions";
 import { opsWorkQueueFn } from "@/lib/ops/workflow.functions";
 import type { IntelWindow } from "@/lib/ops/intel.types";
@@ -36,31 +40,12 @@ import { DEFERRED_REVENUE_METRICS, REVENUE_DATA_AVAILABLE } from "@/lib/ops/reve
 export const Route = createFileRoute("/internal/revenue")({
   ssr: false,
   head: () => internalHead("Revenue Intelligence — QWA Internal"),
-  component: RevenueConsole,
+  component: () => (
+    <InternalGate title="Revenue Intelligence">
+      <RevenueConsole />
+    </InternalGate>
+  ),
 });
-
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
 
 function fmtDuration(ms: number | null) {
   if (ms === null) return "—";
@@ -69,36 +54,25 @@ function fmtDuration(ms: number | null) {
 }
 
 function RevenueConsole() {
-  const { key, save } = useOpsKey();
   const navigate = useNavigate();
-  const [draftKey, setDraftKey] = React.useState("");
   const [windowDays, setWindowDays] = React.useState<IntelWindow>(30);
   const [staleHours, setStaleHours] = React.useState(72);
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const intelFn = useServerFn(opsRevenueIntelFn);
   const workQueueFn = useServerFn(opsWorkQueueFn);
 
-  const configured = useQuery({
-    queryKey: ["ops", "configured"],
-    queryFn: () => accessStatus({}),
-  });
 
   const intel = useQuery({
-    queryKey: ["ops", "intel", key, windowDays, staleHours],
-    queryFn: () => intelFn({ data: { key, windowDays, staleHours } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "intel", windowDays, staleHours],
+    queryFn: () => intelFn({ data: { windowDays, staleHours } }),
   });
 
   const queue = useQuery({
-    queryKey: ["ops", "work-queue", "summary", key],
-    queryFn: () => workQueueFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "work-queue", "summary"],
+    queryFn: () => workQueueFn({ data: {} }),
   });
   const queueSummary = queue.data?.ok ? queue.data.data.summary : null;
 
-  const denied = intel.data?.ok === false && intel.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const data = intel.data?.ok ? intel.data.data : null;
 
   const drill = React.useCallback(
@@ -107,58 +81,6 @@ function RevenueConsole() {
     },
     [navigate],
   );
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Revenue Intelligence" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            This surface derives every metric from lead data through server-side, service-role
-            queries. It stays inert until an access secret named{" "}
-            <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+ random characters) is
-            added in Project Settings → Secrets. No users or passwords have been invented.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Revenue Intelligence" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit">Unlock</Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-xs text-destructive">
-              That key was rejected. No data was returned.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   const t = data?.totals;
 
@@ -189,9 +111,7 @@ function RevenueConsole() {
           <Button variant="outline" size="sm" asChild>
             <Link to="/internal/leads">Lead console</Link>
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => save("")}>
-            Lock
-          </Button>
+          <InternalSignOutButton />
         </>
       }
     >

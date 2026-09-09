@@ -16,8 +16,12 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-ui";
+import {
+  InternalGate,
+  InternalSignOutButton,
+  useInternalSession,
+} from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
-import { opsAccessStatusFn } from "@/lib/ops/ops.functions";
 import { opsSetAutomationModeFn, opsSetKillSwitchFn } from "@/lib/ops/automation.functions";
 import { AUTOMATION_MODE_LABELS, type AutomationMode } from "@/lib/ops/automation.types";
 import { opsWorkQueueFn } from "@/lib/ops/workflow.functions";
@@ -34,31 +38,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/control-plane")({
   ssr: false,
   head: () => internalHead("Revenue Operations Control Plane — QWA Internal"),
-  component: ControlPlane,
+  component: () => (
+    <InternalGate title="Control Plane">
+      <ControlPlane />
+    </InternalGate>
+  ),
 });
-
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
 
 const label = (s: string) => s.replace(/_/g, " ");
 
@@ -91,15 +76,15 @@ function NumberField({
 }
 
 function ControlPlane() {
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [selectedLead, setSelectedLead] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [draft, setDraft] = React.useState<AutomationConfig | null>(null);
   const [notice, setNotice] = React.useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { role, can } = useInternalSession();
+  const canOps = can("ops");
+  const canAdmin = can("admin");
 
-  const accessStatus = useServerFn(opsAccessStatusFn);
   const controlFn = useServerFn(opsControlPlaneFn);
   const queueFn = useServerFn(opsWorkQueueFn);
   const versionsFn = useServerFn(opsConfigVersionsFn);
@@ -109,31 +94,27 @@ function ControlPlane() {
   const modeFn = useServerFn(opsSetAutomationModeFn);
   const killFn = useServerFn(opsSetKillSwitchFn);
 
-  const configured = useQuery({ queryKey: ["ops", "configured"], queryFn: () => accessStatus({}) });
   const stateQuery = useQuery({
-    queryKey: ["ops", "control-plane", key],
-    queryFn: () => controlFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "control-plane"],
+    queryFn: () => controlFn({ data: {} }),
   });
   const queueQuery = useQuery({
-    queryKey: ["ops", "control-plane-queue", key],
-    queryFn: () => queueFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "control-plane-queue"],
+    queryFn: () => queueFn({ data: {} }),
   });
   const versionsQuery = useQuery({
-    queryKey: ["ops", "config-versions", key],
-    queryFn: () => versionsFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "config-versions"],
+    queryFn: () => versionsFn({ data: {} }),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const simulateMutation = useMutation({
-    mutationFn: (leadId: string) => simulateFn({ data: { key, leadId } }),
+    mutationFn: (leadId: string) => simulateFn({ data: { leadId } }),
   });
   const saveMutation = useMutation({
     mutationFn: (vars: { config: AutomationConfig; reason: string }) =>
-      createVersionFn({ data: { key, ...vars } }),
+      createVersionFn({ data: { ...vars } }),
     onSuccess: (res) => {
       if (res.ok) {
         setNotice(`Activated configuration version ${res.version}.`);
@@ -145,7 +126,7 @@ function ControlPlane() {
   });
   const rollbackMutation = useMutation({
     mutationFn: (vars: { version: number; reason: string }) =>
-      rollbackFn({ data: { key, ...vars } }),
+      rollbackFn({ data: { ...vars } }),
     onSuccess: (res) => {
       setNotice(
         res.ok
@@ -156,75 +137,19 @@ function ControlPlane() {
     },
   });
   const modeMutation = useMutation({
-    mutationFn: (mode: AutomationMode) => modeFn({ data: { key, mode } }),
+    mutationFn: (mode: AutomationMode) => modeFn({ data: { mode } }),
     onSuccess: invalidate,
   });
   const killMutation = useMutation({
-    mutationFn: (engaged: boolean) => killFn({ data: { key, engaged } }),
+    mutationFn: (engaged: boolean) => killFn({ data: { engaged } }),
     onSuccess: invalidate,
   });
 
-  const denied =
-    stateQuery.data && stateQuery.data.ok === false && stateQuery.data.access.state === "denied";
-  const unconfigured = configured.data?.configured === false;
   const state = stateQuery.data?.ok ? stateQuery.data.data : null;
   const versions = versionsQuery.data?.ok ? versionsQuery.data.data : [];
   const queueItems = queueQuery.data?.ok ? queueQuery.data.data.items : [];
   const sim = simulateMutation.data?.ok ? simulateMutation.data.data : null;
   const config = draft ?? state?.activeVersion.config ?? null;
-
-  if (unconfigured) {
-    return (
-      <OpsShell title="Revenue Operations Control Plane" subtitle="Access not yet enabled">
-        <Panel
-          title="Console locked — access dependency not configured"
-          description="The route and its server boundary exist, but no operator credential is present."
-        >
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            Add a secret named <code className="text-foreground">INTERNAL_OPS_TOKEN</code> (32+
-            random characters) in Project Settings → Secrets. Until then the control plane reads
-            nothing and changes nothing.
-          </p>
-        </Panel>
-      </OpsShell>
-    );
-  }
-
-  if (!key || denied) {
-    return (
-      <OpsShell title="Revenue Operations Control Plane" subtitle="Internal access required">
-        <Panel
-          title="Enter operator access key"
-          description="Session-scoped. Never stored on disk."
-        >
-          <form
-            className="flex max-w-lg flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => {
-              e.preventDefault();
-              save(draftKey.trim());
-            }}
-          >
-            <Input
-              type="password"
-              autoComplete="off"
-              value={draftKey}
-              onChange={(e) => setDraftKey(e.target.value)}
-              placeholder="INTERNAL_OPS_TOKEN"
-              aria-label="Operator access key"
-            />
-            <Button type="submit" className="min-h-11">
-              Unlock
-            </Button>
-          </form>
-          {denied ? (
-            <p className="mt-3 text-sm text-destructive">
-              Key rejected. Check the configured secret.
-            </p>
-          ) : null}
-        </Panel>
-      </OpsShell>
-    );
-  }
 
   return (
     <OpsShell
@@ -257,7 +182,7 @@ function ControlPlane() {
                   "Engage the kill switch? All automation execution stops immediately.",
                 )
               ) {
-                killMutation.mutate(next);
+                canAdmin && killMutation.mutate(next);
               }
             }}
             disabled={killMutation.isPending}
@@ -320,7 +245,7 @@ function ControlPlane() {
                       )
                     )
                       return;
-                    modeMutation.mutate(mode);
+                    canAdmin && modeMutation.mutate(mode);
                   }}
                   className={cn(
                     "min-h-11 rounded-md border px-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -531,7 +456,7 @@ function ControlPlane() {
                 type="button"
                 className="min-h-11"
                 disabled={!selectedLead || simulateMutation.isPending}
-                onClick={() => simulateMutation.mutate(selectedLead)}
+                onClick={() => canOps && simulateMutation.mutate(selectedLead)}
               >
                 Simulate
               </Button>
@@ -755,7 +680,7 @@ function ControlPlane() {
                     !window.confirm("Activate a new configuration version with these thresholds?")
                   )
                     return;
-                  saveMutation.mutate({ config: draft, reason });
+                  canAdmin && saveMutation.mutate({ config: draft, reason });
                 }}
               >
                 <label
@@ -829,7 +754,7 @@ function ControlPlane() {
                               onClick={() => {
                                 if (!window.confirm(`Roll back to configuration v${v.version}?`))
                                   return;
-                                rollbackMutation.mutate({
+                                canAdmin && rollbackMutation.mutate({
                                   version: v.version,
                                   reason: reason.trim() || `Rollback to v${v.version}`,
                                 });
