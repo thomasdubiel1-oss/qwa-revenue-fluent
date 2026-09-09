@@ -74,29 +74,6 @@ export const Route = createFileRoute("/internal/leads")({
   component: LeadOpsConsole,
 });
 
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState<string>("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
-
 function fmtDate(value: string | null) {
   if (!value) return "—";
   return new Date(value).toLocaleString(undefined, {
@@ -149,8 +126,6 @@ function Select({
 function LeadOpsConsole() {
   const search0 = Route.useSearch();
   const { lead: deepLinkedLead, ...filterSearch } = search0;
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [filters, setFilters] = React.useState<OpsFilters>({ sort: "newest", ...filterSearch });
 
   const [search, setSearch] = React.useState("");
@@ -180,9 +155,8 @@ function LeadOpsConsole() {
   });
 
   const overview = useQuery({
-    queryKey: ["ops", "overview", key],
-    queryFn: () => overviewFn({ data: { key } as { key?: string } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "overview"],
+    queryFn: () => overviewFn({}),
   });
 
   React.useEffect(() => {
@@ -191,27 +165,26 @@ function LeadOpsConsole() {
   }, [search]);
 
   const leads = useQuery({
-    queryKey: ["ops", "leads", key, filters],
-    queryFn: () => leadsFn({ data: { key, filters } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "leads", filters],
+    queryFn: () => leadsFn({ data: { filters } }),
   });
 
   const detail = useQuery({
-    queryKey: ["ops", "detail", key, openId],
-    queryFn: () => detailFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "detail", openId],
+    queryFn: () => detailFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const workflow = useQuery({
-    queryKey: ["ops", "workflow", key, openId],
-    queryFn: () => workflowFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "workflow", openId],
+    queryFn: () => workflowFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const recsQuery = useQuery({
-    queryKey: ["ops", "lead-recommendations", key, openId],
-    queryFn: () => leadRecsFn({ data: { key, id: openId as string } }),
-    enabled: Boolean(key && openId),
+    queryKey: ["ops", "lead-recommendations", openId],
+    queryFn: () => leadRecsFn({ data: { id: openId as string } }),
+    enabled: Boolean(openId),
   });
 
   const leadRecs: RecommendationView[] = recsQuery.data?.ok ? recsQuery.data.data : [];
@@ -221,12 +194,12 @@ function LeadOpsConsole() {
   };
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { id: string; status: string }) => setStatusFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; status: string }) => setStatusFn({ data: { ...vars } }),
     onSuccess: invalidate,
   });
 
   const retryMutation = useMutation({
-    mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    mutationFn: (deliveryId: string) => retryFn({ data: { deliveryId } }),
     onSuccess: invalidate,
   });
 
@@ -235,12 +208,12 @@ function LeadOpsConsole() {
       leadId: string;
       playbookKey: string;
       decision: "approve" | "dismiss" | "snooze";
-    }) => decideRecFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    }) => decideRecFn({ data: { ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
   const noteMutation = useMutation({
-    mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; note: string }) => addNoteFn({ data: { ...vars } }),
     onSuccess: () => {
       setNote("");
       invalidate();
@@ -249,7 +222,7 @@ function LeadOpsConsole() {
 
   const taskMutation = useMutation({
     mutationFn: (vars: { id: string; title: string; dueAt?: string }) =>
-      createTaskFn({ data: { key, ...vars } }),
+      createTaskFn({ data: { ...vars } }),
     onSuccess: () => {
       setTaskTitle("");
       setTaskDue("");
@@ -259,7 +232,7 @@ function LeadOpsConsole() {
 
   const taskDoneMutation = useMutation({
     mutationFn: (vars: { taskId: string; completed: boolean }) =>
-      setTaskDoneFn({ data: { key, ...vars } }),
+      setTaskDoneFn({ data: { ...vars } }),
     onSuccess: invalidate,
   });
 

@@ -46,29 +46,6 @@ export const Route = createFileRoute("/internal/work-queue")({
   component: WorkQueueConsole,
 });
 
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
-
 function age(hours: number) {
   if (hours < 1) return `${Math.max(1, Math.round(hours * 60))}m`;
   if (hours < 48) return `${Math.round(hours)}h`;
@@ -103,8 +80,6 @@ function SlaField({
 
 function WorkQueueConsole() {
   const initial = Route.useSearch();
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [sla, setSla] = React.useState<SlaThresholds>(DEFAULT_SLA);
   const [queue, setQueue] = React.useState<QueueKey | "all">(initial.queue ?? "all");
   const [view, setView] = React.useState<WorkQueueView | null>(initial.view ?? null);
@@ -126,16 +101,14 @@ function WorkQueueConsole() {
   });
 
   const queueQuery = useQuery({
-    queryKey: ["ops", "work-queue", key, sla],
-    queryFn: () => workQueueFn({ data: { key, sla } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "work-queue", sla],
+    queryFn: () => workQueueFn({ data: { sla } }),
   });
 
   /** Phase 8: playbook recommendations shown inline; priority model unchanged. */
   const automationQuery = useQuery({
-    queryKey: ["ops", "automation", key],
-    queryFn: () => automationFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "automation"],
+    queryFn: () => automationFn({}),
   });
   const automation = automationQuery.data?.ok ? automationQuery.data.data : null;
   const recsByLead = React.useMemo(() => {
@@ -159,14 +132,14 @@ function WorkQueueConsole() {
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const statusMutation = useMutation({
-    mutationFn: (vars: { id: string; status: string }) => moveStatusFn({ data: { key, ...vars } }),
+    mutationFn: (vars: { id: string; status: string }) => moveStatusFn({ data: { ...vars } }),
     onSuccess: () => {
       setConfirmId(null);
       invalidate();
     },
   });
   const retryMutation = useMutation({
-    mutationFn: (deliveryId: string) => retryFn({ data: { key, deliveryId } }),
+    mutationFn: (deliveryId: string) => retryFn({ data: { deliveryId } }),
     onSuccess: invalidate,
   });
 

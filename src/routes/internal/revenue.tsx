@@ -39,29 +39,6 @@ export const Route = createFileRoute("/internal/revenue")({
   component: RevenueConsole,
 });
 
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
-
 function fmtDuration(ms: number | null) {
   if (ms === null) return "—";
   if (ms < 1000) return `${Math.round(ms)} ms`;
@@ -69,9 +46,7 @@ function fmtDuration(ms: number | null) {
 }
 
 function RevenueConsole() {
-  const { key, save } = useOpsKey();
   const navigate = useNavigate();
-  const [draftKey, setDraftKey] = React.useState("");
   const [windowDays, setWindowDays] = React.useState<IntelWindow>(30);
   const [staleHours, setStaleHours] = React.useState(72);
 
@@ -85,15 +60,13 @@ function RevenueConsole() {
   });
 
   const intel = useQuery({
-    queryKey: ["ops", "intel", key, windowDays, staleHours],
-    queryFn: () => intelFn({ data: { key, windowDays, staleHours } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "intel", windowDays, staleHours],
+    queryFn: () => intelFn({ data: { windowDays, staleHours } }),
   });
 
   const queue = useQuery({
-    queryKey: ["ops", "work-queue", "summary", key],
-    queryFn: () => workQueueFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "work-queue", "summary"],
+    queryFn: () => workQueueFn({}),
   });
   const queueSummary = queue.data?.ok ? queue.data.data.summary : null;
 

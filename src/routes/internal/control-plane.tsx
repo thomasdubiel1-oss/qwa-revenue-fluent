@@ -37,29 +37,6 @@ export const Route = createFileRoute("/internal/control-plane")({
   component: ControlPlane,
 });
 
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
-
 const label = (s: string) => s.replace(/_/g, " ");
 
 function NumberField({
@@ -91,8 +68,6 @@ function NumberField({
 }
 
 function ControlPlane() {
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [selectedLead, setSelectedLead] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [draft, setDraft] = React.useState<AutomationConfig | null>(null);
@@ -111,29 +86,26 @@ function ControlPlane() {
 
   const configured = useQuery({ queryKey: ["ops", "configured"], queryFn: () => accessStatus({}) });
   const stateQuery = useQuery({
-    queryKey: ["ops", "control-plane", key],
-    queryFn: () => controlFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "control-plane"],
+    queryFn: () => controlFn({}),
   });
   const queueQuery = useQuery({
-    queryKey: ["ops", "control-plane-queue", key],
-    queryFn: () => queueFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "control-plane-queue"],
+    queryFn: () => queueFn({}),
   });
   const versionsQuery = useQuery({
-    queryKey: ["ops", "config-versions", key],
-    queryFn: () => versionsFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "config-versions"],
+    queryFn: () => versionsFn({}),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const simulateMutation = useMutation({
-    mutationFn: (leadId: string) => simulateFn({ data: { key, leadId } }),
+    mutationFn: (leadId: string) => simulateFn({ data: { leadId } }),
   });
   const saveMutation = useMutation({
     mutationFn: (vars: { config: AutomationConfig; reason: string }) =>
-      createVersionFn({ data: { key, ...vars } }),
+      createVersionFn({ data: { ...vars } }),
     onSuccess: (res) => {
       if (res.ok) {
         setNotice(`Activated configuration version ${res.version}.`);
@@ -145,7 +117,7 @@ function ControlPlane() {
   });
   const rollbackMutation = useMutation({
     mutationFn: (vars: { version: number; reason: string }) =>
-      rollbackFn({ data: { key, ...vars } }),
+      rollbackFn({ data: { ...vars } }),
     onSuccess: (res) => {
       setNotice(
         res.ok
@@ -156,11 +128,11 @@ function ControlPlane() {
     },
   });
   const modeMutation = useMutation({
-    mutationFn: (mode: AutomationMode) => modeFn({ data: { key, mode } }),
+    mutationFn: (mode: AutomationMode) => modeFn({ data: { mode } }),
     onSuccess: invalidate,
   });
   const killMutation = useMutation({
-    mutationFn: (engaged: boolean) => killFn({ data: { key, engaged } }),
+    mutationFn: (engaged: boolean) => killFn({ data: { engaged } }),
     onSuccess: invalidate,
   });
 

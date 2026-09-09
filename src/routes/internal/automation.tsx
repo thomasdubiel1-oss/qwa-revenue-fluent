@@ -41,29 +41,6 @@ export const Route = createFileRoute("/internal/automation")({
   component: AutomationConsole,
 });
 
-const KEY_STORAGE = "qwa:ops-key";
-
-function useOpsKey() {
-  const [key, setKey] = React.useState("");
-  React.useEffect(() => {
-    try {
-      setKey(window.sessionStorage.getItem(KEY_STORAGE) ?? "");
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  const save = React.useCallback((next: string) => {
-    setKey(next);
-    try {
-      if (next) window.sessionStorage.setItem(KEY_STORAGE, next);
-      else window.sessionStorage.removeItem(KEY_STORAGE);
-    } catch {
-      /* storage unavailable */
-    }
-  }, []);
-  return { key, save };
-}
-
 function reasonLabel(code: string) {
   return code.replace(/_/g, " ");
 }
@@ -153,8 +130,6 @@ function RecommendationRow({
 }
 
 function AutomationConsole() {
-  const { key, save } = useOpsKey();
-  const [draftKey, setDraftKey] = React.useState("");
   const [dryRun, setDryRun] = React.useState<null | {
     executed: { leadId: string; playbookKey: string; action: string }[];
     skipped: { leadId: string; playbookKey: string; reasonCode: string }[];
@@ -174,23 +149,22 @@ function AutomationConsole() {
   });
 
   const stateQuery = useQuery({
-    queryKey: ["ops", "automation", key],
-    queryFn: () => stateFn({ data: { key } }),
-    enabled: Boolean(key),
+    queryKey: ["ops", "automation"],
+    queryFn: () => stateFn({}),
   });
 
   const invalidate = () => void queryClient.invalidateQueries({ queryKey: ["ops"] });
 
   const modeMutation = useMutation({
-    mutationFn: (mode: AutomationMode) => modeFn({ data: { key, mode } }),
+    mutationFn: (mode: AutomationMode) => modeFn({ data: { mode } }),
     onSuccess: invalidate,
   });
   const killMutation = useMutation({
-    mutationFn: (engaged: boolean) => killFn({ data: { key, engaged } }),
+    mutationFn: (engaged: boolean) => killFn({ data: { engaged } }),
     onSuccess: invalidate,
   });
   const runMutation = useMutation({
-    mutationFn: (isDry: boolean) => runFn({ data: { key, dryRun: isDry } }),
+    mutationFn: (isDry: boolean) => runFn({ data: { dryRun: isDry } }),
     onSuccess: (res, isDry) => {
       if (res.ok && isDry)
         setDryRun({ executed: res.result.executed, skipped: res.result.skipped });
@@ -203,7 +177,7 @@ function AutomationConsole() {
       leadId: string;
       playbookKey: string;
       decision: "approve" | "dismiss" | "snooze";
-    }) => decideFn({ data: { key, ...vars, snoozeHours: 24 } }),
+    }) => decideFn({ data: { ...vars, snoozeHours: 24 } }),
     onSuccess: invalidate,
   });
 
