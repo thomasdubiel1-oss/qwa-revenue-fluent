@@ -1,7 +1,7 @@
 /**
  * Phase 8 — Revenue Automation Control Plane.
  *
- * Same boundary as Phase 5–7: INTERNAL_OPS_TOKEN verified server-side, every
+ * Same boundary as Phase 5–7: internal role verified server-side, every
  * read/write through server functions, route noindex/noarchive and absent
  * from sitemap and public navigation.
  *
@@ -20,6 +20,7 @@ import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-u
 import {
   InternalGate,
   InternalSignOutButton,
+  RolePill,
   useInternalSession,
 } from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
@@ -216,8 +217,9 @@ function AutomationConsole() {
             variant="outline"
             size="sm"
             className="min-h-11"
-            onClick={() => canAdmin && runMutation.mutate(true)}
-            disabled={runMutation.isPending}
+            onClick={() => runMutation.mutate(true)}
+            disabled={!canOps || runMutation.isPending}
+            title={canOps ? undefined : "Requires the ops role"}
           >
             Dry-run preview
           </Button>
@@ -225,11 +227,14 @@ function AutomationConsole() {
             variant={state?.killSwitch ? "default" : "destructive"}
             size="sm"
             className="min-h-11"
-            onClick={() => canAdmin && killMutation.mutate(!state?.killSwitch)}
-            disabled={killMutation.isPending}
+            onClick={() => killMutation.mutate(!state?.killSwitch)}
+            disabled={!canAdmin || killMutation.isPending}
+            title={canAdmin ? undefined : "Requires the admin role"}
           >
             {state?.killSwitch ? "Release kill switch" : "Kill switch"}
           </Button>
+          <RolePill />
+          <InternalSignOutButton />
         </>
       }
     >

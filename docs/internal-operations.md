@@ -1,9 +1,13 @@
 # QWA Internal Revenue Operations — architecture notes
 
-Internal only. Every route below is behind the server-side `INTERNAL_OPS_TOKEN`
-boundary, marked noindex/noarchive, and absent from the sitemap and public
-navigation. Nothing in this system sends email, SMS or calls, connects a CRM
-(HighLevel remains deferred), or produces revenue/ROAS/opportunity figures.
+Internal only. Every route below requires an authenticated internal account with
+an enabled role (Phase 10), is marked noindex/noarchive, and is absent from the
+sitemap and public navigation. Nothing in this system sends email, SMS or calls,
+connects a CRM (HighLevel remains deferred), or produces revenue/ROAS/opportunity
+figures.
+
+The Phase 5–9 shared `INTERNAL_OPS_TOKEN` no longer exists anywhere in the code
+or configuration.
 
 ## Phase freezes
 
@@ -25,6 +29,7 @@ verified regression, security issue or critical accessibility defect.
 - `/internal/work-queue` — deterministic Phase 7 priority queues
 - `/internal/automation` — playbook modes, recommendations, executions
 - `/internal/control-plane` — Phase 9 governance, simulation, anomalies
+- `/internal/access` — Phase 10 admin-only internal role administration
 
 ## Phase 9 — control plane
 
@@ -82,3 +87,77 @@ Execution latency is not persisted, so no latency figure is shown.
   that is the intended posture.
 - The service-role client is imported inside handlers, never at module scope.
 - The operator key is session-scoped in the browser and verified server-side.
+
+## Phase 10 — internal identity, roles and access
+
+### Access model
+
+- Operators sign in with backend email/password auth on any `/internal/*` route.
+  There is no public signup, no invitation flow, and no shared token.
+- The signed-in user must have an **enabled** row in `public.internal_users`
+  (`user_id` → `auth.users.id`) carrying a `role` of `viewer`, `ops` or `admin`
+  and a neutral `display_label`. A row with `disabled_at` set is refused.
+- `requireInternalAccess(minRole)` in `src/lib/ops/auth.server.ts` verifies the
+  request bearer token, resolves the role and enforces the minimum. Every server
+  function calls it before touching data; the UI role is advisory only.
+- The authenticated actor is bound with `AsyncLocalStorage` and written to the
+  `actor_label` / `actor_user_id` audit columns on every operational and
+  governance mutation. Historical rows keep the neutral `internal_operator`
+  label.
+
+### Role matrix
+
+| Capability                                                            | viewer | ops | admin |
+| --------------------------------------------------------------------- | ------ | --- | ----- |
+| Read leads, work queue, revenue intelligence, automation, control plane | yes    | yes | yes   |
+| Lead status change, delivery retry, notes, tasks                        | no     | yes | yes   |
+| Recommendation approve / dismiss / snooze, dry-run preview              | no     | yes | yes   |
+| Automation mode, kill switch, live automation run                       | no     | no  | yes   |
+| Configuration version create / activate / rollback                      | no     | no  | yes   |
+| Internal access administration (`/internal/access`)                     | no     | no  | yes   |
+
+### Owner setup — provisioning the first real admin
+
+Owner-only, done once, outside the app:
+
+1. In backend user management, create the operator's account (email + password).
+   Never create internal accounts from the app.
+2. Insert the mapping row, using that account's user id:
+
+   ```sql
+   insert into public.internal_users (user_id, role, display_label)
+   values ('<auth-user-uuid>', 'admin', 'ops_lead');
+   ```
+
+3. The operator opens `/internal/leads`, signs in, and sees the console with an
+   `admin` role pill.
+4. All further role changes happen in `/internal/access`. That screen never
+   creates accounts.
+
+### Sign-in, sign-out, recovery
+
+- Sign-out clears the query cache and ends the backend session; protected data
+  is refetched only after a fresh sign-in.
+- An expired or invalid session renders the sign-in panel again and returns no
+  data — server functions answer `unauthenticated`, not partial results.
+- Password recovery is an owner action in backend user management. Losing access
+  never grants a bypass path from the console.
+- Revoking access: set the user's row to disabled in `/internal/access`, or
+  disable the auth account. Either is sufficient; both is preferred for
+  offboarding.
+
+### Lockout protection
+
+- An admin can never demote or disable their own account.
+- The server refuses any change that would leave zero enabled admins
+  (`last_admin`), regardless of which admin requests it.
+
+### Future organization / workspace path
+
+`public.tenants`, `public.accounts` and `public.account_memberships` already
+exist with member-scoped RLS and the `account_role` enum for the eventual
+customer-facing workspace model. `internal_users` stays separate: it is QWA
+staff access, not customer membership. When client workspaces ship, internal
+consoles keep using `internal_users`, and customer surfaces use
+`account_memberships` + `has_account_role`; no internal role is ever inferred
+from a customer membership.

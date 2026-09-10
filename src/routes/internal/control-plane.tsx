@@ -3,7 +3,7 @@
  *
  * One operator view over Phase 7 queue health, Phase 8 automation posture and
  * Phase 9 configuration governance. Same boundary as Phase 5–8: server-side
- * INTERNAL_OPS_TOKEN, noindex/noarchive, absent from sitemap and public nav.
+ * authenticated internal roles, noindex/noarchive, absent from sitemap and public nav.
  *
  * Nothing here can send email, SMS or calls, connect a CRM, or produce revenue
  * figures. Simulation is strictly read-only.
@@ -19,6 +19,7 @@ import { OpsShell, Panel, Pill, StatCard } from "@/components/qwa/internal/ops-u
 import {
   InternalGate,
   InternalSignOutButton,
+  RolePill,
   useInternalSession,
 } from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
@@ -182,13 +183,21 @@ function ControlPlane() {
                   "Engage the kill switch? All automation execution stops immediately.",
                 )
               ) {
-                canAdmin && killMutation.mutate(next);
+                killMutation.mutate(next);
               }
             }}
-            disabled={killMutation.isPending}
+            disabled={!canAdmin || killMutation.isPending}
+            title={canAdmin ? undefined : "Requires the admin role"}
           >
             {state?.killSwitch ? "Release kill switch" : "Kill switch"}
           </Button>
+          {canAdmin ? (
+            <Button asChild variant="ghost" size="sm" className="min-h-11">
+              <Link to="/internal/access">Access</Link>
+            </Button>
+          ) : null}
+          <RolePill />
+          <InternalSignOutButton />
         </>
       }
     >

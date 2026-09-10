@@ -1,7 +1,7 @@
 /**
  * Phase 7 — Operator Command Center.
  *
- * Same access boundary as Phase 5/6: INTERNAL_OPS_TOKEN verified server-side,
+ * Same access boundary as Phase 5/6: an authenticated internal role verified server-side,
  * all reads/writes through server functions, route noindex/noarchive and
  * absent from sitemap and public navigation.
  *

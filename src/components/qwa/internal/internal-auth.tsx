@@ -31,6 +31,16 @@ export function useInternalSession(): Ready & { can: (min: InternalRole) => bool
   return { ...value, can: (min) => RANK[value.role] >= RANK[min] };
 }
 
+/** Consistent role indicator used in every internal console header. */
+export function RolePill() {
+  const { role } = useInternalSession();
+  return (
+    <span className="rounded-full border border-border px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
+      {role}
+    </span>
+  );
+}
+
 export function InternalSignOutButton() {
   const queryClient = useQueryClient();
   return (

@@ -8,7 +8,7 @@
  * Data API by design.
  *
  * Actor identity is a neutral label (`internal_operator`) because only a
- * shared token exists today. No individual user is ever claimed.
+ * signed-in operator is recorded via actorFields(); legacy rows keep the neutral label.
  */
 import { actorFields } from "./auth.server";
 
