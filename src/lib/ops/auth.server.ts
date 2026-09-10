@@ -157,7 +157,8 @@ export async function listInternalUsers(): Promise<InternalUserRow[]> {
 
 /**
  * Admin-only: change role / enablement for an EXISTING internal user.
- * Admins cannot remove their own admin rights (last-admin lockout guard).
+ * Two lockout guards: an admin can never demote or disable themselves, and the
+ * last enabled admin can never be demoted or disabled by anyone.
  */
 export async function updateInternalUser(input: {
   userId: string;
@@ -165,11 +166,29 @@ export async function updateInternalUser(input: {
   disabled?: boolean | undefined;
 }): Promise<{ ok: boolean; error?: string }> {
   const actor = currentActor();
-  if (actor && actor.userId === input.userId && (input.role !== "admin" || input.disabled)) {
+  const losesAdmin = (input.role !== undefined && input.role !== "admin") || input.disabled === true;
+  if (actor && actor.userId === input.userId && losesAdmin) {
     return { ok: false, error: "cannot_modify_self" };
   }
 
   const db = await admin();
+
+  if (losesAdmin) {
+    const { data: target } = await db
+      .from("internal_users")
+      .select("role,disabled_at")
+      .eq("user_id", input.userId)
+      .maybeSingle();
+    if (target && target.role === "admin" && !target.disabled_at) {
+      const { count } = await db
+        .from("internal_users")
+        .select("user_id", { count: "exact", head: true })
+        .eq("role", "admin")
+        .is("disabled_at", null);
+      if ((count ?? 0) <= 1) return { ok: false, error: "last_admin" };
+    }
+  }
+
   const patch: { role?: InternalRole; disabled_at?: string | null } = {};
   if (input.role) patch.role = input.role;
   if (typeof input.disabled === "boolean") {
