@@ -1,9 +1,13 @@
 # QWA Internal Revenue Operations — architecture notes
 
-Internal only. Every route below is behind the server-side `INTERNAL_OPS_TOKEN`
-boundary, marked noindex/noarchive, and absent from the sitemap and public
-navigation. Nothing in this system sends email, SMS or calls, connects a CRM
-(HighLevel remains deferred), or produces revenue/ROAS/opportunity figures.
+Internal only. Every route below requires an authenticated internal account with
+an enabled role (Phase 10), is marked noindex/noarchive, and is absent from the
+sitemap and public navigation. Nothing in this system sends email, SMS or calls,
+connects a CRM (HighLevel remains deferred), or produces revenue/ROAS/opportunity
+figures.
+
+The Phase 5–9 shared `INTERNAL_OPS_TOKEN` no longer exists anywhere in the code
+or configuration.
 
 ## Phase freezes
 
