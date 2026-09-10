@@ -21,6 +21,7 @@ import { Route as IndustriesHvacRouteImport } from './routes/industries/hvac'
 import { Route as IndustriesMedspaRouteImport } from './routes/industries/medspa'
 import { Route as IndustriesPlumbingRouteImport } from './routes/industries/plumbing'
 import { Route as IndustriesSolarRouteImport } from './routes/industries/solar'
+import { Route as InternalAccessRouteImport } from './routes/internal/access'
 import { Route as InternalAutomationRouteImport } from './routes/internal/automation'
 import { Route as InternalControlPlaneRouteImport } from './routes/internal/control-plane'
 import { Route as InternalExecutiveRouteImport } from './routes/internal/executive'
@@ -106,6 +107,11 @@ const IndustriesPlumbingRoute = IndustriesPlumbingRouteImport.update({
 const IndustriesSolarRoute = IndustriesSolarRouteImport.update({
   id: '/industries/solar',
   path: '/industries/solar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InternalAccessRoute = InternalAccessRouteImport.update({
+  id: '/internal/access',
+  path: '/internal/access',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InternalAutomationRoute = InternalAutomationRouteImport.update({
@@ -258,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/industries/medspa': typeof IndustriesMedspaRoute
   '/industries/plumbing': typeof IndustriesPlumbingRoute
   '/industries/solar': typeof IndustriesSolarRoute
+  '/internal/access': typeof InternalAccessRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/executive': typeof InternalExecutiveRoute
@@ -297,6 +304,7 @@ export interface FileRoutesByTo {
   '/industries/medspa': typeof IndustriesMedspaRoute
   '/industries/plumbing': typeof IndustriesPlumbingRoute
   '/industries/solar': typeof IndustriesSolarRoute
+  '/internal/access': typeof InternalAccessRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/executive': typeof InternalExecutiveRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/industries/medspa': typeof IndustriesMedspaRoute
   '/industries/plumbing': typeof IndustriesPlumbingRoute
   '/industries/solar': typeof IndustriesSolarRoute
+  '/internal/access': typeof InternalAccessRoute
   '/internal/automation': typeof InternalAutomationRoute
   '/internal/control-plane': typeof InternalControlPlaneRoute
   '/internal/executive': typeof InternalExecutiveRoute
@@ -380,6 +389,7 @@ export interface FileRouteTypes {
     | '/industries/medspa'
     | '/industries/plumbing'
     | '/industries/solar'
+    | '/internal/access'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/executive'
@@ -419,6 +429,7 @@ export interface FileRouteTypes {
     | '/industries/medspa'
     | '/industries/plumbing'
     | '/industries/solar'
+    | '/internal/access'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/executive'
@@ -459,6 +470,7 @@ export interface FileRouteTypes {
     | '/industries/medspa'
     | '/industries/plumbing'
     | '/industries/solar'
+    | '/internal/access'
     | '/internal/automation'
     | '/internal/control-plane'
     | '/internal/executive'
@@ -500,6 +512,7 @@ export interface RootRouteChildren {
   IndustriesMedspaRoute: typeof IndustriesMedspaRoute
   IndustriesPlumbingRoute: typeof IndustriesPlumbingRoute
   IndustriesSolarRoute: typeof IndustriesSolarRoute
+  InternalAccessRoute: typeof InternalAccessRoute
   InternalAutomationRoute: typeof InternalAutomationRoute
   InternalControlPlaneRoute: typeof InternalControlPlaneRoute
   InternalExecutiveRoute: typeof InternalExecutiveRoute
@@ -611,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/industries/solar'
       fullPath: '/industries/solar'
       preLoaderRoute: typeof IndustriesSolarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/access': {
+      id: '/internal/access'
+      path: '/internal/access'
+      fullPath: '/internal/access'
+      preLoaderRoute: typeof InternalAccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/automation': {
@@ -822,6 +842,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesMedspaRoute: IndustriesMedspaRoute,
   IndustriesPlumbingRoute: IndustriesPlumbingRoute,
   IndustriesSolarRoute: IndustriesSolarRoute,
+  InternalAccessRoute: InternalAccessRoute,
   InternalAutomationRoute: InternalAutomationRoute,
   InternalControlPlaneRoute: InternalControlPlaneRoute,
   InternalExecutiveRoute: InternalExecutiveRoute,
