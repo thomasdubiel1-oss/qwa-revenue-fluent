@@ -1,7 +1,7 @@
 /**
  * Phase 8 — Revenue Automation Control Plane.
  *
- * Same boundary as Phase 5–7: INTERNAL_OPS_TOKEN verified server-side, every
+ * Same boundary as Phase 5–7: internal role verified server-side, every
  * read/write through server functions, route noindex/noarchive and absent
  * from sitemap and public navigation.
  *

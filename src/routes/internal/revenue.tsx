@@ -1,7 +1,7 @@
 /**
  * Phase 6 — Internal Revenue Intelligence & Executive Operating Console.
  *
- * Same access boundary as the Phase 5 lead console: an INTERNAL_OPS_TOKEN
+ * Same access boundary as the Phase 5 lead console: an internal role
  * verified server-side, all reads through the service-role client inside
  * server functions, route noindex/noarchive and absent from sitemap/public nav.
  *

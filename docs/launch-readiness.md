@@ -111,14 +111,14 @@ decision for the owner; the hooks are in place to drive one.
 
 Route: `/internal/leads` (noindex, nofollow, noarchive; excluded from sitemap and all public navigation).
 
-Access model (owner action required before use):
+Access model (Phase 10 — the shared `INTERNAL_OPS_TOKEN` no longer exists):
 
-1. Add a secret named `INTERNAL_OPS_TOKEN` (32+ random characters) in Project Settings → Secrets.
-2. Operators enter that key once per browser session; it is held in sessionStorage only and validated server-side with a timing-safe compare.
-3. Until the secret exists, the console renders a locked state and returns zero lead data.
+1. Operators sign in with a real backend auth account that an owner provisioned.
+2. The account must have an enabled row in `public.internal_users` with role `viewer`, `ops` or `admin`.
+3. Every internal read and write re-checks that role server-side; an unmapped or disabled account
+   sees a "not authorized" screen and zero lead data.
 
-Recommended upgrade path: backend auth + a separate `user_roles` table with an `ops` role verified
-server-side. Only `checkOpsAccess()` in `src/lib/ops/ops.server.ts` needs to change.
+See `docs/internal-operations.md` for the exact first-admin provisioning steps.
 
 HighLevel remains deferred: retries requeue the outbox row and the drain reports `no_destination`
 until `LEAD_WEBHOOK_URL` is set.

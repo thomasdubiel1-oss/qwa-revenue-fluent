@@ -3,7 +3,7 @@
  *
  * One operator view over Phase 7 queue health, Phase 8 automation posture and
  * Phase 9 configuration governance. Same boundary as Phase 5–8: server-side
- * INTERNAL_OPS_TOKEN, noindex/noarchive, absent from sitemap and public nav.
+ * authenticated internal roles, noindex/noarchive, absent from sitemap and public nav.
  *
  * Nothing here can send email, SMS or calls, connect a CRM, or produce revenue
  * figures. Simulation is strictly read-only.

@@ -7,7 +7,7 @@
  * for the forward-compatible interface those metrics will use later.
  *
  * Reads run exclusively through the service-role client inside server
- * functions, behind the same INTERNAL_OPS_TOKEN gate as Phase 5.
+ * functions, behind the same authenticated internal-role gate as Phase 5.
  */
 import type {
   Breakdown,
