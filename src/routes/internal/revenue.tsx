@@ -29,7 +29,7 @@ import {
 import {
   InternalGate,
   InternalSignOutButton,
-  useInternalSession,
+  RolePill,
 } from "@/components/qwa/internal/internal-auth";
 import { internalHead } from "@/config/seo";
 import { opsRevenueIntelFn } from "@/lib/ops/intel.functions";
@@ -111,6 +111,7 @@ function RevenueConsole() {
           <Button variant="outline" size="sm" asChild>
             <Link to="/internal/leads">Lead console</Link>
           </Button>
+          <RolePill />
           <InternalSignOutButton />
         </>
       }
