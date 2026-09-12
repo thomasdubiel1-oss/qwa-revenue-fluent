@@ -118,21 +118,24 @@ Execution latency is not persisted, so no latency figure is shown.
 
 ### Owner setup — provisioning the first real admin
 
-Owner-only, done once, outside the app:
+Done once, through the self-disabling bootstrap endpoint
+`POST /api/internal/bootstrap-first-admin` (not under `/api/public/*`):
 
-1. In backend user management, create the operator's account (email + password).
-   Never create internal accounts from the app.
-2. Insert the mapping row, using that account's user id:
-
-   ```sql
-   insert into public.internal_users (user_id, role, display_label)
-   values ('<auth-user-uuid>', 'admin', 'ops_lead');
-   ```
-
-3. The operator opens `/internal/leads`, signs in, and sees the console with an
+1. The handler refuses to act if `public.internal_users` already has any row, so
+   it can run exactly once in the lifetime of the project.
+2. It only ever touches one hard-coded owner email, creates that auth account
+   with a random throwaway password that is never returned or logged, marks the
+   email confirmed, and upserts the `internal_users` row with role `admin` and
+   the neutral label `ops_lead`.
+3. It then triggers a standard Supabase Auth password-recovery email so the
+   owner sets their own password. No link, token or secret is returned in the
+   response, so the endpoint is not a takeover path even before first use.
+4. The owner opens `/internal/leads`, signs in, and sees the console with an
    `admin` role pill.
-4. All further role changes happen in `/internal/access`. That screen never
-   creates accounts.
+5. All further role changes happen in `/internal/access`. That screen never
+   creates accounts. Additional accounts are created by an owner in backend
+   user management and then mapped in `/internal/access`.
+
 
 ### Sign-in, sign-out, recovery
 
