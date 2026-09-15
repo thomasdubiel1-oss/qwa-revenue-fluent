@@ -2,7 +2,7 @@
  * Phase 8 — Automation control plane, server-only.
  *
  * Posture identical to Phase 5–7: the service-role client is imported inside
- * functions, never at module scope, and `checkOpsAccess` gates every caller
+ * functions, never at module scope, and the authenticated internal role check gates every caller
  * before anything here runs. Automation tables are RLS-enabled with no
  * policies and no anon/authenticated grants — unreachable from the Data API.
  *
