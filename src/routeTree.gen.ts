@@ -45,7 +45,6 @@ import { Route as SolutionsAiLeadResponseRouteImport } from './routes/solutions/
 import { Route as SolutionsAiVoiceAgentRouteImport } from './routes/solutions/ai-voice-agent'
 import { Route as SolutionsCustomerReactivationRouteImport } from './routes/solutions/customer-reactivation'
 import { Route as SolutionsRevenueAttributionRouteImport } from './routes/solutions/revenue-attribution'
-import { Route as ApiInternalBootstrapFirstAdminRouteImport } from './routes/api/internal/bootstrap-first-admin'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
 import { Route as AppJourneysJourneyIdRouteImport } from './routes/app/journeys/$journeyId'
@@ -237,12 +236,6 @@ const SolutionsRevenueAttributionRoute =
     path: '/solutions/revenue-attribution',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiInternalBootstrapFirstAdminRoute =
-  ApiInternalBootstrapFirstAdminRouteImport.update({
-    id: '/api/internal/bootstrap-first-admin',
-    path: '/api/internal/bootstrap-first-admin',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
   id: '/api/public/health',
   path: '/api/public/health',
@@ -296,7 +289,6 @@ export interface FileRoutesByFullPath {
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/app/': typeof AppIndexRoute
-  '/api/internal/bootstrap-first-admin': typeof ApiInternalBootstrapFirstAdminRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
@@ -337,7 +329,6 @@ export interface FileRoutesByTo {
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/app': typeof AppIndexRoute
-  '/api/internal/bootstrap-first-admin': typeof ApiInternalBootstrapFirstAdminRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
@@ -380,7 +371,6 @@ export interface FileRoutesById {
   '/solutions/customer-reactivation': typeof SolutionsCustomerReactivationRoute
   '/solutions/revenue-attribution': typeof SolutionsRevenueAttributionRoute
   '/app/': typeof AppIndexRoute
-  '/api/internal/bootstrap-first-admin': typeof ApiInternalBootstrapFirstAdminRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
@@ -424,7 +414,6 @@ export interface FileRouteTypes {
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
     | '/app/'
-    | '/api/internal/bootstrap-first-admin'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
@@ -465,7 +454,6 @@ export interface FileRouteTypes {
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
     | '/app'
-    | '/api/internal/bootstrap-first-admin'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
@@ -507,7 +495,6 @@ export interface FileRouteTypes {
     | '/solutions/customer-reactivation'
     | '/solutions/revenue-attribution'
     | '/app/'
-    | '/api/internal/bootstrap-first-admin'
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
@@ -549,7 +536,6 @@ export interface RootRouteChildren {
   SolutionsAiVoiceAgentRoute: typeof SolutionsAiVoiceAgentRoute
   SolutionsCustomerReactivationRoute: typeof SolutionsCustomerReactivationRoute
   SolutionsRevenueAttributionRoute: typeof SolutionsRevenueAttributionRoute
-  ApiInternalBootstrapFirstAdminRoute: typeof ApiInternalBootstrapFirstAdminRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicLeadsOutboxRoute: typeof ApiPublicLeadsOutboxRoute
 }
@@ -808,13 +794,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsRevenueAttributionRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/internal/bootstrap-first-admin': {
-      id: '/api/internal/bootstrap-first-admin'
-      path: '/api/internal/bootstrap-first-admin'
-      fullPath: '/api/internal/bootstrap-first-admin'
-      preLoaderRoute: typeof ApiInternalBootstrapFirstAdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/health': {
       id: '/api/public/health'
       path: '/api/public/health'
@@ -887,7 +866,6 @@ const rootRouteChildren: RootRouteChildren = {
   SolutionsAiVoiceAgentRoute: SolutionsAiVoiceAgentRoute,
   SolutionsCustomerReactivationRoute: SolutionsCustomerReactivationRoute,
   SolutionsRevenueAttributionRoute: SolutionsRevenueAttributionRoute,
-  ApiInternalBootstrapFirstAdminRoute: ApiInternalBootstrapFirstAdminRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicLeadsOutboxRoute: ApiPublicLeadsOutboxRoute,
 }
