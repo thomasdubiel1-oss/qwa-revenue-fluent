@@ -2,7 +2,7 @@
  * Server-only operator workflow data access (Phase 7).
  *
  * Same posture as Phase 5/6: the service-role client is imported inside
- * functions, never at module scope; access is gated by `checkOpsAccess`
+ * functions, never at module scope; access is gated by the authenticated internal role check
  * before any of this runs. `lead_activity` and `lead_tasks` are RLS-enabled
  * with no policies and no anon/authenticated grants — unreachable from the
  * Data API by design.

@@ -2,7 +2,7 @@
  * Phase 9 — Automation configuration governance, server-only.
  *
  * Same posture as Phase 5–8: the service-role client is imported inside
- * functions, never at module scope; `checkOpsAccess` gates every caller in the
+ * functions, never at module scope; the authenticated internal role check gates every caller in the
  * server-function layer. `automation_config_versions` is RLS-enabled with no
  * policies and no anon/authenticated grants — unreachable from the Data API.
  *

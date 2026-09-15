@@ -116,25 +116,31 @@ Execution latency is not persisted, so no latency figure is shown.
 | Configuration version create / activate / rollback                      | no     | no  | yes   |
 | Internal access administration (`/internal/access`)                     | no     | no  | yes   |
 
-### Owner setup — provisioning the first real admin
+### Owner setup — the first real admin (already completed)
 
-Done once, through the self-disabling bootstrap endpoint
-`POST /api/internal/bootstrap-first-admin` (not under `/api/public/*`):
+The first admin was provisioned once through a one-time, self-disabling
+bootstrap endpoint that refused to act if `public.internal_users` already had
+any row. It touched only one hard-coded owner email, created that auth account
+with a random throwaway password that was never returned or logged, marked the
+email confirmed, upserted the `internal_users` row with role `admin` and the
+neutral label `ops_lead`, and triggered a standard Auth password-recovery email
+so the owner sets their own password. No link, token or secret was ever
+returned.
 
-1. The handler refuses to act if `public.internal_users` already has any row, so
-   it can run exactly once in the lifetime of the project.
-2. It only ever touches one hard-coded owner email, creates that auth account
-   with a random throwaway password that is never returned or logged, marks the
-   email confirmed, and upserts the `internal_users` row with role `admin` and
-   the neutral label `ops_lead`.
-3. It then triggers a standard Supabase Auth password-recovery email so the
-   owner sets their own password. No link, token or secret is returned in the
-   response, so the endpoint is not a takeover path even before first use.
-4. The owner opens `/internal/leads`, signs in, and sees the console with an
-   `admin` role pill.
-5. All further role changes happen in `/internal/access`. That screen never
-   creates accounts. Additional accounts are created by an owner in backend
-   user management and then mapped in `/internal/access`.
+That endpoint has since been **removed from the codebase** — once the first
+admin exists it can never do anything again, so keeping it only adds attack
+surface. It must not be reintroduced.
+
+Provisioning from here on:
+
+1. An owner creates the auth account in supported backend user management.
+2. An admin maps it in `/internal/access` with role `viewer`, `ops` or `admin`
+   and a neutral display label. That screen never creates accounts, never
+   invites, and never sends external communication.
+3. If every admin were ever lost, recovery is an owner action in backend user
+   management plus a direct `public.internal_users` row change — there is no
+   console bypass and no reusable secret anywhere.
+
 
 
 ### Sign-in, sign-out, recovery
