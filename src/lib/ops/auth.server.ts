@@ -23,11 +23,11 @@ import { getRequest } from "@tanstack/react-start/server";
 
 import type { Database } from "@/integrations/supabase/types";
 
+import { evaluateInternalUserUpdate, hasMinRole, parseBearerToken } from "./access-policy";
 import type { InternalActor, InternalRole, OpsAccessState } from "./types";
 
-const RANK: Record<InternalRole, number> = { viewer: 1, ops: 2, admin: 3 };
-
 const actorStore = new AsyncLocalStorage<InternalActor>();
+
 
 /** Runs `fn` with the authenticated actor bound to the async context. */
 export function withActor<T>(actor: InternalActor, fn: () => T | Promise<T>): Promise<T> {
