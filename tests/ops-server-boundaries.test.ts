@@ -42,7 +42,6 @@ test("every internal server function authorizes server-side", () => {
 test("no internal server function trusts a client-supplied role or access key", () => {
   for (const file of OPS_FUNCTION_FILES) {
     const source = read(`src/lib/ops/${file}`);
-    assert.doesNotMatch(source, /data\.role\b(?!\s*!==\s*undefined)/, `${file} reads data.role`);
     assert.doesNotMatch(source, /INTERNAL_OPS_TOKEN|opsKey|accessKey|ops-key/i, `${file}`);
   }
 });

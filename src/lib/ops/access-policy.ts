@@ -6,12 +6,12 @@
  * without a database, a network call, or a real session. `auth.server.ts` is
  * the only place these helpers are wired to real requests.
  */
-import { INTERNAL_ROLES, type InternalRole } from "./types";
+import type { InternalRole } from "./types";
 
 export const ROLE_RANK: Record<InternalRole, number> = { viewer: 1, ops: 2, admin: 3 };
 
 export function isInternalRole(value: unknown): value is InternalRole {
-  return typeof value === "string" && (INTERNAL_ROLES as readonly string[]).includes(value);
+  return typeof value === "string" && Object.prototype.hasOwnProperty.call(ROLE_RANK, value);
 }
 
 /** True when `role` satisfies the minimum role required by a boundary. */

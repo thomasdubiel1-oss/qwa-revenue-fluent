@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, CircleAlert, Clock3, ShieldCheck } from "lucide-react";
 import * as React from "react";
+import { InternalGate } from "@/components/qwa/internal/internal-auth";
 import { Panel, Pill } from "@/components/qwa/internal/ops-ui";
 import { TwinHeader, TwinShell } from "@/components/qwa/internal/twin-shell";
 import { Button } from "@/components/ui/button";

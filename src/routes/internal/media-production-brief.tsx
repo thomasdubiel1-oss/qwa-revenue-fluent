@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import * as React from "react";
 
+import { InternalGate } from "@/components/qwa/internal/internal-auth";
+import { internalHead } from "@/config/seo";
 import { Container, SignalRule } from "@/components/qwa/primitives";
 import {
   FLAGSHIP_MEDIA,
@@ -22,18 +24,13 @@ const title = "Media Production Brief — QWA Internal";
 const description = "Internal production checklist for every flagship media slot on the QWA site.";
 
 export const Route = createFileRoute("/internal/media-production-brief")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { name: "robots", content: "noindex, nofollow" },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: MediaProductionBrief,
+  ssr: false,
+  head: () => internalHead(title),
+  component: () => (
+    <InternalGate title="Media Production Brief">
+      <MediaProductionBrief />
+    </InternalGate>
+  ),
 });
 
 const KIND_LABEL: Record<FlagshipMediaAsset["kind"], string> = {
