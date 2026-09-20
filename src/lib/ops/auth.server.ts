@@ -49,12 +49,9 @@ export function actorFields(fallbackLabel = "internal_operator") {
 
 function bearerToken(): string | null {
   const request = getRequest();
-  const header = request?.headers?.get("authorization") ?? "";
-  if (!header.startsWith("Bearer ")) return null;
-  const token = header.slice(7).trim();
-  if (!token || token.split(".").length !== 3) return null;
-  return token;
+  return parseBearerToken(request?.headers?.get("authorization"));
 }
+
 
 function userClient(token: string) {
   const url = process.env["SUPABASE_URL"];
@@ -107,7 +104,8 @@ export async function requireInternalAccess(min: InternalRole): Promise<AccessRe
   if (error || !row || row.disabled_at) return { state: "forbidden" };
 
   const role = row.role as InternalRole;
-  if (RANK[role] < RANK[min]) return { state: "forbidden", role };
+  if (!hasMinRole(role, min)) return { state: "forbidden", role };
+
 
   return {
     state: "ready",
@@ -166,35 +164,34 @@ export async function updateInternalUser(input: {
   disabled?: boolean | undefined;
 }): Promise<{ ok: boolean; error?: string }> {
   const actor = currentActor();
-  const losesAdmin = (input.role !== undefined && input.role !== "admin") || input.disabled === true;
-  if (actor && actor.userId === input.userId && losesAdmin) {
-    return { ok: false, error: "cannot_modify_self" };
-  }
-
+  const intent = { role: input.role, disabled: input.disabled };
   const db = await admin();
 
-  if (losesAdmin) {
-    const { data: target } = await db
-      .from("internal_users")
-      .select("role,disabled_at")
-      .eq("user_id", input.userId)
-      .maybeSingle();
-    if (target && target.role === "admin" && !target.disabled_at) {
-      const { count } = await db
-        .from("internal_users")
-        .select("user_id", { count: "exact", head: true })
-        .eq("role", "admin")
-        .is("disabled_at", null);
-      if ((count ?? 0) <= 1) return { ok: false, error: "last_admin" };
-    }
-  }
+  let target: { role: InternalRole; disabled: boolean } | undefined;
+  let enabledAdminCount = 0;
+  const { data: row } = await db
+    .from("internal_users")
+    .select("role,disabled_at")
+    .eq("user_id", input.userId)
+    .maybeSingle();
+  if (row) target = { role: row.role as InternalRole, disabled: Boolean(row.disabled_at) };
+  const { count } = await db
+    .from("internal_users")
+    .select("user_id", { count: "exact", head: true })
+    .eq("role", "admin")
+    .is("disabled_at", null);
+  enabledAdminCount = count ?? 0;
 
-  const patch: { role?: InternalRole; disabled_at?: string | null } = {};
-  if (input.role) patch.role = input.role;
-  if (typeof input.disabled === "boolean") {
-    patch.disabled_at = input.disabled ? new Date().toISOString() : null;
-  }
-  if (Object.keys(patch).length === 0) return { ok: false, error: "no_change" };
+  const decision = evaluateInternalUserUpdate({
+    actorUserId: actor?.userId,
+    targetUserId: input.userId,
+    target,
+    enabledAdminCount,
+    intent,
+  });
+  if (!decision.ok) return { ok: false, error: decision.error };
+  const patch = decision.patch;
+
 
   const { error } = await db.from("internal_users").update(patch).eq("user_id", input.userId);
   if (error) {
