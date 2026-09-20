@@ -12,8 +12,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/internal/executive")({
   ssr: false,
   head: () => internalHead("Executive Command Center — QWA Digital Twin"),
-  component: ExecutiveCommandCenter,
+  component: () => (
+    <InternalGate title="Executive Command Center">
+      <ExecutiveCommandCenter />
+    </InternalGate>
+  ),
 });
+
 
 const money = (value: number) =>
   new Intl.NumberFormat("en-US", {
