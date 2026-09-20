@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import * as React from "react";
 
+import { InternalGate } from "@/components/qwa/internal/internal-auth";
+import { internalHead } from "@/config/seo";
 import { Button } from "@/components/ui/button";
 import { Container, Hairline, SignalRule } from "@/components/qwa/primitives";
 import { PROVIDER_CAPABILITIES, PROVIDER_IDS } from "@/lib/video/capabilities";
@@ -27,18 +29,13 @@ const title = "Video Router Lab — QWA Internal";
 const description = "Internal simulation tool for QWA Creative Engine provider routing.";
 
 export const Route = createFileRoute("/internal/video-router-lab")({
-  head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { name: "robots", content: "noindex, nofollow" },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: VideoRouterLab,
+  ssr: false,
+  head: () => internalHead(title),
+  component: () => (
+    <InternalGate title="Video Router Lab">
+      <VideoRouterLab />
+    </InternalGate>
+  ),
 });
 
 const HEALTH_LABEL: Record<ProviderHealth, string> = {
