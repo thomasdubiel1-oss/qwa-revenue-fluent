@@ -18,6 +18,8 @@
  * by `public.purge_expired_lead_data()`.
  */
 
+import { classifyWebhookError, validateWebhookDestination } from "./webhook-policy";
+
 const MAX_ATTEMPTS = 5;
 const BACKOFF_MINUTES = [1, 5, 30, 120, 720];
 
@@ -25,7 +27,7 @@ export type DrainResult = {
   processed: number;
   sent: number;
   failed: number;
-  skipped: "no_destination" | null;
+  skipped: "no_destination" | "invalid_destination" | null;
 };
 
 type LeadRow = {
@@ -99,6 +101,12 @@ export async function drainLeadOutbox(limit = 20): Promise<DrainResult> {
     return { processed: 0, sent: 0, failed: 0, skipped: "no_destination" };
   }
 
+  const url = validateWebhookDestination(endpoint);
+  if (!url) {
+    // Fail closed: never transmit lead PII to invalid or insecure destinations.
+    return { processed: 0, sent: 0, failed: 0, skipped: "invalid_destination" };
+  }
+
   const token = process.env["LEAD_WEBHOOK_TOKEN"];
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -125,10 +133,12 @@ export async function drainLeadOutbox(limit = 20): Promise<DrainResult> {
     const now = new Date().toISOString();
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await fetch(url, {
         method: "POST",
+        signal: AbortSignal.timeout(10_000),
         headers: {
           "content-type": "application/json",
+          "x-qwa-delivery-id": row.id,
           ...(token ? { authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify(buildCrmPayload(row.destination, lead)),
@@ -151,7 +161,7 @@ export async function drainLeadOutbox(limit = 20): Promise<DrainResult> {
       throw new Error(`http_${response.status}`);
     } catch (error) {
       failed += 1;
-      const reason = error instanceof Error ? error.message : "unknown_error";
+      const reason = classifyWebhookError(error);
       const exhausted = attempt >= MAX_ATTEMPTS;
       const backoff = BACKOFF_MINUTES[Math.min(attempt - 1, BACKOFF_MINUTES.length - 1)] ?? 60;
       await supabaseAdmin
