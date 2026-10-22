@@ -24,6 +24,7 @@ import { Route as IndustriesSolarRouteImport } from './routes/industries/solar'
 import { Route as InternalAccessRouteImport } from './routes/internal/access'
 import { Route as InternalAutomationRouteImport } from './routes/internal/automation'
 import { Route as InternalControlPlaneRouteImport } from './routes/internal/control-plane'
+import { Route as InternalDemandScoutRouteRouteImport } from './routes/internal/demand-scout/route'
 import { Route as InternalExecutiveRouteImport } from './routes/internal/executive'
 import { Route as InternalLeadsRouteImport } from './routes/internal/leads'
 import { Route as InternalMediaProductionBriefRouteImport } from './routes/internal/media-production-brief'
@@ -47,7 +48,14 @@ import { Route as SolutionsCustomerReactivationRouteImport } from './routes/solu
 import { Route as SolutionsRevenueAttributionRouteImport } from './routes/solutions/revenue-attribution'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicLeadsOutboxRouteImport } from './routes/api/public/leads-outbox'
+import { Route as AppDemandScoutIndexRouteImport } from './routes/app/demand-scout/index'
 import { Route as AppJourneysJourneyIdRouteImport } from './routes/app/journeys/$journeyId'
+import { Route as InternalDemandScoutIndexRouteImport } from './routes/internal/demand-scout/index'
+import { Route as InternalDemandScoutOutreachRouteImport } from './routes/internal/demand-scout/outreach'
+import { Route as InternalDemandScoutPlaybooksRouteImport } from './routes/internal/demand-scout/playbooks'
+import { Route as InternalDemandScoutSettingsRouteImport } from './routes/internal/demand-scout/settings'
+import { Route as InternalDemandScoutSignalsRouteImport } from './routes/internal/demand-scout/signals'
+import { Route as InternalDemandScoutOpportunitiesOpportunityIdRouteImport } from './routes/internal/demand-scout/opportunities/$opportunityId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +132,12 @@ const InternalControlPlaneRoute = InternalControlPlaneRouteImport.update({
   path: '/internal/control-plane',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalDemandScoutRouteRoute =
+  InternalDemandScoutRouteRouteImport.update({
+    id: '/internal/demand-scout',
+    path: '/internal/demand-scout',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const InternalExecutiveRoute = InternalExecutiveRouteImport.update({
   id: '/internal/executive',
   path: '/internal/executive',
@@ -246,11 +260,52 @@ const ApiPublicLeadsOutboxRoute = ApiPublicLeadsOutboxRouteImport.update({
   path: '/api/public/leads-outbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppDemandScoutIndexRoute = AppDemandScoutIndexRouteImport.update({
+  id: '/demand-scout/',
+  path: '/demand-scout/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppJourneysJourneyIdRoute = AppJourneysJourneyIdRouteImport.update({
   id: '/journeys/$journeyId',
   path: '/journeys/$journeyId',
   getParentRoute: () => AppRoute,
 } as any)
+const InternalDemandScoutIndexRoute =
+  InternalDemandScoutIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
+const InternalDemandScoutOutreachRoute =
+  InternalDemandScoutOutreachRouteImport.update({
+    id: '/outreach',
+    path: '/outreach',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
+const InternalDemandScoutPlaybooksRoute =
+  InternalDemandScoutPlaybooksRouteImport.update({
+    id: '/playbooks',
+    path: '/playbooks',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
+const InternalDemandScoutSettingsRoute =
+  InternalDemandScoutSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
+const InternalDemandScoutSignalsRoute =
+  InternalDemandScoutSignalsRouteImport.update({
+    id: '/signals',
+    path: '/signals',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
+const InternalDemandScoutOpportunitiesOpportunityIdRoute =
+  InternalDemandScoutOpportunitiesOpportunityIdRouteImport.update({
+    id: '/opportunities/$opportunityId',
+    path: '/opportunities/$opportunityId',
+    getParentRoute: () => InternalDemandScoutRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -259,6 +314,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/internal/demand-scout': typeof InternalDemandScoutRouteRouteWithChildren
   '/industries/dental': typeof IndustriesDentalRoute
   '/industries/hvac': typeof IndustriesHvacRoute
   '/industries/medspa': typeof IndustriesMedspaRoute
@@ -292,6 +348,13 @@ export interface FileRoutesByFullPath {
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
+  '/internal/demand-scout/outreach': typeof InternalDemandScoutOutreachRoute
+  '/internal/demand-scout/playbooks': typeof InternalDemandScoutPlaybooksRoute
+  '/internal/demand-scout/settings': typeof InternalDemandScoutSettingsRoute
+  '/internal/demand-scout/signals': typeof InternalDemandScoutSignalsRoute
+  '/app/demand-scout/': typeof AppDemandScoutIndexRoute
+  '/internal/demand-scout/': typeof InternalDemandScoutIndexRoute
+  '/internal/demand-scout/opportunities/$opportunityId': typeof InternalDemandScoutOpportunitiesOpportunityIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -332,6 +395,13 @@ export interface FileRoutesByTo {
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
+  '/internal/demand-scout/outreach': typeof InternalDemandScoutOutreachRoute
+  '/internal/demand-scout/playbooks': typeof InternalDemandScoutPlaybooksRoute
+  '/internal/demand-scout/settings': typeof InternalDemandScoutSettingsRoute
+  '/internal/demand-scout/signals': typeof InternalDemandScoutSignalsRoute
+  '/app/demand-scout': typeof AppDemandScoutIndexRoute
+  '/internal/demand-scout': typeof InternalDemandScoutIndexRoute
+  '/internal/demand-scout/opportunities/$opportunityId': typeof InternalDemandScoutOpportunitiesOpportunityIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -341,6 +411,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/internal/demand-scout': typeof InternalDemandScoutRouteRouteWithChildren
   '/industries/dental': typeof IndustriesDentalRoute
   '/industries/hvac': typeof IndustriesHvacRoute
   '/industries/medspa': typeof IndustriesMedspaRoute
@@ -374,6 +445,13 @@ export interface FileRoutesById {
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/leads-outbox': typeof ApiPublicLeadsOutboxRoute
   '/app/journeys/$journeyId': typeof AppJourneysJourneyIdRoute
+  '/internal/demand-scout/outreach': typeof InternalDemandScoutOutreachRoute
+  '/internal/demand-scout/playbooks': typeof InternalDemandScoutPlaybooksRoute
+  '/internal/demand-scout/settings': typeof InternalDemandScoutSettingsRoute
+  '/internal/demand-scout/signals': typeof InternalDemandScoutSignalsRoute
+  '/app/demand-scout/': typeof AppDemandScoutIndexRoute
+  '/internal/demand-scout/': typeof InternalDemandScoutIndexRoute
+  '/internal/demand-scout/opportunities/$opportunityId': typeof InternalDemandScoutOpportunitiesOpportunityIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -384,6 +462,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/internal/demand-scout'
     | '/industries/dental'
     | '/industries/hvac'
     | '/industries/medspa'
@@ -417,6 +496,13 @@ export interface FileRouteTypes {
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
+    | '/internal/demand-scout/outreach'
+    | '/internal/demand-scout/playbooks'
+    | '/internal/demand-scout/settings'
+    | '/internal/demand-scout/signals'
+    | '/app/demand-scout/'
+    | '/internal/demand-scout/'
+    | '/internal/demand-scout/opportunities/$opportunityId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -457,6 +543,13 @@ export interface FileRouteTypes {
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
+    | '/internal/demand-scout/outreach'
+    | '/internal/demand-scout/playbooks'
+    | '/internal/demand-scout/settings'
+    | '/internal/demand-scout/signals'
+    | '/app/demand-scout'
+    | '/internal/demand-scout'
+    | '/internal/demand-scout/opportunities/$opportunityId'
   id:
     | '__root__'
     | '/'
@@ -465,6 +558,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/internal/demand-scout'
     | '/industries/dental'
     | '/industries/hvac'
     | '/industries/medspa'
@@ -498,6 +592,13 @@ export interface FileRouteTypes {
     | '/api/public/health'
     | '/api/public/leads-outbox'
     | '/app/journeys/$journeyId'
+    | '/internal/demand-scout/outreach'
+    | '/internal/demand-scout/playbooks'
+    | '/internal/demand-scout/settings'
+    | '/internal/demand-scout/signals'
+    | '/app/demand-scout/'
+    | '/internal/demand-scout/'
+    | '/internal/demand-scout/opportunities/$opportunityId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -507,6 +608,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  InternalDemandScoutRouteRoute: typeof InternalDemandScoutRouteRouteWithChildren
   IndustriesDentalRoute: typeof IndustriesDentalRoute
   IndustriesHvacRoute: typeof IndustriesHvacRoute
   IndustriesMedspaRoute: typeof IndustriesMedspaRoute
@@ -645,6 +747,13 @@ declare module '@tanstack/react-router' {
       path: '/internal/control-plane'
       fullPath: '/internal/control-plane'
       preLoaderRoute: typeof InternalControlPlaneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/demand-scout': {
+      id: '/internal/demand-scout'
+      path: '/internal/demand-scout'
+      fullPath: '/internal/demand-scout'
+      preLoaderRoute: typeof InternalDemandScoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/internal/executive': {
@@ -808,6 +917,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLeadsOutboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/demand-scout/': {
+      id: '/app/demand-scout/'
+      path: '/demand-scout'
+      fullPath: '/app/demand-scout/'
+      preLoaderRoute: typeof AppDemandScoutIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/journeys/$journeyId': {
       id: '/app/journeys/$journeyId'
       path: '/journeys/$journeyId'
@@ -815,20 +931,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppJourneysJourneyIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/internal/demand-scout/': {
+      id: '/internal/demand-scout/'
+      path: '/'
+      fullPath: '/internal/demand-scout/'
+      preLoaderRoute: typeof InternalDemandScoutIndexRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
+    '/internal/demand-scout/outreach': {
+      id: '/internal/demand-scout/outreach'
+      path: '/outreach'
+      fullPath: '/internal/demand-scout/outreach'
+      preLoaderRoute: typeof InternalDemandScoutOutreachRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
+    '/internal/demand-scout/playbooks': {
+      id: '/internal/demand-scout/playbooks'
+      path: '/playbooks'
+      fullPath: '/internal/demand-scout/playbooks'
+      preLoaderRoute: typeof InternalDemandScoutPlaybooksRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
+    '/internal/demand-scout/settings': {
+      id: '/internal/demand-scout/settings'
+      path: '/settings'
+      fullPath: '/internal/demand-scout/settings'
+      preLoaderRoute: typeof InternalDemandScoutSettingsRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
+    '/internal/demand-scout/signals': {
+      id: '/internal/demand-scout/signals'
+      path: '/signals'
+      fullPath: '/internal/demand-scout/signals'
+      preLoaderRoute: typeof InternalDemandScoutSignalsRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
+    '/internal/demand-scout/opportunities/$opportunityId': {
+      id: '/internal/demand-scout/opportunities/$opportunityId'
+      path: '/opportunities/$opportunityId'
+      fullPath: '/internal/demand-scout/opportunities/$opportunityId'
+      preLoaderRoute: typeof InternalDemandScoutOpportunitiesOpportunityIdRouteImport
+      parentRoute: typeof InternalDemandScoutRouteRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppJourneysJourneyIdRoute: typeof AppJourneysJourneyIdRoute
+  AppDemandScoutIndexRoute: typeof AppDemandScoutIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppJourneysJourneyIdRoute: AppJourneysJourneyIdRoute,
+  AppDemandScoutIndexRoute: AppDemandScoutIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface InternalDemandScoutRouteRouteChildren {
+  InternalDemandScoutOutreachRoute: typeof InternalDemandScoutOutreachRoute
+  InternalDemandScoutPlaybooksRoute: typeof InternalDemandScoutPlaybooksRoute
+  InternalDemandScoutSettingsRoute: typeof InternalDemandScoutSettingsRoute
+  InternalDemandScoutSignalsRoute: typeof InternalDemandScoutSignalsRoute
+  InternalDemandScoutIndexRoute: typeof InternalDemandScoutIndexRoute
+  InternalDemandScoutOpportunitiesOpportunityIdRoute: typeof InternalDemandScoutOpportunitiesOpportunityIdRoute
+}
+
+const InternalDemandScoutRouteRouteChildren: InternalDemandScoutRouteRouteChildren =
+  {
+    InternalDemandScoutOutreachRoute: InternalDemandScoutOutreachRoute,
+    InternalDemandScoutPlaybooksRoute: InternalDemandScoutPlaybooksRoute,
+    InternalDemandScoutSettingsRoute: InternalDemandScoutSettingsRoute,
+    InternalDemandScoutSignalsRoute: InternalDemandScoutSignalsRoute,
+    InternalDemandScoutIndexRoute: InternalDemandScoutIndexRoute,
+    InternalDemandScoutOpportunitiesOpportunityIdRoute:
+      InternalDemandScoutOpportunitiesOpportunityIdRoute,
+  }
+
+const InternalDemandScoutRouteRouteWithChildren =
+  InternalDemandScoutRouteRoute._addFileChildren(
+    InternalDemandScoutRouteRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -837,6 +1022,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  InternalDemandScoutRouteRoute: InternalDemandScoutRouteRouteWithChildren,
   IndustriesDentalRoute: IndustriesDentalRoute,
   IndustriesHvacRoute: IndustriesHvacRoute,
   IndustriesMedspaRoute: IndustriesMedspaRoute,

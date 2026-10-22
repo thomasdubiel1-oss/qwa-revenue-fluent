@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -608,6 +608,792 @@ export type Database = {
             columns: ["demo_request_id"]
             isOneToOne: false
             referencedRelation: "demo_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scout_agent_runs: {
+        Row: {
+          agent: string
+          created_at: string
+          detail: Json
+          id: string
+          scout_run_id: string | null
+          status: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          agent: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          scout_run_id?: string | null
+          status?: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          agent?: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          scout_run_id?: string | null
+          status?: string
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_agent_runs_scout_run_id_tenant_id_fkey"
+            columns: ["scout_run_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_runs"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_agent_runs_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_approvals: {
+        Row: {
+          action: string
+          actor_user_id: string
+          created_at: string
+          id: string
+          opportunity_id: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          action: string
+          actor_user_id?: string
+          created_at?: string
+          id?: string
+          opportunity_id: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          action?: string
+          actor_user_id?: string
+          created_at?: string
+          id?: string
+          opportunity_id?: string
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_approvals_opportunity_id_tenant_id_fkey"
+            columns: ["opportunity_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_opportunities"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_approvals_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_businesses: {
+        Row: {
+          created_at: string
+          geography: string | null
+          id: string
+          industry: string
+          is_demo: boolean
+          name: string
+          tenant_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          geography?: string | null
+          id?: string
+          industry: string
+          is_demo?: boolean
+          name: string
+          tenant_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          geography?: string | null
+          id?: string
+          industry?: string
+          is_demo?: boolean
+          name?: string
+          tenant_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_businesses_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_connector_configs: {
+        Row: {
+          created_at: string
+          credential_reference: string | null
+          id: string
+          provider: string
+          status: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          credential_reference?: string | null
+          id?: string
+          provider: string
+          status?: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          credential_reference?: string | null
+          id?: string
+          provider?: string
+          status?: string
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_connector_configs_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_contacts: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          id: string
+          name: string | null
+          public_url: string | null
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          public_url?: string | null
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          public_url?: string | null
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_contacts_business_id_tenant_id_fkey"
+            columns: ["business_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_businesses"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_contacts_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_opportunities: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          estimated_max: number
+          estimated_min: number
+          external_key: string
+          id: string
+          is_demo: boolean
+          score: number
+          signal_id: string | null
+          solution_id: string | null
+          status: string
+          tenant_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          estimated_max?: number
+          estimated_min?: number
+          external_key: string
+          id?: string
+          is_demo?: boolean
+          score?: number
+          signal_id?: string | null
+          solution_id?: string | null
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          estimated_max?: number
+          estimated_min?: number
+          external_key?: string
+          id?: string
+          is_demo?: boolean
+          score?: number
+          signal_id?: string | null
+          solution_id?: string | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_opportunities_business_id_tenant_id_fkey"
+            columns: ["business_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_businesses"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_opportunities_signal_id_tenant_id_fkey"
+            columns: ["signal_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_signals"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_opportunities_solution_id_tenant_id_fkey"
+            columns: ["solution_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_solution_catalog"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_opportunities_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_opportunity_scores: {
+        Row: {
+          components: Json
+          created_at: string
+          id: string
+          opportunity_id: string
+          tenant_id: string
+          total: number
+          weights: Json
+          workspace_id: string
+        }
+        Insert: {
+          components: Json
+          created_at?: string
+          id?: string
+          opportunity_id: string
+          tenant_id: string
+          total: number
+          weights: Json
+          workspace_id: string
+        }
+        Update: {
+          components?: Json
+          created_at?: string
+          id?: string
+          opportunity_id?: string
+          tenant_id?: string
+          total?: number
+          weights?: Json
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_opportunity_scores_opportunity_id_tenant_id_fkey"
+            columns: ["opportunity_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_opportunities"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_opportunity_scores_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_outcome_events: {
+        Row: {
+          actor_user_id: string
+          created_at: string
+          id: string
+          opportunity_id: string
+          outcome: string
+          simulated: boolean
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          actor_user_id?: string
+          created_at?: string
+          id?: string
+          opportunity_id: string
+          outcome: string
+          simulated?: boolean
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          actor_user_id?: string
+          created_at?: string
+          id?: string
+          opportunity_id?: string
+          outcome?: string
+          simulated?: boolean
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_outcome_events_opportunity_id_tenant_id_fkey"
+            columns: ["opportunity_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_opportunities"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_outcome_events_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_outreach_drafts: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          messages: Json
+          opportunity_id: string
+          simulated: boolean
+          status: string
+          tenant_id: string
+          updated_at: string
+          workspace_id: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          id?: string
+          messages?: Json
+          opportunity_id: string
+          simulated?: boolean
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          workspace_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          messages?: Json
+          opportunity_id?: string
+          simulated?: boolean
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_outreach_drafts_opportunity_id_tenant_id_fkey"
+            columns: ["opportunity_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_opportunities"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_outreach_drafts_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_outreach_events: {
+        Row: {
+          actor_user_id: string
+          created_at: string
+          detail: string
+          event_key: string
+          id: string
+          kind: string
+          opportunity_id: string | null
+          simulated: boolean
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          actor_user_id?: string
+          created_at?: string
+          detail: string
+          event_key: string
+          id?: string
+          kind: string
+          opportunity_id?: string | null
+          simulated?: boolean
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          actor_user_id?: string
+          created_at?: string
+          detail?: string
+          event_key?: string
+          id?: string
+          kind?: string
+          opportunity_id?: string | null
+          simulated?: boolean
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_outreach_events_opportunity_id_tenant_id_fkey"
+            columns: ["opportunity_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_opportunities"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_outreach_events_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_playbooks: {
+        Row: {
+          created_at: string
+          id: string
+          industry: string
+          name: string
+          tenant_id: string
+          threshold: number
+          updated_at: string
+          weights: Json
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          industry: string
+          name: string
+          tenant_id: string
+          threshold?: number
+          updated_at?: string
+          weights?: Json
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          industry?: string
+          name?: string
+          tenant_id?: string
+          threshold?: number
+          updated_at?: string
+          weights?: Json
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_playbooks_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_runs: {
+        Row: {
+          created_at: string
+          id: string
+          mode: string
+          signal_count: number
+          status: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mode?: string
+          signal_count?: number
+          status?: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mode?: string
+          signal_count?: number
+          status?: string
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_runs_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_signals: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          external_key: string
+          id: string
+          intent: string | null
+          is_demo: boolean
+          original_text: string
+          pain: string | null
+          public_url: string | null
+          published_at: string | null
+          source_id: string | null
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          external_key: string
+          id?: string
+          intent?: string | null
+          is_demo?: boolean
+          original_text: string
+          pain?: string | null
+          public_url?: string | null
+          published_at?: string | null
+          source_id?: string | null
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          external_key?: string
+          id?: string
+          intent?: string | null
+          is_demo?: boolean
+          original_text?: string
+          pain?: string | null
+          public_url?: string | null
+          published_at?: string | null
+          source_id?: string | null
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_signals_business_id_tenant_id_fkey"
+            columns: ["business_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_businesses"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_signals_source_id_tenant_id_fkey"
+            columns: ["source_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_sources"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_signals_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_solution_catalog: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          offer: string
+          pain_tags: string[]
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          offer: string
+          pain_tags?: string[]
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          offer?: string
+          pain_tags?: string[]
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_solution_catalog_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_sources: {
+        Row: {
+          created_at: string
+          id: string
+          mode: string
+          name: string
+          provider: string
+          status: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mode?: string
+          name: string
+          provider: string
+          status?: string
+          tenant_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mode?: string
+          name?: string
+          provider?: string
+          status?: string
+          tenant_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_sources_workspace_id_tenant_id_fkey"
+            columns: ["workspace_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "scout_workspaces"
+            referencedColumns: ["id", "tenant_id"]
+          },
+        ]
+      }
+      scout_workspaces: {
+        Row: {
+          account_id: string
+          created_at: string
+          id: string
+          is_demo: boolean
+          name: string
+          revision: number
+          state: Json
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          name?: string
+          revision?: number
+          state?: Json
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          name?: string
+          revision?: number
+          state?: Json
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_workspaces_account_id_tenant_id_fkey"
+            columns: ["account_id", "tenant_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id", "tenant_id"]
+          },
+          {
+            foreignKeyName: "scout_workspaces_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
